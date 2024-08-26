@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:42:56 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/26 12:58:25 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:29:48 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
+
+# include "vectors.h"
 
 /*--- CONST. DEFINES ---*/
 
@@ -23,11 +25,19 @@
 #  define WIN_WIDTH 1280
 # endif // !WIN_WIDTH
 
-# ifndef ASPECT_RATIO
-#	define ASPECT_RATIO WIN_WIDTH / WIN_HEIGHT
-# endif //	!ASPECT_RATIO
-
 /*--- 	 STRUCTS 	---*/
+
+typedef struct s_camera
+{
+	t_vector3	origin;
+	double	focal_length;
+	double	viewport_width;
+	double	viewport_height;
+	t_vector3	viewport_u;
+	t_vector3	viewport_v;
+	t_vector3 pixel_delta_u;
+	t_vector3 pixel_delta_v;
+}	t_camera;
 
 typedef struct s_data
 {
@@ -36,6 +46,7 @@ typedef struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	double	aspect_ratio;
 }			t_data;
 
 typedef struct s_program
@@ -43,6 +54,7 @@ typedef struct s_program
 	void		*mlx;
 	void		*win;
 	t_data		img;
+	t_camera	camera;
 }	t_program;
 
 void	init_program(int argc, char **v, t_program *program);

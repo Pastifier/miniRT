@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:23:58 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/26 11:54:59 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:46:59 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 #include "minirt.h"
 #include "log.h"
 #include <stdlib.h>
+
+static void	init_viewport(t_program *program)
+{
+	program->img.aspect_ratio = (double)WIN_WIDTH / (double)WIN_HEIGHT;
+	program->camera.focal_length = 1.0;
+	program->camera.viewport_height = 2.0;
+	program->camera.viewport_width = program->img.aspect_ratio
+		* program->camera.viewport_height;
+	program->camera.origin = (t_vector3){0, 0, 0};
+	program->camera.viewport_u = (t_vector3){program->camera.viewport_width, 0, 0};
+	program->camera.viewport_v = (t_vector3){0, -program->camera.viewport_height, 0};
+	program->camera.pixel_delta_u = vec3_scaleby(program->camera.viewport_u,
+			1.0 / WIN_WIDTH);
+	program->camera.pixel_delta_v = vec3_scaleby(program->camera.viewport_v,
+			1.0 / WIN_HEIGHT);
+}
 
 void	init_program(int argc, char **argv, t_program *program)
 {
@@ -31,4 +47,5 @@ void	init_program(int argc, char **argv, t_program *program)
 	program->img.addr = mlx_get_data_addr(program->img.img,
 			&program->img.bits_per_pixel, &program->img.line_length,
 			&program->img.endian);
+	init_viewport(program);
 }

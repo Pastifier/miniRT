@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vectors.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:46:58 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/26 12:53:08 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:53:36 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ t_vector3	vec3_add(t_vector3 a, t_vector3 b);
 t_vector3	vec3_scaleby(t_vector3 a, double f);
 double		vec3_magnitude(t_vector3 a);
 double		vec3_magnitude_sqrd(t_vector3 a);
+double		vec3_dot(t_vector3 u, t_vector3 v);
 t_vector3	vec3_cross(t_vector3 u, t_vector3 v);
 t_vector3	vec3_normal(t_vector3 v);
+void		vec3_print(t_vector3 v);
 
 #endif // !__VECTORS_H

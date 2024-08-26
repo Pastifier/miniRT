@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:10:50 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/26 12:53:59 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/26 16:54:11 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,11 @@ t_vector3	vec3_normal(t_vector3 v)
 t_vector3	vec3_at_tip(t_ray ray, double t)
 {
 	return (vec3_add(ray.origin, vec3_scaleby(ray.dir, t)));
+}
+
+#include <stdio.h>
+
+void	vec3_print(t_vector3 v)
+{
+	printf("x: %f, y: %f, z: %f\n", v.x, v.y, v.z);
 }
