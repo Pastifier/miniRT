@@ -6,12 +6,14 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:42:56 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/26 12:58:25 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/26 23:19:17 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
+
+# include "camera.h"
 
 /*--- CONST. DEFINES ---*/
 
@@ -43,6 +45,7 @@ typedef struct s_program
 	void		*mlx;
 	void		*win;
 	t_data		img;
+	t_camera	camera;
 }	t_program;
 
 void	init_program(int argc, char **v, t_program *program);

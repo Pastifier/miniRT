@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rendering.h                                        :+:      :+:    :+:   */
+/*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/26 12:17:12 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/27 00:55:27 by ebinjama         ###   ########.fr       */
+/*   Created: 2024/08/26 23:06:15 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/08/26 23:18:11 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDERING_H
-# define RENDERING_H
+#ifndef CAMERA_H
+# define CAMERA_H
 
 # include "vectors.h"
-# include "minirt.h"
-# include <stdint.h>
 
-void		pixel_put(t_data *data, t_vector2 point, int color);
-uint32_t	assign_color(uint8_t r,uint8_t g, uint8_t b);
-void		render(t_program *context);
+typedef struct s_camera
+{
+	t_vector3	center;
+	double		focal_length;
+	int			viewport_width;
+	int			viewport_height;
+	t_vector3	viewport_u;
+	t_vector3	viewport_v;
+	t_vector3	pixel_delta_u;
+	t_vector3	pixel_delta_v;
+	t_vector3	cartesian_upper_left;
+	t_vector3	cartesian_shift;
+}	t_camera;
 
-#endif // !RENDERING_H
+void	init_camera(t_camera *camera);
+
+#endif // !CAMERA_H
