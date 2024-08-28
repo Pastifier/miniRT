@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:10:50 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/26 23:03:06 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/28 10:28:44 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_vector3	vec3_normal(t_vector3 v)
 			.z = v.z / vec3_magnitude(v),
 		});
 }
+
 t_vector3	vec3_at_tip(t_ray ray, double t)
 {
 	return (vec3_add(ray.origin, vec3_scaleby(ray.dir, t)));

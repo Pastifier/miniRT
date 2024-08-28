@@ -24,19 +24,19 @@ endif
 # PROJECT
 NAME := miniRT
 
-SRC := main.c vector_triv.c vector.c init.c log.c colors.c render.c
+SRC := main.c vector_triv.c vector.c init.c log.c colors.c render.c matrix3.c matrix4.c utils.c
 SRC_DIR := srcs
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 
-INC := minirt.h vectors.h
+INC := minirt.h vectors.h camera.h log.h ray.h matrix.h rendering.h utils.h
 INC_DIR := includes
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
 all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDE)
 	@make -C $(BUILD_DIR)
-	make -C libft 
-	$(CC) -o $(NAME) -I$(INC_DIR) $(SRCS) $(CFLAGS)  
+	make -C libft
+	$(CC) -o $(NAME) -I$(INC_DIR) $(SRCS) $(CFLAGS)
 
 clean:
 	@make -C $(BUILD_DIR) clean

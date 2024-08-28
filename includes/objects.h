@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/26 12:39:25 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/28 10:49:29 by melshafi         ###   ########.fr       */
+/*   Created: 2024/08/28 10:57:50 by melshafi          #+#    #+#             */
+/*   Updated: 2024/08/28 11:03:29 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#ifndef OBJECTS_H
+# define OBJECTS_H
 
 # include "vectors.h"
-# include <stdint.h>
+# include "ray.h"
 
-typedef struct s_ray
+typedef struct s_object
 {
 	t_vector3	origin;
-	t_vector3	dir;
-}	t_ray;
+	t_vector3	normal;
+	double		t;
+	bool		front_face;
+	bool		(*hit)(struct s_object *obj, double ray_tmin, double ray_tmax, t_ray *ray);
+	void		(*set_face_normal)(struct s_object *obj, t_ray *ray, t_vector3 *outward_normal);
+}	t_object;
 
-t_vector3	vec3_at_tip(t_ray ray, double t);
+typedef struct s_sphere
+{
+	t_object	object;
+	double		radius;
+}	t_sphere;
 
-/*--- Coloring ---*/
-
-uint32_t	ray_color(t_ray ray);
-
-#endif // !RAY_H
+#endif // !__OBJECTS_H

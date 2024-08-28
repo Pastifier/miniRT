@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 23:06:15 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/28 01:58:44 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/28 11:31:30 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CAMERA_H
 
 # include "vectors.h"
+# include "matrix.h"
 
 typedef struct s_camera
 {
@@ -21,6 +22,7 @@ typedef struct s_camera
 	t_vector3	up;
 	t_vector3	right;
 	t_vector3	lookat;
+	t_matrix4	view_matrix;
 	double		focal_length;
 	int			viewport_width;
 	int			viewport_height;

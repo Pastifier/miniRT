@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/26 12:39:25 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/28 10:49:29 by melshafi         ###   ########.fr       */
+/*   Created: 2024/08/28 10:51:30 by melshafi          #+#    #+#             */
+/*   Updated: 2024/08/28 10:53:15 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#ifndef UTILS_H
+# define UTILS_H
 
-# include "vectors.h"
-# include <stdint.h>
+float	clamp(float x, float min, float max);
 
-typedef struct s_ray
-{
-	t_vector3	origin;
-	t_vector3	dir;
-}	t_ray;
-
-t_vector3	vec3_at_tip(t_ray ray, double t);
-
-/*--- Coloring ---*/
-
-uint32_t	ray_color(t_ray ray);
-
-#endif // !RAY_H
+#endif // !__UTILS_H

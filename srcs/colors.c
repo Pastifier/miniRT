@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:00:07 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/28 00:57:02 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/28 11:45:31 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "ray.h"
 #include "log.h"
 #include <math.h>
+#include "utils.h"
 
 uint32_t	assign_color(uint8_t r,uint8_t g, uint8_t b)
 {
@@ -32,18 +33,9 @@ uint32_t	assign_color(uint8_t r,uint8_t g, uint8_t b)
 
 uint32_t	convert_to_color(float r, float g, float b)
 {
-	if (r < 0.0f)
-		r = 0.0f;
-	if (r > 1.0f)
-		r = 1.0f;
-	if (g < 0.0f)
-		g = 0.0f;
-	if (g > 1.0f)
-		g = 1.0f;
-	if (b < 0.0f)
-		b = 0.0f;
-	if (b > 1.0f)
-		b = 1.0f;
+	r = clamp(r, 0.0f, 1.0f);
+	g = clamp(g, 0.0f, 1.0f);
+	b = clamp(b, 0.0f, 1.0f);
 	uint8_t red = (uint8_t)(r * 255.0f);
 	uint8_t green = (uint8_t)(g * 255.0f);
 	uint8_t blue = (uint8_t)(b * 255.0f);
@@ -93,21 +85,23 @@ double	hit_sphere(t_vector3 center, double radius, t_ray ray)
 
 uint32_t	ray_color(t_ray ray)
 {
-	double		a;
-	t_vector3	normal;
-	t_vector3	light_normal;
-	t_vector3	circle;
+	t_vector3	unit_dir;
+	t_vector3	norm;
+	double		t;
 
-	circle = (t_vector3){0, 0, -1};
-	a = hit_sphere(circle, 0.5, ray);
-	if (a > 0.0)
+	//Testing spheres
+	t = hit_sphere((t_vector3){0, 0, -1}, 0.5, ray);
+	if (t > 0.0)
 	{
-		normal = vec3_normal(vec3_subtract(vec3_at_tip(ray, a), circle));
-		light_normal = vec3_normal((t_vector3){-1, 1, 1});
-		return (convert_to_color(vec3_dot(normal, light_normal), 0.0, 0.0));
+		norm = vec3_normal(vec3_subtract(vec3_at_tip(ray, t), (t_vector3){0, 0, -1}));
+		// Scale the normal vector components to [0, 1] range
+		return (assign_color(255 * (0.5 * (norm.x + 1)),
+							 255 * (0.5 * (norm.y + 1)),
+							 255 * (0.5 * (norm.z + 1))));
 	}
-	normal = vec3_normal(ray.dir);
-	a = 0.5 * (normal.y + 1.0);
-	return (assign_color(0xFF * (1 - a) , 0xFF * (1 - a), 0xFF * (1 - a))
-			+ assign_color(0xFF * 0.5 * a, 0xFF * 0.7 * a, 0xFF * a));
+
+	unit_dir = vec3_normal(ray.dir);
+	t = 0.5 * (unit_dir.y + 1.0);
+	return (assign_color(128 * (t), 178 * (t), 255 * (t))
+		+ assign_color(255 * (1.0-t), 255 * (1.0-t), 255 * (1.0-t)));
 }
