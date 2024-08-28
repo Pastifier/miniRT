@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:00:07 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/27 22:06:16 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/28 00:57:02 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ uint32_t	convert_to_color(float r, float g, float b)
 	uint8_t green = (uint8_t)(g * 255.0f);
 	uint8_t blue = (uint8_t)(b * 255.0f);
 	uint32_t rgb = (red << 16) | (green << 8) | blue;
+	if (!OS_IS_MAC)
+		rgb |= (0xFF << 32);
 	return rgb;
 }
 
@@ -101,7 +103,7 @@ uint32_t	ray_color(t_ray ray)
 	if (a > 0.0)
 	{
 		normal = vec3_normal(vec3_subtract(vec3_at_tip(ray, a), circle));
-		light_normal = vec3_normal((t_vector3){0, 0, 1});
+		light_normal = vec3_normal((t_vector3){-1, 1, 1});
 		return (convert_to_color(vec3_dot(normal, light_normal), 0.0, 0.0));
 	}
 	normal = vec3_normal(ray.dir);

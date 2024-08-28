@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:42:56 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/27 15:08:56 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/28 04:35:39 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 /*--- CONST. DEFINES ---*/
 
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT 400
+#  define WIN_HEIGHT 720
 # endif // !WIN_HEIGHT
 
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH 800
+#  define WIN_WIDTH 1280
 # endif // !WIN_WIDTH
 
 # ifndef ASPECT_RATIO
