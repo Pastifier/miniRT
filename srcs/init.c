@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:23:58 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/28 13:25:49 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/08/28 13:51:45 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,11 @@
 #include "ray.h"
 #include "camera.h"
 #include "log.h"
-#include <stdlib.h>
 #include "matrix.h"
-#include <math.h>
 #include "objects.h"
-
-void	this_is_just_here_to_segment_functions_into_sections(void)
-{
-	return ;
-}
+#include "rendering.h"
+#include <stdlib.h>
+#include <math.h>
 
 void	init_program(int argc, char **argv, t_program *program)
 {
@@ -43,36 +39,11 @@ void	init_program(int argc, char **argv, t_program *program)
 			&program->img.endian);
 	program->num_objects = 3;
 	program->objects = malloc(sizeof(t_object) * program->num_objects);
-	program->objects[0] = create_sphere((t_vector3){1, 1, 1}, 0.3, 0xFF0000);
-	program->objects[1] = create_sphere((t_vector3){0.5, 1, 10}, 0.5, 0x00FF00);
-	program->objects[2] = create_sphere((t_vector3){1, 2, 5}, 0.5, 0x0000FF);
+	program->objects[0] = create_sphere((t_vector3){1, 5, 5}, 0.5, 0xFF0000);
+	program->objects[1] = create_sphere((t_vector3){0, 10, -100.5}, 100, 0x000000);
+	program->objects[2] = create_sphere((t_vector3){1, 3, 5}, 0.5, 0x0000FF);
 	init_camera(&program->camera);
 }
-
-// void	init_camera(t_camera *camera)
-// {
-// 	t_vector3	operations;
-
-// 	camera->center = (t_vector3){0, 0, 0};
-// 	camera->focal_length = 1.0;
-// 	camera->viewport_height = 2.0;
-// 	camera->viewport_width = camera->viewport_height
-// 			* ((double)WIN_WIDTH / (double)WIN_HEIGHT);
-// 	camera->viewport_u = (t_vector3){camera->viewport_width, 0, 0};
-// 	camera->viewport_v = (t_vector3){0, -camera->viewport_height, 0};
-// 	camera->pixel_delta_u = vec3_scaleby(camera->viewport_u, 1.0 / WIN_WIDTH);
-// 	camera->pixel_delta_v = vec3_scaleby(camera->viewport_v, 1.0 / WIN_HEIGHT);
-// 	this_is_just_here_to_segment_functions_into_sections();
-// 	operations = vec3_subtract(camera->center,
-// 		(t_vector3){0, 0, camera->focal_length});
-// 	operations = vec3_subtract(operations, vec3_scaleby(camera->viewport_u, 0.5));
-// 	operations = vec3_subtract(operations, vec3_scaleby(camera->viewport_v, 0.5));
-// 	camera->cartesian_upper_left = operations;
-// 	this_is_just_here_to_segment_functions_into_sections();
-// 	operations = vec3_add(camera->pixel_delta_u, camera->pixel_delta_v);
-// 	operations = vec3_scaleby(operations, 0.5);
-// 	camera->cartesian_shift = vec3_add(camera->cartesian_upper_left, operations);
-// }
 
 void	init_camera(t_camera *camera)
 {
@@ -80,22 +51,7 @@ void	init_camera(t_camera *camera)
 	camera->up = (t_vector3){0, 1, 0};
 	camera->lookat = (t_vector3){0, 0, 1};
 	camera->right = (t_vector3){1, 0, 0};
-	camera->focal_length = 1.0f;
-	camera->fov = 100.0f;
+	camera->focal_length = 2.0f;
+	camera->fov = 70.0f;
 	camera->aspect_ratio = 16.0f / 9.0f;
-	camera->view_matrix = look_at_mtrx4(camera->center, camera->lookat, camera->up);
-
-	camera->viewport_height = camera->focal_length * tanf(camera->fov * 0.5 * (M_PI / 180.0f)) * 2;
-	camera->viewport_width = camera->viewport_height * camera->aspect_ratio;
-
-	camera->viewport_u = vec3_scaleby(camera->right, camera->viewport_width);
-	camera->viewport_v = vec3_scaleby(camera->up, camera->viewport_height);
-
-	camera->pixel_delta_u = vec3_scaleby(camera->viewport_u, 1.0 / (WIN_WIDTH - 1));
-	camera->pixel_delta_v = vec3_scaleby(camera->viewport_v, 1.0 / (WIN_HEIGHT - 1));
-
-	camera->bottom_left_local = (t_vector3){-camera->viewport_width / 2, -camera->viewport_height / 2, camera->focal_length};
-
-	camera->cartesian_upper_left = vec3_add(vec3_add(camera->center, camera->bottom_left_local), camera->viewport_v);
-	camera->cartesian_shift = vec3_add(camera->bottom_left_local, vec3_add(camera->viewport_u, camera->viewport_v));
 }

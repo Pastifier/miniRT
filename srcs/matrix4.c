@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 10:39:07 by melshafi          #+#    #+#             */
-/*   Updated: 2024/08/28 10:46:34 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:03:53 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ t_matrix4	translation_mtrx4(t_vector3 translation)
 	return (result);
 }
 
-t_matrix4	look_at_mtrx4(t_vector3 from, t_vector3 to, t_vector3 up)
+t_matrix4	view_matrix4(t_vector3 from, t_vector3 to, t_vector3 up)
 {
 	t_matrix4	result;
 	t_vector3	f;

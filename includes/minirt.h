@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:42:56 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/28 13:14:33 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:05:26 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ typedef struct s_program
 }	t_program;
 
 void	init_program(int argc, char **v, t_program *program);
+int		move_camera(int keycode, t_program *context);
 
 #endif // !__MINIRT_H

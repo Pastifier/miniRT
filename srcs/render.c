@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:08:33 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/28 12:49:31 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:51:52 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,27 @@
 #include "rendering.h"
 #include "minirt.h"
 #include "mlx.h"
+#include "math.h"
 #include <stdio.h>
+
+void	update_camera(t_camera *camera)
+{
+	camera->view_matrix = view_matrix4(camera->center, camera->lookat, camera->up);
+
+	camera->viewport_height = camera->focal_length * tanf(camera->fov * 0.5 * (M_PI / 180.0f)) * 2;
+	camera->viewport_width = camera->viewport_height * camera->aspect_ratio;
+
+	camera->viewport_u = vec3_scaleby(camera->right, camera->viewport_width);
+	camera->viewport_v = vec3_scaleby(camera->up, camera->viewport_height);
+
+	camera->pixel_delta_u = vec3_scaleby(camera->viewport_u, 1.0 / (WIN_WIDTH - 1));
+	camera->pixel_delta_v = vec3_scaleby(camera->viewport_v, 1.0 / (WIN_HEIGHT - 1));
+
+	camera->bottom_left_local = (t_vector3){-camera->viewport_width / 2, -camera->viewport_height / 2, camera->focal_length};
+
+	camera->cartesian_upper_left = vec3_add(vec3_add(camera->center, camera->bottom_left_local), camera->viewport_v);
+	camera->cartesian_shift = vec3_add(camera->bottom_left_local, vec3_add(camera->viewport_u, camera->viewport_v));
+}
 
 void	render(t_program *context)
 {
@@ -23,6 +43,7 @@ void	render(t_program *context)
 	t_vector3	ray_direction;
 	t_ray		ray;
 
+	update_camera(&context->camera);
 	pixel_00 = vec3_add(context->camera.cartesian_upper_left,
 			vec3_scaleby(vec3_add(context->camera.pixel_delta_u, context->camera.pixel_delta_v), 0.5));
 	for (int x = 0; x < WIN_WIDTH; x++)

@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 10:24:47 by melshafi          #+#    #+#             */
-/*   Updated: 2024/08/28 11:40:53 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:51:52 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ t_matrix4	identity_mtrx4(void);
 t_matrix4	rotation_mtrx4(t_vector3 axis, double angle);
 t_matrix4	scale_mtrx4(t_vector3 scale);
 t_matrix4	translation_mtrx4(t_vector3 translation);
-t_matrix4	look_at_mtrx4(t_vector3 from, t_vector3 to, t_vector3 up);
+t_matrix4	view_matrix4(t_vector3 from, t_vector3 to, t_vector3 up);
 
 #endif // !__MATRIX_H
