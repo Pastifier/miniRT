@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:00:07 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/28 11:45:31 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/08/28 13:23:02 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "ray.h"
 #include "log.h"
 #include <math.h>
+#include "objects.h"
 #include "utils.h"
 
 uint32_t	assign_color(uint8_t r,uint8_t g, uint8_t b)
@@ -65,39 +66,42 @@ bool hit_sphere(const point3& center, double radius, const ray& r) {
 }
 */
 
-double	hit_sphere(t_vector3 center, double radius, t_ray ray)
+double	hit_sphere(t_object *obj, double ray_tmin, double ray_tmax, t_ray *ray)
 {
+	(void)ray_tmin;
+	(void)ray_tmax;
 	t_vector3	distance_to_center;
 	double		a;
 	double		h;
 	double		c;
 	double		discriminant;
 
-	distance_to_center = vec3_subtract(center, ray.origin);
-	a = vec3_magnitude_sqrd(ray.dir);
-	h = vec3_dot(ray.dir, distance_to_center);
-	c = vec3_magnitude_sqrd(distance_to_center) - (radius * radius);
+	distance_to_center = vec3_subtract(obj->origin, ray->origin);
+	a = vec3_magnitude_sqrd(ray->dir);
+	h = vec3_dot(ray->dir, distance_to_center);
+	c = vec3_magnitude_sqrd(distance_to_center) - (obj->u.sphere.radius * obj->u.sphere.radius);
 	discriminant = (h * h) - (a * c);
 	if (discriminant < 0)
 		return (-1.0);
 	return (h - sqrtf(discriminant) / a);
 }
 
-uint32_t	ray_color(t_ray ray)
+uint32_t	ray_color(t_ray ray, t_program *context)
 {
 	t_vector3	unit_dir;
 	t_vector3	norm;
 	double		t;
 
 	//Testing spheres
-	t = hit_sphere((t_vector3){0, 0, -1}, 0.5, ray);
-	if (t > 0.0)
+	for (int i = 0; i < context->num_objects; i++)
 	{
-		norm = vec3_normal(vec3_subtract(vec3_at_tip(ray, t), (t_vector3){0, 0, -1}));
-		// Scale the normal vector components to [0, 1] range
-		return (assign_color(255 * (0.5 * (norm.x + 1)),
-							 255 * (0.5 * (norm.y + 1)),
-							 255 * (0.5 * (norm.z + 1))));
+		t = context->objects[i].hit(&context->objects[i], 0.0, INFINITY, &ray);
+		if (t > 0.0)
+		{
+			norm = vec3_normal(vec3_subtract(vec3_at_tip(ray, t), context->objects[i].origin));
+			// Scale the normal vector components to [0, 1] range
+			return (context->objects[i].color);
+		}
 	}
 
 	unit_dir = vec3_normal(ray.dir);

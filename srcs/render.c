@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 12:08:33 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/28 11:46:29 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:49:31 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	render(t_program *context)
 			pixel_center = vec3_add(pixel_00, vec3_scaleby(vec3_add(context->camera.pixel_delta_u, context->camera.pixel_delta_v), 0.5));
 			ray_direction = vec3_normal(vec3_subtract(pixel_center, context->camera.center));
 			ray = (t_ray){context->camera.center, ray_direction};
-			pixel_put(&context->img, (t_vector2){x, y}, ray_color(ray));
+			pixel_put(&context->img, (t_vector2){x, y}, ray_color(ray, context));
 		}
 	}
 	mlx_put_image_to_window(context->mlx, context->win, context->img.img, 0, 0);

@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:23:58 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/28 11:32:36 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/08/28 13:25:49 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include "matrix.h"
 #include <math.h>
+#include "objects.h"
 
 void	this_is_just_here_to_segment_functions_into_sections(void)
 {
@@ -40,6 +41,11 @@ void	init_program(int argc, char **argv, t_program *program)
 	program->img.addr = mlx_get_data_addr(program->img.img,
 			&program->img.bits_per_pixel, &program->img.line_length,
 			&program->img.endian);
+	program->num_objects = 3;
+	program->objects = malloc(sizeof(t_object) * program->num_objects);
+	program->objects[0] = create_sphere((t_vector3){1, 1, 1}, 0.3, 0xFF0000);
+	program->objects[1] = create_sphere((t_vector3){0.5, 1, 10}, 0.5, 0x00FF00);
+	program->objects[2] = create_sphere((t_vector3){1, 2, 5}, 0.5, 0x0000FF);
 	init_camera(&program->camera);
 }
 

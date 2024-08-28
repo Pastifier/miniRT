@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:42:56 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/28 04:35:39 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/28 13:14:33 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 
 /*--- 	 STRUCTS 	---*/
 
+typedef struct s_object	t_object;
+
 typedef struct s_data
 {
 	void	*img;
@@ -44,6 +46,8 @@ typedef struct s_program
 {
 	void		*mlx;
 	void		*win;
+	int			num_objects;
+	t_object	*objects;
 	t_data		img;
 	t_camera	camera;
 }	t_program;
