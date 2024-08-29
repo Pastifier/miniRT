@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   matrix_transformations2.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 21:04:24 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 17:24:45 by ebinjama         ###   ########.fr       */
+/*   Created: 2024/08/29 12:29:54 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/08/29 17:23:04 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "render.h"
-#include "miniRT.h"
-#include "macros.h"
-#include "linear_algebra.h"
-#include <stdio.h>
 #include "matrix.h"
+#include "linear_algebra.h"
 
-#define PRINT_VECTOR(v) printf("(%0.3f, %0.3f, %0.3f)\n", v.x, v.y, v.z)
-
-#include "mlx.h"
-
-int main(void)
+void	m4d_translate(t_double4 *p, double x, double y, double z)
 {
-	t_double4	p;
+	t_mat4x4	m;
 
-	point(&p, 2, 3, 4);
-	m4d_scale(&p, -1, 1, 1);
-	PRINT_VECTOR(p);
-	return (0);
+	m = translation(x, y, z);
+	*p = mat4x4_cross_vec(&m, p);
+}
+
+void	m4d_scale(t_double4 *p, double x, double y, double z)
+{
+	t_mat4x4	m;
+
+	m = scaling(x, y, z);
+	*p = mat4x4_cross_vec(&m, p);
 }

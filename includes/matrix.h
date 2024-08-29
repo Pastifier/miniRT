@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 01:54:47 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 11:01:15 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/29 17:23:32 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,9 @@ double		mat3x3_det(t_mat3x3 *m);
 double		mat4x4_det(t_mat4x4 *m);
 t_mat4x4	mat4x4_adjugate(t_mat4x4 *m);
 t_mat4x4	mat4x4_inverse(t_mat4x4 *m);
+t_mat4x4	translation(double x, double y, double z);
+t_mat4x4	scaling(double x, double y, double z);
+void		m4d_translate(t_double4 *p, double x, double y, double z);
+void		m4d_scale(t_double4 *p, double x, double y, double z);
 
 #endif // !MATRIX_H

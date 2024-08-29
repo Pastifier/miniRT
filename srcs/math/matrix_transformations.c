@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   matrix_transformations.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 21:04:24 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 17:24:45 by ebinjama         ###   ########.fr       */
+/*   Created: 2024/08/29 11:45:14 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/08/29 17:20:24 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "render.h"
-#include "miniRT.h"
-#include "macros.h"
-#include "linear_algebra.h"
-#include <stdio.h>
 #include "matrix.h"
+#include "linear_algebra.h"
+#include "libft.h"
 
-#define PRINT_VECTOR(v) printf("(%0.3f, %0.3f, %0.3f)\n", v.x, v.y, v.z)
-
-#include "mlx.h"
-
-int main(void)
+t_mat4x4	translation(double x, double y, double z)
 {
-	t_double4	p;
+	t_mat4x4	m;
 
-	point(&p, 2, 3, 4);
-	m4d_scale(&p, -1, 1, 1);
-	PRINT_VECTOR(p);
-	return (0);
+	m.r1 = row4(1, 0, 0, x);
+	m.r2 = row4(0, 1, 0, y);
+	m.r3 = row4(0, 0, 1, z);
+	m.r4 = row4(0, 0, 0, 1);
+	return (m);
+}
+
+t_mat4x4	scaling(double x, double y, double z)
+{
+	t_mat4x4	m;
+
+	m.r1 = row4(x, 0, 0, 0);
+	m.r2 = row4(0, y, 0, 0);
+	m.r3 = row4(0, 0, z, 0);
+	m.r4 = row4(0, 0, 0, 1);
+	return (m);
 }
