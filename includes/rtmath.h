@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:06:09 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 07:09:55 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/29 10:20:09 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,23 @@ typedef union u_double4
 
 typedef struct s_double3
 {
-	double	x;
-	double	y;
-	double	z;
+	double	v[3];
+	struct
+	{
+		double	x;
+		double	y;
+		double	z;
+	};
 }	t_double3;
 
 typedef struct s_double2
 {
-	double	x;
-	double	y;
+	double	v[2];
+	struct
+	{
+		double	x;
+		double	y;
+	};
 }	t_double2;
 
 typedef struct s_color
