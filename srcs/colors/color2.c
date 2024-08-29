@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   log.c                                              :+:      :+:    :+:   */
+/*   color2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/26 11:38:31 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/26 11:47:54 by ebinjama         ###   ########.fr       */
+/*   Created: 2024/08/29 00:08:30 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/08/29 00:16:28 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "log.h"
-#include "libft.h"
+#include "colors.h"
+#include "macros.h"
 
-void	write_error(const char *msg)
+uint32_t	get_color(t_color *color)
 {
-	ft_putstr_fd(RED, 2);
-	ft_putendl_fd((char *)msg, 2);
-	ft_putstr_fd(DFLT, 2);
+	uint32_t	r;
+	uint32_t	g;
+	uint32_t	b;
+	uint32_t	color_value;
+
+	r = (uint32_t)(color->r * 255.999);
+	g = (uint32_t)(color->g * 255.999);
+	b = (uint32_t)(color->b * 255.999);
+	color_value = 0xFF000000;
+	if (OS_MACOS)
+		color_value = 0x00000000;
+	return (color_value | r << 16 | g << 8 | b);
 }

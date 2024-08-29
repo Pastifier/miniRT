@@ -1,18 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   tuples3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 10:51:30 by melshafi          #+#    #+#             */
-/*   Updated: 2024/08/28 10:53:15 by melshafi         ###   ########.fr       */
+/*   Created: 2024/08/29 04:26:29 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/08/29 04:27:06 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include "linear_algebra.h"
 
-float	clamp(float x, float min, float max);
+t_double3	row3(double x, double y, double z)
+{
+	t_double3	t;
 
-#endif // !__UTILS_H
+	t.x = x;
+	t.y = y;
+	t.z = z;
+	return (t);
+}
+
+t_double2	row2(double x, double y)
+{
+	t_double2	t;
+
+	t.x = x;
+	t.y = y;
+	return (t);
+}

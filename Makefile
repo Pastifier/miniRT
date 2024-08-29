@@ -24,11 +24,20 @@ endif
 # PROJECT
 NAME := miniRT
 
-SRC := main.c vector_triv.c vector.c keybinds.c init.c log.c colors.c render.c matrix3.c matrix4.c utils.c object.c
+# SOURCES
+SRC := main.c \
+		$(addprefix math/, \
+			tuples.c tuples2.c tuples3.c\
+			vector.c matrix.c matrix4_4.c) \
+		$(addprefix colors/, \
+			color.c color2.c \
+			canvas.c) \
+
+
 SRC_DIR := srcs
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 
-INC := minirt.h vectors.h camera.h log.h ray.h matrix.h rendering.h utils.h objects.h keys.h
+INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h
 INC_DIR := includes
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
 all: $(NAME)

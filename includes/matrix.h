@@ -3,47 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 10:24:47 by melshafi          #+#    #+#             */
-/*   Updated: 2024/08/28 14:51:52 by melshafi         ###   ########.fr       */
+/*   Created: 2024/08/29 01:54:47 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/08/29 07:45:44 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATRIX_H
 # define MATRIX_H
 
-# include "vectors.h"
+# include "rtmath.h"
+# include <stdbool.h>
 
-typedef struct s_matrix3
-{
-	double	m[3][3];
-}	t_matrix3;
+//typedef struct s_mat4x4
+//{
+//	double	m[4][4];
+//}	t_mat4x4;
 
-typedef struct matrix4
+typedef union u_mat4x4
 {
 	double	m[4][4];
-}	t_matrix4;
+	struct
+	{
+		t_double4	r1;
+		t_double4	r2;
+		t_double4	r3;
+		t_double4	r4;
+	};
+}	t_mat4x4;
 
-//	Matrix 3x3	//
+typedef union u_mat3x3
+{
+	double	m[3][3];
+	struct
+	{
+		t_double3	r1;
+		t_double3	r2;
+		t_double3	r3;
+	};
+}	t_mat3x3;
 
-t_vector3	multiply_mtrx3_vec3(t_matrix3 m, t_vector3 v);
-t_matrix3	multiply_mtrx3_mtrx3(t_matrix3 a, t_matrix3 b);
-t_matrix3	transpose_mtrx3(t_matrix3 m);
-t_matrix3	identity_mtrx3(void);
-t_matrix3	rotation_mtrx3(t_vector3 axis, double angle);
-t_matrix3	scale_mtrx3(t_vector3 scale);
-t_matrix3	translation_mtrx3(t_vector3 translation);
+typedef union u_mat2x2
+{
+	double	m[2][2];
+	struct
+	{
+		t_double2	r1;
+		t_double2	r2;
+	};
+}	t_mat2x2;
 
-//	Matrix 4x4	//
+t_double4	row4(double x, double y, double z, double w);
+t_double3	row3(double x, double y, double z);
+t_double2	row2(double x, double y);
+t_mat4x4	mat4x4(t_double4 r1, t_double4 r2, t_double4 r3, t_double4 r4);
+t_mat3x3	mat3x3(t_double3 r1, t_double3 r2, t_double3 r3);
+t_mat2x2	mat2x2(t_double2 r1, t_double2 r2);
+bool		mat4x4_eq(t_mat4x4 *m1, t_mat4x4 *m2);
+t_mat4x4	mat4x4_mul(t_mat4x4 *m1, t_mat4x4 *m2);
+t_double4	mat4x4_cross_vec(t_mat4x4 *m, t_double4 *v);
 
-t_vector3	multiply_mtrx4_vec3(t_matrix4 m, t_vector3 v);
-t_matrix4	multiply_mtrx4_mtrx4(t_matrix4 a, t_matrix4 b);
-t_matrix4	transpose_mtrx4(t_matrix4 m);
-t_matrix4	identity_mtrx4(void);
-t_matrix4	rotation_mtrx4(t_vector3 axis, double angle);
-t_matrix4	scale_mtrx4(t_vector3 scale);
-t_matrix4	translation_mtrx4(t_vector3 translation);
-t_matrix4	view_matrix4(t_vector3 from, t_vector3 to, t_vector3 up);
-
-#endif // !__MATRIX_H
+#endif // !MATRIX_H

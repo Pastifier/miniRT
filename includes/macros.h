@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   log.h                                              :+:      :+:    :+:   */
+/*   macros.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/26 11:36:23 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/26 12:02:39 by ebinjama         ###   ########.fr       */
+/*   Created: 2024/08/29 00:12:40 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/08/29 00:46:51 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOG_H
-# define LOG_H
-
-/*--- CONST. DEFINES ---*/
-
-# define RED "\x1b[31m"
-# define GREEN "\x1b[32m"
-# define DFLT "\x1b[0m"
+#ifndef MACROS_H
+# define MACROS_H
 
 # ifdef __MACH__
-#  define OS_IS_MAC 1
+#  define OS_MACOS 1
 # else
-#  define OS_IS_MAC 0
-# endif
+#  define OS_MACOS 0
+# endif // !__MACH__
 
-enum e_exits
-{
-	EXIT_FATAL = 2
-};
+# ifndef WIN_WIDTH
+#  define WIN_WIDTH 900
+# endif // !WIN_WIDTH
 
-void	write_error(const char *msg);
+# ifndef WIN_HEIGHT
+#  define WIN_HEIGHT 550
+# endif // !WIN_HEIGHT
 
-#endif // !LOG_H
+#endif // !MACROS_H
