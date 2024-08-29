@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 01:54:47 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 17:23:32 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/29 20:05:33 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,19 @@ t_mat4x4	mat4x4_adjugate(t_mat4x4 *m);
 t_mat4x4	mat4x4_inverse(t_mat4x4 *m);
 t_mat4x4	translation(double x, double y, double z);
 t_mat4x4	scaling(double x, double y, double z);
+t_mat4x4	rotation_x(double rad);
+t_mat4x4	rotation_y(double rad);
+t_mat4x4	rotation_z(double rad);
+t_mat4x4	shearing(double xy, double xz, double yx,
+	double yz, double zx, double zy);
 void		m4d_translate(t_double4 *p, double x, double y, double z);
 void		m4d_scale(t_double4 *p, double x, double y, double z);
+void		m4d_rotate_x(t_double4 *p, double rad);
+void		m4d_rotate_y(t_double4 *p, double rad);
+void		m4d_rotate_z(t_double4 *p, double rad);
+void		m4d_shear(t_double4 *p, double xy, double xz, double yx,
+	double yz, double zx, double zy);
+t_double4	m4d_rot_scale_trans(t_double4 *p, t_mat4x4 *rot, t_mat4x4 *scale,
+	t_mat4x4 *trans);
 
 #endif // !MATRIX_H

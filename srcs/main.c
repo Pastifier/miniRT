@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:04:24 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 17:24:45 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/29 20:08:12 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,13 @@
 
 int main(void)
 {
-	t_double4	p;
+	t_program	context;
 
-	point(&p, 2, 3, 4);
-	m4d_scale(&p, -1, 1, 1);
-	PRINT_VECTOR(p);
+	context.mlx = mlx_init();
+	// iferr: exit
+	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
+	// iferr: exit
+	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
+	
 	return (0);
 }
