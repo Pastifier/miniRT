@@ -33,7 +33,7 @@ SRC := main.c \
 			matrix_transformations3.c ray.c \
 		) \
 		$(addprefix intersection/, \
-			intersection.c sort.c \
+			intersection.c intersection2.c sort.c \
 		) \
 		$(addprefix colors/, \
 			color.c color2.c \

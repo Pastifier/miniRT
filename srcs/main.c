@@ -145,8 +145,31 @@ void	draw_circle_using_rt(t_program *context, t_obj *sphere)
 }
 
 
+void	default_mat(t_mat *mat)
+{
+	cinit(&mat->c, 1, 1, 1);
+	mat->amb = 0.1;
+	mat->diff = 0.9;
+	mat->spec = 0.9;
+	mat->shiny = 200.0;
+}
+
+t_mat4x4	IDENTITY_MATRIX;
+
+void	default_sphere(t_obj *sphere)
+{
+	t_mat	mat;
+
+	default_mat(&mat);
+	sphere->center = row4(0, 0, 0, 1);
+	sphere->radius = 1;
+	set_transform(sphere, &IDENTITY_MATRIX);
+	sphere->material = mat;
+}
+
 int main(void)
 {
+	IDENTITY_MATRIX = mat4x4_identity();
 	//cinit(&COLOR_RED, 1, 0, 0);
 	//t_program	context;
 	// iferr: exit
@@ -155,27 +178,24 @@ int main(void)
 	//canvas(&context, WIN_WIDTH, WIN_HEIGHT);
 	//fill_canvas(&context.canvas, 0x00FFFFFF);
 
-	t_obj sphere;
-	t_double4 p;
-	t_double4 normat;
-	point(&sphere.center, 0, 0, 0);
+	t_obj		sphere;
+	t_double4	pos;
+	t_double4	s_normal;
+	//t_double4	reflection;
+	t_double4	eye;
+	t_light		light;
+	t_ray		r;
+	t_color		result;
 
-	point(&p, 1, 0, 0);
-	normat = normal_at(&sphere, &p);
-	PRINT_VECTOR(normat);
-	
-	point(&p, 0, 1, 0);
-	normat = normal_at(&sphere, &p);
-	PRINT_VECTOR(normat);
-
-	point(&p, 0, 0, 1);
-	normat = normal_at(&sphere, &p);
-	PRINT_VECTOR(normat);
-
-	point(&p, sqrt(3) / 3, sqrt(3) / 3, sqrt(3) / 3);
-	normat = normal_at(&sphere, &p);
-	PRINT_VECTOR(normat);
-
+	default_sphere(&sphere);
+	point(&pos, 0, 0, 0);
+	point(&s_normal, 0, 0, -1);
+	point(&eye, 0, 0, -1);
+	point(&light.pos, 0, 0, -10);
+	cinit(&light.intensity, 1, 1, 1);
+	r = ray(eye, s_normal);
+	result = lighting(&sphere.material, &light, &pos, &r);
+	PRINT_VECTOR(result.set);
 	//mlx_loop(context.mlx);
 	//mlx_destroy_image(context.mlx, context.canvas.ptr);
 	//mlx_destroy_window(context.mlx, context.win);

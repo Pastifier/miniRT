@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:30:45 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/31 05:39:11 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/31 08:26:59 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,21 @@ enum e_obj_types
 	CONE = 'c'
 };
 
+typedef struct s_point_light
+{
+	t_double4	pos;
+	t_color		intensity;
+}	t_light;
+
+typedef struct s_mat
+{
+	t_color		c;
+	double		amb;
+	double		diff;
+	double		spec;
+	double		shiny;
+}	t_mat;
+
 typedef struct s_obj
 {
 	int				id;
@@ -31,13 +46,14 @@ typedef struct s_obj
 	t_double4		center;
 	double			radius;
 	t_mat4x4		transform;
+	t_mat			material;
 }	t_obj;
 
 typedef struct s_intersection
 {
-	double	t;
-	t_obj	*obj;
-	bool	got_hit;
+	double		t;
+	t_obj		*obj;
+	bool		got_hit;
 }	t_intersection;
 
 typedef struct s_intersections
@@ -51,5 +67,7 @@ bool			hit_sphere(t_ray *r, t_obj *sphere, t_intersections *xs);
 t_intersection	*get_hit(t_intersections *xs);
 void 			quick_sort(t_intersection *arr, size_t size);
 t_double4		normal_at(t_obj *obj, t_double4 *p);
+t_double4		reflect(t_double4 *in, t_double4 *s_normal);
+t_color			lighting(t_mat *mat, t_light *light, t_double4 *pos, t_ray *r);
 
 #endif // !INTERSECTION_H

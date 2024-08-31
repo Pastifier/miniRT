@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:30:20 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/31 05:42:41 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/31 06:51:17 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,21 @@ t_intersection	*get_hit(t_intersections *xs)
 	return (&xs->arr[desired]);
 }
 
-t_double4	normal_at(t_obj *obj, t_double4 *p)
+t_double4	normal_at(t_obj *obj, t_double4 *world_p)
 {
-	t_double4	ret;
+	t_double4	obj_n_p[2];
+	t_double4	world_n;
+	t_double4	origin;
+	t_mat4x4	inv_trnsfrm;
+	t_mat4x4	trnspoz_inv;
 
-	d4sub(&ret, p, &obj->center);
-	vnormalize(&ret);
-	return (ret);
+	point(&origin, 0, 0, 0);
+	inv_trnsfrm = mat4x4_inverse(&obj->transform);
+	trnspoz_inv = mat4x4_transpose(&inv_trnsfrm);
+	obj_n_p[1] = mat4x4_cross_vec(&inv_trnsfrm, world_p);
+	d4sub(&obj_n_p[0], &obj_n_p[1], &origin);
+	world_n = mat4x4_cross_vec(&trnspoz_inv, &obj_n_p[0]);
+	world_n.w = 0;
+	vnormalize(&world_n);
+	return (world_n);
 }

@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 23:42:08 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/30 07:43:14 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/31 08:33:13 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	csub(t_color *target, t_color *c1, t_color *c2)
 	target->r = c1->r - c2->r;
 	target->g = c1->g - c2->g;
 	target->b = c1->b - c2->b;
-	point(&target->set, target->r, target->g, target->b);
+	vector(&target->set, target->r, target->g, target->b);
 }
 
 void	cblend(t_color *target, t_color *c1, t_color *c2)
