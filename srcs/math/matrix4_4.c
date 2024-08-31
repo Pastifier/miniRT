@@ -67,3 +67,14 @@ t_mat4x4	mat4x4_transpose(t_mat4x4 *m)
 	result.r4 = row4(m->m[0][3], m->m[1][3], m->m[2][3], m->m[3][3]);
 	return (result);
 }
+
+t_mat4x4	mat4x4_identity(void)
+{
+	t_mat4x4	result;
+
+	result.r1 = row4(1, 0, 0, 0);
+	result.r2 = row4(0, 1, 0, 0);
+	result.r3 = row4(0, 0, 1, 0);
+	result.r4 = row4(0, 0, 0, 1);
+	return (result);
+}

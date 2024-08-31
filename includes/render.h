@@ -34,5 +34,6 @@ typedef struct s_program
 uint32_t	get_color(t_color *color);
 void		canvas(t_program *context, int width, int height);
 void		put_pixel(t_canvas *canvas, int x, int y, t_color *color);
+void		render_clock(t_program	*context);
 
 #endif // !RENDER_H

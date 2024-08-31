@@ -74,6 +74,7 @@ double		mat3x3_det(t_mat3x3 *m);
 double		mat4x4_det(t_mat4x4 *m);
 t_mat4x4	mat4x4_adjugate(t_mat4x4 *m);
 t_mat4x4	mat4x4_inverse(t_mat4x4 *m);
+t_mat4x4	mat4x4_identity(void);
 t_mat4x4	translation(double x, double y, double z);
 t_mat4x4	scaling(double x, double y, double z);
 t_mat4x4	rotation_x(double rad);

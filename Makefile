@@ -26,11 +26,13 @@ NAME := miniRT
 
 # SOURCES
 SRC := main.c \
+		render.c \
+		objects.c \
 		$(addprefix math/, \
 			tuples.c tuples2.c tuples3.c\
 			vector.c matrix.c matrix2.c matrix4_4.c matrix4_4_2.c matrix3_3.c matrix2_2.c \
 			matrix_transformations.c matrix_transformations2.c \
-			matrix_transformations3.c \
+			matrix_transformations3.c rays.c \
 		) \
 		$(addprefix colors/, \
 			color.c color2.c \
@@ -40,7 +42,7 @@ SRC := main.c \
 SRC_DIR := srcs
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 
-INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h
+INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h objects.h
 INC_DIR := includes
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
 all: $(NAME)

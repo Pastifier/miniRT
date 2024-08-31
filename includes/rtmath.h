@@ -74,4 +74,6 @@ typedef struct s_ray
 	t_double4		direction;
 }	t_ray;
 
+void ray_position(t_double4 *result, t_ray *ray, double t);
+
 #endif // !RTMATH_H
