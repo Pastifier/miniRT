@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 18:13:29 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 20:02:12 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/30 21:30:23 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,15 @@ t_double4	m4d_rot_scale_trans(t_double4 *p, t_mat4x4 *rot, t_mat4x4 *scale,
 	tmp = mat4x4_cross_vec(scale, &tmp);
 	tmp = mat4x4_cross_vec(trans, &tmp);
 	return (tmp);
+}
+
+t_mat4x4	mat4x4_identity(void)
+{
+	return ((t_mat4x4)
+	{
+		.r1 = row4(1, 0, 0, 0),
+		.r2 = row4(0, 1, 0, 0),
+		.r3 = row4(0, 0, 1, 0),
+		.r4 = row4(0, 0, 0, 1)
+	});
 }

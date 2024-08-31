@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:06:09 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 10:20:09 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/30 21:23:29 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 /*
 	DESCRIPTION:
-	
 	This file contains a bunch of typedefs and utilities regarding
 	vectors, points and other stuff.
 */
@@ -26,6 +25,10 @@
 # ifndef EPSILON
 #  define EPSILON 0.00001
 # endif // !EPSILON
+
+# ifndef NULL
+#  define NULL (void *)0
+# endif // !NULL
 
 typedef union u_double4
 {

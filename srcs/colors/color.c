@@ -6,13 +6,13 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 23:42:08 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/28 23:46:41 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/08/30 07:43:14 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "colors.h"
 
-void	color(t_color *target, double r, double g, double b)
+void	cinit(t_color *target, double r, double g, double b)
 {
 	target->r = r;
 	target->g = g;

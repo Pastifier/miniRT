@@ -30,17 +30,21 @@ SRC := main.c \
 			tuples.c tuples2.c tuples3.c\
 			vector.c matrix.c matrix2.c matrix4_4.c matrix4_4_2.c matrix3_3.c matrix2_2.c \
 			matrix_transformations.c matrix_transformations2.c \
-			matrix_transformations3.c \
+			matrix_transformations3.c ray.c \
+		) \
+		$(addprefix intersection/, \
+			intersection.c sort.c \
 		) \
 		$(addprefix colors/, \
 			color.c color2.c \
-			canvas.c) \
+			canvas.c \
+		) \
 
 
 SRC_DIR := srcs
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 
-INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h
+INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h intersection.h
 INC_DIR := includes
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
 all: $(NAME)
