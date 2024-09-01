@@ -27,6 +27,8 @@
 #  define EPSILON 0.00001
 # endif // !EPSILON
 
+#define MAX_INTERSECTIONS 4
+
 typedef union u_double4
 {
 	double	v[4];
@@ -68,12 +70,20 @@ typedef struct s_color
 	t_double4	set;
 }	t_color;
 
-typedef struct s_ray
+typedef struct	s_intersection
 {
-	t_double4		origin;
-	t_double4		direction;
-}	t_ray;
+	double t;
+	short object_type;
+	void *object;
+}	t_intersection;
 
-void ray_position(t_double4 *result, t_ray *ray, double t);
+typedef struct	s_intersections
+{
+	t_intersection data[MAX_INTERSECTIONS];
+	short count;
+}	t_intersections;
+
+void sort_intersections(t_intersections *intersects);
+void store_intersections(t_intersections *intersects, double t_values[], int object_type, void *object);
 
 #endif // !RTMATH_H

@@ -30,7 +30,7 @@ int main(void)
 	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
 	// iferr: exit
 	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
-	render_clock(&context);
+	render_sphere(&context);
 	mlx_loop(context.mlx);
 	return (0);
 }

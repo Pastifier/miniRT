@@ -7,6 +7,58 @@
 #include "mlx.h"
 #include "macros.h"
 
+void render_sphere(t_program *context)
+{
+	t_sphere s;
+	double wall_z = 10.0;
+	double wall_size = 7.0;
+	int canvas_pixels = context->canvas.line_length / (context->canvas.bpp / 8);
+	double pixel_size = wall_size / canvas_pixels;
+	double half = wall_size / 2.0;
+	t_double4 ray_origin;
+	vector(&ray_origin, 0.0, 0.0, -5.0);
+	t_double4 center;
+	point(&center, 0.0, 0.0, 0.0);
+	sphere(&s, &(center), 1.0, NULL);
+
+	//Try out the different transformations
+	// t_mat4x4 scaling_matrix = scaling(0.5, 1.0, 1.0);
+	// t_mat4x4 rotation_matrix = rotation_z(M_PI / 4.0);
+	// t_mat4x4 shearing_matrix = shearing(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+	s.transform = scaling(1.0, 0.5, 1.0);
+	// s.transform = scaling(0.5, 1.0, 1.0);
+	// s.transform = mat4x4_cross(&scaling_matrix, &rotation_matrix);
+	// s.transform = mat4x4_cross(&scaling_matrix, &shearing_matrix);
+	
+	
+	for (int y = 0; y < canvas_pixels; y++)
+	{
+		// Compute the world y coordinate
+		double world_y = half - pixel_size * y;
+		for (int x = 0; x < canvas_pixels; x++)
+		{
+			// Compute the world x coordinate
+			double world_x = -half + pixel_size * x;
+
+			// Target point on the wall
+			t_double4 position;
+			point(&position, world_x, world_y, wall_z);
+
+			// Create a ray from the origin through this point
+			t_double4 direction;
+			d4sub(&direction, &position, &ray_origin);
+			vnormalize(&direction);
+			t_ray ray;
+			ray_create(&ray, &ray_origin, &direction);
+			intersect_sphere(&ray, &s);
+			if (ray.itx.count > 0)
+				put_pixel(&context->canvas, x, y, &s.color);
+		}
+	}
+	mlx_put_image_to_window(context->mlx, context->win, context->canvas.ptr, 0, 0);
+	printf("Done rendering\n");
+}
+
 void render_clock(t_program *context)
 {
 	int center_x = WIN_WIDTH / 2;
