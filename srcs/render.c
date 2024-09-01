@@ -9,6 +9,7 @@
 
 void render_sphere(t_program *context)
 {
+	t_color	lit_color;
 	t_sphere s;
 	double wall_z = 10.0;
 	double wall_size = 7.0;
@@ -20,12 +21,14 @@ void render_sphere(t_program *context)
 	t_double4 center;
 	point(&center, 0.0, 0.0, 0.0);
 	sphere(&s, &(center), 1.0, NULL);
+	color(&s.material.color, 1.0, 0.2, 1.0);
+	t_point_light light = default_light();
 
 	//Try out the different transformations
 	// t_mat4x4 scaling_matrix = scaling(0.5, 1.0, 1.0);
 	// t_mat4x4 rotation_matrix = rotation_z(M_PI / 4.0);
 	// t_mat4x4 shearing_matrix = shearing(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-	s.transform = scaling(1.0, 0.5, 1.0);
+	// s.transform = scaling(1.0, 0.5, 1.0);
 	// s.transform = scaling(0.5, 1.0, 1.0);
 	// s.transform = mat4x4_cross(&scaling_matrix, &rotation_matrix);
 	// s.transform = mat4x4_cross(&scaling_matrix, &shearing_matrix);
@@ -48,11 +51,26 @@ void render_sphere(t_program *context)
 			t_double4 direction;
 			d4sub(&direction, &position, &ray_origin);
 			vnormalize(&direction);
+
 			t_ray ray;
 			ray_create(&ray, &ray_origin, &direction);
 			intersect_sphere(&ray, &s);
 			if (ray.itx.count > 0)
-				put_pixel(&context->canvas, x, y, &s.color);
+			{
+				t_intersection itx = ray.itx.data[0];
+				t_double4 point_of_intersection;
+				ray_position(&point_of_intersection, &ray, itx.t);
+
+				t_double4 norm;
+				norm = sphere_normal_at(&s, &point_of_intersection);
+
+				t_double4 eye_v;
+				eye_v = ray.direction;
+				d4negate(&eye_v);
+
+				lit_color = lighting(&s.material, &light, &point_of_intersection, &eye_v, &norm);
+				put_pixel(&context->canvas, x, y, &lit_color);
+			}
 		}
 	}
 	mlx_put_image_to_window(context->mlx, context->win, context->canvas.ptr, 0, 0);

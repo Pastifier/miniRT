@@ -14,10 +14,10 @@ void ray_create(t_ray *ray, t_double4 *origin, t_double4 *direction)
 
 void ray_position(t_double4 *result, t_ray *ray, double t)
 {	
-	t_double4 scaled;
-
-	d4mul(&scaled, &ray->direction, t);
-	d4add(result, &ray->origin, &scaled);
+	result->x = ray->origin.x + ray->direction.x * t;
+	result->y = ray->origin.y + ray->direction.y * t;
+	result->z = ray->origin.z + ray->direction.z * t;
+	result->w = 1.0;
 }
 
 void	ray_transform(t_ray *ray, t_mat4x4 *matrix)

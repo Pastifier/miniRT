@@ -2,19 +2,25 @@
 #include "rtmath.h"
 #include "linear_algebra.h"
 #include "colors.h"
+#include <stdio.h>
 
 void sphere(t_sphere *sphere, t_double4 *center, double radius, t_mat4x4 *transform)
 {
-	t_color c;
-
 	sphere->center = *center;
 	sphere->radius = radius;
 	if (transform)
 		sphere->transform = *transform;
 	else
 		sphere->transform = mat4x4_identity();
-	color(&c, 1.0, 0.0, 0.0);
-	sphere->color = c;
+	sphere->material = default_material();
+}
+
+t_double4	sphere_normal_at(t_sphere *sphere, t_double4 *world_point)
+{
+	t_double4 normal;
+	d4sub(&normal, world_point, &sphere->center);
+	vnormalize(&normal);
+	return normal;
 }
 
 static void sphere_discriminant(t_ray *ray, t_sphere *sphere, t_discriminant *disc)
@@ -23,7 +29,7 @@ static void sphere_discriminant(t_ray *ray, t_sphere *sphere, t_discriminant *di
 
 	d4sub(&sphere_to_ray, &ray->origin, &sphere->center);
 	disc->a = vdot(&ray->direction, &ray->direction);
-	disc->b = 2.0 * vdot(&ray->direction, &sphere_to_ray);
+	disc->b = 2.0 * vdot(&sphere_to_ray, &ray->direction);
 	disc->c = vdot(&sphere_to_ray, &sphere_to_ray) - (sphere->radius * sphere->radius);
 	disc->disc = disc->b * disc->b - 4.0 * disc->a * disc->c;
 	if (disc->disc < 0)
@@ -57,6 +63,8 @@ void intersect_sphere(t_ray *ray, t_sphere *sphere)
 	ray->itx.count = 0;
 	ray_transform(ray, &(inv_transform));
 	sphere_discriminant(ray, sphere, &disc);
+	if (disc.sqrt_disc < 0)
+		return ;
 	sphere_t_values(&disc, t_values, &t_count);
 	ray->itx.count = t_count;
 	store_intersections(&ray->itx, t_values, OBJ_SPHERE, sphere);

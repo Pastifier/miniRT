@@ -1,6 +1,7 @@
 #include "objects.h"
 #include "rtmath.h"
 #include "linear_algebra.h"
+#include <stdio.h>
 
 void store_intersections(t_intersections *intersects, double t_values[], int object_type, void *object)
 {
@@ -19,7 +20,8 @@ void sort_intersections(t_intersections *intersects)
 	{
 		for (int j = i + 1; j < intersects->count; j++)
 		{
-			if (intersects->data[i].t > intersects->data[j].t)
+			if ((intersects->data[i].t == 0 && intersects->data[j].t > 0) ||
+				(intersects->data[i].t > 0 && intersects->data[j].t > 0 && intersects->data[i].t > intersects->data[j].t))
 			{
 				t_intersection temp = intersects->data[i];
 				intersects->data[i] = intersects->data[j];
