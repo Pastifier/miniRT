@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   macros.h                                           :+:      :+:    :+:   */
+/*   world.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/29 00:12:40 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/01 07:28:40 by ebinjama         ###   ########.fr       */
+/*   Created: 2024/09/01 08:40:03 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/09/01 18:37:47 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MACROS_H
-# define MACROS_H
+#ifndef WORLD_H
+# define WORLD_H
 
-# ifdef __MACH__
-#  define OS_MACOS 1
-# else
-#  define OS_MACOS 0
-# endif // !__MACH__
+# include "intersection.h"
 
-# ifndef WIN_WIDTH
-#  define WIN_WIDTH 200
-# endif // !WIN_WIDTH
+typedef struct s_world
+{
+	t_obj			obj[3];
+	t_light			plight;
+	t_intersections	xs;
+}	t_world;
 
-# ifndef WIN_HEIGHT
-#  define WIN_HEIGHT 200
-# endif // !WIN_HEIGHT
+t_intersections	*intersect_world(t_world * world, t_ray *r);
+void			prepare_computations(t_intersection *hit, t_ray *r);
+t_color			shade_hit(t_world *world, t_intersection *hit);
+t_color			color_at(t_world *world, t_ray *r);
 
-#endif // !MACROS_H
+#endif // !WORLD_H

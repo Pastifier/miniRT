@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:30:20 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/31 06:51:17 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/01 13:32:25 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 #include "matrix.h"
 #include "libft.h"
 
+#define MAX_INTERSECTIONS 200
+
 #define PRINT_VECTOR(v) printf("(%0.3f, %0.3f, %0.3f, (%0.3f))\n", v.x, v.y, v.z, v.w)
 
 void	set_transform(t_obj *obj, t_mat4x4 *m)
 {
 	ft_memcpy(&obj->transform, m, sizeof(*m));
 }
-bool	hit_sphere(t_ray *r, t_obj *sphere, t_intersections *xs)
+bool	intersect_sphere(t_ray *r, t_obj *sphere, t_intersections *xs)
 {
 	t_double4	obj_to_ray;
 	double		a;
@@ -41,13 +43,18 @@ bool	hit_sphere(t_ray *r, t_obj *sphere, t_intersections *xs)
 	if (h < 0.0)
 		return (false);
 	h = sqrt(h);
-	xs->arr[xs->count].obj = sphere;
-	xs->arr[xs->count].t = (-b - h) / (2.0 * a);
-	xs->arr[xs->count].got_hit = true;
-	xs->arr[xs->count + 1].obj = sphere;
-	xs->arr[xs->count + 1].t = (-b + h) / (2.0 * a);
-	xs->arr[xs->count + 1].got_hit = true;
-	xs->count += 2;
+	if (xs->count + 2 < MAX_INTERSECTIONS)
+	{
+		xs->arr[xs->count].obj = sphere;
+		xs->arr[xs->count].t = (-b - h) / (2.0 * a);
+		xs->arr[xs->count].got_hit = true;
+		xs->arr[xs->count + 1].obj = sphere;
+		xs->arr[xs->count + 1].t = (-b + h) / (2.0 * a);
+		xs->arr[xs->count + 1].got_hit = true;
+		xs->count += 2;
+	}
+	else
+		/*deal with it*/ return (false);
 	return (true);
 }
 

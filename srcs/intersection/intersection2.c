@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 07:08:11 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/01 05:03:54 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/01 17:16:11 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,18 @@ t_light	point_light(t_double4 *pos, t_color *intensity)
 		.pos = *pos
 	});
 }
-
+//// [REDACTED]
 // I already added itx point to the ray. So, remember to remove it later
 // and adjust the function accordingly!
+//// [REDACTED]
 
-t_color	lighting(t_mat *mat, t_light *light, t_double4 *pos, t_ray *r)
+// TODO:
+// the name of the intersection* here is a relic from when I was
+// saving a bunch of data in the vector. I, now, realised that
+// it's better to just save it in the intersection itself, though.
+// LIVE AND LEAAAAARN!
+
+t_color	lighting(t_mat *mat, t_light *light, t_intersection *r)
 {
 	t_color		effective_color;
 	t_double4	lightv;
@@ -55,7 +62,7 @@ t_color	lighting(t_mat *mat, t_light *light, t_double4 *pos, t_ray *r)
 	t_color		result;
 
 	cblend(&effective_color, &mat->c, &light->intensity);
-	d4sub(&lightv, &light->pos, pos);
+	d4sub(&lightv, &light->pos, &r->p);
 	vnormalize(&lightv);
 	cscale(&ambient, &effective_color, mat->amb);
 	r->s_normal.w = 0;

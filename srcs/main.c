@@ -18,6 +18,8 @@
 #include <stdio.h>
 #include "matrix.h"
 #include "libft.h"
+#include "world.h"
+
 t_color COLOR_RED;
 
 #define PRINT_VECTOR(v) printf("(%0.3f, %0.3f, %0.3f, (%0.3f))\n", v.x, v.y, v.z, v.w)
@@ -93,7 +95,7 @@ void	draw_clock(t_program *context)
 //			//PRINT_VECTOR(camera_origin);
 //			//PRINT_VECTOR(ray_direction);
 //			t_intersections xs = {0};
-//			hit_sphere(&r, sphere, &xs);
+//			intersect_sphere(&r, sphere, &xs);
 //			t_intersection *hit = get_hit(&xs);
 //			if (hit)
 //				put_pixel(&context->canvas, x, y, &COLOR_RED);
@@ -132,14 +134,15 @@ void	draw_sphere_using_rt(t_program *context, t_obj *sphere, t_light *plight)
 			vnormalize(&norm);
 			r = ray(ray_origin, norm);
 			ft_bzero(&xs, sizeof(t_intersections));
-			hit_sphere(&r, sphere, &xs);
+			intersect_sphere(&r, sphere, &xs);
 			hit = get_hit(&xs);
 			if (hit)
 			{
-				r.itx = position(&r, hit->t);
-				r.s_normal = normal_at(hit->obj, &r.itx);
-				vector(&r.eye, -r.direction.x, -r.direction.y, -r.direction.z);
-				r.c = lighting(&hit->obj->material, plight, &r.itx, &r);
+				//r.itx = position(&r, hit->t);
+				hit->p = position(&r, hit->t);
+				hit->s_normal = normal_at(hit->obj, &hit->p);
+				vector(&hit->eye, -r.direction.x, -r.direction.y, -r.direction.z);
+				r.c = lighting(&hit->obj->material, plight, hit);
 				put_pixel(&context->canvas, x, y, &r.c);
 			}
 		}
@@ -162,68 +165,57 @@ t_mat4x4	IDENTITY_MATRIX;
 
 void	default_sphere(t_obj *sphere)
 {
-	t_mat	mat;
+	static int	id = 1;
+	t_mat		mat;
+	t_mat4x4	identity = mat4x4_identity();
 
 	default_mat(&mat);
 	sphere->center = row4(0, 0, 0, 1);
 	sphere->radius = 1;
-	set_transform(sphere, &IDENTITY_MATRIX);
+	set_transform(sphere, &identity);
 	sphere->material = mat;
+	sphere->type = SPHERE;
+	sphere->id = id;
+	++id;
+}
+
+void	default_world(t_world *world)
+{
+	t_mat4x4	transformation;
+
+	transformation = scaling(0.5, 0.5, 0.5);
+	default_sphere(&world->obj[0]);
+	cinit(&world->obj[0].material.c, 0.8, 1.0, 0.6);
+	world->obj[0].material.diff = 0.7;
+	world->obj[0].material.spec = 0.2;
+	default_sphere(&world->obj[1]);
+	set_transform(&world->obj[1], &transformation);
+	point(&world->plight.pos, -10, 10, -10);
+	cinit(&world->plight.intensity, 1, 1, 1);
 }
 
 int main(void)
 {
-	IDENTITY_MATRIX = mat4x4_identity();
-	//cinit(&COLOR_RED, 1, 0, 0);
-	t_program	context;
-	// iferr: exit
-	context.mlx = mlx_init();
-	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
-	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
-	//fill_canvas(&context.canvas, 0x00FFFFFF);
-	//t_double4	reflection;
+	t_world world;
+	default_world(&world);
 
-	t_obj		sphere;
-	t_double4	pos;
-	t_double4	s_normal;
-	t_double4	eye;
-	t_light		light;
-	t_ray		r;
-	t_color		result;
+	t_ray r;
+	point(&r.origin, 0, 0, 0.75);
+	vector(&r.direction, 0, 0, -1);
+	//t_intersections *xs = intersect_world(&world, &r);
+	//t_intersection *hit = get_hit(xs);
 
-	default_sphere(&sphere);
-	cinit(&sphere.material.c, 1, 0, 0);
-	point(&pos, 0, 0, 0);
-	vector(&s_normal, 0, 0, -1);
-	vector(&eye, 0, 0, -1);
-	point(&light.pos, -10, -10, -10);
-	cinit(&light.intensity, 1, 1, 1);
-	r.eye = eye;
-	r.s_normal = s_normal;
-	result = lighting(&sphere.material, &light, &pos, &r);
-	PRINT_VECTOR(result.set);
+	//point(&world.plight.pos, 0, 0.25, 0);
 
-	//t_mat4x4	transformit;
-	//t_mat4x4	rotateit;
-	//t_mat4x4	rotateitX;
-	////t_mat4x4	shearit;
-	//t_mat4x4	scaleit;
+	//hit->t = 0.5;
+	//hit->obj = &world.obj[1];
+	//prepare_computations(hit, &r);
+	world.obj[0].material.amb = 1;
+	world.obj[1].material.amb = 1;
 
-	//rotateit = rotation_z(M_PI_2);
-	//rotateitX = rotation_x(M_PI);
-	//scaleit = scaling(1, 0.2, 1);
-	////shearit = shearing(1, 0, 1, 1, 0, 1);
+	//PRINT_VECTOR(shade_hit(&world, hit).set);
 
-	//rotateit = mat4x4_cross(&rotateit, &rotateitX);
-	//transformit = mat4x4_cross(&scaleit, &rotateit);
-	////transformit = mat4x4_cross(&transformit, &scaleit);
+	PRINT_VECTOR(color_at(&world, &r).set);
 
-	//set_transform(&sphere, &transformit);
-
-	draw_sphere_using_rt(&context, &sphere, &light);
-
-	mlx_loop(context.mlx);
-	mlx_destroy_image(context.mlx, context.canvas.ptr);
-	mlx_destroy_window(context.mlx, context.win);
 	return (0);
 }

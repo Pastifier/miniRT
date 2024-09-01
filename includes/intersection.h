@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:30:45 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/31 08:26:59 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/01 15:36:00 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ typedef struct s_intersection
 {
 	double		t;
 	t_obj		*obj;
+	t_double4	p;
+	t_double4	eye;
+	t_double4	s_normal;
+	bool		inside;
 	bool		got_hit;
 }	t_intersection;
 
@@ -63,11 +67,11 @@ typedef struct s_intersections
 }	t_intersections;
 
 void			set_transform(t_obj *obj, t_mat4x4 *m);
-bool			hit_sphere(t_ray *r, t_obj *sphere, t_intersections *xs);
+bool			intersect_sphere(t_ray *r, t_obj *sphere, t_intersections *xs);
+void			quick_sort_intersections(t_intersection *arr, size_t size);
 t_intersection	*get_hit(t_intersections *xs);
-void 			quick_sort(t_intersection *arr, size_t size);
 t_double4		normal_at(t_obj *obj, t_double4 *p);
 t_double4		reflect(t_double4 *in, t_double4 *s_normal);
-t_color			lighting(t_mat *mat, t_light *light, t_double4 *pos, t_ray *r);
+t_color			lighting(t_mat *mat, t_light *light, t_intersection *hit);
 
 #endif // !INTERSECTION_H

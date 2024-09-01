@@ -33,7 +33,7 @@ SRC := main.c \
 			matrix_transformations3.c ray.c \
 		) \
 		$(addprefix intersection/, \
-			intersection.c intersection2.c sort.c \
+			intersection.c intersection2.c sort.c world.c \
 		) \
 		$(addprefix colors/, \
 			color.c color2.c \
@@ -44,7 +44,7 @@ SRC := main.c \
 SRC_DIR := srcs
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 
-INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h intersection.h
+INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h intersection.h world.h
 INC_DIR := includes
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
 all: $(NAME)
