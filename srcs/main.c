@@ -101,11 +101,9 @@ void	draw_clock(t_program *context)
 //	}
 //}
 
-void	draw_circle_using_rt(t_program *context, t_obj *sphere)
+void	draw_sphere_using_rt(t_program *context, t_obj *sphere, t_light *plight)
 {
-	static int	times_called;
 	t_double4	ray_origin;
-	//t_double4	transformed_ray_origin;
 	double		wall_z;
 	double		wall_size;
 	double		pixel_size;
@@ -137,11 +135,17 @@ void	draw_circle_using_rt(t_program *context, t_obj *sphere)
 			hit_sphere(&r, sphere, &xs);
 			hit = get_hit(&xs);
 			if (hit)
-				put_pixel(&context->canvas, x, y, &COLOR_RED);
+			{
+				r.itx = position(&r, hit->t);
+				r.s_normal = normal_at(hit->obj, &r.itx);
+				vector(&r.eye, -r.direction.x, -r.direction.y, -r.direction.z);
+				r.c = lighting(&hit->obj->material, plight, &r.itx, &r);
+				put_pixel(&context->canvas, x, y, &r.c);
+			}
 		}
 	}
-	times_called++;
-	printf("times called: %d\n", times_called);
+	mlx_put_image_to_window(context->mlx, context->win, context->canvas.ptr,
+		0, 0);
 }
 
 
@@ -171,33 +175,55 @@ int main(void)
 {
 	IDENTITY_MATRIX = mat4x4_identity();
 	//cinit(&COLOR_RED, 1, 0, 0);
-	//t_program	context;
+	t_program	context;
 	// iferr: exit
-	//context.mlx = mlx_init();
-	//context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
-	//canvas(&context, WIN_WIDTH, WIN_HEIGHT);
+	context.mlx = mlx_init();
+	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
+	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
 	//fill_canvas(&context.canvas, 0x00FFFFFF);
+	//t_double4	reflection;
 
 	t_obj		sphere;
 	t_double4	pos;
 	t_double4	s_normal;
-	//t_double4	reflection;
 	t_double4	eye;
 	t_light		light;
 	t_ray		r;
 	t_color		result;
 
 	default_sphere(&sphere);
+	cinit(&sphere.material.c, 1, 0, 0);
 	point(&pos, 0, 0, 0);
-	point(&s_normal, 0, 0, -1);
-	point(&eye, 0, 0, -1);
-	point(&light.pos, 0, 0, -10);
+	vector(&s_normal, 0, 0, -1);
+	vector(&eye, 0, 0, -1);
+	point(&light.pos, -10, -10, -10);
 	cinit(&light.intensity, 1, 1, 1);
-	r = ray(eye, s_normal);
+	r.eye = eye;
+	r.s_normal = s_normal;
 	result = lighting(&sphere.material, &light, &pos, &r);
 	PRINT_VECTOR(result.set);
-	//mlx_loop(context.mlx);
-	//mlx_destroy_image(context.mlx, context.canvas.ptr);
-	//mlx_destroy_window(context.mlx, context.win);
+
+	//t_mat4x4	transformit;
+	//t_mat4x4	rotateit;
+	//t_mat4x4	rotateitX;
+	////t_mat4x4	shearit;
+	//t_mat4x4	scaleit;
+
+	//rotateit = rotation_z(M_PI_2);
+	//rotateitX = rotation_x(M_PI);
+	//scaleit = scaling(1, 0.2, 1);
+	////shearit = shearing(1, 0, 1, 1, 0, 1);
+
+	//rotateit = mat4x4_cross(&rotateit, &rotateitX);
+	//transformit = mat4x4_cross(&scaleit, &rotateit);
+	////transformit = mat4x4_cross(&transformit, &scaleit);
+
+	//set_transform(&sphere, &transformit);
+
+	draw_sphere_using_rt(&context, &sphere, &light);
+
+	mlx_loop(context.mlx);
+	mlx_destroy_image(context.mlx, context.canvas.ptr);
+	mlx_destroy_window(context.mlx, context.win);
 	return (0);
 }

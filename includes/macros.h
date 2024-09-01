@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:12:40 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/31 01:30:40 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/01 05:16:05 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 # endif // !__MACH__
 
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH 100
+#  define WIN_WIDTH 500
 # endif // !WIN_WIDTH
 
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT 100
+#  define WIN_HEIGHT 500
 # endif // !WIN_HEIGHT
 
 #endif // !MACROS_H

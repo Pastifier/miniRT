@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:06:09 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/31 07:46:24 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/01 04:48:46 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_ray
 {
 	t_double4		origin;
 	t_double4		direction;
+	t_double4		itx;
 	t_double4		eye;
 	t_double4		s_normal;
 	t_color			c;

@@ -6,21 +6,24 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 07:08:11 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/31 08:31:50 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/01 05:03:54 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "intersection.h"
 #include "linear_algebra.h"
 #include "colors.h"
+#include <stdio.h>
 
 t_double4	reflect(t_double4 *in, t_double4 *s_normal)
 {
 	t_double4	in_minus_normal_times_2_times_their_dot;
 	t_double4	normal_times_2_times_in_dot_normal;
+	t_double4	normalised_in;
 
+	vnorm(&normalised_in, in);
 	d4mul(&normal_times_2_times_in_dot_normal,
-		s_normal, 2.0 * vdot(in, s_normal));
+		s_normal, 2.0 * vdot(&normalised_in, s_normal));
 	d4sub(&in_minus_normal_times_2_times_their_dot,
 		in, &normal_times_2_times_in_dot_normal);
 	return (in_minus_normal_times_2_times_their_dot);
@@ -34,6 +37,9 @@ t_light	point_light(t_double4 *pos, t_color *intensity)
 		.pos = *pos
 	});
 }
+
+// I already added itx point to the ray. So, remember to remove it later
+// and adjust the function accordingly!
 
 t_color	lighting(t_mat *mat, t_light *light, t_double4 *pos, t_ray *r)
 {
@@ -52,6 +58,7 @@ t_color	lighting(t_mat *mat, t_light *light, t_double4 *pos, t_ray *r)
 	d4sub(&lightv, &light->pos, pos);
 	vnormalize(&lightv);
 	cscale(&ambient, &effective_color, mat->amb);
+	r->s_normal.w = 0;
 	light_dot_s_normal = vdot(&lightv, &r->s_normal);
 	if (light_dot_s_normal < 0.0)
 	{
