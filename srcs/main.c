@@ -19,11 +19,9 @@
 #include "matrix.h"
 #include "libft.h"
 #include "world.h"
+#include "debug.h"
 
 t_color COLOR_RED;
-
-#define PRINT_VECTOR(v) printf("(%0.3f, %0.3f, %0.3f, (%0.3f))\n", v.x, v.y, v.z, v.w)
-#define PRINT_VECTOR_2D(v) printf("(%0.3f, %0.3f)\n", v.x, v.y);
 
 #include "mlx.h"
 
@@ -190,32 +188,111 @@ void	default_world(t_world *world)
 	world->obj[0].material.spec = 0.2;
 	default_sphere(&world->obj[1]);
 	set_transform(&world->obj[1], &transformation);
-	point(&world->plight.pos, -10, 10, -10);
+	point(&world->plight.pos, -10, 10, 10);
 	cinit(&world->plight.intensity, 1, 1, 1);
 }
 
+void	world_from_chapter_7(t_world *world)
+{
+	t_mat4x4 transformation;
+	t_mat4x4 transform_operations;
+
+	transformation = scaling(0.5, 0.5, 0.5);
+	default_sphere(&world->obj[0]);
+	cinit(&world->obj[0].material.c, 0.8, 1.0, 0.6);
+	world->obj[0].material.diff = 0.7;
+	world->obj[0].material.spec = 0.2;
+
+	default_sphere(&world->obj[1]);
+	set_transform(&world->obj[1], &transformation);
+
+	point(&world->plight.pos, -10, 10, -10);
+	cinit(&world->plight.intensity, 1, 1, 1);
+
+	// Initialize the walls
+	t_obj *floor = &world->obj[0];
+	floor->transform = scaling(10, 0.01, 10);
+	default_mat(&floor->material);
+	cinit(&floor->material.c, 1, 0.9, 0.9);
+	floor->material.spec = 0;
+
+	t_obj *left_wall = &world->obj[1];
+	left_wall->transform = mat4x4_identity();
+	transform_operations = translation(0, 0, 5);
+	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
+	transform_operations = rotation_y(-M_PI_4);
+	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
+	transform_operations = rotation_x(M_PI_2);
+	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
+	transform_operations = scaling(10, 0.01, 10);
+	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
+	left_wall->material = floor->material;
+
+	t_obj *right_wall = &world->obj[2];
+	right_wall->transform = mat4x4_identity();
+	transform_operations = translation(0, 0, 5);
+	right_wall->transform = mat4x4_cross(&right_wall->transform, &transform_operations);
+	transform_operations = rotation_y(M_PI_4);
+	right_wall->transform = mat4x4_cross(&right_wall->transform, &transform_operations);
+	transform_operations = rotation_x(M_PI_2);
+	right_wall->transform = mat4x4_cross(&right_wall->transform, &transform_operations);
+	transform_operations = scaling(10, 0.01, 10);
+	right_wall->transform = mat4x4_cross(&right_wall->transform, &transform_operations);
+	right_wall->material = floor->material;
+
+	t_obj *middle = &world->obj[3];
+	middle->transform = mat4x4_identity();
+	transform_operations = translation(-0.5, 1, 0.5);
+	middle->transform = mat4x4_cross(&middle->transform, &transform_operations);
+	default_mat(&middle->material);
+	cinit(&middle->material.c, 0.1, 1, 0.5);
+	middle->material.diff = 0.7;
+	middle->material.spec = 0.3;
+
+	t_obj *right = &world->obj[4];
+	right->transform = mat4x4_identity();
+	transform_operations = translation(1.5, 0.5, -0.5);
+	right->transform = mat4x4_cross(&right->transform, &transform_operations);
+	transform_operations = scaling(0.5, 0.5, 0.5);
+	right->transform = mat4x4_cross(&right->transform, &transform_operations);
+	default_mat(&right->material);
+	cinit(&right->material.c, 0.5, 1, 0.1);
+	right->material.diff = 0.7;
+	right->material.spec = 0.3;
+
+	t_obj *left = &world->obj[5];
+	left->transform = mat4x4_identity();
+	transform_operations = translation(-1.5, 0.33, -0.75);
+	left->transform = mat4x4_cross(&left->transform, &transform_operations);
+	transform_operations = scaling(0.33, 0.33, 0.33);
+	left->transform = mat4x4_cross(&left->transform, &transform_operations);
+	default_mat(&left->material);
+	cinit(&left->material.c, 1, 0.8, 0.1);
+	left->material.diff = 0.7;
+	left->material.spec = 0.3;
+}
+
+t_mat4x4	mat4x4_cross_using_dot(t_mat4x4 *m1, t_mat4x4 *m2);
+
 int main(void)
 {
-	t_world world;
-	default_world(&world);
+	t_mat4x4 a;
+	a.r1 = row4(1, 2, 3, 4);
+	a.r2 = row4(5, 6, 7, 8);
+	a.r3 = row4(9, 8, 7, 6);
+	a.r4 = row4(5, 4, 3, 2);
 
-	t_ray r;
-	point(&r.origin, 0, 0, 0.75);
-	vector(&r.direction, 0, 0, -1);
-	//t_intersections *xs = intersect_world(&world, &r);
-	//t_intersection *hit = get_hit(xs);
+	t_mat4x4 b;
+	b.r1 = row4(-2, 1, 2, 3);
+	b.r2 = row4(3, 2, 1, -1);
+	b.r3 = row4(4, 3, 6, 5);
+	b.r4 = row4(1, 2, 7, 8);
 
-	//point(&world.plight.pos, 0, 0.25, 0);
+	//t_double4	*rows = &a.r1;
 
-	//hit->t = 0.5;
-	//hit->obj = &world.obj[1];
-	//prepare_computations(hit, &r);
-	world.obj[0].material.amb = 1;
-	world.obj[1].material.amb = 1;
+	//PRINT_VECTOR((*(rows + 2)));
 
-	//PRINT_VECTOR(shade_hit(&world, hit).set);
-
-	PRINT_VECTOR(color_at(&world, &r).set);
-
+	t_mat4x4 cross = mat4x4_cross(&a, &b);
+	PRINT_MATRIX(cross);
 	return (0);
 }

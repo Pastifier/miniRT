@@ -34,10 +34,14 @@ SRC := main.c \
 		) \
 		$(addprefix intersection/, \
 			intersection.c intersection2.c sort.c world.c \
+			camera.c \
 		) \
 		$(addprefix colors/, \
 			color.c color2.c \
 			canvas.c \
+		) \
+		$(addprefix render/, \
+			render.c \
 		) \
 
 

@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix2.c                                          :+:      :+:    :+:   */
+/*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/29 09:05:52 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/02 04:43:41 by ebinjama         ###   ########.fr       */
+/*   Created: 2024/09/02 04:18:17 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/09/02 04:20:02 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "matrix.h"
-#include "linear_algebra.h"
-#include "debug.h"
+#ifndef DEBUG_H
+# define DEBUG_H
 
+# include <stdio.h>
 
-double	cofactor(t_mat4x4 *m, int row, int col)
-{
-	double		minor;
-
-	minor = mat_minor(m, row, col);
-	if ((row + col) % 2)
-		minor = -minor;
-	return (minor);
+# define PRINT_MATRIX(mat) \
+for (int r = 0; r < 4; r++) \
+{ \
+	for (int c = 0; c < 4; c++) \
+	{ \
+		printf("%f ", mat.m[r][c]); \
+	} \
+	printf("\n"); \
 }
+
+# define PRINT_VECTOR(v) printf("(%0.3f, %0.3f, %0.3f, (%0.3f))\n", v.x, v.y, v.z, v.w)
+# define PRINT_VECTOR_2D(v) printf("(%0.3f, %0.3f)\n", v.x, v.y);
+
+#endif // !DEBUG_H

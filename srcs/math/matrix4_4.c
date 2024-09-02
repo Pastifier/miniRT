@@ -12,6 +12,7 @@
 
 #include "matrix.h"
 #include "linear_algebra.h"
+#include "debug.h"
 #include <stdbool.h>
 
 bool	mat4x4_eq(t_mat4x4 *m1, t_mat4x4 *m2)
@@ -25,23 +26,27 @@ bool	mat4x4_eq(t_mat4x4 *m1, t_mat4x4 *m2)
 	return (true);
 }
 
+
+
 t_mat4x4	mat4x4_cross(t_mat4x4 *m1, t_mat4x4 *m2)
 {
 	t_mat4x4	result;
+	t_double4	column;
+	t_double4	*rows;
 	int			r;
-	int			c;
 
+	rows = &m1->r1;
 	r = -1;
 	while (++r < 4)
 	{
-		c = -1;
-		while (++c < 4)
-		{
-			result.m[r][c] = m1->m[r][0] * m2->m[0][c]
-				+ m1->m[r][1] * m2->m[1][c]
-				+ m1->m[r][2] * m2->m[2][c]
-				+ m1->m[r][3] * m2->m[3][c];
-		}
+		column = extract_column4(m2, 0);
+		result.m[r][0] = vdot(&rows[r], &column);
+		column = extract_column4(m2, 1);
+		result.m[r][1] = vdot(&rows[r], &column);
+		column = extract_column4(m2, 2);
+		result.m[r][2] = vdot(&rows[r], &column);
+		column = extract_column4(m2, 3);
+		result.m[r][3] = vdot(&rows[r], &column);
 	}
 	return (result);
 }

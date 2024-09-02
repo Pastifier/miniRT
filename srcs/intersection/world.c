@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 08:54:15 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/01 19:16:07 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/01 23:35:16 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "libft.h"
 #include "colors.h"
 #include "matrix.h"
+#include <stdio.h>
 
 void	prepare_computations(t_intersection *hit, t_ray *r)
 {
@@ -46,7 +47,7 @@ t_intersections	*intersect_world(t_world *world, t_ray *r)
 	t_intersections	*xs = ft_calloc(1, sizeof(*xs));
 	if (!xs) /*deal with it*/ return (NULL);
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		intersect_sphere(r, &world->obj[i], xs);
 	}
