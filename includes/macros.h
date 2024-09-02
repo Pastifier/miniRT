@@ -20,11 +20,11 @@
 # endif // !__MACH__
 
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH 400
+#  define WIN_WIDTH 800
 # endif // !WIN_WIDTH
 
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT 400
+#  define WIN_HEIGHT 800
 # endif // !WIN_HEIGHT
 
 #endif // !MACROS_H

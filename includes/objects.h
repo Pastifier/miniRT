@@ -24,13 +24,28 @@ typedef struct	s_material
 	double		shininess;
 }	t_material;
 
-typedef struct	s_sphere
+typedef struct	s_object
 {
 	t_double4	center;
-	double		radius;
 	t_mat4x4	transform;
 	t_material	material;
-}	t_sphere;
+	
+	union	u_object
+	{
+		struct	s_sphere
+		{
+			double	radius;
+		}	sphere;
+
+		struct	s_plane {
+			t_double4	normal;
+		}	plane;
+
+		struct	s_cube {
+			double	side_length;
+		}	cube;
+	}	obj;
+}	t_object;
 
 typedef struct	s_discriminant
 {
@@ -63,8 +78,8 @@ void			ray_create(t_ray *ray, t_double4 *origin, t_double4 *direction);
 void			ray_position(t_double4 *result, t_ray *ray, double t);
 void			ray_transform(t_ray *ray, t_mat4x4 *matrix);
 
-void			sphere(t_sphere *sphere, t_double4 *center, double radius, t_mat4x4 *transform);
-void			intersect_sphere(t_ray *ray, t_sphere *sphere);
-t_double4		sphere_normal_at(t_sphere *sphere, t_double4 *world_point);
+void			sphere(t_object *sphere, t_double4 *center, double radius, t_mat4x4 *transform);
+void			intersect_sphere(t_ray *ray, t_object *sphere);
+t_double4		sphere_normal_at(t_object *sphere, t_double4 *world_point);
 
 #endif // !OBJECTS_H

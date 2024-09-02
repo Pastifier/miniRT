@@ -4,10 +4,10 @@
 #include "colors.h"
 #include <stdio.h>
 
-void sphere(t_sphere *sphere, t_double4 *center, double radius, t_mat4x4 *transform)
+void sphere(t_object *sphere, t_double4 *center, double radius, t_mat4x4 *transform)
 {
 	sphere->center = *center;
-	sphere->radius = radius;
+	sphere->obj.sphere.radius = radius;
 	if (transform)
 		sphere->transform = *transform;
 	else
@@ -15,7 +15,7 @@ void sphere(t_sphere *sphere, t_double4 *center, double radius, t_mat4x4 *transf
 	sphere->material = default_material();
 }
 
-t_double4	sphere_normal_at(t_sphere *sphere, t_double4 *world_point)
+t_double4	sphere_normal_at(t_object *sphere, t_double4 *world_point)
 {
 	t_double4 object_n_p[2];
 	t_double4 world_n;
@@ -34,16 +34,14 @@ t_double4	sphere_normal_at(t_sphere *sphere, t_double4 *world_point)
 	return world_n;
 }
 
-static void sphere_discriminant(t_ray *ray, t_sphere *sphere, t_discriminant *disc)
+static void sphere_discriminant(t_ray *ray, t_object *sphere, t_discriminant *disc)
 {
 	t_double4 sphere_to_ray;
 
 	d4sub(&sphere_to_ray, &ray->origin, &sphere->center);
-	// d4sub(&sphere_to_ray, &sphere->center, &ray->origin); // Changed to this
 	disc->a = vdot(&ray->direction, &ray->direction);
 	disc->b = 2.0 * vdot(&sphere_to_ray, &ray->direction);
-	// disc->b = -2.0 * vdot(&sphere_to_ray, &ray->direction); // Changed to this
-	disc->c = vdot(&sphere_to_ray, &sphere_to_ray) - (sphere->radius * sphere->radius);
+	disc->c = vdot(&sphere_to_ray, &sphere_to_ray) - (sphere->obj.sphere.radius * sphere->obj.sphere.radius);
 	disc->disc = disc->b * disc->b - 4.0 * disc->a * disc->c;
 	if (disc->disc < 0)
 		disc->sqrt_disc = -1.0;
@@ -58,15 +56,11 @@ static void sphere_t_values(t_discriminant *disc, double t_values[], int *t_coun
 		return;
 	t_values[0] = (-disc->b - disc->sqrt_disc) / (2.0 * disc->a);
 	t_values[1] = (-disc->b + disc->sqrt_disc) / (2.0 * disc->a);
-	// if (disc->sqrt_disc == 0)
-	// 	*t_count = 1;
-	// else
-	// 	*t_count = 2;
 	if (*t_count + 2 < MAX_INTERSECTIONS)
 		*t_count += 2;
 }
 
-void intersect_sphere(t_ray *ray, t_sphere *sphere)
+void intersect_sphere(t_ray *ray, t_object *sphere)
 {
 	t_discriminant disc;
 	double t_values[MAX_INTERSECTIONS];

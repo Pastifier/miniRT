@@ -44,7 +44,7 @@ int main(void)
 	// result = lighting(&material, &light, &center, &eye_v, &normal_v);
 	// PRINT_VECTOR(result.set);
 	context.mlx = mlx_init();
-	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "I'm watching you.");
+	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
 	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
 	render_sphere(&context);
 	mlx_loop(context.mlx);

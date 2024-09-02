@@ -12,7 +12,7 @@
 void render_sphere(t_program *context)
 {
 	t_color	lit_color;
-	t_sphere s;
+	t_object s;
 	double wall_z = 10.0;
 	double wall_size = 7.0;
 	double pixel_size = wall_size / WIN_WIDTH;
@@ -24,15 +24,12 @@ void render_sphere(t_program *context)
 	sphere(&s, &(center), 1.0, NULL);
 	color(&s.material.color, 1.0, 0.2, 1.0);
 	t_point_light light = default_light();
-	light.position.x = 10.0;
-	light.position.y = 10.0;
-	light.position.z = -10.0;
 
 	//Try out the different transformations
 	// t_mat4x4 scaling_matrix = scaling(0.5, 1.0, 1.0);
 	// t_mat4x4 rotation_matrix = rotation_z(M_PI / 4.0);
 	// t_mat4x4 shearing_matrix = shearing(1.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-	// s.transform = scaling(1.0, 0.5, 1.0);
+	s.transform = scaling(1.0, 0.5, 1.0);
 	// s.transform = scaling(0.5, 1.0, 1.0);
 	// s.transform = mat4x4_cross(&scaling_matrix, &rotation_matrix);
 	// s.transform = mat4x4_cross(&scaling_matrix, &shearing_matrix);
@@ -86,12 +83,6 @@ void render_sphere(t_program *context)
 				// printf("norm: %0.3f, %0.3f, %0.3f\n", norm.x, norm.y, norm.z);
 
 				lit_color = lighting(&s.material, &light, &point_of_intersection, &eye_v, &norm);
-				if (point_of_intersection.z > -0.452)
-					cblend(&lit_color, &lit_color, &c);
-				if (point_of_intersection.z <= 0 && point_of_intersection.z < -0.520)
-					color(&lit_color, 1.0, 1.0, 1.0);
-				if (point_of_intersection.z <= 0 && point_of_intersection.z < -0.62245)
-					color(&lit_color, 0.0, 0.0, 0.0);
 				put_pixel(&context->canvas, x, y, &lit_color);
 			}
 		}
