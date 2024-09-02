@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   canvas.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:03:07 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 20:07:59 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/02 13:58:42 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx.h"
 #include "render.h"
+
+
 
 void	canvas(t_program *context, int width, int height)
 {

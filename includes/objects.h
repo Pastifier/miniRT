@@ -2,7 +2,7 @@
 # define OBJECTS_H
 
 #include "rtmath.h"
-#include "matrix.h"	
+#include "matrix.h"
 
 typedef enum	e_object_type
 {
@@ -47,6 +47,11 @@ typedef struct s_ray
 	t_double4		direction;
 	t_intersections	itx;
 }	t_ray;
+
+typedef struct s_world
+{
+
+}	t_world;
 
 t_point_light	default_light(void);
 t_material		default_material(void);

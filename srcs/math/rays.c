@@ -13,7 +13,7 @@ void ray_create(t_ray *ray, t_double4 *origin, t_double4 *direction)
 }
 
 void ray_position(t_double4 *result, t_ray *ray, double t)
-{	
+{
 	result->x = ray->origin.x + ray->direction.x * t;
 	result->y = ray->origin.y + ray->direction.y * t;
 	result->z = ray->origin.z + ray->direction.z * t;

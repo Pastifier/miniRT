@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rtmath.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:06:09 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 10:20:09 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/02 14:50:55 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 
 /*
 	DESCRIPTION:
-	
+
 	This file contains a bunch of typedefs and utilities regarding
 	vectors, points and other stuff.
 */
 
 # include <math.h> // for floating-point utility functions and macros
 # include <stdint.h> // for exact-sized types
+# include <stdlib.h>
 
 # ifndef EPSILON
 #  define EPSILON 0.00001
@@ -75,6 +76,7 @@ typedef struct	s_intersection
 	double t;
 	short object_type;
 	void *object;
+	t_double4 itx_p;
 }	t_intersection;
 
 typedef struct	s_intersections
@@ -83,6 +85,8 @@ typedef struct	s_intersections
 	short count;
 }	t_intersections;
 
+t_intersection	*get_hit(t_intersections *xs);
+void quick_sort_intersections(t_intersection *arr, size_t size);
 void sort_intersections(t_intersections *intersects);
 void store_intersections(t_intersections *intersects, double t_values[], int object_type, void *object);
 

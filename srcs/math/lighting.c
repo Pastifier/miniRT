@@ -2,6 +2,7 @@
 #include "rtmath.h"
 #include "linear_algebra.h"
 #include "objects.h"
+#include <stdio.h>
 
 t_color	lighting(t_material *material, t_point_light *light, t_double4 *point, t_double4 *eye_v, t_double4 *normal)
 {
@@ -18,9 +19,11 @@ t_color	lighting(t_material *material, t_point_light *light, t_double4 *point, t
 
 	cblend(&effective_color, &material->color, &light->intensity);
 	d4sub(&light_v, &light->position, point);
-	vnorm(&light_v, &light_v);
+	vnormalize(&light_v);
 	cscale(&ambient, &effective_color, material->ambient);
+	normal->w = 0;
 	light_dot_normal = vdot(&light_v, normal);
+
 	if (light_dot_normal < 0)
 	{
 		color(&diffuse, 0.0, 0.0, 0.0);

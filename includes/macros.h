@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   macros.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:12:40 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 00:46:51 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:39:50 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 # endif // !__MACH__
 
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH 800
+#  define WIN_WIDTH 400
 # endif // !WIN_WIDTH
 
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT 800
+#  define WIN_HEIGHT 400
 # endif // !WIN_HEIGHT
 
 #endif // !MACROS_H
