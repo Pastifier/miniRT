@@ -6,14 +6,33 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:03:07 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/02 13:58:42 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/03 14:17:36 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx.h"
 #include "render.h"
+#include "objects.h"
+#include "rtmath.h"
+#include <stdio.h>
 
+t_color	color_at(t_world *w, t_ray *r)
+{
+	t_intersections		world_itxs;
+	t_intersection		*hit;
+	t_itx_computation	comps;
+	t_color				result;
 
+	world_itxs = intersect_world(w, r);
+	hit = get_hit(&world_itxs);
+	if (!hit)
+	{
+		color(&result, 0.0, 0.0, 0.0);
+		return (result);
+	}
+	comps = prepare_computations(*hit, r);
+	return (shade_hit(w, &comps));
+}
 
 void	canvas(t_program *context, int width, int height)
 {

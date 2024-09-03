@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linear_algebra.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:13:57 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 06:12:26 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/03 14:42:20 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	d4sub(t_double4 *target, t_double4 *t1, t_double4 *t2);
 void	d4negate(t_double4 *target);
 void	d4mul(t_double4 *target, t_double4 *t1, double scalar);
 void	d4div(t_double4 *target, t_double4 *t1, double scalar);
+void	d4_cross_vec(t_double4 *target, t_double4 *t1, t_double4 *t2);
 
 double	vmag(t_double4 *vec);
 void	vnorm(t_double4 *target, t_double4 *t);

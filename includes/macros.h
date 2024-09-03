@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:12:40 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/02 15:39:50 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/03 15:05:10 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@
 # endif // !__MACH__
 
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH 800
+#  define WIN_WIDTH 200
 # endif // !WIN_WIDTH
 
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT 800
+#  define WIN_HEIGHT 200
 # endif // !WIN_HEIGHT
+
+#define PRINT_VECTOR(v) printf("(%0.3f, %0.3f, %0.3f)\n", v.x, v.y, v.z)
+#define PRINT_MAT4X4(v) printf("(%0.3f, %0.3f, %0.3f, %0.3f)\n(%0.3f, %0.3f, %0.3f, %0.3f)\n(%0.3f, %0.3f, %0.3f, %0.3f)\n(%0.3f, %0.3f, %0.3f, %0.3f)\n", v.m[0][0], v.m[0][1], v.m[0][2], v.m[0][3], v.m[1][0], v.m[1][1], v.m[1][2], v.m[1][3], v.m[2][0], v.m[2][1], v.m[2][2], v.m[2][3], v.m[3][0], v.m[3][1], v.m[3][2], v.m[3][3])
 
 #endif // !MACROS_H

@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sphere.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/03 11:29:36 by melshafi          #+#    #+#             */
+/*   Updated: 2024/09/03 14:17:28 by melshafi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "objects.h"
 #include "rtmath.h"
 #include "linear_algebra.h"
 #include "colors.h"
-#include <stdio.h>
 
 void sphere(t_object *sphere, t_double4 *center, double radius, t_mat4x4 *transform)
 {
+	sphere->type = OBJ_SPHERE;
 	sphere->center = *center;
 	sphere->obj.sphere.radius = radius;
 	if (transform)
@@ -66,20 +78,19 @@ void intersect_sphere(t_ray *ray, t_object *sphere)
 	double t_values[MAX_INTERSECTIONS];
 	int t_count;
 	t_mat4x4 inv_transform;
+	t_ray trans_ray;
 
 	t_count = 0;
 	inv_transform = mat4x4_inverse(&sphere->transform);
-	ray->itx.count = 0;
-	ray_transform(ray, &(inv_transform));
-	sphere_discriminant(ray, sphere, &disc);
+	trans_ray = *ray;
+	trans_ray.itx.count = 0;
+	ray_transform(&trans_ray, &(inv_transform));
+	sphere_discriminant(&trans_ray, sphere, &disc);
 	if (disc.disc < 0)
 		return ;
 	sphere_t_values(&disc, t_values, &t_count);
-	ray->itx.count = t_count;
-	store_intersections(&ray->itx, t_values, OBJ_SPHERE, sphere);
-	quick_sort_intersections(ray->itx.data, ray->itx.count);
-	// ray_position(&ray->itx.data[0].itx_p, ray, ray->itx.data[0].t);
-	// if (t_count == 2)
-	// 	ray_position(&ray->itx.data[1].itx_p, ray, ray->itx.data[1].t);
-	// We'll see...
+	trans_ray.itx.count = t_count;
+	store_intersections(&trans_ray.itx, t_values, OBJ_SPHERE, sphere);
+	quick_sort_intersections(trans_ray.itx.data, trans_ray.itx.count);
+	ray->itx = trans_ray.itx;
 }

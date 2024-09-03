@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   objects.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/03 11:30:02 by melshafi          #+#    #+#             */
+/*   Updated: 2024/09/03 15:03:50 by melshafi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
@@ -9,11 +21,18 @@ typedef enum	e_object_type
 	OBJ_SPHERE
 }	t_object_type;
 
-typedef struct	s_point_light
+typedef struct	s_light
 {
 	t_double4	position;
-	t_color		intensity;
-}	t_point_light;
+
+	union	u_type
+	{
+		struct	s_point
+		{
+			t_color	intensity;
+		}	point;
+	}	type;
+}	t_light;
 
 typedef struct	s_material
 {
@@ -29,7 +48,8 @@ typedef struct	s_object
 	t_double4	center;
 	t_mat4x4	transform;
 	t_material	material;
-	
+	t_object_type	type;
+
 	union	u_object
 	{
 		struct	s_sphere
@@ -63,16 +83,38 @@ typedef struct s_ray
 	t_intersections	itx;
 }	t_ray;
 
+typedef struct s_camera
+{
+	int			hsize;
+	int			vsize;
+	double		field_of_view;
+	t_mat4x4	transform;
+	double		half_width;
+	double		half_height;
+	double		half_view;
+	double		aspect_ratio;
+	double		pixel_size;
+}	t_camera;
+
 typedef struct s_world
 {
-
+	int			num_objects;
+	int			num_lights;
+	t_object	objects[100];
+	t_light		lights[100];
 }	t_world;
 
-t_point_light	default_light(void);
-t_material		default_material(void);
+void			default_world(t_world *world);
+void			setup_camera(t_camera *camera, double fov);
+t_mat4x4		view_transform(t_double4 from, t_double4 to, t_double4 up);
 
-t_color			lighting(t_material *material, t_point_light *light, t_double4 *point, t_double4 *eye_v, t_double4 *normal);
+t_light			default_point_light(void);
+t_material		default_material(void);
+t_material		material(t_color *color, double ambient, double diffuse, double specular, double shininess);
+
+t_color			lighting(t_material *material, t_light *light, t_double4 *point, t_double4 *eye_v, t_double4 *normal);
 t_double4		reflect(t_double4 *in, t_double4 *normal);
+t_color			shade_hit(t_world *world, t_itx_computation *comps);
 
 void			ray_create(t_ray *ray, t_double4 *origin, t_double4 *direction);
 void			ray_position(t_double4 *result, t_ray *ray, double t);

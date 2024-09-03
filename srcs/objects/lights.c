@@ -1,40 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tuples3.c                                          :+:      :+:    :+:   */
+/*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/29 04:26:29 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/03 14:43:12 by melshafi         ###   ########.fr       */
+/*   Created: 2024/09/03 11:34:25 by melshafi          #+#    #+#             */
+/*   Updated: 2024/09/03 11:34:32 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "linear_algebra.h"
+#include "objects.h"
+#include "colors.h"
 
-t_double3	row3(double x, double y, double z)
+t_light	default_point_light(void)
 {
-	t_double3	t;
+	t_light l;
 
-	t.x = x;
-	t.y = y;
-	t.z = z;
-	return (t);
-}
-
-t_double2	row2(double x, double y)
-{
-	t_double2	t;
-
-	t.x = x;
-	t.y = y;
-	return (t);
-}
-
-void	d4_cross_vec(t_double4 *target, t_double4 *t1, t_double4 *t2)
-{
-	vector(target,
-		t1->y * t2->z - t1->z * t2->y,
-		t1->z * t2->x - t1->x * t2->z,
-		t1->x * t2->y - t1->y * t2->x);
+	point(&l.position, -10.0, 10.0, -10.0);
+	color(&l.type.point.intensity, 1.0, 1.0, 1.0);
+	return (l);
 }

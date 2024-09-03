@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:06:09 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/02 14:50:55 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/03 13:42:14 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@
 #  define EPSILON 0.00001
 # endif // !EPSILON
 
-#define MAX_INTERSECTIONS 4
+#define MAX_INTERSECTIONS 400
+
+typedef struct s_object t_object;
+typedef struct s_world t_world;
+typedef struct s_ray t_ray;
 
 typedef union u_double4
 {
@@ -81,13 +85,25 @@ typedef struct	s_intersection
 
 typedef struct	s_intersections
 {
-	t_intersection data[MAX_INTERSECTIONS];
-	short count;
+	t_intersection	data[MAX_INTERSECTIONS];
+	short			count;
 }	t_intersections;
 
+typedef struct	itx_computation
+{
+	double		t;
+	t_object	*obj;
+	t_double4	p;
+	t_double4	eyev;
+	t_double4	normalv;
+	int			inside;
+}	t_itx_computation;
+
+
+t_itx_computation prepare_computations(t_intersection itx, t_ray *r);
 t_intersection	*get_hit(t_intersections *xs);
 void quick_sort_intersections(t_intersection *arr, size_t size);
-void sort_intersections(t_intersections *intersects);
+t_intersections	intersect_world(t_world *w, t_ray *r);
 void store_intersections(t_intersections *intersects, double t_values[], int object_type, void *object);
 
 #endif // !RTMATH_H

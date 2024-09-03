@@ -26,17 +26,19 @@ NAME := miniRT
 
 # SOURCES
 SRC := main.c \
-		render.c \
-		objects.c \
 		$(addprefix math/, \
 			tuples.c tuples2.c tuples3.c\
 			vector.c matrix.c matrix2.c matrix4_4.c matrix4_4_2.c matrix3_3.c matrix2_2.c \
 			matrix_transformations.c matrix_transformations2.c sort.c\
-			matrix_transformations3.c rays.c intersections.c sphere.c lighting.c\
+			matrix_transformations3.c intersections.c\
 		) \
 		$(addprefix colors/, \
 			color.c color2.c \
 			canvas.c) \
+		$(addprefix objects/, \
+			sphere.c lights.c material.c) \
+		$(addprefix render/, \
+			rays.c lighting.c objects.c render.c world.c camera.c) \
 
 
 SRC_DIR := srcs

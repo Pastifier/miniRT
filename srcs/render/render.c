@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/03 11:29:23 by melshafi          #+#    #+#             */
+/*   Updated: 2024/09/03 13:11:01 by melshafi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "render.h"
 #include "rtmath.h"
 #include "objects.h"
@@ -23,7 +35,7 @@ void render_sphere(t_program *context)
 	point(&center, 0.0, 0.0, 0.0);
 	sphere(&s, &(center), 1.0, NULL);
 	color(&s.material.color, 1.0, 0.2, 1.0);
-	t_point_light light = default_light();
+	t_light light = default_point_light();
 
 	//Try out the different transformations
 	// t_mat4x4 scaling_matrix = scaling(0.5, 1.0, 1.0);
@@ -33,7 +45,6 @@ void render_sphere(t_program *context)
 	// s.transform = scaling(0.5, 1.0, 1.0);
 	// s.transform = mat4x4_cross(&scaling_matrix, &rotation_matrix);
 	// s.transform = mat4x4_cross(&scaling_matrix, &shearing_matrix);
-
 
 	for (int y = 0; y < WIN_HEIGHT; y++)
 	{
