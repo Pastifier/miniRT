@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 10:27:52 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 11:01:42 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/03 12:11:42 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,13 @@ t_mat4x4	mat4x4_inverse(t_mat4x4 *m)
 	if (det == 0)
 		return (*m);
 	adj = mat4x4_adjugate(m);
-	d4div(&inv.r1, &adj.r1, det);
-	d4div(&inv.r2, &adj.r2, det);
-	d4div(&inv.r3, &adj.r3, det);
-	d4div(&inv.r4, &adj.r4, det);
+	inv = adj;
+	if (det != 0)
+	{
+		d4div(&inv.r1, &adj.r1, det);
+		d4div(&inv.r2, &adj.r2, det);
+		d4div(&inv.r3, &adj.r3, det);
+		d4div(&inv.r4, &adj.r4, det);
+	}
 	return (inv);
 }

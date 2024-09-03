@@ -110,7 +110,7 @@ void	draw_sphere_using_rt(t_program *context, t_obj *sphere, t_light *plight)
 				hit->p = position(&r, hit->t);
 				hit->s_normal = normal_at(hit->obj, &hit->p);
 				vector(&hit->eye, -r.direction.x, -r.direction.y, -r.direction.z);
-				r.c = lighting(&hit->obj->material, plight, hit);
+				r.c = lighting(&hit->obj->material, plight, hit, false);
 				put_pixel(&context->canvas, x, y, &r.c);
 			}
 		}
@@ -158,35 +158,37 @@ void	default_world(t_world *world)
 	world->obj[0].material.spec = 0.2;
 	default_sphere(&world->obj[1]);
 	set_transform(&world->obj[1], &transformation);
-	point(&world->plight.pos, -10, 10, 10);
+	point(&world->plight.pos, -10, 10, -10);
 	cinit(&world->plight.intensity, 1, 1, 1);
 }
 
 void	world_from_chapter_7(t_world *world)
 {
-	t_mat4x4 transformation;
+	//t_mat4x4 transformation;
 	t_mat4x4 transform_operations;
 
-	transformation = scaling(0.5, 0.5, 0.5);
-	default_sphere(&world->obj[0]);
-	cinit(&world->obj[0].material.c, 0.8, 1.0, 0.6);
-	world->obj[0].material.diff = 0.7;
-	world->obj[0].material.spec = 0.2;
+	//transformation = scaling(0.5, 0.5, 0.5);
+	//default_sphere(&world->obj[0]);
+	//cinit(&world->obj[0].material.c, 0.8, 1.0, 0.6);
+	//world->obj[0].material.diff = 0.7;
+	//world->obj[0].material.spec = 0.2;
 
-	default_sphere(&world->obj[1]);
-	set_transform(&world->obj[1], &transformation);
+	//default_sphere(&world->obj[1]);
+	//set_transform(&world->obj[1], &transformation);
 
 	point(&world->plight.pos, -10, 10, -10);
 	cinit(&world->plight.intensity, 1, 1, 1);
 
 	// Initialize the walls
 	t_obj *floor = &world->obj[0];
+	default_sphere(&world->obj[0]);
 	floor->transform = scaling(10, 0.01, 10);
 	default_mat(&floor->material);
 	cinit(&floor->material.c, 1, 0.9, 0.9);
 	floor->material.spec = 0;
 
 	t_obj *left_wall = &world->obj[1];
+	default_sphere(&world->obj[1]);
 	left_wall->transform = mat4x4_identity();
 	transform_operations = translation(0, 0, 5);
 	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
@@ -199,6 +201,7 @@ void	world_from_chapter_7(t_world *world)
 	left_wall->material = floor->material;
 
 	t_obj *right_wall = &world->obj[2];
+	default_sphere(&world->obj[2]);
 	right_wall->transform = mat4x4_identity();
 	transform_operations = translation(0, 0, 5);
 	right_wall->transform = mat4x4_cross(&right_wall->transform, &transform_operations);
@@ -211,6 +214,7 @@ void	world_from_chapter_7(t_world *world)
 	right_wall->material = floor->material;
 
 	t_obj *middle = &world->obj[3];
+	default_sphere(&world->obj[3]);
 	middle->transform = mat4x4_identity();
 	transform_operations = translation(-0.5, 1, 0.5);
 	middle->transform = mat4x4_cross(&middle->transform, &transform_operations);
@@ -220,6 +224,7 @@ void	world_from_chapter_7(t_world *world)
 	middle->material.spec = 0.3;
 
 	t_obj *right = &world->obj[4];
+	default_sphere(&world->obj[4]);
 	right->transform = mat4x4_identity();
 	transform_operations = translation(1.5, 0.5, -0.5);
 	right->transform = mat4x4_cross(&right->transform, &transform_operations);
@@ -231,6 +236,7 @@ void	world_from_chapter_7(t_world *world)
 	right->material.spec = 0.3;
 
 	t_obj *left = &world->obj[5];
+	default_sphere(&world->obj[5]);
 	left->transform = mat4x4_identity();
 	transform_operations = translation(-1.5, 0.33, -0.75);
 	left->transform = mat4x4_cross(&left->transform, &transform_operations);
@@ -248,36 +254,34 @@ t_mat2x2	submat3x3(t_mat3x3 *mtx, int r, int c);
 int main(void)
 {
 	t_program context;
-	//t_world	world;
-	t_obj	sphere;
-
-	default_sphere(&sphere);
+	t_world	world;
 
 	context.mlx = mlx_init();
 	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
 	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
 
 
-	//default_world(&world);
+	world_from_chapter_7(&world);
 
-	//t_double4 camera_origin = row4(0, 1.5, -5, 1);
-	//t_double4 look_at = row4(0, 1, 0, 1);
-	//t_double4 up = row4(0, 1, 0, 0);
-	//t_mat4x4 view = view_transform(&camera_origin, &look_at, &up);
+	t_double4 camera_origin = row4(0, 0.5, -5, 1); // row4(-2, 1.5, -5, 1);
+	t_double4 look_at = row4(0, 1, 0, 1);
+	t_double4 up = row4(0, 1, 0, 0);
+	t_mat4x4 view = view_transform(&camera_origin, &look_at, &up);
 
-	//t_webcam cam = init_camera(100, 50, M_PI / 3);
-	//cam.transform = view;
+	t_webcam cam = init_camera(WIN_WIDTH, WIN_HEIGHT, M_PI / 3);
+	cam.transform = view;
 
-	t_light	plight;
-
-	cinit(&plight.intensity, 1, 1, 1);
-	point(&plight.pos, -10, 10, -10);
-
-	draw_sphere_using_rt(&context, &sphere, &plight);
-
-	//render(&cam, &world, &context);
-
+	render(&cam, &world, &context); 
 
 	mlx_loop(context.mlx);
+
+
+
+	//t_world	world;
+	//default_world(&world);
+
+	//t_double4	p;
+	//point(&p, -2, 2, -2);
+	//printf("is_shadowed: %d\n", is_shadowed(&world, &p));
 	return (0);
 }

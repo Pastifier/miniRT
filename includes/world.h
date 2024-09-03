@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 08:40:03 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/02 10:27:02 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:09:55 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ t_mat4x4		view_transform(t_double4 *from, t_double4 *to, t_double4 *up);
 
 t_webcam		init_camera(int hsize, int vsize, double fov);
 t_ray			to_the_pixel_and_beyond(t_webcam *cam, int px, int py);
+bool			is_shadowed(t_world *w, t_double4 *p);
 
 #endif // !WORLD_H

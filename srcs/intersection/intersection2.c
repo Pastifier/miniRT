@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 07:08:11 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/01 17:16:11 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:35:50 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ t_light	point_light(t_double4 *pos, t_color *intensity)
 // it's better to just save it in the intersection itself, though.
 // LIVE AND LEAAAAARN!
 
-t_color	lighting(t_mat *mat, t_light *light, t_intersection *r)
+t_color	lighting(t_mat *mat, t_light *light, t_intersection *r,
+			bool shadowed)
 {
 	t_color		effective_color;
 	t_double4	lightv;
@@ -62,9 +63,11 @@ t_color	lighting(t_mat *mat, t_light *light, t_intersection *r)
 	t_color		result;
 
 	cblend(&effective_color, &mat->c, &light->intensity);
+	cscale(&ambient, &effective_color, mat->amb);
+	if (shadowed)
+		return (ambient);
 	d4sub(&lightv, &light->pos, &r->p);
 	vnormalize(&lightv);
-	cscale(&ambient, &effective_color, mat->amb);
 	r->s_normal.w = 0;
 	light_dot_s_normal = vdot(&lightv, &r->s_normal);
 	if (light_dot_s_normal < 0.0)

@@ -34,7 +34,7 @@ SRC := main.c submat.c \
 		) \
 		$(addprefix intersection/, \
 			intersection.c intersection2.c sort.c world.c \
-			camera.c \
+			camera.c shadow.c \
 		) \
 		$(addprefix colors/, \
 			color.c color2.c \

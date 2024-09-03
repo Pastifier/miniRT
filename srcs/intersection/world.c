@@ -19,7 +19,11 @@
 
 void	prepare_computations(t_intersection *hit, t_ray *r)
 {
+	t_double4	margin;
+
 	hit->p = position(r, hit->t);
+	d4mul(&margin, &hit->s_normal, EPSILON);
+	d4add(&hit->over_p, &hit->p, &margin);
 	vector(&hit->eye, -r->direction.x, -r->direction.y, -r->direction.z);
 	hit->s_normal = normal_at(hit->obj, &hit->p);
 	if (vdot(&hit->s_normal, &hit->eye) < 0)
@@ -37,16 +41,21 @@ void	prepare_computations(t_intersection *hit, t_ray *r)
 // the existence of `t_mat4x4`.
 t_color	shade_hit(t_world *world, t_intersection *hit)
 {
-	// you were trying to see whether you needed the hit or just
-	// the intersection.
-	return (lighting(&hit->obj->material, &world->plight, hit));
+	bool	shadowed;
+
+ // NOT WORKING
+	shadowed = is_shadowed(world, &hit->over_p);
+	if (shadowed)
+		return (lighting(&hit->obj->material, &world->plight,
+			(hit->p = hit->over_p, hit), shadowed));
+	return (lighting(&hit->obj->material, &world->plight, hit, shadowed));
 }
 
 t_intersections	*intersect_world(t_world *world, t_ray *r)
 {
-	t_intersections	*xs = ft_calloc(1, sizeof(*xs));
-	if (!xs) /*deal with it*/ return (NULL);
+	t_intersections	*xs = ft_calloc(1, sizeof(t_intersections));
 
+	ft_bzero(xs, sizeof(t_intersections));
 	for (int i = 0; i < 6; i++)
 	{
 		intersect_sphere(r, &world->obj[i], xs);
@@ -104,19 +113,19 @@ t_intersections	*intersect_world(t_world *world, t_ray *r)
 
 t_color			color_at(t_world *world, t_ray *r)
 {
-	t_intersections	*xs;
+	t_intersections	*xs; // definitely lost lol??
 	t_intersection	*hit;
 	t_color			res;
 
 	cinit(&res, 0, 0, 0);
 	xs = intersect_world(world, r);
-	if (!xs)
-		/*deal with it*/ return (res.set.w = 0, res);
 	hit = get_hit(xs);
 	if (!hit)
 		/*deal with it*/ return (res.set.w = 0, res);
 	prepare_computations(hit, r);
-	return (shade_hit(world, hit));
+	res = shade_hit(world, hit);
+	free(xs);
+	return (res);
 }
 
 t_mat4x4	view_transform(t_double4 *from, t_double4 *to, t_double4 *up)

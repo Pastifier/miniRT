@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:30:20 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/01 13:32:25 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/03 11:03:40 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 void	set_transform(t_obj *obj, t_mat4x4 *m)
 {
-	ft_memcpy(&obj->transform, m, sizeof(*m));
+	ft_memcpy(&obj->transform, m, sizeof(t_mat4x4));
 }
 bool	intersect_sphere(t_ray *r, t_obj *sphere, t_intersections *xs)
 {
@@ -34,6 +34,7 @@ bool	intersect_sphere(t_ray *r, t_obj *sphere, t_intersections *xs)
 	t_mat4x4	inverse;
 
 	inverse = mat4x4_inverse(&sphere->transform);
+	//ray2 = *r;
 	ray2 = m4r_transform(r, &inverse);
 	d4sub(&obj_to_ray, &sphere->center, &ray2.origin);
 	a = vdot(&ray2.direction, &ray2.direction);
