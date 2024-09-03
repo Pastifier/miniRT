@@ -72,35 +72,6 @@ void	draw_clock(t_program *context)
 	}
 }
 
-//void draw_circle_using_rt(t_program *context, t_obj *sphere)
-//{
-//	t_double4 camera_origin = row4(0, 0, -5, 1);
-//	double viewport_width = 2.0;
-//	double viewport_height = 2.0 * (WIN_HEIGHT / (double)WIN_WIDTH);
-
-//	for (int x = 0; x < WIN_WIDTH; x++)
-//	{
-//		for (int y = 0; y < WIN_HEIGHT; y++)
-//		{
-//			double u = (x + 0.5) * (viewport_width / WIN_WIDTH) - viewport_width / 2.0;
-//			double v = (y + 0.5) * (viewport_height / WIN_HEIGHT) - viewport_height / 2.0;
-
-//			t_double4 ray_direction = row4(u, v, 1.0, 0);
-
-//			vnormalize(&ray_direction);
-
-//			t_ray r = ray(camera_origin, ray_direction);
-//			//PRINT_VECTOR(camera_origin);
-//			//PRINT_VECTOR(ray_direction);
-//			t_intersections xs = {0};
-//			intersect_sphere(&r, sphere, &xs);
-//			t_intersection *hit = get_hit(&xs);
-//			if (hit)
-//				put_pixel(&context->canvas, x, y, &COLOR_RED);
-//		}
-//	}
-//}
-
 void	draw_sphere_using_rt(t_program *context, t_obj *sphere, t_light *plight)
 {
 	t_double4	ray_origin;
@@ -136,7 +107,6 @@ void	draw_sphere_using_rt(t_program *context, t_obj *sphere, t_light *plight)
 			hit = get_hit(&xs);
 			if (hit)
 			{
-				//r.itx = position(&r, hit->t);
 				hit->p = position(&r, hit->t);
 				hit->s_normal = normal_at(hit->obj, &hit->p);
 				vector(&hit->eye, -r.direction.x, -r.direction.y, -r.direction.z);
@@ -272,27 +242,42 @@ void	world_from_chapter_7(t_world *world)
 	left->material.spec = 0.3;
 }
 
-t_mat4x4	mat4x4_cross_using_dot(t_mat4x4 *m1, t_mat4x4 *m2);
+// remember to remove
+t_mat2x2	submat3x3(t_mat3x3 *mtx, int r, int c);
 
 int main(void)
 {
-	t_mat4x4 a;
-	a.r1 = row4(1, 2, 3, 4);
-	a.r2 = row4(5, 6, 7, 8);
-	a.r3 = row4(9, 8, 7, 6);
-	a.r4 = row4(5, 4, 3, 2);
+	t_program context;
+	//t_world	world;
+	t_obj	sphere;
 
-	t_mat4x4 b;
-	b.r1 = row4(-2, 1, 2, 3);
-	b.r2 = row4(3, 2, 1, -1);
-	b.r3 = row4(4, 3, 6, 5);
-	b.r4 = row4(1, 2, 7, 8);
+	default_sphere(&sphere);
 
-	//t_double4	*rows = &a.r1;
+	context.mlx = mlx_init();
+	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
+	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
 
-	//PRINT_VECTOR((*(rows + 2)));
 
-	t_mat4x4 cross = mat4x4_cross(&a, &b);
-	PRINT_MATRIX(cross);
+	//default_world(&world);
+
+	//t_double4 camera_origin = row4(0, 1.5, -5, 1);
+	//t_double4 look_at = row4(0, 1, 0, 1);
+	//t_double4 up = row4(0, 1, 0, 0);
+	//t_mat4x4 view = view_transform(&camera_origin, &look_at, &up);
+
+	//t_webcam cam = init_camera(100, 50, M_PI / 3);
+	//cam.transform = view;
+
+	t_light	plight;
+
+	cinit(&plight.intensity, 1, 1, 1);
+	point(&plight.pos, -10, 10, -10);
+
+	draw_sphere_using_rt(&context, &sphere, &plight);
+
+	//render(&cam, &world, &context);
+
+
+	mlx_loop(context.mlx);
 	return (0);
 }

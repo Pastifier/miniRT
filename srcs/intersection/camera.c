@@ -34,7 +34,7 @@ t_webcam	init_camera(int hsize, int vsize, double fov)
 		ret.half_width = ret.half_view * ret.aspect;
 		ret.half_height = ret.half_view;
 	}
-	ret.pixel_size = (ret.half_width * 2) / hsize;
+	ret.pixel_size = (ret.half_width * 2) / (double)hsize;
 	return (ret);
 }
 

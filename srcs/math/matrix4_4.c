@@ -12,7 +12,6 @@
 
 #include "matrix.h"
 #include "linear_algebra.h"
-#include "debug.h"
 #include <stdbool.h>
 
 bool	mat4x4_eq(t_mat4x4 *m1, t_mat4x4 *m2)
@@ -66,9 +65,9 @@ t_mat4x4	mat4x4_transpose(t_mat4x4 *m)
 {
 	t_mat4x4	result;
 
-	result.r1 = row4(m->m[0][0], m->m[1][0], m->m[2][0], m->m[3][0]);
-	result.r2 = row4(m->m[0][1], m->m[1][1], m->m[2][1], m->m[3][1]);
-	result.r3 = row4(m->m[0][2], m->m[1][2], m->m[2][2], m->m[3][2]);
-	result.r4 = row4(m->m[0][3], m->m[1][3], m->m[2][3], m->m[3][3]);
+	result.r1 = extract_column4(m, 0);
+	result.r2 = extract_column4(m, 1);
+	result.r3 = extract_column4(m, 2);
+	result.r4 = extract_column4(m, 3);
 	return (result);
 }
