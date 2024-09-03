@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:30:02 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/03 15:03:50 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:17:29 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,13 @@ typedef struct s_world
 	t_light		lights[100];
 }	t_world;
 
+void			empty_world(t_world *world);
+void			world_add_object(t_world *world, t_object *object);
+void			world_add_light(t_world *world, t_light *light);
 void			default_world(t_world *world);
 void			setup_camera(t_camera *camera, double fov);
 t_mat4x4		view_transform(t_double4 from, t_double4 to, t_double4 up);
+t_ray			ray_for_pixel(t_camera *camera, int px, int py);
 
 t_light			default_point_light(void);
 t_material		default_material(void);

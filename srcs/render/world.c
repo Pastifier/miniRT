@@ -6,13 +6,31 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:20 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/03 14:17:01 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:17:34 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 #include "rtmath.h"
 #include "objects.h"
+
+void	empty_world(t_world *world)
+{
+	world->num_objects = 0;
+	world->num_lights = 0;
+}
+
+void	world_add_object(t_world *world, t_object *object)
+{
+	world->objects[world->num_objects] = *object;
+	world->num_objects++;
+}
+
+void	world_add_light(t_world *world, t_light *light)
+{
+	world->lights[world->num_lights] = *light;
+	world->num_lights++;
+}
 
 void	default_world(t_world *world)
 {

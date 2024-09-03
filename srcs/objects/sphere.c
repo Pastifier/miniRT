@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:36 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/03 14:17:28 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:45:32 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@
 void sphere(t_object *sphere, t_double4 *center, double radius, t_mat4x4 *transform)
 {
 	sphere->type = OBJ_SPHERE;
-	sphere->center = *center;
+	if (center)
+		sphere->center = *center;
+	else
+		point(&sphere->center, 0.0, 0.0, 0.0);
 	sphere->obj.sphere.radius = radius;
 	if (transform)
 		sphere->transform = *transform;
@@ -84,6 +87,10 @@ void intersect_sphere(t_ray *ray, t_object *sphere)
 	inv_transform = mat4x4_inverse(&sphere->transform);
 	trans_ray = *ray;
 	trans_ray.itx.count = 0;
+	trans_ray.itx.data->object = sphere;
+	trans_ray.itx.data->object_type = sphere->type;
+	ray->itx.data->object = sphere;
+	ray->itx.data->object_type = sphere->type;
 	ray_transform(&trans_ray, &(inv_transform));
 	sphere_discriminant(&trans_ray, sphere, &disc);
 	if (disc.disc < 0)

@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:35:45 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/03 15:03:24 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:00:32 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,24 @@ t_mat4x4	view_transform(t_double4 from, t_double4 to, t_double4 up)
 	orientation_matrix.m[2][2] = -forward.z;
 	translation_matrix = translation(-from.x, -from.y, -from.z);
 	return (mat4x4_cross(&orientation_matrix, &translation_matrix));
+}
+
+t_ray	ray_for_pixel(t_camera *camera, int px, int py)
+{
+	t_ray		r;
+	t_double4	pixel;
+	t_double4	origin;
+	t_double4	direction;
+	t_mat4x4	inverse_transform;
+
+	point(&pixel, (camera->half_width - (px + 0.5) * camera->pixel_size),
+			(camera->half_height - (py + 0.5) * camera->pixel_size), -1);
+	pixel = mat4x4_cross_vec(&camera->transform, &pixel);
+	point(&origin, 0, 0, 0);
+	inverse_transform = mat4x4_inverse(&camera->transform);
+	origin = mat4x4_cross_vec(&inverse_transform, &origin);
+	d4sub(&direction, &pixel, &origin);
+	vnormalize(&direction);
+	ray_create(&r, &origin, &direction);
+	return (r);
 }
