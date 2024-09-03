@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:06:09 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/02 10:41:21 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/03 20:50:00 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <stdint.h> // for exact-sized types
 
 # ifndef EPSILON
-#  define EPSILON 0.00001
+#  define EPSILON 0.00001f
 # endif // !EPSILON
 
 # ifndef NULL

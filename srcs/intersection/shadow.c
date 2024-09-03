@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:43:00 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/03 16:36:01 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/03 19:37:22 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	is_shadowed(t_world *w, t_double4 *p)
 	r = ray(*p, towards_light_from_itx);
 	xs = intersect_world(w, &r);
 	hit = get_hit(xs);
-	if ((hit && hit->t >= distance) || !hit)
-		return (false);
-	return (true);
+	if (hit && hit->t < distance)
+		return (true);
+	return (false);
 }
