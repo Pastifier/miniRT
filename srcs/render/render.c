@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/04 13:21:19 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/04 14:11:54 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,99 +21,99 @@
 #include "libft.h"
 #include "colors.h"
 
-// static void	setup_world_chapter7(t_world *w)
-// {
-// 	t_mat4x4 transformation;
-// 	t_mat4x4 transform_operations;
+static void	setup_world_chapter7(t_world *w)
+{
+	t_mat4x4 transformation;
+	t_mat4x4 transform_operations;
 
-// 	transformation = scaling(0.5, 0.5, 0.5);
-// 	sphere(&w->objects[0], NULL, 1, NULL);
-// 	color(&w->objects[0].material.color, 0.8, 1.0, 0.6);
-// 	w->objects[0].material.diffuse = 0.7;
-// 	w->objects[0].material.specular = 0.2;
+	transformation = scaling(0.5, 0.5, 0.5);
+	sphere(&w->objects[0], NULL, 1, NULL);
+	color(&w->objects[0].material.color, 0.8, 1.0, 0.6);
+	w->objects[0].material.diffuse = 0.7;
+	w->objects[0].material.specular = 0.2;
 
-// 	sphere(&w->objects[1], NULL, 1, NULL);
-// 	w->objects[1].transform = transformation;
+	sphere(&w->objects[1], NULL, 1, NULL);
+	w->objects[1].transform = transformation;
 
-// 	point(&w->lights[0].position, -10, 10, -10);
-// 	color(&w->lights[0].type.point.intensity, 1, 1, 1);
+	point(&w->lights[0].position, -10, 10, -10);
+	color(&w->lights[0].type.point.intensity, 1, 1, 1);
 
-// 	// Initialize the walls
-// 	t_object floor;
-// 	sphere(&floor, NULL, 1, NULL);
-// 	floor.transform = scaling(10, 0.01, 10);
-// 	floor.material = default_material();
-// 	color(&floor.material.color, 1, 0.9, 0.9);
-// 	floor.material.specular = 0;
-// 	w->objects[0] = floor;
+	// Initialize the walls
+	t_object floor;
+	sphere(&floor, NULL, 1, NULL);
+	floor.transform = scaling(10, 0.01, 10);
+	floor.material = default_material();
+	color(&floor.material.color, 1, 0.9, 0.9);
+	floor.material.specular = 0;
+	w->objects[0] = floor;
 
-// 	t_object left_wall;
-// 	sphere(&left_wall, NULL, 1, NULL);
-// 	transform_operations = translation(0, 0, 5);
-// 	left_wall.transform = mat4x4_cross(&left_wall.transform, &transform_operations);
-// 	transform_operations = rotation_y(-M_PI_4);
-// 	left_wall.transform = mat4x4_cross(&left_wall.transform, &transform_operations);
-// 	transform_operations = rotation_x(M_PI_2);
-// 	left_wall.transform = mat4x4_cross(&left_wall.transform, &transform_operations);
-// 	transform_operations = scaling(10, 0.01, 10);
-// 	left_wall.transform = mat4x4_cross(&left_wall.transform, &transform_operations);
-// 	left_wall.material = floor.material;
-// 	w->objects[1] = left_wall;
+	t_object left_wall;
+	sphere(&left_wall, NULL, 1, NULL);
+	transform_operations = translation(0, 0, 5);
+	left_wall.transform = mat4x4_cross(&left_wall.transform, &transform_operations);
+	transform_operations = rotation_y(-M_PI_4);
+	left_wall.transform = mat4x4_cross(&left_wall.transform, &transform_operations);
+	transform_operations = rotation_x(M_PI_2);
+	left_wall.transform = mat4x4_cross(&left_wall.transform, &transform_operations);
+	transform_operations = scaling(10, 0.01, 10);
+	left_wall.transform = mat4x4_cross(&left_wall.transform, &transform_operations);
+	left_wall.material = floor.material;
+	w->objects[1] = left_wall;
 
-// 	t_object right_wall;
-// 	sphere(&right_wall, NULL, 1, NULL);
-// 	right_wall.transform = mat4x4_identity();
-// 	transform_operations = translation(0, 0, 5);
-// 	right_wall.transform = mat4x4_cross(&right_wall.transform, &transform_operations);
-// 	transform_operations = rotation_y(M_PI_4);
-// 	right_wall.transform = mat4x4_cross(&right_wall.transform, &transform_operations);
-// 	transform_operations = rotation_x(M_PI_2);
-// 	right_wall.transform = mat4x4_cross(&right_wall.transform, &transform_operations);
-// 	transform_operations = scaling(10, 0.01, 10);
-// 	right_wall.transform = mat4x4_cross(&right_wall.transform, &transform_operations);
-// 	right_wall.material = floor.material;
-// 	w->objects[2] = right_wall;
+	t_object right_wall;
+	sphere(&right_wall, NULL, 1, NULL);
+	right_wall.transform = mat4x4_identity();
+	transform_operations = translation(0, 0, 5);
+	right_wall.transform = mat4x4_cross(&right_wall.transform, &transform_operations);
+	transform_operations = rotation_y(M_PI_4);
+	right_wall.transform = mat4x4_cross(&right_wall.transform, &transform_operations);
+	transform_operations = rotation_x(M_PI_2);
+	right_wall.transform = mat4x4_cross(&right_wall.transform, &transform_operations);
+	transform_operations = scaling(10, 0.01, 10);
+	right_wall.transform = mat4x4_cross(&right_wall.transform, &transform_operations);
+	right_wall.material = floor.material;
+	w->objects[2] = right_wall;
 
-// 	t_object middle;
-// 	sphere(&middle, NULL, 1, NULL);
-// 	middle.transform = mat4x4_identity();
-// 	transform_operations = translation(-0.5, 1, 0.5);
-// 	middle.transform = mat4x4_cross(&middle.transform, &transform_operations);
-// 	middle.material = default_material();
-// 	color(&middle.material.color, 0.1, 1, 0.5);
-// 	middle.material.diffuse = 0.7;
-// 	middle.material.specular = 0.3;
-// 	w->objects[3] = middle;
+	t_object middle;
+	sphere(&middle, NULL, 1, NULL);
+	middle.transform = mat4x4_identity();
+	transform_operations = translation(-0.5, 1, 0.5);
+	middle.transform = mat4x4_cross(&middle.transform, &transform_operations);
+	middle.material = default_material();
+	color(&middle.material.color, 0.1, 1, 0.5);
+	middle.material.diffuse = 0.7;
+	middle.material.specular = 0.3;
+	w->objects[3] = middle;
 
-// 	t_object right;
-// 	sphere(&right, NULL, 1, NULL);
-// 	right.transform = mat4x4_identity();
-// 	transform_operations = translation(1.5, 0.5, -0.5);
-// 	right.transform = mat4x4_cross(&right.transform, &transform_operations);
-// 	transform_operations = scaling(0.5, 0.5, 0.5);
-// 	right.transform = mat4x4_cross(&right.transform, &transform_operations);
-// 	right.material = default_material();
-// 	color(&right.material.color, 0.5, 1, 0.1);
-// 	right.material.diffuse = 0.7;
-// 	right.material.specular = 0.3;
-// 	w->objects[4] = right;
+	t_object right;
+	sphere(&right, NULL, 1, NULL);
+	right.transform = mat4x4_identity();
+	transform_operations = translation(1.5, 0.5, -0.5);
+	right.transform = mat4x4_cross(&right.transform, &transform_operations);
+	transform_operations = scaling(0.5, 0.5, 0.5);
+	right.transform = mat4x4_cross(&right.transform, &transform_operations);
+	right.material = default_material();
+	color(&right.material.color, 0.5, 1, 0.1);
+	right.material.diffuse = 0.7;
+	right.material.specular = 0.3;
+	w->objects[4] = right;
 
-// 	t_object left;
-// 	sphere(&left, NULL, 1, NULL);
-// 	left.transform = mat4x4_identity();
-// 	transform_operations = translation(-1.5, 0.33, -0.75);
-// 	left.transform = mat4x4_cross(&left.transform, &transform_operations);
-// 	transform_operations = scaling(0.33, 0.33, 0.33);
-// 	left.transform = mat4x4_cross(&left.transform, &transform_operations);
-// 	left.material = default_material();
-// 	color(&left.material.color, 1, 0.8, 0.1);
-// 	left.material.diffuse = 0.7;
-// 	left.material.specular = 0.3;
-// 	w->objects[5] = left;
+	t_object left;
+	sphere(&left, NULL, 1, NULL);
+	left.transform = mat4x4_identity();
+	transform_operations = translation(-1.5, 0.33, -0.75);
+	left.transform = mat4x4_cross(&left.transform, &transform_operations);
+	transform_operations = scaling(0.33, 0.33, 0.33);
+	left.transform = mat4x4_cross(&left.transform, &transform_operations);
+	left.material = default_material();
+	color(&left.material.color, 1, 0.8, 0.1);
+	left.material.diffuse = 0.7;
+	left.material.specular = 0.3;
+	w->objects[5] = left;
 
-// 	w->num_objects = 6;
-// 	w->num_lights = 1;
-// }
+	w->num_objects = 6;
+	w->num_lights = 1;
+}
 
 void	*render_row(void *arg)
 {
@@ -150,17 +150,18 @@ void	render_scene(t_program *context)
 	t_camera	cam;
 	t_world		w;
 
-	default_world(&w);
 
 	setup_camera(&cam, M_PI / 3);
 	t_double4 from;
-	point(&from, 0, 0, 10);
+	point(&from, 0, 0, -3);
 	t_double4 to;
-	point(&to, 0, 0, -1);
+	point(&to, 0, 0, 1);
 	t_double4 up;
 	vector(&up, 0, 1, 0);
 	t_mat4x4 t = view_transform(from, to, up);
 	cam.transform = t;
+	w.cam_inverse = mat4x4_inverse(&t);
+	setup_world_chapter7(&w);
 
 	y = 0;
 	context->world = w;

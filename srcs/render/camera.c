@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:35:45 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/04 13:24:06 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:52:49 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,9 @@ t_mat4x4	view_transform(t_double4 from, t_double4 to, t_double4 up)
 	d4_cross_vec(&left, &forward, &normal_up);
 	d4_cross_vec(&true_up, &left, &forward);
 	orientation_matrix = mat4x4_identity();
-	orientation_matrix.m[0][0] = left.x;
-	orientation_matrix.m[0][1] = left.y;
-	orientation_matrix.m[0][2] = left.z;
-	orientation_matrix.m[1][0] = true_up.x;
-	orientation_matrix.m[1][1] = true_up.y;
-	orientation_matrix.m[1][2] = true_up.z;
-	orientation_matrix.m[2][0] = -forward.x;
-	orientation_matrix.m[2][1] = -forward.y;
-	orientation_matrix.m[2][2] = -forward.z;
+	orientation_matrix.r1 = row4(left.x, left.y, left.z, 0);
+	orientation_matrix.r2 = row4(true_up.x, true_up.y, true_up.z, 0);
+	orientation_matrix.r3 = row4(-forward.x, -forward.y, -forward.z, 0);
 	point(&orientation_matrix.r4, 0, 0, 0);
 	translation_matrix = translation(-from.x, -from.y, -from.z);
 	return (mat4x4_cross(&orientation_matrix, &translation_matrix));

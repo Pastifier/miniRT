@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:04:24 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/04 13:18:32 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:42:16 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int main(void)
 	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
 	render_scene(&context);
 	mlx_loop(context.mlx);
+	// mlx_key_hook(context.win, key_hook, &context);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:30:02 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/03 16:17:29 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:54:36 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct s_world
 	int			num_lights;
 	t_object	objects[100];
 	t_light		lights[100];
+	t_mat4x4	cam_inverse;
 }	t_world;
 
 void			empty_world(t_world *world);
