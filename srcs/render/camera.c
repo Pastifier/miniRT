@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:35:45 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/04 11:37:24 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:10:34 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	setup_camera(t_camera *camera, double fov)
 	camera->half_view = tan(camera->field_of_view / 2);
 	camera->aspect_ratio = (double)camera->hsize / (double)camera->vsize;
 	camera->transform = mat4x4_identity();
-	if (camera->aspect_ratio > 1)
+	if (camera->aspect_ratio >= 1)
 	{
 		camera->half_width = camera->half_view;
 		camera->half_height = camera->half_view / camera->aspect_ratio;
@@ -33,7 +33,7 @@ void	setup_camera(t_camera *camera, double fov)
 		camera->half_width = camera->half_view * camera->aspect_ratio;
 		camera->half_height = camera->half_view;
 	}
-	camera->pixel_size = (camera->half_width * 2) / camera->hsize;
+	camera->pixel_size = (double)(camera->half_width * 2) / (double)camera->hsize;
 }
 
 t_mat4x4	view_transform(t_double4 from, t_double4 to, t_double4 up)
