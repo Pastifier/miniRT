@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:35:45 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/03 16:00:32 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:37:24 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_mat4x4	view_transform(t_double4 from, t_double4 to, t_double4 up)
 	orientation_matrix.m[2][0] = -forward.x;
 	orientation_matrix.m[2][1] = -forward.y;
 	orientation_matrix.m[2][2] = -forward.z;
+	point(&orientation_matrix.r4, 0, 0, 0);
 	translation_matrix = translation(-from.x, -from.y, -from.z);
 	return (mat4x4_cross(&orientation_matrix, &translation_matrix));
 }
