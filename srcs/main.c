@@ -20,6 +20,7 @@
 #include "libft.h"
 #include "world.h"
 #include "debug.h"
+#include "threads.h"
 
 t_color COLOR_RED;
 
@@ -271,7 +272,10 @@ int main(void)
 	t_webcam cam = init_camera(WIN_WIDTH, WIN_HEIGHT, M_PI / 3);
 	cam.transform = view;
 
-	render(&cam, &world, &context); 
+	world.cam = cam;
+	t_thread	*threads = init_threads(&context, &world);
+	if (!threads)
+		return 1;
 
 	mlx_loop(context.mlx);
 

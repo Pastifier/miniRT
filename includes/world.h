@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 08:40:03 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/03 16:09:55 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:13:01 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 # define WORLD_H
 
 # include "intersection.h"
-
-typedef struct s_world
-{
-	t_obj			obj[6];
-	t_light			plight;
-	t_intersections	xs;
-}	t_world;
 
 typedef struct s_camera
 {
@@ -34,6 +27,13 @@ typedef struct s_camera
 	double		pixel_size;
 	t_mat4x4	transform;
 }	t_webcam;
+
+typedef struct s_world
+{
+	t_obj		obj[6];
+	t_light		plight;
+	t_webcam	cam;
+}	t_world;
 
 t_intersections	*intersect_world(t_world * world, t_ray *r);
 void			prepare_computations(t_intersection *hit, t_ray *r);

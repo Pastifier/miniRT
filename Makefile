@@ -43,12 +43,15 @@ SRC := main.c submat.c \
 		$(addprefix render/, \
 			render.c \
 		) \
+		$(addprefix threads/, \
+			init.c \
+		) \
 
 
 SRC_DIR := srcs
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 
-INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h intersection.h world.h
+INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h intersection.h world.h threads.h
 INC_DIR := includes
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
 all: $(NAME)
