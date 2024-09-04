@@ -12,11 +12,11 @@ Lin = Linux
 ifeq (${OS}, ${Dar})
 	BUILD_DIR := minilibx_macos
 	MLX := mlx
-	CFLAGS += -L$(BUILD_DIR) -I$(BUILD_DIR) -l$(MLX) -framework OpenGL -framework Appkit -Llibft -Ilibft/includes -lft -L/usr/lib -lm
+	CFLAGS += -L$(BUILD_DIR) -I$(BUILD_DIR) -l$(MLX) -framework OpenGL -framework Appkit -Llibft -Ilibft/includes -lft -L/usr/lib -lm -pthread
 else ifeq (${OS}, ${Lin})
 	BUILD_DIR := minilibx_linux
 	MLX := mlx_Linux
-	CFLAGS += -L$(BUILD_DIR) -I$(BUILD_DIR) -l$(MLX) -L/usr/lib -lXext -lX11 -lm -lz -Llibft -Ilibft/includes -lft
+	CFLAGS += -L$(BUILD_DIR) -I$(BUILD_DIR) -l$(MLX) -L/usr/lib -lXext -lX11 -lm -lz -Llibft -Ilibft/includes -lft -pthread
 else
     $(error Idk, man. Doesn't look like something I was BUILT to deal with ;3)
 endif
