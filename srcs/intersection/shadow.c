@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 15:43:00 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/03 19:37:22 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:14:13 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ bool	is_shadowed(t_world *w, t_double4 *p)
 	distance = vmag(&towards_light_from_itx);
 	vnormalize(&towards_light_from_itx);
 	r = ray(*p, towards_light_from_itx);
+	d4mul(&towards_light_from_itx, &towards_light_from_itx, 1 / distance);
+	d4add(&r.origin, &r.origin, &towards_light_from_itx);
+	d4add(&r.direction, &r.direction, &towards_light_from_itx);
 	xs = intersect_world(w, &r);
 	hit = get_hit(xs);
 	if (hit && hit->t < distance)

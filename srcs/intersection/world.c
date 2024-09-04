@@ -24,10 +24,6 @@ void	prepare_computations(t_intersection *hit, t_ray *r)
 	hit->p = position(r, hit->t);
 	d4mul(&margin, &hit->s_normal, EPSILON);
 	d4add(&hit->over_p, &hit->p, &margin);
-
-	//printf("Shadow ray origin: %f, %f, %f\n", hit->over_p.x, hit->over_p.y, hit->over_p.z);
-	//printf("Intersection point: %f, %f, %f\n", hit->p.x, hit->p.y, hit->p.z);
-
 	vector(&hit->eye, -r->direction.x, -r->direction.y, -r->direction.z);
 	hit->s_normal = normal_at(hit->obj, &hit->over_p);
 	if (vdot(&hit->s_normal, &hit->eye) < 0)
@@ -47,14 +43,7 @@ t_color	shade_hit(t_world *world, t_intersection *hit)
 {
 	bool	shadowed;
 
-	shadowed = is_shadowed(world, &hit->p);
-	if (shadowed)
-	{
- // NOT WORKING
-		hit->p = hit->over_p;
-		return (lighting(&hit->obj->material, &world->plight,
-			hit, shadowed));
-	}
+	shadowed = is_shadowed(world, &hit->over_p);
 	return (lighting(&hit->obj->material, &world->plight, hit, shadowed));
 }
 
@@ -65,7 +54,10 @@ t_intersections	*intersect_world(t_world *world, t_ray *r)
 	ft_bzero(xs, sizeof(t_intersections));
 	for (int i = 0; i < 6; i++)
 	{
-		intersect_sphere(r, &world->obj[i], xs);
+		if (world->obj[i].type == SPHERE)
+			intersect_sphere(r, &world->obj[i], xs);
+		else if (world->obj[i].type == PLANE)
+			intersect_plane(r, &world->obj[i], xs);
 	}
 	quick_sort_intersections(xs->arr, xs->count);
 	return (xs);

@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:30:45 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/03 16:37:59 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/04 21:59:58 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ t_double4		normal_at(t_obj *obj, t_double4 *p);
 t_double4		reflect(t_double4 *in, t_double4 *s_normal);
 t_color			lighting(t_mat *mat, t_light *light, t_intersection *hit,
 					bool shadowed);
+bool			intersect_plane(t_ray *r, t_obj *plane, t_intersections *xs);
 
 #endif // !INTERSECTION_H

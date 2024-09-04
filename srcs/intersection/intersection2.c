@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 07:08:11 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/03 19:50:30 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/04 16:19:01 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_color	lighting(t_mat *mat, t_light *light, t_intersection *r,
 	cscale(&ambient, &effective_color, mat->amb);
 	if (shadowed)
 		return (ambient);
-	d4sub(&lightv, &light->pos, &r->over_p);
+	d4sub(&lightv, &light->pos, &r->p);
 	vnormalize(&lightv);
 	r->s_normal.w = 0;
 	light_dot_s_normal = vdot(&lightv, &r->s_normal);

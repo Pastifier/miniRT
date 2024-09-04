@@ -165,17 +165,7 @@ void	default_world(t_world *world)
 
 void	world_from_chapter_7(t_world *world)
 {
-	//t_mat4x4 transformation;
 	t_mat4x4 transform_operations;
-
-	//transformation = scaling(0.5, 0.5, 0.5);
-	//default_sphere(&world->obj[0]);
-	//cinit(&world->obj[0].material.c, 0.8, 1.0, 0.6);
-	//world->obj[0].material.diff = 0.7;
-	//world->obj[0].material.spec = 0.2;
-
-	//default_sphere(&world->obj[1]);
-	//set_transform(&world->obj[1], &transformation);
 
 	point(&world->plight.pos, -10, 10, -10);
 	cinit(&world->plight.intensity, 1, 1, 1);
@@ -183,35 +173,37 @@ void	world_from_chapter_7(t_world *world)
 	// Initialize the walls
 	t_obj *floor = &world->obj[0];
 	default_sphere(&world->obj[0]);
-	floor->transform = scaling(10, 0.01, 10);
-	default_mat(&floor->material);
+	floor->type = PLANE;
+	//default_mat(&floor->material);
 	cinit(&floor->material.c, 1, 0.9, 0.9);
 	floor->material.spec = 0;
 
 	t_obj *left_wall = &world->obj[1];
 	default_sphere(&world->obj[1]);
+	left_wall->type = PLANE;
 	left_wall->transform = mat4x4_identity();
-	transform_operations = translation(0, 0, 5);
-	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
+	//transform_operations = translation(0, 0, 5);
+	//left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
 	transform_operations = rotation_y(-M_PI_4);
 	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
 	transform_operations = rotation_x(M_PI_2);
 	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
-	transform_operations = scaling(10, 0.01, 10);
-	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
+	//transform_operations = scaling(10, 0.01, 10);
+	//left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
 	left_wall->material = floor->material;
 
 	t_obj *right_wall = &world->obj[2];
 	default_sphere(&world->obj[2]);
+	right_wall->type = PLANE;
 	right_wall->transform = mat4x4_identity();
-	transform_operations = translation(0, 0, 5);
-	right_wall->transform = mat4x4_cross(&right_wall->transform, &transform_operations);
+	//transform_operations = translation(0, 0, 5);
+	//right_wall->transform = mat4x4_cross(&right_wall->transform, &transform_operations);
 	transform_operations = rotation_y(M_PI_4);
 	right_wall->transform = mat4x4_cross(&right_wall->transform, &transform_operations);
 	transform_operations = rotation_x(M_PI_2);
 	right_wall->transform = mat4x4_cross(&right_wall->transform, &transform_operations);
-	transform_operations = scaling(10, 0.01, 10);
-	right_wall->transform = mat4x4_cross(&right_wall->transform, &transform_operations);
+	//transform_operations = scaling(10, 0.01, 10);
+	//right_wall->transform = mat4x4_cross(&right_wall->transform, &transform_operations);
 	right_wall->material = floor->material;
 
 	t_obj *middle = &world->obj[3];
@@ -262,6 +254,7 @@ int main(void)
 	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
 
 
+	world = (t_world){0};
 	world_from_chapter_7(&world);
 
 	t_double4 camera_origin = row4(0, 0.5, -5, 1); // row4(-2, 1.5, -5, 1);
@@ -276,7 +269,7 @@ int main(void)
 	t_thread	*threads = init_threads(&context, &world);
 	if (!threads)
 		return 1;
-
+	free(threads);
 	mlx_loop(context.mlx);
 
 

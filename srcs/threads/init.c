@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:09:59 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/04 14:09:38 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/04 22:00:34 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ void	*render_with_threads(void *thread_)
 
 	ptcontext = (t_thread*)thread_;
 	cam = ptcontext->world->cam;
-	y_i = (ptcontext->id * cam.vsize / THREAD_NUM) /*+ (ptcontext->id != 0)*/;
+	y_i = (ptcontext->id * cam.vsize / THREAD_NUM);
 	y_f = (ptcontext->id + 1) * cam.vsize / THREAD_NUM;
-	for (int y = y_i; y < y_f; y++)
+	for (int y = y_i; y < y_f; y+=3)
 	{
-		for (int x = 0; x < cam.hsize; x++)
+		for (int x = 0; x < cam.hsize; x+=3)
 		{
 			r = to_the_pixel_and_beyond(&cam, x, y);
 			r.c = color_at(ptcontext->world, &r);

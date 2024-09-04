@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:30:20 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/03 11:03:40 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/04 22:12:20 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ bool	intersect_sphere(t_ray *r, t_obj *sphere, t_intersections *xs)
 	t_mat4x4	inverse;
 
 	inverse = mat4x4_inverse(&sphere->transform);
-	//ray2 = *r;
 	ray2 = m4r_transform(r, &inverse);
 	d4sub(&obj_to_ray, &sphere->center, &ray2.origin);
 	a = vdot(&ray2.direction, &ray2.direction);
@@ -86,17 +85,40 @@ t_double4	normal_at(t_obj *obj, t_double4 *world_p)
 {
 	t_double4	obj_n_p[2];
 	t_double4	world_n;
-	t_double4	origin;
+	const t_double4	origin = row4(0, 0, 0, 1);
 	t_mat4x4	inv_trnsfrm;
 	t_mat4x4	trnspoz_inv;
 
-	point(&origin, 0, 0, 0);
 	inv_trnsfrm = mat4x4_inverse(&obj->transform);
 	trnspoz_inv = mat4x4_transpose(&inv_trnsfrm);
-	obj_n_p[1] = mat4x4_cross_vec(&inv_trnsfrm, world_p);
-	d4sub(&obj_n_p[0], &obj_n_p[1], &origin);
+	if (obj->type != PLANE)
+	{
+		obj_n_p[1] = mat4x4_cross_vec(&inv_trnsfrm, world_p);
+		d4sub(&obj_n_p[0], &obj_n_p[1], (t_double4 *)&origin);
+	}
+	else
+		vector(&obj_n_p[0], 0, 1, 0);
 	world_n = mat4x4_cross_vec(&trnspoz_inv, &obj_n_p[0]);
 	world_n.w = 0;
 	vnormalize(&world_n);
 	return (world_n);
+}
+
+bool	intersect_plane(t_ray *r, t_obj *plane, t_intersections *xs)
+{
+	t_mat4x4	inverse;
+	t_ray		ray2;
+	//t_double4	obj_to_ray;
+
+	inverse = mat4x4_inverse(&plane->transform);
+	ray2 = m4r_transform(r, &inverse);
+	//d4sub(&obj_to_ray, &plane->center, &ray2.origin);
+	if (fabs(ray2.direction.y) < EPSILON)
+		return (false);
+	if (xs->count < 200)
+	{
+		xs->arr[xs->count].t = -r->origin.y / r->direction.y;
+		xs->count++;
+	}
+	return (true);
 }
