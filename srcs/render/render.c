@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/04 13:06:25 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/04 13:21:19 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,9 @@ void	render_scene(t_program *context)
 
 	setup_camera(&cam, M_PI / 3);
 	t_double4 from;
-	point(&from, 0, -5, 0);
+	point(&from, 0, 0, 10);
 	t_double4 to;
-	point(&to, 0, 1, 0);
+	point(&to, 0, 0, -1);
 	t_double4 up;
 	vector(&up, 0, 1, 0);
 	t_mat4x4 t = view_transform(from, to, up);
