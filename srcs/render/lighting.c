@@ -41,18 +41,16 @@ t_color	lighting(t_material *material, t_light *light, t_double4 *point, t_doubl
 		color(&diffuse, 0.0, 0.0, 0.0);
 		color(&specular, 0.0, 0.0, 0.0);
 	} else
-	{
 		cscale(&diffuse, &effective_color, material->diffuse * light_dot_normal);
-		d4negate(&light_v);
-		reflect_v = reflect(&light_v, normal);
-		reflect_eye_dot = vdot(&reflect_v, eye_v);
-		if (reflect_eye_dot <= 0)
-			color(&specular, 0.0, 0.0, 0.0);
-		else
-		{
-			factor = pow(reflect_eye_dot, material->shininess);
-			cscale(&specular, &light->type.point.intensity, material->specular * factor);
-		}
+	d4negate(&light_v);
+	reflect_v = reflect(&light_v, normal);
+	reflect_eye_dot = vdot(&reflect_v, eye_v);
+	if (reflect_eye_dot <= 0)
+		color(&specular, 0.0, 0.0, 0.0);
+	else
+	{
+		factor = pow(reflect_eye_dot, material->shininess);
+		cscale(&specular, &light->type.point.intensity, material->specular * factor);
 	}
 	cadd(&return_color, &ambient, &diffuse);
 	cadd(&return_color, &return_color, &specular);

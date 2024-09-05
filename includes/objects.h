@@ -48,7 +48,7 @@ typedef struct	s_object
 	t_double4	center;
 	t_mat4x4	transform;
 	t_material	material;
-	t_object_type	type;
+	int			type;
 
 	union	u_object
 	{

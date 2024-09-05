@@ -78,8 +78,7 @@ typedef struct s_color
 typedef struct	s_intersection
 {
 	double t;
-	short object_type;
-	void *object;
+	t_object *object;
 	t_double4 itx_p;
 }	t_intersection;
 
@@ -104,6 +103,6 @@ t_itx_computation prepare_computations(t_intersection itx, t_ray *r);
 t_intersection	*get_hit(t_intersections *xs);
 void quick_sort_intersections(t_intersection *arr, size_t size);
 t_intersections	intersect_world(t_world *w, t_ray *r);
-void store_intersections(t_intersections *intersects, double t_values[], int object_type, void *object);
+void store_intersections(t_intersections *intersects, double t_values[], t_object *object);
 
 #endif // !RTMATH_H

@@ -13,7 +13,7 @@ t_itx_computation prepare_computations(t_intersection itx, t_ray *r)
 	ray_position(&comps.p, r, comps.t);
 	comps.eyev = r->direction;
 	d4negate(&comps.eyev);
-	if (itx.object_type == OBJ_SPHERE)
+	if (itx.object->type == OBJ_SPHERE)
 		comps.normalv = sphere_normal_at(itx.object, &comps.p);
 	if (vdot(&comps.normalv, &comps.eyev) < 0)
 	{
@@ -36,6 +36,7 @@ t_intersections	intersect_world(t_world *w, t_ray *r)
 	while (++i < w->num_objects)
 	{
 		ft_bzero(r->itx.data, sizeof(t_intersection) * MAX_INTERSECTIONS);
+		r->itx.count = 0;
 		if (w->objects[i].type == OBJ_SPHERE)
 			intersect_sphere(r, &w->objects[i]);
 		if (r->itx.count > 0)
@@ -55,12 +56,11 @@ t_intersections	intersect_world(t_world *w, t_ray *r)
 	return (result);
 }
 
-void store_intersections(t_intersections *intersects, double t_values[], int object_type, void *object)
+void store_intersections(t_intersections *intersects, double t_values[], t_object *object)
 {
 	for (int i = 0; i < intersects->count; i++)
 	{
 		intersects->data[i].t = t_values[i];
-		intersects->data[i].object_type = object_type;
 		intersects->data[i].object = object;
 	}
 }
