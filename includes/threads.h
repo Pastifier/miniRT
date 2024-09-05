@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:02:47 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/04 13:56:50 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/05 07:51:20 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define THREADS_H
 
 # ifndef THREAD_NUM
-#  define THREAD_NUM 16
+#  define THREAD_NUM 18
 # endif // !THREAD_NUM
 
 # include "miniRT.h"

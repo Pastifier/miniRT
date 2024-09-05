@@ -281,11 +281,8 @@ int main(void)
 
 
 
-	//t_world	world;
-	//default_world(&world);
+	//t_color	colors[4];
 
-	//t_double4	p;
-	//point(&p, -2, 2, -2);
-	//printf("is_shadowed: %d\n", is_shadowed(&world, &p));
+
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:08:30 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/01 05:08:10 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/05 03:18:14 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	clamp(t_color *color)
 		color->b = 0;
 }
 
-uint32_t	get_color(t_color *color)
+uint32_t	color_get_hex_rep(t_color *color)
 {
 	uint32_t	r;
 	uint32_t	g;

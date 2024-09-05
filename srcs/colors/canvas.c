@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:03:07 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 20:07:59 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/05 03:18:14 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ void	put_pixel(t_canvas *canvas, int x, int y, t_color *color)
 	char	*dst;
 
 	dst = canvas->addr + (y * canvas->line_length + x * (canvas->bpp / 8));
-	*(uint32_t *)dst = get_color(color);
+	*(uint32_t *)dst = color_get_hex_rep(color);
 }

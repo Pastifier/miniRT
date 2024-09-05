@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:23:51 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/04 13:34:06 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/05 03:18:14 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_program
 	t_canvas	canvas;
 }	t_program;
 
-uint32_t	get_color(t_color *color);
+uint32_t	color_get_hex_rep(t_color *color);
 void		canvas(t_program *context, int width, int height);
 void		put_pixel(t_canvas *canvas, int x, int y, t_color *color);
 
