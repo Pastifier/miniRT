@@ -1,6 +1,7 @@
 # Necessities
 CC := cc
 CFLAGS = -Wextra -Werror -Wall -g3 -fsanitize=address,undefined
+OFLAGS := -Ofast -march=native -flto -fno-signed-zeros -funroll-loops
 
 # OS-specification
 OS := $(shell uname)
@@ -25,7 +26,7 @@ endif
 NAME := miniRT
 
 # SOURCES
-SRC := main.c submat.c \
+SRC := main.c submat.c defaults.c tests.c \
 		$(addprefix math/, \
 			tuples.c tuples2.c tuples3.c\
 			vector.c matrix.c matrix2.c matrix4_4.c matrix4_4_2.c matrix3_3.c matrix2_2.c \
@@ -34,7 +35,7 @@ SRC := main.c submat.c \
 		) \
 		$(addprefix intersection/, \
 			intersection.c intersection2.c sort.c world.c \
-			camera.c shadow.c \
+			camera.c shadow.c intersection3.c \
 		) \
 		$(addprefix colors/, \
 			color.c color2.c \
@@ -51,7 +52,8 @@ SRC := main.c submat.c \
 SRC_DIR := srcs
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 
-INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h intersection.h world.h threads.h
+INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h \
+		matrix.h intersection.h world.h threads.h defaults.h tests.h
 INC_DIR := includes
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
 all: $(NAME)
@@ -59,7 +61,7 @@ all: $(NAME)
 $(NAME): $(SRCS) $(INCLUDE)
 	@make -C $(BUILD_DIR)
 	make -C libft
-	$(CC) -o $(NAME) -I$(INC_DIR) $(SRCS) $(CFLAGS)
+	$(CC) -o $(NAME) -I$(INC_DIR) $(SRCS) $(CFLAGS) $(OFLAGS)
 
 clean:
 	@make -C $(BUILD_DIR) clean
