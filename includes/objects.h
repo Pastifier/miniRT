@@ -117,7 +117,8 @@ t_light			default_point_light(void);
 t_material		default_material(void);
 t_material		material(t_color *color, double ambient, double diffuse, double specular, double shininess);
 
-t_color			lighting(t_material *material, t_light *light, t_double4 *point, t_double4 *eye_v, t_double4 *normal);
+bool			is_shadowed(t_world *world, t_double4 *point, t_light *light);
+t_color			lighting(t_material *material, t_light *light, t_double4 *point, t_double4 *eye_v, t_double4 *normal, bool in_shadow);
 t_double4		reflect(t_double4 *in, t_double4 *normal);
 t_color			shade_hit(t_world *world, t_itx_computation *comps);
 

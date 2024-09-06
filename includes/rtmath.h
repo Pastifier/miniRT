@@ -22,6 +22,7 @@
 
 # include <math.h> // for floating-point utility functions and macros
 # include <stdint.h> // for exact-sized types
+# include <stdbool.h> // for boolean types
 # include <stdlib.h>
 
 # ifndef EPSILON
@@ -90,6 +91,7 @@ typedef struct	s_intersections
 
 typedef struct	itx_computation
 {
+	bool		shadowed;
 	double		t;
 	t_object	*obj;
 	t_double4	p;

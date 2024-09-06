@@ -7,6 +7,7 @@
 t_itx_computation prepare_computations(t_intersection itx, t_ray *r)
 {
 	t_itx_computation	comps;
+	t_double4			margin;
 
 	comps.t = itx.t;
 	comps.obj = itx.object;
@@ -22,6 +23,8 @@ t_itx_computation prepare_computations(t_intersection itx, t_ray *r)
 	}
 	else
 		comps.inside = false;
+	d4mul(&margin, &comps.normalv, EPSILON);
+	d4add(&comps.p, &comps.p, &margin);
 	return (comps);
 }
 

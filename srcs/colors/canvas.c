@@ -22,7 +22,7 @@ t_color	color_at(t_world *w, t_ray *r)
 	t_intersection		*hit;
 	t_itx_computation	comps;
 	t_color				result;
-
+	
 	world_itxs = intersect_world(w, r);
 	hit = get_hit(&world_itxs);
 	if (!hit)

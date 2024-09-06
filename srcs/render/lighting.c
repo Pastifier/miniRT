@@ -16,7 +16,7 @@
 #include "objects.h"
 #include <stdio.h>
 
-t_color	lighting(t_material *material, t_light *light, t_double4 *point, t_double4 *eye_v, t_double4 *normal)
+t_color	lighting(t_material *material, t_light *light, t_double4 *point, t_double4 *eye_v, t_double4 *normal, bool in_shadow)
 {
 	t_double4	light_v;
 	t_double4	reflect_v;
@@ -52,20 +52,42 @@ t_color	lighting(t_material *material, t_light *light, t_double4 *point, t_doubl
 		factor = pow(reflect_eye_dot, material->shininess);
 		cscale(&specular, &light->type.point.intensity, material->specular * factor);
 	}
+	if (in_shadow)
+	{
+		color(&diffuse, 0.0, 0.0, 0.0);
+		color(&specular, 0.0, 0.0, 0.0);
+	}
 	cadd(&return_color, &ambient, &diffuse);
 	cadd(&return_color, &return_color, &specular);
 	return (return_color);
+}
+
+bool	is_shadowed(t_world *world, t_double4 *point, t_light *light)
+{
+	t_double4		v;
+	t_ray			r;
+	t_intersection	*itx;
+	
+	d4sub(&v, &light->position, point);
+	ray_create(&r, point, &v);
+	r.itx = intersect_world(world, &r);
+	itx = get_hit(&r.itx);
+	if (itx && itx->t < vmag(&v))
+		return (true);
+	return (false);	
 }
 
 t_color	shade_hit(t_world *world, t_itx_computation *comps)
 {
 	t_color		lighting_result;
 	t_color		return_color;
-
+	bool		in_shadow;
+	
 	color(&return_color, 0.0, 0.0, 0.0);
 	for (int i = 0; i < world->num_lights; i++)
 	{
-		lighting_result = lighting(&comps->obj->material, &world->lights[i], &comps->p, &comps->eyev, &comps->normalv);
+		in_shadow = is_shadowed(world, &comps->p, &world->lights[i]);
+		lighting_result = lighting(&comps->obj->material, &world->lights[i], &comps->p, &comps->eyev, &comps->normalv, in_shadow);
 		cadd(&return_color, &return_color, &lighting_result);
 	}
 	return (return_color);
