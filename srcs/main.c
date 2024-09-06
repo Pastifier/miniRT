@@ -148,6 +148,22 @@ void	default_sphere(t_obj *sphere)
 	++id;
 }
 
+void	default_plane(t_obj *plane)
+{
+	static int	id = 1;
+	t_mat		mat;
+	const t_mat4x4 identity = mat4x4_identity();
+
+	default_mat(&mat);
+	point(&plane->center, 0, 0, 0);
+	vector(&plane->pl_norm, 0.001, 1.02, 0.001);
+	set_transform(plane, (t_mat4x4 *)&identity);
+	plane->material = mat;
+	plane->type = PLANE;
+	plane->id = id;
+	++id;
+}
+
 void	default_world(t_world *world)
 {
 	t_mat4x4	transformation;
@@ -182,6 +198,7 @@ void	world_from_chapter_7(t_world *world)
 
 	// Initialize the walls
 	t_obj *floor = &world->obj[0];
+	//default_plane(floor);
 	default_sphere(&world->obj[0]);
 	floor->transform = scaling(10, 0.01, 10);
 	default_mat(&floor->material);
@@ -189,17 +206,20 @@ void	world_from_chapter_7(t_world *world)
 	floor->material.spec = 0;
 
 	t_obj *left_wall = &world->obj[1];
-	default_sphere(&world->obj[1]);
+	//default_sphere(&world->obj[1]);
+	default_plane(&world->obj[1]);
 	left_wall->transform = mat4x4_identity();
-	transform_operations = translation(0, 0, 5);
-	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
+	//transform_operations = translation(0, 0, 5);
+	//left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
 	transform_operations = rotation_y(-M_PI_4);
 	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
 	transform_operations = rotation_x(M_PI_2);
 	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
-	transform_operations = scaling(10, 0.01, 10);
-	left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
+	//transform_operations = scaling(10, 0.01, 10);
+	//left_wall->transform = mat4x4_cross(&left_wall->transform, &transform_operations);
 	left_wall->material = floor->material;
+	left_wall->pl_norm = mat4x4_cross_vec(&left_wall->transform, &left_wall->pl_norm);
+	vnormalize(&left_wall->pl_norm);
 
 	t_obj *right_wall = &world->obj[2];
 	default_sphere(&world->obj[2]);

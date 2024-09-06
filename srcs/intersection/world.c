@@ -25,11 +25,9 @@ void	prepare_computations(t_intersection *hit, t_ray *r)
 	d4mul(&margin, &hit->s_normal, EPSILON);
 	d4add(&hit->over_p, &hit->p, &margin);
 
-	//printf("Shadow ray origin: %f, %f, %f\n", hit->over_p.x, hit->over_p.y, hit->over_p.z);
-	//printf("Intersection point: %f, %f, %f\n", hit->p.x, hit->p.y, hit->p.z);
-
 	vector(&hit->eye, -r->direction.x, -r->direction.y, -r->direction.z);
-	hit->s_normal = normal_at(hit->obj, &hit->over_p);
+	if (hit->obj->type != PLANE)
+		hit->s_normal = normal_at(hit->obj, &hit->over_p);
 	if (vdot(&hit->s_normal, &hit->eye) < 0)
 	{
 		hit->inside = true;
@@ -58,6 +56,73 @@ t_color	shade_hit(t_world *world, t_intersection *hit)
 	return (lighting(&hit->obj->material, &world->plight, hit, shadowed));
 }
 
+//bool	intersect_plane(t_ray *r, t_obj *plane, t_intersections *xs)
+//{
+//	double		nb;
+
+//	if (xs && xs->count < 200)
+//	{
+//		nb = vdot(&r->direction, &plane->pl_norm);
+//		if (fabs(nb) < EPSILON)
+//			return (false);
+//		xs->arr[xs->count].t = -(vdot(&r->origin, &plane->pl_norm)) - vdot(&plane->pl_norm, &r->origin) / nb;
+//		xs->arr[xs->count].obj = plane;
+//		xs->arr[xs->count].s_normal = plane->pl_norm;
+//		xs->count++;
+//		return (true);
+//	}
+//	return (false);
+//}
+
+bool intersect_plane(t_ray *r, t_obj *plane, t_intersections *xs)
+{
+	double nb;
+	double t;
+	t_double4 plane_point_to_ray_origin;
+
+	// Dot product between ray direction and plane normal
+	vnormalize(&plane->pl_norm);
+	nb = vdot(&r->direction, &plane->pl_norm);
+
+	// If nb is close to zero, the ray is parallel to the plane
+	if (fabs(nb) < EPSILON)
+	{
+		printf("Ray is parallel to the plane\n");
+		return false;
+	}
+
+	// Calculate vector from plane center to ray origin
+	d4sub(&plane_point_to_ray_origin, &plane->center, &r->origin);
+
+	// Calculate the distance t to the intersection point
+	t = vdot(&plane_point_to_ray_origin, &plane->pl_norm) / nb;
+
+	// Print debugging info
+	printf("Ray origin: (%f, %f, %f)\n", r->origin.x, r->origin.y, r->origin.z);
+	printf("Ray direction: (%f, %f, %f)\n", r->direction.x, r->direction.y, r->direction.z);
+	printf("Plane normal: (%f, %f, %f)\n", plane->pl_norm.x, plane->pl_norm.y, plane->pl_norm.z);
+	printf("Plane point: (%f, %f, %f)\n", plane->center.x, plane->center.y, plane->center.z);
+	printf("t (intersection distance): %f\n", t);
+
+	// If t is negative, the intersection is behind the ray origin
+	if (t < 0)
+	{
+		printf("Intersection behind the ray origin\n");
+		return false;
+	}
+
+	// Add the intersection to the list
+	if (xs && xs->count < 200)
+	{
+		xs->arr[xs->count].t = t;
+		xs->arr[xs->count].obj = plane;
+		xs->arr[xs->count].s_normal = plane->pl_norm;
+		xs->count++;
+		return true;
+	}
+	return false;
+}
+
 t_intersections	*intersect_world(t_world *world, t_ray *r)
 {
 	t_intersections	*xs = ft_calloc(1, sizeof(t_intersections));
@@ -65,7 +130,10 @@ t_intersections	*intersect_world(t_world *world, t_ray *r)
 	ft_bzero(xs, sizeof(t_intersections));
 	for (int i = 0; i < 6; i++)
 	{
-		intersect_sphere(r, &world->obj[i], xs);
+		if (world->obj[i].type == SPHERE)
+			intersect_sphere(r, &world->obj[i], xs);
+		if (world->obj[i].type == PLANE)
+			intersect_plane(r, &world->obj[i], xs);
 	}
 	quick_sort_intersections(xs->arr, xs->count);
 	return (xs);

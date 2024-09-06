@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:30:45 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/03 16:37:59 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:59:01 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct s_obj
 	t_double4		center;
 	double			radius;
 	t_mat4x4		transform;
+	t_double4		pl_norm;
+	t_double4		pl_dist;
 	t_mat			material;
 }	t_obj;
 

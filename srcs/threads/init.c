@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:09:59 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/05 07:49:19 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:48:51 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_color	lerp(t_color a, t_color b, double t)
 	return (ret);
 }
 
+// Hard-coded for now...
 void	interpolate_horizontally(t_canvas *canvas, t_webcam *cam)
 {
 	t_color left;
@@ -154,7 +155,7 @@ void	*render_with_threads(void *thread_)
 	cam = ptcontext->world->cam;
 	y_i = (ptcontext->id * cam.vsize / THREAD_NUM);
 	y_f = (ptcontext->id + 1) * cam.vsize / THREAD_NUM;
-	for (int y = y_i; y < y_f; y++)
+	for (int y = y_i; y < y_f; y += SKIPPED_PIXELS)
 	{
 		for (int x = 0; x < cam.hsize; x+= SKIPPED_PIXELS)
 		{
@@ -163,8 +164,8 @@ void	*render_with_threads(void *thread_)
 			put_pixel(&ptcontext->context->canvas, x, y, &r.c);
 		}
 	}
-	interpolate_horizontally_threads(&ptcontext->context->canvas,
-			&ptcontext->world->cam, y_i, y_f);
+	//interpolate_horizontally_threads(&ptcontext->context->canvas,
+	//		&ptcontext->world->cam, y_i, y_f);
 	//interpolate_horizontally(&ptcontext->context->canvas,
 	//		&ptcontext->world->cam);
 	return (thread_);
