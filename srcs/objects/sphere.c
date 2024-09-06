@@ -81,13 +81,15 @@ void intersect_sphere(t_ray *ray, t_object *sphere)
 	double t_values[MAX_INTERSECTIONS];
 	int t_count;
 	t_mat4x4 inv_transform;
+	t_ray transformed_ray;
 
 	t_count = 0;
 	inv_transform = mat4x4_inverse(&sphere->transform);
 	ray->itx.count = 0;
 	ray->itx.data->object = sphere;
-	ray_transform(ray, &(inv_transform));
-	sphere_discriminant(ray, sphere, &disc);
+	transformed_ray = *ray;
+	ray_transform(&transformed_ray, &(inv_transform));
+	sphere_discriminant(&transformed_ray, sphere, &disc);
 	if (disc.disc < 0)
 		return ;
 	sphere_t_values(&disc, t_values, &t_count);
