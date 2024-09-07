@@ -18,7 +18,8 @@
 
 typedef enum	e_object_type
 {
-	OBJ_SPHERE
+	OBJ_SPHERE,
+	OBJ_PLANE
 }	t_object_type;
 
 typedef struct	s_light
@@ -129,5 +130,9 @@ void			ray_transform(t_ray *ray, t_mat4x4 *matrix);
 void			sphere(t_object *sphere, t_double4 *center, double radius, t_mat4x4 *transform);
 void			intersect_sphere(t_ray *ray, t_object *sphere);
 t_double4		sphere_normal_at(t_object *sphere, t_double4 *world_point);
+
+void 			plane(t_object *plane, t_double4 *center, t_mat4x4 *transform);
+t_double4		plane_normal_at(t_object *plane);
+void			intersect_plane(t_ray *ray, t_object *plane);
 
 #endif // !OBJECTS_H

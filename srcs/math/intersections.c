@@ -16,6 +16,8 @@ t_itx_computation prepare_computations(t_intersection itx, t_ray *r)
 	d4negate(&comps.eyev);
 	if (itx.object->type == OBJ_SPHERE)
 		comps.normalv = sphere_normal_at(itx.object, &comps.p);
+	else if (itx.object->type == OBJ_PLANE)
+		comps.normalv = plane_normal_at(itx.object);
 	if (vdot(&comps.normalv, &comps.eyev) < 0)
 	{
 		comps.inside = true;
@@ -42,6 +44,8 @@ t_intersections	intersect_world(t_world *w, t_ray *r)
 		r->itx.count = 0;
 		if (w->objects[i].type == OBJ_SPHERE)
 			intersect_sphere(r, &w->objects[i]);
+		else if (w->objects[i].type == OBJ_PLANE)
+			intersect_plane(r, &w->objects[i]);
 		if (r->itx.count > 0)
 		{
 			j = -1;

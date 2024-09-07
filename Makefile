@@ -36,7 +36,7 @@ SRC := main.c \
 			color.c color2.c \
 			canvas.c) \
 		$(addprefix objects/, \
-			sphere.c lights.c material.c) \
+			sphere.c lights.c material.c plane.c) \
 		$(addprefix render/, \
 			rays.c lighting.c objects.c render.c world.c camera.c) \
 

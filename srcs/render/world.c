@@ -50,6 +50,7 @@ void	default_world(t_world *world)
 	t_mat4x4 transform2;
 	t_mat4x4 transform3;
 	t_light l;
+	// t_light l2;
 
 	transform1 = mat4x4_identity();
 	transform2 = mat4x4_identity();
@@ -78,7 +79,10 @@ void	default_world(t_world *world)
 	world_add_object(world, &s3);
 
 	l = default_point_light();
-	// point(&l.position, -10.0, 10, -10.0);
+	// l2 = default_point_light();
+	// point(&l2.position, 10.0, 10, -10.0);
+	// color(&l2.type.point.intensity, 1.0, 0.1, 0.1);
 	
 	world_add_light(world, &l);
+	// world_add_light(world, &l2);
 }
