@@ -459,9 +459,58 @@ void	test_render_simple_cy(void)
 	cy.cy_min = -1.0;
 	cy.cy_closed = true;
 
+	world.obj[0] = cy;
+
 	t_double4 camera_origin = row4(0, 0, -5, 1); // row4(-2, 1.5, -5, 1);
-	t_double4 look_at = row4(0, 0, 0, 1);
-	t_double4 up = row4(0, 0, 1, 0);
+	t_double4 look_at = row4(0, 0, -4, 1);
+	t_double4 up = row4(0, 1, 0, 0);
+	t_mat4x4 view = view_transform(&camera_origin, &look_at, &up);
+
+	t_webcam cam = init_camera(WIN_WIDTH, WIN_HEIGHT, M_PI / 3);
+	cam.transform = view;
+
+	world.cam = cam;
+	t_thread	*threads = init_threads(&context, &world);
+	if (!threads)
+		return ;
+
+	mlx_loop(context.mlx);
+}
+
+
+void	test_render_transformed_cy(void)
+{
+	t_program	context;
+	t_world		world;
+	t_obj		cy;
+	t_mat4x4	transform_operations;
+
+	context.mlx = mlx_init();
+	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
+	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
+
+	////t_mat4x4 transformation; Leave it for later
+	//t_mat4x4 transform_operations;
+
+	point(&world.plight.pos, -10, 10, -10);
+	cinit(&world.plight.intensity, 1, 1, 1);
+
+	// Capped Cylinder
+	default_cylinder(&cy);
+	cy.cy_max = 1.0;
+	cy.cy_min = -1.0;
+	cy.cy_closed = true;
+	world.obj[0] = cy;
+
+	//transform_operations = scaling(1, 0.5, 1);
+	//cy.transform = mat4x4_cross(&cy.transform, &transform_operations);
+	transform_operations = rotation_z(M_PI_4);
+	cy.transform = mat4x4_cross(&cy.transform, &transform_operations);
+
+
+	t_double4 camera_origin = row4(0, 0, -5, 1); // row4(-2, 1.5, -5, 1);
+	t_double4 look_at = row4(0, 0, -4, 1);
+	t_double4 up = row4(0, 1, 0, 0);
 	t_mat4x4 view = view_transform(&camera_origin, &look_at, &up);
 
 	t_webcam cam = init_camera(WIN_WIDTH, WIN_HEIGHT, M_PI / 3);

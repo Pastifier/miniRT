@@ -123,7 +123,7 @@ t_intersections	*intersect_world(t_world *world, t_ray *r)
 	t_intersections	*xs = ft_calloc(1, sizeof(t_intersections));
 
 	ft_bzero(xs, sizeof(t_intersections));
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		if (world->obj[i].type == SPHERE)
 			intersect_sphere(r, &world->obj[i], xs);

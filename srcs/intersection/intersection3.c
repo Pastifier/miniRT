@@ -83,12 +83,15 @@ bool	intersect_cylinder(t_ray *r, t_obj *cy, t_intersections *xs)
 	t_ray		ray2;
 	t_mat4x4	inverse;
 	bool		itx_occured;
+	t_double4	normalized_dir;
 
 	if (xs->count >= 199)
 		return (false);
+	vnorm(&normalized_dir, &r->direction);
+	t_ray ray_mid = ray(r->origin, normalized_dir);
 	inverse = mat4x4_inverse(&cy->transform);
-	ray2 = m4r_transform(r, &inverse);
-	vnormalize(&ray2.direction);
+	ray2 = m4r_transform(&ray_mid, &inverse);
+	//vnormalize(&ray2.direction);
 	a = (ray2.direction.x * ray2.direction.x)
 		+ (ray2.direction.z * ray2.direction.z);
 	itx_occured = intersect_caps(&ray2, cy, xs);

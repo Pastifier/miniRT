@@ -40,7 +40,8 @@ int main(void)
 	//test_intersections_on_truncated_cy();
 	//test_intersections_on_capped_cy();
 	//test_normal_on_cy_caps();
-	test_render_simple_cy();
+	//test_render_simple_cy();
+	test_render_transformed_cy();
 
 	return (0);
 }

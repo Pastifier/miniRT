@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 08:50:24 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/06 19:28:48 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/07 19:10:55 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ void	test_intersections_on_truncated_cy(void);
 void	test_intersections_on_capped_cy(void);
 void	test_normal_on_cy_caps(void);
 void	test_render_simple_cy(void);
+void	test_render_transformed_cy(void);
 
 # endif // !TESTS_H
