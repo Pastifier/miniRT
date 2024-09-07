@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 08:57:19 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/06 12:31:38 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:29:21 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void	default_cylinder(t_obj *cy)
 	default_mat(&cy->material);
 	cy->transform = mat4x4_identity();
 	cy->radius = 1.0;
-	cy->cl_min = 1.0;
+	cy->cy_min = -INFINITY;
+	cy->cy_max = INFINITY;
+	cy->cy_closed = false;
 }
 
 void	default_world(t_world *world)

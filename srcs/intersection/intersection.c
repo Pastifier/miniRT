@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:30:20 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/03 11:03:40 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:42:15 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	set_transform(t_obj *obj, t_mat4x4 *m)
 {
 	ft_memcpy(&obj->transform, m, sizeof(t_mat4x4));
 }
+
 bool	intersect_sphere(t_ray *r, t_obj *sphere, t_intersections *xs)
 {
 	t_double4	obj_to_ray;
@@ -33,6 +34,8 @@ bool	intersect_sphere(t_ray *r, t_obj *sphere, t_intersections *xs)
 	t_ray		ray2;
 	t_mat4x4	inverse;
 
+	if (xs->count >= 199)
+		return (false);
 	inverse = mat4x4_inverse(&sphere->transform);
 	//ray2 = *r;
 	ray2 = m4r_transform(r, &inverse);
@@ -44,18 +47,13 @@ bool	intersect_sphere(t_ray *r, t_obj *sphere, t_intersections *xs)
 	if (h < 0.0)
 		return (false);
 	h = sqrt(h);
-	if (xs->count + 2 < MAX_INTERSECTIONS)
-	{
-		xs->arr[xs->count].obj = sphere;
-		xs->arr[xs->count].t = (-b - h) / (2.0 * a);
-		xs->arr[xs->count].got_hit = true;
-		xs->arr[xs->count + 1].obj = sphere;
-		xs->arr[xs->count + 1].t = (-b + h) / (2.0 * a);
-		xs->arr[xs->count + 1].got_hit = true;
-		xs->count += 2;
-	}
-	else
-		/*deal with it*/ return (false);
+	xs->arr[xs->count].obj = sphere;
+	xs->arr[xs->count].t = (-b - h) / (2.0 * a);
+	xs->arr[xs->count].got_hit = true;
+	xs->arr[xs->count + 1].obj = sphere;
+	xs->arr[xs->count + 1].t = (-b + h) / (2.0 * a);
+	xs->arr[xs->count + 1].got_hit = true;
+	xs->count += 2;
 	return (true);
 }
 

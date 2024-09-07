@@ -30,13 +30,17 @@ void	fill_canvas(t_canvas *canvas, uint32_t color)
 
 int main(void)
 {
-	//// World from chapter seven
+//// World from chapter seven
 	//world_from_chapter_7();
 
-	//// Chapter 13
+//// Chapter 13
 	//test_rays_should_miss_cylinder();
 	//test_rays_should_intersect_cylinder();
-	test_normal_on_cy();
+	//test_normal_on_cy();
+	//test_intersections_on_truncated_cy();
+	//test_intersections_on_capped_cy();
+	//test_normal_on_cy_caps();
+	test_render_simple_cy();
 
 	return (0);
 }

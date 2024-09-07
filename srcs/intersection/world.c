@@ -26,8 +26,10 @@ void	prepare_computations(t_intersection *hit, t_ray *r)
 	d4add(&hit->over_p, &hit->p, &margin);
 
 	vector(&hit->eye, -r->direction.x, -r->direction.y, -r->direction.z);
-	if (hit->obj->type != PLANE)
+	if (hit->obj->type == SPHERE)
 		hit->s_normal = normal_at(hit->obj, &hit->over_p);
+	else if (hit->obj->type == CYLINDER)
+		hit->s_normal = cy_normal_at(hit->obj, &hit->over_p);
 	if (vdot(&hit->s_normal, &hit->eye) < 0)
 	{
 		hit->inside = true;
@@ -46,13 +48,6 @@ t_color	shade_hit(t_world *world, t_intersection *hit)
 	bool	shadowed;
 
 	shadowed = is_shadowed(world, &hit->p);
-	if (shadowed)
-	{
- // NOT WORKING
-		hit->p = hit->over_p;
-		return (lighting(&hit->obj->material, &world->plight,
-			hit, shadowed));
-	}
 	return (lighting(&hit->obj->material, &world->plight, hit, shadowed));
 }
 
@@ -132,8 +127,10 @@ t_intersections	*intersect_world(t_world *world, t_ray *r)
 	{
 		if (world->obj[i].type == SPHERE)
 			intersect_sphere(r, &world->obj[i], xs);
-		if (world->obj[i].type == PLANE)
+		else if (world->obj[i].type == PLANE)
 			intersect_plane(r, &world->obj[i], xs);
+		else if (world->obj[i].type == CYLINDER)
+			intersect_cylinder(r, &world->obj[i], xs);
 	}
 	quick_sort_intersections(xs->arr, xs->count);
 	return (xs);

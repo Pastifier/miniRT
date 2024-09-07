@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:30:45 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/06 12:31:38 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:28:57 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ typedef struct s_obj
 	uint8_t			type;
 	t_double4		center;
 	double			radius;
-	double			cl_min;
+	double			cy_min;
+	double			cy_max;
+	double			cy_closed;
 	t_mat4x4		transform;
 	t_double4		pl_norm;
 	t_double4		pl_dist;

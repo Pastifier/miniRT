@@ -235,6 +235,7 @@ t_double4 (*local_normal_at)(t_obj *, t_double4 *))
 	printf(" is:\n");
 	PRINT_VECTOR(norm);
 	printf("\n");
+	call_count++;
 }
 
 void	test_rays_should_miss_cylinder(void)
@@ -325,4 +326,151 @@ void	test_normal_on_cy(void)
 	normal_at_test(&p2, &cy, cy_normal_at);
 	normal_at_test(&p3, &cy, cy_normal_at);
 	normal_at_test(&p4, &cy, cy_normal_at);
+}
+
+void	test_intersections_on_truncated_cy(void)
+{
+	t_ray	r[6];
+	t_obj	cy;
+
+	SET_RAY(
+		r[0],
+		0, 1.5, 0,
+		0.1, 1, 0
+	);
+	SET_RAY(
+		r[1],
+		0, 3, -5,
+		0, 0, 1
+	);
+	SET_RAY(
+		r[2],
+		0, 0, -5,
+		0, 0, 1
+	);
+	SET_RAY(
+		r[3],
+		0, 2, -5,
+		0, 0, 1
+	);
+	SET_RAY(
+		r[4],
+		0, 1, -5,
+		0, 0, 1
+	);
+	SET_RAY(
+		r[5],
+		0, 1.5, -2,
+		0, 0, 1
+	);
+
+	// Setting up truncated cylinder
+	default_cylinder(&cy);
+	cy.cy_min = 1.0;
+	cy.cy_max = 2.0;
+
+	for (int i = 0; i < 6; i++)
+		intersection_test(&r[i], &cy, intersect_cylinder);
+}
+
+void	test_intersections_on_capped_cy(void)
+{
+	t_ray	r[5];
+	t_obj	cy;
+
+	SET_RAY(
+		r[0],
+		0, 3, 0,
+		0, -1, 0
+	);
+	SET_RAY(
+		r[1],
+		0, 3, -2,
+		0, -1, 2
+	);
+	SET_RAY(
+		r[2],
+		0, 4, -2,
+		0, -1, 1
+	);
+	SET_RAY(
+		r[3],
+		0, 0, -2,
+		0, 1, 2
+	);
+	SET_RAY(
+		r[4],
+		0, -1, -2,
+		0, 1, 1
+	);
+
+	// Setting up truncated cylinder
+	default_cylinder(&cy);
+	cy.cy_min = 1.0;
+	cy.cy_max = 2.0;
+	cy.cy_closed = true;
+
+	for (int i = 0; i < 5; i++)
+		intersection_test(&r[i], &cy, intersect_cylinder);
+}
+
+
+void	test_normal_on_cy_caps(void)
+{
+	t_double4	p[6];
+	t_obj		cy;
+
+	point(&p[0], 0, 1, 0);
+	point(&p[1], 0.5, 1, 0);
+	point(&p[2], 0, 1, 0.5);
+	point(&p[3], 0, 2, 0);
+	point(&p[4], 0.5, 2, 0);
+	point(&p[5], 0, 2, 0.5);
+
+	// Setting up capped cylinder
+	default_cylinder(&cy);
+	cy.cy_min = 1.0;
+	cy.cy_max = 2.0;
+	cy.cy_closed = true;
+
+	for (int i = 0; i < 6; i++)
+		normal_at_test(&p[i], &cy, cy_normal_at);
+}
+
+void	test_render_simple_cy(void)
+{
+	t_program	context;
+	t_world		world;
+	t_obj		cy;
+
+	context.mlx = mlx_init();
+	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
+	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
+
+	////t_mat4x4 transformation; Leave it for later
+	//t_mat4x4 transform_operations;
+
+	point(&world.plight.pos, -10, 10, -10);
+	cinit(&world.plight.intensity, 1, 1, 1);
+
+	// Capped Cylinder
+	default_cylinder(&cy);
+	cy.cy_max = 1.0;
+	cy.cy_min = -1.0;
+	cy.cy_closed = true;
+
+	t_double4 camera_origin = row4(0, 0, -5, 1); // row4(-2, 1.5, -5, 1);
+	t_double4 look_at = row4(0, 0, 0, 1);
+	t_double4 up = row4(0, 0, 1, 0);
+	t_mat4x4 view = view_transform(&camera_origin, &look_at, &up);
+
+	t_webcam cam = init_camera(WIN_WIDTH, WIN_HEIGHT, M_PI / 3);
+	cam.transform = view;
+
+	world.cam = cam;
+	t_thread	*threads = init_threads(&context, &world);
+	if (!threads)
+		return ;
+
+	mlx_loop(context.mlx);
 }
