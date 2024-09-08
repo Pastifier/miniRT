@@ -42,8 +42,7 @@ typedef struct s_thread_data
 	int			id;
 	pthread_t	thread;
 	t_program	*context;
-	t_double2	start;
-	t_double2	end;
+	double		start;
 }	t_thread_data;
 
 uint32_t	get_color(t_color *color);

@@ -35,6 +35,11 @@ typedef struct	s_light
 	}	type;
 }	t_light;
 
+/*
+Subject asks for Ambient lighting, which is a ratio, and an RGB Color range
+which will be the color of ambient lighting in the scene applied to the objects
+in the given ambient lighting ratio.
+*/
 typedef struct	s_material
 {
 	t_color		color;
