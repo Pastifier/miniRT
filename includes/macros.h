@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:12:40 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/09 12:36:18 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:58:42 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # else
 #  define OS_MACOS 0
 # endif // !__MACH__
+
+# ifndef THRESHOLD
+#  define THRESHOLD 25
+# endif // !THRESHOLD
 
 # ifndef SKIPPED_PIX
 #  define SKIPPED_PIX 3

@@ -38,7 +38,8 @@ SRC := main.c \
 		$(addprefix objects/, \
 			sphere.c lights.c material.c plane.c) \
 		$(addprefix render/, \
-			rays.c lighting.c objects.c render.c world.c camera.c) \
+			rays.c lighting.c objects.c render.c world.c camera.c \
+			supersample.c interpolation.c) \
 
 
 SRC_DIR := srcs
@@ -47,12 +48,13 @@ SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h objects.h
 INC_DIR := includes
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
+OPTIMIZATION_FLAGS = -Ofast -march=native -flto -fno-signed-zeros -funroll-loops
 all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDE)
 	@make -C $(BUILD_DIR)
 	make -C libft
-	$(CC) -o $(NAME) -I$(INC_DIR) $(SRCS) $(CFLAGS)
+	$(CC) -o $(NAME) -I$(INC_DIR) $(SRCS) $(CFLAGS) $(OPTIMIZATION_FLAGS)
 
 clean:
 	@make -C $(BUILD_DIR) clean

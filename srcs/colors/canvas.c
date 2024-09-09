@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:03:07 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/09 12:46:21 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:53:46 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "render.h"
 #include "objects.h"
 #include "rtmath.h"
+#include "macros.h"
 #include <stdio.h>
 
 t_color	color_at(t_world *w, t_ray *r)
@@ -44,10 +45,10 @@ void	canvas(t_program *context, int width, int height)
 	// iferr: exit
 }
 
-void	put_pixel(t_canvas *canvas, int x, int y, t_color *color)
+void	put_pixel(t_canvas *canvas, int x, int y, t_color color)
 {
 	char	*dst;
 
-	dst = canvas->addr + (y * canvas->line_length + x * (canvas->bpp / 8));
-	*(uint32_t *)dst = get_color(color);
+	dst = canvas->addr + (y * WIN_WIDTH + x * (canvas->bpp / 8));
+	*(uint32_t *)dst = get_color(&color);
 }

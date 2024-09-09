@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/09 12:48:01 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:49:51 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,35 +99,40 @@ static void	setup_world_chapter7(t_world *w)
 	world_add_object(w, &left);
 }
 
+t_color	render_pixel(t_program *context, int x, int y)
+{
+	t_ray			r;
+	t_color			c;
+
+	r = ray_for_pixel(&context->camera, x, y);
+	c = color_at(&context->world, &r);
+	put_pixel(&context->canvas, x, y, c);
+	return (c);
+}
+
 void	*render_row(void *arg)
 {
 	t_thread_data	*data = (t_thread_data *)arg;
 	t_program		*context = data->context;
 	t_camera		*cam = &context->camera;
-	t_world			*w = &context->world;
-	t_ray			r;
-	t_color			c;
 	int				x;
 	int				y;
 	int				y_f;
 
-	y = data->id * (cam->vsize / THREAD_NUM);
-	y_f = (data->id + 1) * (cam->vsize / THREAD_NUM);
+	y = data->y;
+	y_f = data->y_f;
 	while (y < y_f)
 	{
 		x = 0;
 		while(x < cam->hsize)
 		{
-			r = ray_for_pixel(cam, x, y);
-			c = color_at(w, &r);
-			put_pixel(&context->canvas, x, y, &c);
+			render_pixel(context, x, y);
 			x+=SKIPPED_PIX;
-			// x++;
 		}
-		// y++;
 		y+=SKIPPED_PIX;
 	}
-
+	interpolate_horizontal(data);
+	interpolate_vertical(data);
 	return (NULL);
 }
 
@@ -160,6 +165,8 @@ void	render_scene(t_program *context)
 	{
 		threads[y].id = y;
 		threads[y].context = context;
+		threads[y].y = y * (cam.vsize / THREAD_NUM);
+		threads[y].y_f = (y + 1) * (cam.vsize / THREAD_NUM);
 		pthread_create(&threads[y].thread, NULL, render_row, &threads[y]);
 		y++;
 	}

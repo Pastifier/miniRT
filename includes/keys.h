@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   keys.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/09 13:49:01 by melshafi          #+#    #+#             */
+/*   Updated: 2024/09/09 13:49:02 by melshafi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef KEYS_H
  #define KEYS_H
 
@@ -29,7 +41,7 @@
   #define KEY_X 7
   #define KEY_Y 16
   #define KEY_Z 6
-  
+
   // Number Keys (Top Row)
   #define KEY_1 18
   #define KEY_2 19
@@ -41,7 +53,7 @@
   #define KEY_8 28
   #define KEY_9 25
   #define KEY_0 29
-  
+
   // Function Keys
   #define KEY_F1 122
   #define KEY_F2 120
@@ -55,13 +67,13 @@
   #define KEY_F10 109
   #define KEY_F11 103
   #define KEY_F12 111
-  
+
   // Arrow Keys
   #define KEY_UP 126
   #define KEY_DOWN 125
   #define KEY_LEFT 123
   #define KEY_RIGHT 124
-  
+
   // Special Keys
   #define KEY_ESC 53
   #define KEY_TAB 48
@@ -78,7 +90,7 @@
   #define KEY_END 119
   #define KEY_PAGEUP 116
   #define KEY_PAGEDOWN 121
-  
+
   // Punctuation and Symbols
   #define KEY_MINUS 27
   #define KEY_EQUALS 24
@@ -91,7 +103,7 @@
   #define KEY_PERIOD 47
   #define KEY_SLASH 44
   #define KEY_GRAVE 50
-  
+
   // Numeric Keypad
   #define KEY_NUMPAD_0 82
   #define KEY_NUMPAD_1 83
@@ -110,11 +122,11 @@
   #define KEY_NUMPAD_ENTER 76
   #define KEY_NUMPAD_DECIMAL 65
   #define KEY_NUMPAD_EQUAL 81
- 
+
  #endif // __MACH__
- 
+
  #ifdef __linux__ || __unix__
- 
+
   // Alphabet Keys
   #define KEY_A 97
   #define KEY_B 98
@@ -142,7 +154,7 @@
   #define KEY_X 120
   #define KEY_Y 121
   #define KEY_Z 122
-  
+
   // Number Keys (Top Row)
   #define KEY_1 49
   #define KEY_2 50
@@ -154,7 +166,7 @@
   #define KEY_8 56
   #define KEY_9 57
   #define KEY_0 48
-  
+
   // Number Pad Keys
   #define KEY_NUMPAD_1 65457
   #define KEY_NUMPAD_2 65458
@@ -166,7 +178,7 @@
   #define KEY_NUMPAD_8 65464
   #define KEY_NUMPAD_9 65465
   #define KEY_NUMPAD_0 65456
-  
+
   // Function Keys
   #define KEY_F1 65470
   #define KEY_F2 65471
@@ -180,13 +192,13 @@
   #define KEY_F10 65479
   #define KEY_F11 65480
   #define KEY_F12 65481
-  
+
   // Arrow Keys
   #define KEY_UP 65362
   #define KEY_DOWN 65364
   #define KEY_LEFT 65361
   #define KEY_RIGHT 65363
-  
+
   // Special Keys
   #define KEY_ESCAPE 65307
   #define KEY_TAB 65289
@@ -208,7 +220,7 @@
   #define KEY_INSERT 65379
   #define KEY_PRINT_SCREEN 65377
   #define KEY_PAUSE 65299
-  
+
   // Miscellaneous Keys
   #define KEY_COMMA 44
   #define KEY_PERIOD 46
@@ -221,7 +233,7 @@
   #define KEY_MINUS 45
   #define KEY_EQUALS 61
   #define KEY_GRAVE 96 // Tilde/backtick key
- 
+
  #endif // __linux__
 
 #endif // !KEYS_H

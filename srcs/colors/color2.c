@@ -6,14 +6,15 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:08:30 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/02 13:58:51 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/09 18:05:25 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "colors.h"
 #include "macros.h"
+#include "render.h"
 
-static void	clamp(t_color *color)
+void	cclamp(t_color *color)
 {
 	if (color->r > 1)
 		color->r = 1;
@@ -36,7 +37,7 @@ uint32_t	get_color(t_color *color)
 	uint32_t	b;
 	uint32_t	color_value;
 
-	clamp(color);
+	cclamp(color);
 	r = (uint32_t)(color->r * 255.999);
 	g = (uint32_t)(color->g * 255.999);
 	b = (uint32_t)(color->b * 255.999);
@@ -44,4 +45,42 @@ uint32_t	get_color(t_color *color)
 	if (OS_MACOS)
 		color_value = 0x00000000;
 	return (color_value | r << 16 | g << 8 | b);
+}
+
+#include <stdio.h>
+
+t_color	get_pixel_color(t_canvas *canvas, int x, int y)
+{
+	char		*src;
+	uint32_t	color_value;
+	t_color		color;
+
+	src = canvas->addr + (y * canvas->line_length + x * (canvas->bpp / 8));
+	color_value = *(uint32_t *)src;
+	color.set.x = (color_value >> 16) & 0xFF;
+	color.set.y = (color_value >> 8) & 0xFF;
+	color.set.z = color_value & 0xFF;
+	return (color);
+}
+
+t_color	lerp(t_color a, t_color b, double t)
+{
+	t_color	ret;
+
+	ret.r = (b.r * t) + (a.r * (1.0 - t));
+	ret.g = (b.g * t) + (a.g * (1.0 - t));
+	ret.b = (b.b * t) + (a.b * (1.0 - t));
+	return (ret);
+}
+
+int	cdiff(t_color a, t_color b)
+{
+	int				r_diff;
+	int				g_diff;
+	int				b_diff;
+
+	r_diff = fabs((a.r * 255.999) - (b.r * 255.999));
+	g_diff = fabs((a.g * 255.999) - (b.g * 255.999));
+	b_diff = fabs((a.b * 255.999) - (b.b * 255.999));
+	return (r_diff + g_diff + b_diff);
 }

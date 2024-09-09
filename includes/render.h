@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:23:51 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/09 12:30:28 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/09 16:49:31 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,20 @@ typedef struct s_thread_data
 	int			id;
 	pthread_t	thread;
 	t_program	*context;
-	int				start;
+	int			y;
+	int			y_f;
 }	t_thread_data;
 
 uint32_t	get_color(t_color *color);
+t_color		render_pixel(t_program *context, int x, int y);
 void		canvas(t_program *context, int width, int height);
-void		put_pixel(t_canvas *canvas, int x, int y, t_color *color);
+void		put_pixel(t_canvas *canvas, int x, int y, t_color color);
 void		render_clock(t_program	*context);
 void		render_sphere(t_program *context);
 void		render_scene(t_program *context);
+
+t_color		super_sample_pix(t_thread_data *data, double x, double y);
+void		interpolate_horizontal(t_thread_data *data);
+void		interpolate_vertical(t_thread_data *data);
 
 #endif // !RENDER_H
