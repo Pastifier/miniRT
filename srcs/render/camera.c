@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:35:45 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/04 13:52:49 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/09 21:02:49 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,13 @@ t_mat4x4	view_transform(t_double4 from, t_double4 to, t_double4 up)
 	t_double4	forward;
 	t_double4	left;
 	t_double4	true_up;
-	t_double4	normal_up;
 	t_mat4x4	orientation_matrix;
 	t_mat4x4	translation_matrix;
 
 	d4sub(&forward, &to, &from);
 	vnormalize(&forward);
-	vnorm(&normal_up, &up);
-	d4_cross_vec(&left, &forward, &normal_up);
+	vnormalize(&up);
+	d4_cross_vec(&left, &forward, &up);
 	d4_cross_vec(&true_up, &left, &forward);
 	orientation_matrix = mat4x4_identity();
 	orientation_matrix.r1 = row4(left.x, left.y, left.z, 0);
