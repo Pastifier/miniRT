@@ -1,5 +1,17 @@
 #include "tests.h"
 
+void	fill_canvas(t_canvas *canvas, uint32_t color)
+{
+	int	i;
+
+	i = 0;
+	while (i < canvas->line_length * WIN_HEIGHT)
+	{
+		*(uint32_t *)(canvas->addr + i) = color;
+		i += sizeof(uint32_t);
+	}
+}
+
 static void	draw_square(t_program *context, t_double4 coord, int w, int h)
 {
 	int	x;
@@ -489,6 +501,9 @@ void	test_render_transformed_cy(void)
 	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
 	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
 
+	
+	fill_canvas(&context.canvas, 0x00FFFFFF);
+
 	////t_mat4x4 transformation; Leave it for later
 	//t_mat4x4 transform_operations;
 
@@ -497,13 +512,13 @@ void	test_render_transformed_cy(void)
 
 	// Capped Cylinder
 	default_cylinder(&cy);
-	cy.cy_max = 1.0;
-	cy.cy_min = -1.0;
-	cy.cy_closed = true;
+	cy.cy_max = 2.0;
+	cy.cy_min = -2.0;
+	cy.cy_closed = false;
 	world.obj[0] = cy;
 
-	//transform_operations = scaling(1, 0.5, 1);
-	//cy.transform = mat4x4_cross(&cy.transform, &transform_operations);
+	transform_operations = scaling(1, 0.5, 1);
+	cy.transform = mat4x4_cross(&cy.transform, &transform_operations);
 	transform_operations = rotation_z(M_PI_4);
 	cy.transform = mat4x4_cross(&cy.transform, &transform_operations);
 

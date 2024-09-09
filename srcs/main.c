@@ -16,17 +16,7 @@ t_color COLOR_RED;
 
 #include "mlx.h"
 
-void	fill_canvas(t_canvas *canvas, uint32_t color)
-{
-	int	i;
 
-	i = 0;
-	while (i < canvas->line_length * WIN_HEIGHT)
-	{
-		*(uint32_t *)(canvas->addr + i) = color;
-		i += sizeof(uint32_t);
-	}
-}
 
 int main(void)
 {

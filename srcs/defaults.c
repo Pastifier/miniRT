@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 08:57:19 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/06 18:29:21 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/08 23:36:37 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	default_cylinder(t_obj *cy)
 	point(&cy->center, 0, 0, 0);
 	cy->id = id;
 	default_mat(&cy->material);
+	cinit(&cy->material.c, 0.0, 0.0, 1.0);
 	cy->transform = mat4x4_identity();
 	cy->radius = 1.0;
 	cy->cy_min = -INFINITY;

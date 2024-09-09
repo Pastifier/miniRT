@@ -193,7 +193,7 @@ t_color			color_at(t_world *world, t_ray *r)
 	xs = intersect_world(world, r);
 	hit = get_hit(xs);
 	if (!hit)
-		/*deal with it*/ return (res.set.w = 0, res);
+		/*deal with it*/ return (/*(void)cinit(&res, 1, 1, 1), */res);
 	prepare_computations(hit, r);
 	res = shade_hit(world, hit);
 	free(xs);

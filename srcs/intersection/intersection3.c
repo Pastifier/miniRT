@@ -36,13 +36,13 @@ void	dswap(double *a, double *b)
 
 bool	check_caps(t_ray *ray2, double t)
 {
-	double	x, z;
+	double	z, y;
 
-	x = ray2->origin.x + (t * ray2->direction.x);
 	z = ray2->origin.z + (t * ray2->direction.z);
-	x *= x;
+	y = ray2->origin.y + (t * ray2->direction.y);
 	z *= z;
-	return ((x + z <= 1));
+	y *= y;
+	return ((z + y <= 1));
 }
 
 bool	intersect_caps(t_ray *ray2, t_obj *cy, t_intersections *xs)
@@ -50,10 +50,10 @@ bool	intersect_caps(t_ray *ray2, t_obj *cy, t_intersections *xs)
 	double	t;
 	bool	itx_occured;
 
-	if (!cy->cy_closed || fabs(ray2->direction.y) < EPSILON)
+	if (!cy->cy_closed || fabs(ray2->direction.x) <= EPSILON)
 		return (false);
 	itx_occured = false;
-	t = (cy->cy_min - ray2->origin.y) / ray2->direction.y;
+	t = (cy->cy_min - ray2->origin.x) / ray2->direction.x;
 	if (check_caps(ray2, t))
 	{
 		xs->arr[xs->count].t = t;
@@ -62,7 +62,7 @@ bool	intersect_caps(t_ray *ray2, t_obj *cy, t_intersections *xs)
 		xs->count++;
 		itx_occured = true;
 	}
-	t = (cy->cy_max - ray2->origin.y) / ray2->direction.y;
+	t = (cy->cy_max - ray2->origin.x) / ray2->direction.x;
 	if (check_caps(ray2, t))
 	{
 		xs->arr[xs->count].t = t;
@@ -83,24 +83,21 @@ bool	intersect_cylinder(t_ray *r, t_obj *cy, t_intersections *xs)
 	t_ray		ray2;
 	t_mat4x4	inverse;
 	bool		itx_occured;
-	t_double4	normalized_dir;
 
 	if (xs->count >= 199)
 		return (false);
-	vnorm(&normalized_dir, &r->direction);
-	t_ray ray_mid = ray(r->origin, normalized_dir);
 	inverse = mat4x4_inverse(&cy->transform);
-	ray2 = m4r_transform(&ray_mid, &inverse);
-	//vnormalize(&ray2.direction);
-	a = (ray2.direction.x * ray2.direction.x)
-		+ (ray2.direction.z * ray2.direction.z);
+	ray2 = m4r_transform(r, &inverse);
+	vnormalize(&ray2.direction);
+	a = (ray2.direction.z * ray2.direction.z)
+		+ (ray2.direction.y * ray2.direction.y);
 	itx_occured = intersect_caps(&ray2, cy, xs);
 	if (fabs(a) < EPSILON)
 		return (itx_occured);
-	b = (2 * ray2.origin.x * ray2.direction.x)
-		+ (2 * ray2.origin.z * ray2.direction.z);
-	c = -1 + (ray2.origin.x * ray2.origin.x)
-		+ (ray2.origin.z * ray2.origin.z);
+	b = (2 * ray2.origin.z * ray2.direction.z)
+		+ (2 * ray2.origin.y * ray2.direction.y);
+	c = -1 + (ray2.origin.z * ray2.origin.z)
+		+ (ray2.origin.y * ray2.origin.y);
 	disc = (b * b) - (4 * a * c);
 	if (disc < 0)
 		return (false);
@@ -109,8 +106,8 @@ bool	intersect_cylinder(t_ray *r, t_obj *cy, t_intersections *xs)
 	t[1] = (-b + disc) / (2.0 * a);
 	if (t[0] > t[1])
 		dswap(&t[0], &t[1]);
-	y[0] = ray2.origin.y + t[0] * ray2.direction.y;
-	y[1] = ray2.origin.y + t[1] * ray2.direction.y;
+	y[0] = ray2.origin.x + t[0] * ray2.direction.x;
+	y[1] = ray2.origin.x + t[1] * ray2.direction.x;
 	if (cy->cy_min < y[0] && y[0] < cy->cy_max)
 	{
 		xs->arr[xs->count].t = t[0];
@@ -141,15 +138,15 @@ t_double4	cy_normal_at(t_obj *cy, t_double4 *world_p)
 
 	inverse = mat4x4_inverse(&cy->transform);
 	local_p = mat4x4_cross_vec(&inverse, world_p);
-	radial_dist = (local_p.x * local_p.x) + (local_p.z * local_p.z);
+	radial_dist = (local_p.z * local_p.z) + (local_p.y * local_p.y);
 	local_norm = (t_double4){0};
-	if (radial_dist < 1 && (local_p.y >= cy->cy_max - EPSILON))
-		local_norm.y = 1;
-	else if (radial_dist < 1 && (local_p.y <= cy->cy_min + EPSILON))
-		local_norm.y = -1;
+	if (radial_dist < 1 && (local_p.x >= cy->cy_max - EPSILON))
+		local_norm.x = 1;
+	else if (radial_dist < 1 && (local_p.x <= cy->cy_min + EPSILON))
+		local_norm.x = -1;
 	else
 	{
-		vector(&local_norm, local_p.x, 0, local_p.z);
+		vector(&local_norm, 0, local_p.y, local_p.z);
 		vnormalize(&local_norm);
 	}
 	transposed = mat4x4_transpose(&inverse);

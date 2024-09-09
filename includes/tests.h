@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 08:50:24 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/07 19:10:55 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/08 23:38:42 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 /*--- Garbage from before I ascended to human status ---*/
 
 void	draw_clock(t_program *context);
+void	fill_canvas(t_canvas *canvas, uint32_t color);
 void	draw_sphere_using_rt(t_program *context, t_obj *sphere, t_light *plight);
 void	world_from_chapter_7(void);
 
