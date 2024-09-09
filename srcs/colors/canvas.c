@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:03:07 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/03 14:17:36 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/09 12:46:21 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_color	color_at(t_world *w, t_ray *r)
 	t_intersection		*hit;
 	t_itx_computation	comps;
 	t_color				result;
-	
+
 	world_itxs = intersect_world(w, r);
 	hit = get_hit(&world_itxs);
 	if (!hit)

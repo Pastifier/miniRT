@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:23:51 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/04 13:00:40 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/09 12:30:28 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_thread_data
 	int			id;
 	pthread_t	thread;
 	t_program	*context;
-	double		start;
+	int				start;
 }	t_thread_data;
 
 uint32_t	get_color(t_color *color);

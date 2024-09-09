@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/04 14:11:54 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/09 12:48:01 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 static void	setup_world_chapter7(t_world *w)
 {
 	t_mat4x4 transform_operations;
-	
+
 	point(&w->lights[0].position,-10, 10, -10);
 	color(&w->lights[0].type.point.intensity, 1, 1, 1);
 
@@ -34,7 +34,7 @@ static void	setup_world_chapter7(t_world *w)
 	floor.material = default_material();
 	color(&floor.material.color, 1.0, 1.0, 1.0);
 	floor.material.specular = 0;
-	
+
 	t_object left_wall;
 	plane(&left_wall, NULL, NULL);
 	transform_operations = translation(0, 0, 5);
@@ -109,20 +109,23 @@ void	*render_row(void *arg)
 	t_color			c;
 	int				x;
 	int				y;
+	int				y_f;
 
-	x = data->start.x;
-	y = data->start.y;
-	while (y < data->end.y)
+	y = data->id * (cam->vsize / THREAD_NUM);
+	y_f = (data->id + 1) * (cam->vsize / THREAD_NUM);
+	while (y < y_f)
 	{
-		r = ray_for_pixel(cam, x, y);
-		c = color_at(w, &r);
-		put_pixel(&context->canvas, x, y, &c);
-		x++;
-		if (x == cam->hsize)
+		x = 0;
+		while(x < cam->hsize)
 		{
-			x = 0;
-			y++;
+			r = ray_for_pixel(cam, x, y);
+			c = color_at(w, &r);
+			put_pixel(&context->canvas, x, y, &c);
+			x+=SKIPPED_PIX;
+			// x++;
 		}
+		// y++;
+		y+=SKIPPED_PIX;
 	}
 
 	return (NULL);
@@ -148,17 +151,15 @@ void	render_scene(t_program *context)
 	setup_world_chapter7(&w);
 
 	// default_world(&w);
-	
+
 	y = 0;
 	context->world = w;
 	context->camera = cam;
 	t_thread_data	threads[cam.vsize];
-	while (y < cam.vsize)
+	while (y < THREAD_NUM)
 	{
 		threads[y].id = y;
 		threads[y].context = context;
-		threads[y].start = row2(0, y);
-		threads[y].end = row2(cam.hsize, y + 1);
 		pthread_create(&threads[y].thread, NULL, render_row, &threads[y]);
 		y++;
 	}
@@ -171,7 +172,7 @@ void	render_scene(t_program *context)
 // static void	setup_world_chapter7(t_world *w)
 // {
 // 	t_mat4x4 transform_operations;
-	
+
 // 	point(&w->lights[0].position, -10, 10, -10);
 // 	color(&w->lights[0].type.point.intensity, 1, 1, 1);
 
