@@ -1,0 +1,59 @@
+$> ./miniRT > outfile.log 2> error.log
+
+
+=================================================================
+==59440==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x00011134eb84 at pc 0x000107af4f89 bp 0x700001a5d8c0 sp 0x700001a5d8b8
+READ of size 4 at 0x00011134eb84 thread T3
+    #0 0x107af4f88 in get_pixel_color color2.c:64
+    #1 0x107b005ec in interpolate_vertical interpolation.c:120
+    #2 0x107afad15 in render_row render.c:135
+    #3 0x7fff721a1108 in _pthread_start+0x93 (libsystem_pthread.dylib:x86_64+0x6108)
+    #4 0x7fff7219cb8a in thread_start+0xe (libsystem_pthread.dylib:x86_64+0x1b8a)
+
+0x00011134eb84 is located 3196 bytes to the left of 1664000-byte region [0x00011134f800,0x0001114e5c00)
+allocated by thread T0 here:
+    #0 0x107b7f17d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
+    #1 0x107ae7a47 in mlx_new_image+0x87 (miniRT:x86_64+0x100004a47)
+    #2 0x107ae80e7 in main main.c:34
+    #3 0x7fff71f9ccc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+Thread T3 created by T0 here:
+    #0 0x107b7931a in wrap_pthread_create+0x5a (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4331a)
+    #1 0x107afc37d in render_scene render.c:170
+    #2 0x107ae8238 in main main.c:37
+    #3 0x7fff71f9ccc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow color2.c:64 in get_pixel_color
+Shadow bytes around the buggy address:
+  0x100022269d20: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x100022269d30: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x100022269d40: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x100022269d50: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x100022269d60: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+=>0x100022269d70:[fa]fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x100022269d80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x100022269d90: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x100022269da0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x100022269db0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x100022269dc0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==59440==ABORTING
