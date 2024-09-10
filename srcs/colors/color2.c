@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   color2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:08:30 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/09 18:05:25 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/10 05:32:33 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "colors.h"
 #include "macros.h"
 #include "render.h"
+
+extern pthread_mutex_t	mutex;
 
 void	cclamp(t_color *color)
 {
@@ -48,6 +50,7 @@ uint32_t	get_color(t_color *color)
 }
 
 #include <stdio.h>
+#include "pthread.h"
 
 t_color	get_pixel_color(t_canvas *canvas, int x, int y)
 {
@@ -56,7 +59,11 @@ t_color	get_pixel_color(t_canvas *canvas, int x, int y)
 	t_color		color;
 
 	src = canvas->addr + (y * canvas->line_length + x * (canvas->bpp / 8));
+	pthread_mutex_lock(&mutex);
+	printf("x: %d, y: %d, addr: %p\n", x, y, (void *)src);
 	color_value = *(uint32_t *)src;
+	printf("passed.\n-------------------------------------------------------------\n");
+	pthread_mutex_unlock(&mutex);
 	color.set.x = (color_value >> 16) & 0xFF;
 	color.set.y = (color_value >> 8) & 0xFF;
 	color.set.z = color_value & 0xFF;
