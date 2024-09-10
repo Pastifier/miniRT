@@ -49,6 +49,6 @@ void	put_pixel(t_canvas *canvas, int x, int y, t_color color)
 {
 	char	*dst;
 
-	dst = canvas->addr + (y * WIN_WIDTH + x * (canvas->bpp / 8));
+	dst = canvas->addr + (y * canvas->line_length + x * (canvas->bpp / 8));
 	*(uint32_t *)dst = get_color(&color);
 }

@@ -19,6 +19,7 @@
 
 t_color	super_sample_pix(t_thread_data *data, double x, double y)
 {
+	t_ray			r;
 	t_color		color;
 	t_color		avg_color;
 	int			i;
@@ -33,9 +34,10 @@ t_color	super_sample_pix(t_thread_data *data, double x, double y)
 		j = -1;
 		while (++j < SKIPPED_PIX - 1)
 		{
-			color = render_pixel(data->context,
+			r = ray_for_pixel(&data->context->camera,
 			x + (i + 0.5) / (SKIPPED_PIX - 1),
 			y + (j + 0.5) / (SKIPPED_PIX - 1));
+			color = color_at(&data->context->world, &r);
 			cadd(&avg_color, &avg_color, &color);
 		}
 	}

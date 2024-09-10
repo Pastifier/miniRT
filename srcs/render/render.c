@@ -131,6 +131,13 @@ void	*render_row(void *arg)
 		}
 		y+=SKIPPED_PIX;
 	}
+	return (NULL);
+}
+
+void	*interpolate_routine(void *arg)
+{
+	t_thread_data	*data = (t_thread_data *)arg;
+
 	interpolate_horizontal(data);
 	interpolate_vertical(data);
 	return (NULL);
@@ -157,19 +164,25 @@ void	render_scene(t_program *context)
 
 	// default_world(&w);
 
-	y = 0;
+	y = -1;
 	context->world = w;
 	context->camera = cam;
-	t_thread_data	threads[cam.vsize];
-	while (y < THREAD_NUM)
+	t_thread_data	threads[THREAD_NUM + 1];
+	while (++y <= THREAD_NUM)
 	{
 		threads[y].id = y;
 		threads[y].context = context;
 		threads[y].y = y * (cam.vsize / THREAD_NUM);
 		threads[y].y_f = (y + 1) * (cam.vsize / THREAD_NUM);
+		threads[y].x = y * (cam.hsize / THREAD_NUM);
+		threads[y].x_f = (y + 1) * (cam.hsize / THREAD_NUM);
 		pthread_create(&threads[y].thread, NULL, render_row, &threads[y]);
-		y++;
 	}
+	while (y--)
+		pthread_join(threads[y].thread, NULL);
+	y = -1;
+	while (++y <= THREAD_NUM)
+		pthread_create(&threads[y].thread, NULL, interpolate_routine, &threads[y]);
 	while (y--)
 		pthread_join(threads[y].thread, NULL);
 	mlx_put_image_to_window(context->mlx, context->win, context->canvas.ptr, 0, 0);

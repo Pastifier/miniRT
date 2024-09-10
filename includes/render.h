@@ -44,6 +44,8 @@ typedef struct s_thread_data
 	t_program	*context;
 	int			y;
 	int			y_f;
+	int			x;
+	int			x_f;
 }	t_thread_data;
 
 uint32_t	get_color(t_color *color);

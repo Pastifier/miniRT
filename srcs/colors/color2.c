@@ -49,9 +49,6 @@ uint32_t	get_color(t_color *color)
 	return (color_value | r << 16 | g << 8 | b);
 }
 
-#include <stdio.h>
-#include "pthread.h"
-
 t_color	get_pixel_color(t_canvas *canvas, int x, int y)
 {
 	char		*src;
@@ -59,14 +56,13 @@ t_color	get_pixel_color(t_canvas *canvas, int x, int y)
 	t_color		color;
 
 	src = canvas->addr + (y * canvas->line_length + x * (canvas->bpp / 8));
-	pthread_mutex_lock(&mutex);
-	printf("x: %d, y: %d, addr: %p\n", x, y, (void *)src);
 	color_value = *(uint32_t *)src;
-	printf("passed.\n-------------------------------------------------------------\n");
-	pthread_mutex_unlock(&mutex);
 	color.set.x = (color_value >> 16) & 0xFF;
 	color.set.y = (color_value >> 8) & 0xFF;
 	color.set.z = color_value & 0xFF;
+	color.r = color.set.x / 255.999;
+	color.g = color.set.y / 255.999;
+	color.b = color.set.z / 255.999;
 	return (color);
 }
 
