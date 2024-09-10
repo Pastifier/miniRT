@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:48:22 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/10 05:53:20 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:02:47 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	fill_in_horizontal(t_thread_data *data, int x, int y)
 	if (cdiff(c_i, c_f) > THRESHOLD)
 	{
 		// super_sample_pix(data, x - 1, y);
-		//super_sample_pix(data, x, y);
-		//super_sample_pix(data, x + 1, y);
+		super_sample_pix(data, x, y);
+		super_sample_pix(data, x + 1, y);
 		// super_sample_pix(data, x + 2, y);
 		return ;
 	}
@@ -45,7 +45,7 @@ static void	fill_in_vertically(t_thread_data *data, int x, int y)
 	t_color		c_i;
 	t_color		c_f;
 
-	c_i = get_pixel_color(&data->context->canvas, x, y - 1); // Whoops!
+	c_i = get_pixel_color(&data->context->canvas, x, y - 1);
 	if (y + SKIPPED_PIX - 1 >= data->y_f && y < data->y_f)
 		super_sample_pix(data, x, y);
 	if (y + SKIPPED_PIX - 1 >= data->y_f && y + 1 < data->y_f)
@@ -56,8 +56,8 @@ static void	fill_in_vertically(t_thread_data *data, int x, int y)
 	if (cdiff(c_i, c_f) > THRESHOLD)
 	{
 		//// super_sample_pix(data, x, y - 1);
-		//super_sample_pix(data, x, y);
-		//super_sample_pix(data, x, y + 1);
+		super_sample_pix(data, x, y);
+		super_sample_pix(data, x, y + 1);
 		//// super_sample_pix(data, x, y + 2);
 		return ;
 	}
@@ -108,21 +108,21 @@ void	interpolate_vertical(t_thread_data *data)
 	int				y;
 	int				y_f;
 
-	y_f = data->y_f;
+	y_f = data->y_f + 1;
 	y = data->y;
 	while (y < y_f)
 	{
 		x = 1;
 		while (x < cam->hsize)
 		{
-			if (y + (SKIPPED_PIX - 1) < cam->vsize /*&& y - 1 >= 0*/) 
+			if (y + (SKIPPED_PIX - 1) < cam->vsize) 
 			{
-				fill_in_vertically(data, x, y); // Again. After reading the comment below, check inside this function. Do you see a pattern here?
+				fill_in_vertically(data, x, y);
 			}
 			else
 			{
-				if (y < cam->vsize /*&& y - 1 >= 0*/) // See where the problem is? Of course, this is an edge-case, so you'll have to handle it appropriately!
-					put_pixel(&context->canvas, x, y, get_pixel_color(&context->canvas, x, y - 1)); // whoops!
+				if (y < cam->vsize)
+					put_pixel(&context->canvas, x, y, get_pixel_color(&context->canvas, x, y - 1));
 				if (y + 1 < cam->vsize)
 					put_pixel(&context->canvas, x, y + 1, get_pixel_color(&context->canvas, x, y));
 			}
