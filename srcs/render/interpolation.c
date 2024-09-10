@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpolation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:48:22 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/09 17:34:24 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/09 23:45:11 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ static void	fill_in_horizontal(t_thread_data *data, int x, int y)
 	if (cdiff(c_i, c_f) > THRESHOLD)
 	{
 		// super_sample_pix(data, x - 1, y);
-		super_sample_pix(data, x, y);
-		super_sample_pix(data, x + 1, y);
+		//super_sample_pix(data, x, y);
+		//super_sample_pix(data, x + 1, y);
 		// super_sample_pix(data, x + 2, y);
+		return ;
 	}
 	else
 	{
@@ -54,10 +55,11 @@ static void	fill_in_vertically(t_thread_data *data, int x, int y)
 	c_f = get_pixel_color(&data->context->canvas, x, y + SKIPPED_PIX - 1);
 	if (cdiff(c_i, c_f) > THRESHOLD)
 	{
-		// super_sample_pix(data, x, y - 1);
-		super_sample_pix(data, x, y);
-		super_sample_pix(data, x, y + 1);
-		// super_sample_pix(data, x, y + 2);
+		//// super_sample_pix(data, x, y - 1);
+		//super_sample_pix(data, x, y);
+		//super_sample_pix(data, x, y + 1);
+		//// super_sample_pix(data, x, y + 2);
+		return ;
 	}
 	else
 	{
