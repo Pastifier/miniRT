@@ -109,7 +109,7 @@ void	interpolate_vertical(t_thread_data *data)
 	int				y_f;
 
 	y_f = data->y_f;
-	y = data->y;
+	y = data->y; // Humpty-dumpty sat on a wall. Humpty-dumpty had a great fall~
 	while (y < y_f)
 	{
 		x = 1;
@@ -122,6 +122,7 @@ void	interpolate_vertical(t_thread_data *data)
 			else
 			{
 				if (y < cam->vsize /*&& y - 1 >= 0*/) // See where the problem is? Of course, this is an edge-case, so you'll have to handle it appropriately!
+					// Adding this condition isn't the solution though. You'll have to look up. Perhaps a certain nursery rhyme would be where I'm guessing the fix should be...
 					put_pixel(&context->canvas, x, y, get_pixel_color(&context->canvas, x, y - 1)); // whoops!
 				if (y + 1 < cam->vsize)
 					put_pixel(&context->canvas, x, y + 1, get_pixel_color(&context->canvas, x, y));
