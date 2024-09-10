@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:48:22 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/09 23:45:11 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/10 05:53:20 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	fill_in_vertically(t_thread_data *data, int x, int y)
 	t_color		c_i;
 	t_color		c_f;
 
-	c_i = get_pixel_color(&data->context->canvas, x, y - 1);
+	c_i = get_pixel_color(&data->context->canvas, x, y - 1); // Whoops!
 	if (y + SKIPPED_PIX - 1 >= data->y_f && y < data->y_f)
 		super_sample_pix(data, x, y);
 	if (y + SKIPPED_PIX - 1 >= data->y_f && y + 1 < data->y_f)
@@ -115,14 +115,14 @@ void	interpolate_vertical(t_thread_data *data)
 		x = 1;
 		while (x < cam->hsize)
 		{
-			if (y + (SKIPPED_PIX - 1) < cam->vsize)
+			if (y + (SKIPPED_PIX - 1) < cam->vsize /*&& y - 1 >= 0*/) 
 			{
-				fill_in_vertically(data, x, y);
+				fill_in_vertically(data, x, y); // Again. After reading the comment below, check inside this function. Do you see a pattern here?
 			}
 			else
 			{
-				if (y < cam->vsize)
-					put_pixel(&context->canvas, x, y, get_pixel_color(&context->canvas, x, y - 1));
+				if (y < cam->vsize /*&& y - 1 >= 0*/) // See where the problem is? Of course, this is an edge-case, so you'll have to handle it appropriately!
+					put_pixel(&context->canvas, x, y, get_pixel_color(&context->canvas, x, y - 1)); // whoops!
 				if (y + 1 < cam->vsize)
 					put_pixel(&context->canvas, x, y + 1, get_pixel_color(&context->canvas, x, y));
 			}
