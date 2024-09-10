@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:04:24 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/09 17:57:50 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/10 02:37:54 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@
 #include "colors.h"
 #include "mlx.h"
 
+pthread_mutex_t	mutex;
+
 int main(void)
 {
 	t_program	context;
+
+	pthread_mutex_init(&mutex, NULL);
 
 	context.mlx = mlx_init();
 	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
