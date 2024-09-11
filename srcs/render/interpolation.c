@@ -78,8 +78,8 @@ static void	fill_in_vertically(t_thread_data *data, int x, int y)
 	t_color		c_i;
 	t_color		c_f;
 
-	if (y - 1 < 0)
-		return ;
+	//if (y - 1 < 0)
+	//	return ;
 	c_i = get_pixel_color(&data->context->canvas, x, y - 1);
 	if (y + SKIPPED_PIX - 1 >= data->context->camera.vsize)
 		c_f = get_pixel_color(&data->context->canvas, x, data->context->camera.vsize - 1);
@@ -110,7 +110,7 @@ void	interpolate_vertical(t_thread_data *data)
 	int				y_f;
 
 	y_f = data->y_f;
-	y = data->y + 1;
+	y = data->y + 1; // Yup
 	while (y < y_f)
 	{
 		x = 1;
@@ -122,7 +122,7 @@ void	interpolate_vertical(t_thread_data *data)
 			}
 			else
 			{	
-				if (y < cam->vsize && y - 1 >= 0)
+				if (y < cam->vsize /*&& y - 1 >= 0*/) // I wonder if it will work without this condition now that you start from y=1 at least
 					put_pixel(&context->canvas, x, y, get_pixel_color(&context->canvas, x, y - 1));
 				if (y + 1 < cam->vsize)
 					put_pixel(&context->canvas, x, y + 1, get_pixel_color(&context->canvas, x, y));
