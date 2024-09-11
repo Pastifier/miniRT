@@ -14,6 +14,40 @@
 #include "linear_algebra.h"
 #include <stdbool.h>
 
+t_double4 extract_column(t_mat4x4 *m, short c)
+{
+	return ((t_double4)
+		{
+		.x = m->m[0][c],
+		.y = m->m[1][c],
+		.z = m->m[2][c],
+		.w = m->m[3][c]
+		});
+}
+
+t_mat4x4 mat4x4_cross_unrolled(t_mat4x4 *m1, t_mat4x4 *m2)
+{
+	int r;
+	t_double4 col;
+	t_mat4x4 result;
+	t_double4 *row;
+
+	r = -1;
+	row = &m1.r1;
+	while (++r < 4)
+	{
+		col = extract_column(m2, 0);
+		result.m[r][0] = vdot(&row[r], &col);
+		col = extract_column(m2, 1);
+		result.m[r][1] = vdot(&row[r], &col);
+		col = extract_column(m2, 2);
+		result.m[r][2] = vdot(&row[r], &col);
+		col = extract_column(m2, 3);
+		result.m[r][3] = vdot(&row[r], &col);
+	}
+	return (result);
+}
+
 bool	mat4x4_eq(t_mat4x4 *m1, t_mat4x4 *m2)
 {
 	int	r;
