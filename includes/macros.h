@@ -24,7 +24,7 @@
 # endif // !THRESHOLD
 
 # ifndef SKIPPED_PIX
-#  define SKIPPED_PIX 3
+#  define SKIPPED_PIX 2
 # endif // !LERP_INC
 
 # ifndef THREAD_NUM

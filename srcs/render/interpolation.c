@@ -27,9 +27,11 @@ static void	fill_in_horizontal(t_thread_data *data, int x, int y)
 	c_f = get_pixel_color(&data->context->canvas, x + SKIPPED_PIX - 1, y);
 	if (cdiff(c_i, c_f) > THRESHOLD)
 	{
+		render_pixel(data->context, x, y);
+		render_pixel(data->context, x + 1, y);
 		// super_sample_pix(data, x - 1, y);
-		super_sample_pix(data, x, y);
-		super_sample_pix(data, x + 1, y);
+		// super_sample_pix(data, x, y);
+		// super_sample_pix(data, x + 1, y);
 		// super_sample_pix(data, x + 2, y);
 	}
 	else
@@ -85,9 +87,11 @@ static void	fill_in_vertically(t_thread_data *data, int x, int y)
 		c_f = get_pixel_color(&data->context->canvas, x, y + SKIPPED_PIX - 1);
 	if (cdiff(c_i, c_f) > THRESHOLD)
 	{
+		render_pixel(data->context, x, y);
+		render_pixel(data->context, x, y + 1);
 		// super_sample_pix(data, x, y - 1);
-		super_sample_pix(data, x, y);
-		super_sample_pix(data, x, y + 1);
+		// super_sample_pix(data, x, y);
+		// super_sample_pix(data, x, y + 1);
 		// super_sample_pix(data, x, y + 2);
 	}
 	else

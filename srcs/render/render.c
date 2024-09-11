@@ -140,6 +140,7 @@ void	*interpolate_routine(void *arg)
 
 	interpolate_horizontal(data);
 	interpolate_vertical(data);
+	(void)data;
 	return (NULL);
 }
 
