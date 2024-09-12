@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rtmath.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:06:09 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/03 13:42:14 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/12 21:31:52 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct	itx_computation
 	int			inside;
 }	t_itx_computation;
 
+typedef t_itx_computation t_comps;
 
 t_itx_computation prepare_computations(t_intersection itx, t_ray *r);
 t_intersection	*get_hit(t_intersections *xs);
