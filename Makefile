@@ -1,6 +1,6 @@
 # Necessities
 CC := cc
-CFLAGS = -Wextra -Werror -Wall -g3 -fsanitize=address,undefined
+CFLAGS = -Wextra -Werror -Wall #-g#-fsanitize=address,undefined#-g3 
 
 # OS-specification
 OS := $(shell uname)
@@ -48,7 +48,7 @@ SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h render.h objects.h
 INC_DIR := includes
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
-#OPTIMIZATION_FLAGS = -Ofast -march=native -flto -fno-signed-zeros -funroll-loops
+OPTIMIZATION_FLAGS = -Ofast -march=native -flto -fno-signed-zeros -funroll-loops -O3
 all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDE)
