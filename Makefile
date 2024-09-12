@@ -45,10 +45,10 @@ SRC := main.c \
 SRC_DIR := srcs
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 
-INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h objects.h
+INC := miniRT.h rtmath.h linear_algebra.h colors.h macros.h matrix.h render.h objects.h
 INC_DIR := includes
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
-OPTIMIZATION_FLAGS = -Ofast -march=native -flto -fno-signed-zeros -funroll-loops
+#OPTIMIZATION_FLAGS = -Ofast -march=native -flto -fno-signed-zeros -funroll-loops
 all: $(NAME)
 
 $(NAME): $(SRCS) $(INCLUDE)
