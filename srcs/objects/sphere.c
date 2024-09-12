@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:36 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/03 16:45:32 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/12 22:36:25 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void sphere_discriminant(t_ray *ray, t_object *sphere, t_discriminant *di
 static void sphere_t_values(t_discriminant *disc, double t_values[], int *t_count)
 {
 	*t_count = 0;
-	if (disc->sqrt_disc < 0) // sqrts of negative numbers are imaginary
+	if (disc->sqrt_disc < 0) // sqrts of negative numbers are imaginary // (Psst! This check is unneeded<3)
 		return;
 	t_values[0] = (-disc->b - disc->sqrt_disc) / (2.0 * disc->a);
 	t_values[1] = (-disc->b + disc->sqrt_disc) / (2.0 * disc->a);
@@ -75,7 +75,7 @@ static void sphere_t_values(t_discriminant *disc, double t_values[], int *t_coun
 		*t_count += 2;
 }
 
-void intersect_sphere(t_ray *ray, t_object *sphere)
+void intersect_sphere(t_ray *ray, t_object *sphere, t_intersections *xs)
 {
 	t_discriminant disc;
 	double t_values[MAX_INTERSECTIONS];
@@ -93,6 +93,8 @@ void intersect_sphere(t_ray *ray, t_object *sphere)
 	if (disc.disc < 0)
 		return ;
 	sphere_t_values(&disc, t_values, &t_count);
-	ray->itx.count = t_count;
-	store_intersections(&ray->itx, t_values, sphere);
+	xs->data[xs->count].object = sphere;
+	xs->data[xs->count++].t = t_values[0];
+	xs->data[xs->count].object = sphere;
+	xs->data[xs->count++].t = t_values[1];
 }

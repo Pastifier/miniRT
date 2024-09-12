@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:30:02 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/12 19:57:22 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/12 22:32:56 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,11 +144,11 @@ void			ray_position(t_double4 *result, t_ray *ray, double t);
 void			ray_transform(t_ray *ray, t_mat4x4 *matrix);
 
 void			sphere(t_object *sphere, t_double4 *center, double radius, t_mat4x4 *transform);
-void			intersect_sphere(t_ray *ray, t_object *sphere);
+void			intersect_sphere(t_ray *ray, t_object *sphere, t_intersections *xs);
 t_double4		sphere_normal_at(t_object *sphere, t_double4 *world_point);
 
 void 			plane(t_object *plane, t_double4 *center, t_mat4x4 *transform);
 t_double4		plane_normal_at(t_object *plane);
-void			intersect_plane(t_ray *ray, t_object *plane);
+void			intersect_plane(t_ray *ray, t_object *plane, t_intersections *xs);
 
 #endif // !OBJECTS_H

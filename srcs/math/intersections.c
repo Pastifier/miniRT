@@ -33,31 +33,20 @@ t_itx_computation prepare_computations(t_intersection itx, t_ray *r)
 t_intersections	intersect_world(t_world *w, t_ray *r)
 {
 	int			i;
-	int			j;
 	t_intersections	result;
 
 	i = -1;
-	result.count = 0;
+	result = (t_intersections){0};
 	while (++i < w->num_objects)
 	{
+		if (result.count >= MAX_INTERSECTIONS)
+			break ;
 		ft_bzero(r->itx.data, sizeof(t_intersection) * MAX_INTERSECTIONS);
 		r->itx.count = 0;
 		if (w->objects[i].type == OBJ_SPHERE)
-			intersect_sphere(r, &w->objects[i]);
+			intersect_sphere(r, &w->objects[i], &result);
 		else if (w->objects[i].type == OBJ_PLANE)
-			intersect_plane(r, &w->objects[i]);
-		if (r->itx.count > 0)
-		{
-			j = -1;
-			while (++j < r->itx.count && result.count < MAX_INTERSECTIONS)
-			{
-				if (r->itx.data[j].t >= 0)
-				{
-					result.data[result.count] = r->itx.data[j];
-					result.count++;
-				}
-			}
-		}
+			intersect_plane(r, &w->objects[i], &result);
 	}
 	quick_sort_intersections(result.data, result.count);
 	return (result);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:48:39 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/09 13:48:40 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/12 22:39:37 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_double4	plane_normal_at(t_object *plane)
 	return (normal);
 }
 
-void	intersect_plane(t_ray *ray, t_object *plane)
+void	intersect_plane(t_ray *ray, t_object *plane, t_intersections *xs)
 {
 	t_double4	plane_to_ray;
 	t_double4	plane_normal;
@@ -67,8 +67,7 @@ void	intersect_plane(t_ray *ray, t_object *plane)
 	t = vdot(&plane_to_ray, &plane_normal) / denom;
 	if (t > EPSILON)
 	{
-		ray->itx.count = 1;
-		ray->itx.data[0].t = t;
-		ray->itx.data[0].object = plane;
+		xs->data[xs->count].object = plane;
+		xs->data[xs->count++].t = t;
 	}
 }
