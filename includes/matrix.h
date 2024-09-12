@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 01:54:47 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 20:05:33 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/12 21:37:05 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,17 @@ typedef union u_mat2x2
 		t_double2	r2;
 	};
 }	t_mat2x2;
+
+static inline t_double4 extract_column(t_mat4x4 *m, short c)
+{
+	return ((t_double4)
+		{
+		.x = m->m[0][c],
+		.y = m->m[1][c],
+		.z = m->m[2][c],
+		.w = m->m[3][c]
+		});
+}
 
 t_double4	row4(double x, double y, double z, double w);
 t_double4	extract_column4(t_mat4x4 *m, int col);
