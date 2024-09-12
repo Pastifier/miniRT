@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/12 21:25:44 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/13 02:43:30 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@
 static void	setup_world_chapter7(t_world *w)
 {
 	t_mat4x4 transform_operations;
+	t_light	light;
 
-	point(&w->lights[0].position,-10, 10, -10);
-	color(&w->lights[0].type.point.intensity, 1, 1, 1);
+	point(&light.position,-10, 10, -10);
+	color(&light.type.point.intensity, 1, 1, 1);
 
 	// Initialize the walls
 	t_object floor;
@@ -90,7 +91,7 @@ static void	setup_world_chapter7(t_world *w)
 	left.material.diffuse = 0.7;
 	left.material.specular = 0.3;
 
-	world_add_light(w, &w->lights[0]);
+	world_add_light(w, &light);
 	world_add_object(w, &floor);
 	world_add_object(w, &left_wall);
 	// world_add_object(w, &right_wall);
@@ -161,6 +162,7 @@ void	render_scene(t_program *context)
 	t_mat4x4 t = view_transform(from, to, up);
 	cam.transform = t;
 	w.cam_inverse = mat4x4_inverse(&t);
+	empty_world(&w);
 	setup_world_chapter7(&w);
 
 	// default_world(&w);
@@ -187,7 +189,6 @@ void	render_scene(t_program *context)
 	while (y--)
 		pthread_join(threads[y].thread, NULL);
 	mlx_put_image_to_window(context->mlx, context->win, context->canvas.ptr, 0, 0);
-	printf("Done rendering\n");
 }
 
 // static void	setup_world_chapter7(t_world *w)

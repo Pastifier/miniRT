@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:48:22 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/10 05:53:20 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/13 02:05:06 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "macros.h"
 #include "libft.h"
 #include <stdio.h>
+#include <assert.h>
 
 static void	fill_in_horizontal(t_thread_data *data, int x, int y)
 {
@@ -51,6 +52,8 @@ void	interpolate_horizontal(t_thread_data *data)
 
 	y = data->y;
 	y_f = data->y_f;
+	//assert(y >= 0 && y < y_f);
+	//assert(y_f > y && y_f < data->context->camera.vsize);
 	while (y < y_f)
 	{
 		x = 1;
@@ -111,6 +114,8 @@ void	interpolate_vertical(t_thread_data *data)
 
 	y_f = data->y_f;
 	y = data->y + 1; // Yup
+	//assert(y >= 1 && y < y_f);
+	//assert(y_f > y && y_f < data->context->camera.vsize);
 	while (y < y_f)
 	{
 		x = 1;

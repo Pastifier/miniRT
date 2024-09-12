@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   macros.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:12:40 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/09 15:58:42 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/13 01:00:23 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 # endif // !THRESHOLD
 
 # ifndef SKIPPED_PIX
-#  define SKIPPED_PIX 2
+#  define SKIPPED_PIX 3
 # endif // !SKIPPED_PIX
 
 # ifndef THREAD_NUM
-#  define THREAD_NUM 20
+#  define THREAD_NUM 16
 # endif // !THREAD_NUM
 
 # ifndef WIN_WIDTH

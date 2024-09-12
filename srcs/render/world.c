@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   world.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:20 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/04 12:42:39 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/13 02:38:36 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render.h"
 #include "rtmath.h"
 #include "objects.h"
+#include <assert.h>
 
 void	empty_world(t_world *world)
 {
@@ -22,12 +23,14 @@ void	empty_world(t_world *world)
 
 void	world_add_object(t_world *world, t_object *object)
 {
+	assert(world->num_objects >= 0 && world->num_objects < 100);
 	world->objects[world->num_objects] = *object;
 	world->num_objects++;
 }
 
 void	world_add_light(t_world *world, t_light *light)
 {
+	assert(world->num_lights >= 0 && world->num_lights < 100);
 	world->lights[world->num_lights] = *light;
 	world->num_lights++;
 }
