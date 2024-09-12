@@ -14,18 +14,8 @@
 #include "linear_algebra.h"
 #include <stdbool.h>
 
-t_double4 extract_column(t_mat4x4 *m, short c)
-{
-	return ((t_double4)
-		{
-		.x = m->m[0][c],
-		.y = m->m[1][c],
-		.z = m->m[2][c],
-		.w = m->m[3][c]
-		});
-}
 
-t_mat4x4 mat4x4_cross_unrolled(t_mat4x4 *m1, t_mat4x4 *m2)
+t_mat4x4 mat4x4_cross(t_mat4x4 *m1, t_mat4x4 *m2)
 {
 	int r;
 	t_double4 col;
@@ -33,7 +23,7 @@ t_mat4x4 mat4x4_cross_unrolled(t_mat4x4 *m1, t_mat4x4 *m2)
 	t_double4 *row;
 
 	r = -1;
-	row = &m1.r1;
+	row = &(m1->r1);
 	while (++r < 4)
 	{
 		col = extract_column(m2, 0);
@@ -59,26 +49,26 @@ bool	mat4x4_eq(t_mat4x4 *m1, t_mat4x4 *m2)
 	return (true);
 }
 
-t_mat4x4	mat4x4_cross(t_mat4x4 *m1, t_mat4x4 *m2)
-{
-	t_mat4x4	result;
-	int			r;
-	int			c;
+//t_mat4x4	mat4x4_cross(t_mat4x4 *m1, t_mat4x4 *m2)
+//{
+//	t_mat4x4	result;
+//	int			r;
+//	int			c;
 
-	r = -1;
-	while (++r < 4)
-	{
-		c = -1;
-		while (++c < 4)
-		{
-			result.m[r][c] = m1->m[r][0] * m2->m[0][c]
-				+ m1->m[r][1] * m2->m[1][c]
-				+ m1->m[r][2] * m2->m[2][c]
-				+ m1->m[r][3] * m2->m[3][c];
-		}
-	}
-	return (result);
-}
+//	r = -1;
+//	while (++r < 4)
+//	{
+//		c = -1;
+//		while (++c < 4)
+//		{
+//			result.m[r][c] = m1->m[r][0] * m2->m[0][c]
+//				+ m1->m[r][1] * m2->m[1][c]
+//				+ m1->m[r][2] * m2->m[2][c]
+//				+ m1->m[r][3] * m2->m[3][c];
+//		}
+//	}
+//	return (result);
+//}
 
 t_double4	mat4x4_cross_vec(t_mat4x4 *m, t_double4 *v)
 {
