@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:30:02 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/04 13:54:36 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:57:22 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef enum	e_object_type
 typedef struct	s_light
 {
 	t_double4	position;
+	t_color	color;
 
 	union	u_type
 	{
@@ -32,7 +33,11 @@ typedef struct	s_light
 		{
 			t_color	intensity;
 		}	point;
-	}	type;
+		struct	s_spot
+		{
+			double	intensity;
+		}	spot;
+	}	type; // I don't think the union needs a tag, but changing it will require a bunch of refactoring, so we're keeping it this way for now <3
 }	t_light;
 
 /*
@@ -71,8 +76,13 @@ typedef struct	s_object
 		struct	s_cube {
 			double	side_length;
 		}	cube;
+		struct s_cylinder
+		{
+			
+		}	cy;
 	}	obj;
 }	t_object;
+
 
 typedef struct	s_discriminant
 {
