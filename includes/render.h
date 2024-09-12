@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:23:51 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/09 16:49:31 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:56:52 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ typedef struct s_program
 	t_canvas	canvas;
 	t_world		world;
 	t_camera	camera;
+	struct s_ambient
+	{
+		t_color	color;
+		double	intensity;
+	}	ambient;
 }	t_program;
 
 typedef struct s_thread_data
