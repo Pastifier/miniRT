@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/09 16:49:51 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/12 21:25:44 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,21 +168,21 @@ void	render_scene(t_program *context)
 	y = -1;
 	context->world = w;
 	context->camera = cam;
-	t_thread_data	threads[THREAD_NUM + 1];
-	while (++y <= THREAD_NUM)
+	t_thread_data	threads[THREAD_NUM];
+	while (++y < THREAD_NUM)
 	{
 		threads[y].id = y;
 		threads[y].context = context;
 		threads[y].y = y * (cam.vsize / THREAD_NUM);
 		threads[y].y_f = (y + 1) * (cam.vsize / THREAD_NUM);
-		threads[y].x = y * (cam.hsize / THREAD_NUM);
-		threads[y].x_f = (y + 1) * (cam.hsize / THREAD_NUM);
+		threads[y].x = y * (cam.hsize / THREAD_NUM);			// ??
+		threads[y].x_f = (y + 1) * (cam.hsize / THREAD_NUM);	// ??
 		pthread_create(&threads[y].thread, NULL, render_row, &threads[y]);
 	}
 	while (y--)
 		pthread_join(threads[y].thread, NULL);
 	y = -1;
-	while (++y <= THREAD_NUM)
+	while (++y < THREAD_NUM)
 		pthread_create(&threads[y].thread, NULL, interpolate_routine, &threads[y]);
 	while (y--)
 		pthread_join(threads[y].thread, NULL);
