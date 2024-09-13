@@ -41,8 +41,6 @@ t_intersections	intersect_world(t_world *w, t_ray *r)
 	{
 		if (result.count >= MAX_INTERSECTIONS)
 			break ;
-		ft_bzero(r->itx.data, sizeof(t_intersection) * MAX_INTERSECTIONS);
-		r->itx.count = 0;
 		if (w->objects[i].type == OBJ_SPHERE)
 			intersect_sphere(r, &w->objects[i], &result);
 		else if (w->objects[i].type == OBJ_PLANE)
