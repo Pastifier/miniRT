@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/13 02:43:30 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/13 07:22:50 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	setup_world_chapter7(t_world *w)
 	plane(&floor, NULL, NULL);
 	floor.material = default_material();
 	color(&floor.material.color, 1.0, 1.0, 1.0);
+	floor.inverse = mat4x4_identity();
 	floor.material.specular = 0;
 
 	t_object left_wall;
@@ -44,6 +45,7 @@ static void	setup_world_chapter7(t_world *w)
 	left_wall.transform = mat4x4_cross(&left_wall.transform, &transform_operations);
 	transform_operations = rotation_x(M_PI / 2);
 	left_wall.transform = mat4x4_cross(&left_wall.transform, &transform_operations);
+	left_wall.inverse = mat4x4_inverse(&left_wall.transform);
 	left_wall.material = floor.material;
 
 	// t_object right_wall;
@@ -62,6 +64,7 @@ static void	setup_world_chapter7(t_world *w)
 	middle.transform = mat4x4_identity();
 	transform_operations = translation(-0.5, 1, 0.5);
 	middle.transform = mat4x4_cross(&middle.transform, &transform_operations);
+	middle.inverse = mat4x4_inverse(&middle.transform);
 	middle.material = default_material();
 	color(&middle.material.color, 0.1, 1, 0.5);
 	middle.material.diffuse = 0.7;
@@ -74,6 +77,7 @@ static void	setup_world_chapter7(t_world *w)
 	right.transform = mat4x4_cross(&right.transform, &transform_operations);
 	transform_operations = scaling(0.5, 0.5, 0.5);
 	right.transform = mat4x4_cross(&right.transform, &transform_operations);
+	right.inverse = mat4x4_inverse(&right.transform);
 	right.material = default_material();
 	color(&right.material.color, 0.5, 1, 0.1);
 	right.material.diffuse = 0.7;
@@ -86,6 +90,7 @@ static void	setup_world_chapter7(t_world *w)
 	left.transform = mat4x4_cross(&left.transform, &transform_operations);
 	transform_operations = scaling(0.33, 0.33, 0.33);
 	left.transform = mat4x4_cross(&left.transform, &transform_operations);
+	left.inverse = mat4x4_inverse(&left.transform);
 	left.material = default_material();
 	color(&left.material.color, 1, 0.8, 0.1);
 	left.material.diffuse = 0.7;
@@ -162,6 +167,7 @@ void	render_scene(t_program *context)
 	t_mat4x4 t = view_transform(from, to, up);
 	cam.transform = t;
 	w.cam_inverse = mat4x4_inverse(&t);
+	cam.inverse = w.cam_inverse;
 	empty_world(&w);
 	setup_world_chapter7(&w);
 
