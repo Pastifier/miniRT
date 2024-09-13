@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:20 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/13 02:38:36 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/13 07:10:04 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,24 @@ void	empty_world(t_world *world)
 
 void	world_add_object(t_world *world, t_object *object)
 {
+	static int	id = 1;
+
 	assert(world->num_objects >= 0 && world->num_objects < 100);
+	object->id = id;
 	world->objects[world->num_objects] = *object;
 	world->num_objects++;
+	id++;
 }
 
 void	world_add_light(t_world *world, t_light *light)
 {
+	static int	id = 1;
+
 	assert(world->num_lights >= 0 && world->num_lights < 100);
+	light->id = id;
 	world->lights[world->num_lights] = *light;
 	world->num_lights++;
+	id++;
 }
 
 void	default_world(t_world *world)
