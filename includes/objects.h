@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:30:02 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/12 22:32:56 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/13 07:09:34 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ typedef enum	e_object_type
 
 typedef struct	s_light
 {
+	int			id;
 	t_double4	position;
-	t_color	color;
+	t_color		color;
 
 	union	u_type
 	{
@@ -57,8 +58,10 @@ typedef struct	s_material
 
 typedef struct	s_object
 {
+	int			id;
 	t_double4	center;
 	t_mat4x4	transform;
+	t_mat4x4	inverse;
 	t_material	material;
 	int			type;
 
@@ -106,6 +109,7 @@ typedef struct s_camera
 	int			vsize;
 	double		field_of_view;
 	t_mat4x4	transform;
+	t_mat4x4	inverse;
 	double		half_width;
 	double		half_height;
 	double		half_view;
