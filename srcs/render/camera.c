@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:35:45 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/09 21:02:49 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/13 05:58:10 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ t_ray	ray_for_pixel(t_camera *camera, int px, int py)
 	t_double4	pixel;
 	t_double4	origin;
 	t_double4	direction;
-	t_mat4x4	inverse_transform;
+	//t_mat4x4	inverse_transform;
 
 	point(&pixel, (camera->half_width - (px + 0.5) * camera->pixel_size),
 			(camera->half_height - (py + 0.5) * camera->pixel_size), -1);
-	inverse_transform = mat4x4_inverse(&camera->transform);
-	pixel = mat4x4_cross_vec(&inverse_transform, &pixel);
+	//inverse_transform = mat4x4_inverse(&camera->transform);
+	pixel = mat4x4_cross_vec(&camera->inverse, &pixel);
 	point(&origin, 0, 0, 0);
-	origin = mat4x4_cross_vec(&inverse_transform, &origin);
+	origin = mat4x4_cross_vec(&camera->inverse, &origin);
 	d4sub(&direction, &pixel, &origin);
 	vnormalize(&direction);
 	ray_create(&r, &origin, &direction);
