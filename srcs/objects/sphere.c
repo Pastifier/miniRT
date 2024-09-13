@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:36 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/12 22:36:25 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/13 05:54:17 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ t_double4	sphere_normal_at(t_object *sphere, t_double4 *world_point)
 {
 	t_double4 object_n_p[2];
 	t_double4 world_n;
-	t_mat4x4 inv_transform;
+	//t_mat4x4 inv_transform;
 	t_mat4x4 transposed_inv;
 	t_double4 origin;
 
 	origin = sphere->center;
-	inv_transform = mat4x4_inverse(&sphere->transform);
-	object_n_p[1] = mat4x4_cross_vec(&inv_transform, world_point);
+	//inv_transform = mat4x4_inverse(&sphere->transform);
+	object_n_p[1] = mat4x4_cross_vec(&sphere->inverse, world_point);
 	d4sub(&object_n_p[0], &object_n_p[1], &origin);
-	transposed_inv = mat4x4_transpose(&inv_transform);
+	transposed_inv = mat4x4_transpose(&sphere->inverse);
 	world_n = mat4x4_cross_vec(&transposed_inv, &object_n_p[0]);
 	world_n.w = 0;
 	vnormalize(&world_n);
@@ -80,15 +80,15 @@ void intersect_sphere(t_ray *ray, t_object *sphere, t_intersections *xs)
 	t_discriminant disc;
 	double t_values[MAX_INTERSECTIONS];
 	int t_count;
-	t_mat4x4 inv_transform;
+	//t_mat4x4 inv_transform;
 	t_ray transformed_ray;
 
 	t_count = 0;
-	inv_transform = mat4x4_inverse(&sphere->transform);
+	//inv_transform = mat4x4_inverse(&sphere->transform);
 	ray->itx.count = 0;
 	ray->itx.data->object = sphere;
 	transformed_ray = *ray;
-	ray_transform(&transformed_ray, &(inv_transform));
+	ray_transform(&transformed_ray, &sphere->inverse);
 	sphere_discriminant(&transformed_ray, sphere, &disc);
 	if (disc.disc < 0)
 		return ;
