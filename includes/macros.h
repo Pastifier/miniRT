@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:12:40 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/13 01:00:23 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/13 07:31:27 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@
 # endif // !SKIPPED_PIX
 
 # ifndef THREAD_NUM
-#  define THREAD_NUM 16
+#  define THREAD_NUM 12
 # endif // !THREAD_NUM
 
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH 1000
+#  define WIN_WIDTH 1920
 # endif // !WIN_WIDTH
 
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT 600
+#  define WIN_HEIGHT 1080
 # endif // !WIN_HEIGHT
 
 #define PRINT_VECTOR(v) printf("(%0.3f, %0.3f, %0.3f)\n", v.x, v.y, v.z)
