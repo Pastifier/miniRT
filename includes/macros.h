@@ -23,8 +23,12 @@
 #  define THRESHOLD 25
 # endif // !THRESHOLD
 
+# ifndef REFLECTION_DEPTH
+#  define REFLECTION_DEPTH 5
+# endif // !THRESHOLD
+
 # ifndef SKIPPED_PIX
-#  define SKIPPED_PIX 2
+#  define SKIPPED_PIX 3
 # endif // !SKIPPED_PIX
 
 # ifndef THREAD_NUM

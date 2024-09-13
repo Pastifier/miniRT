@@ -14,6 +14,7 @@
 #include "rtmath.h"
 #include "linear_algebra.h"
 #include "objects.h"
+#include "macros.h"
 #include <stdio.h>
 
 t_color	lighting(t_material *material, t_light *light, t_double4 *point, t_double4 *eye_v, t_double4 *normal, bool in_shadow)
@@ -77,9 +78,31 @@ bool	is_shadowed(t_world *world, t_double4 *point, t_light *light)
 	return (false);	
 }
 
-t_color	shade_hit(t_world *world, t_itx_computation *comps)
+t_color	reflected_color(t_world *world, t_itx_computation *comps, int depth)
+{
+	t_color		c;
+	t_ray		r;
+	t_color		reflected_color;
+	t_double4	reflectv;
+	t_double4	reflect_origin;
+	t_double4	offset;
+
+	color(&c, 0.0, 0.0, 0.0);
+	if (depth <= 0 || comps->obj->material.reflective <= 0.0)
+		return (c);
+	reflectv = comps->reflectv;
+	d4mul(&offset, &comps->normalv, EPSILON);
+	d4add(&reflect_origin, &comps->p, &offset);
+	ray_create(&r, &reflect_origin, &reflectv);
+	reflected_color = color_at(world, &r, depth - 1);
+	cscale(&reflected_color, &reflected_color, comps->obj->material.reflective);
+	return (reflected_color);
+}
+
+t_color	shade_hit(t_world *world, t_itx_computation *comps, int depth)
 {
 	t_color		lighting_result;
+	t_color		reflection_result;
 	t_color		return_color;
 	bool		in_shadow;
 	
@@ -90,5 +113,10 @@ t_color	shade_hit(t_world *world, t_itx_computation *comps)
 		lighting_result = lighting(&comps->obj->material, &world->lights[i], &comps->p, &comps->eyev, &comps->normalv, in_shadow);
 		cadd(&return_color, &return_color, &lighting_result);
 	}
+	reflection_result = reflected_color(world, comps, depth);
+	if (comps->obj->material.reflective > 0.0)
+		cscale(&return_color, &return_color, 1.0 - comps->obj->material.reflective);
+	cadd(&return_color, &return_color, &reflection_result);
+	cclamp(&return_color);
 	return (return_color);
 }

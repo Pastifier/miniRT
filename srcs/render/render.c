@@ -28,12 +28,12 @@ static void	setup_world_chapter7(t_world *w)
 	point(&w->lights[0].position,-10, 10, -10);
 	color(&w->lights[0].type.point.intensity, 1, 1, 1);
 
+
 	// Initialize the walls
 	t_object floor;
 	plane(&floor, NULL, NULL);
-	floor.material = default_material();
 	color(&floor.material.color, 1.0, 1.0, 1.0);
-	floor.material.specular = 0;
+	floor.material.reflective = 0.5;
 
 	t_object left_wall;
 	plane(&left_wall, NULL, NULL);
@@ -43,7 +43,6 @@ static void	setup_world_chapter7(t_world *w)
 	left_wall.transform = mat4x4_cross(&left_wall.transform, &transform_operations);
 	transform_operations = rotation_x(M_PI / 2);
 	left_wall.transform = mat4x4_cross(&left_wall.transform, &transform_operations);
-	left_wall.material = floor.material;
 
 	// t_object right_wall;
 	// plane(&right_wall, NULL, NULL);
@@ -54,17 +53,16 @@ static void	setup_world_chapter7(t_world *w)
 	// right_wall.transform = mat4x4_cross(&right_wall.transform, &transform_operations);
 	// transform_operations = rotation_x(M_PI / 2);
 	// right_wall.transform = mat4x4_cross(&right_wall.transform, &transform_operations);
-	// right_wall.material = floor.material;
 
 	t_object middle;
 	sphere(&middle, NULL, 1, NULL);
 	middle.transform = mat4x4_identity();
 	transform_operations = translation(-0.5, 1, 0.5);
 	middle.transform = mat4x4_cross(&middle.transform, &transform_operations);
-	middle.material = default_material();
 	color(&middle.material.color, 0.1, 1, 0.5);
 	middle.material.diffuse = 0.7;
 	middle.material.specular = 0.3;
+	middle.material.reflective = 0.25;
 
 	t_object right;
 	sphere(&right, NULL, 1, NULL);
@@ -73,7 +71,6 @@ static void	setup_world_chapter7(t_world *w)
 	right.transform = mat4x4_cross(&right.transform, &transform_operations);
 	transform_operations = scaling(0.5, 0.5, 0.5);
 	right.transform = mat4x4_cross(&right.transform, &transform_operations);
-	right.material = default_material();
 	color(&right.material.color, 0.5, 1, 0.1);
 	right.material.diffuse = 0.7;
 	right.material.specular = 0.3;
@@ -85,7 +82,6 @@ static void	setup_world_chapter7(t_world *w)
 	left.transform = mat4x4_cross(&left.transform, &transform_operations);
 	transform_operations = scaling(0.33, 0.33, 0.33);
 	left.transform = mat4x4_cross(&left.transform, &transform_operations);
-	left.material = default_material();
 	color(&left.material.color, 1, 0.8, 0.1);
 	left.material.diffuse = 0.7;
 	left.material.specular = 0.3;
@@ -105,7 +101,7 @@ t_color	render_pixel(t_program *context, int x, int y)
 	t_color			c;
 
 	r = ray_for_pixel(&context->camera, x, y);
-	c = color_at(&context->world, &r);
+	c = color_at(&context->world, &r, REFLECTION_DEPTH);
 	put_pixel(&context->canvas, x, y, c);
 	return (c);
 }
@@ -163,8 +159,6 @@ void	render_scene(t_program *context)
 	w.cam_inverse = mat4x4_inverse(&t);
 	setup_world_chapter7(&w);
 
-	// default_world(&w);
-
 	y = -1;
 	context->world = w;
 	context->camera = cam;
@@ -175,8 +169,8 @@ void	render_scene(t_program *context)
 		threads[y].context = context;
 		threads[y].y = y * (cam.vsize / THREAD_NUM);
 		threads[y].y_f = (y + 1) * (cam.vsize / THREAD_NUM);
-		threads[y].x = y * (cam.hsize / THREAD_NUM);			// ??
-		threads[y].x_f = (y + 1) * (cam.hsize / THREAD_NUM);	// ??
+		threads[y].x = y * (cam.hsize / THREAD_NUM);
+		threads[y].x_f = (y + 1) * (cam.hsize / THREAD_NUM);
 		pthread_create(&threads[y].thread, NULL, render_row, &threads[y]);
 	}
 	while (y--)

@@ -22,6 +22,7 @@ t_material	material(t_color *color, double ambient, double diffuse, double specu
 	m.diffuse = diffuse;
 	m.specular = specular;
 	m.shininess = shininess;
+	m.reflective = 0.0;
 	return (m);
 }
 
@@ -34,5 +35,6 @@ t_material	default_material(void)
 	m.diffuse = 0.9;
 	m.specular = 0.9;
 	m.shininess = 200.0;
+	m.reflective = 0.0;
 	return (m);
 }

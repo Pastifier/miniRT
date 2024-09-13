@@ -97,6 +97,7 @@ typedef struct	itx_computation
 	t_double4	p;
 	t_double4	eyev;
 	t_double4	normalv;
+	t_double4	reflectv;
 	int			inside;
 }	t_itx_computation;
 

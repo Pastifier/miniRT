@@ -19,6 +19,7 @@
 #include "mlx.h"
 #include "objects.h"
 #include "colors.h"
+#include "rtmath.h"
 #include "mlx.h"
 
 pthread_mutex_t	mutex;
@@ -28,6 +29,29 @@ int main(void)
 	t_program	context;
 
 	pthread_mutex_init(&mutex, NULL);
+
+	// t_world	w;
+	// default_world(&w);
+	// t_object	p;
+	// t_mat4x4	transform_operations;
+	// transform_operations = translation(0, -1, 0);
+	// plane(&p, NULL, &transform_operations);
+	// p.material.reflective = 0.5;
+	// world_add_object(&w, &p);
+	// t_ray	r;
+	// t_double4	origin;
+	// t_double4	direction;
+	// point(&origin, 0, 0, -3);
+	// vector(&direction, 0, -sqrt(2)/2, sqrt(2)/2);
+	// ray_create(&r, &origin, &direction);
+	// t_intersection	itx;
+	// itx.t = sqrt(2);
+	// itx.object = &p;
+	// t_itx_computation	comps;
+	// comps = prepare_computations(itx, &r);
+	// t_color	c;
+	// c = reflected_color(&w, &comps, 1);
+	// printf("Color: %f %f %f\n", c.r, c.g, c.b);
 
 	context.mlx = mlx_init();
 	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");

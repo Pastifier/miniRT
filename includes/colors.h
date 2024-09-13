@@ -25,7 +25,7 @@ void		cblend(t_color *target, t_color *c1, t_color *c2);
 void		cscale(t_color *target, t_color *c, double scalar);
 uint32_t	get_color(t_color *color);
 void		cclamp(t_color *color);
-t_color		color_at(t_world *w, t_ray *r);
+t_color		color_at(t_world *w, t_ray *r, int depth);
 t_color		get_pixel_color(t_canvas *canvas, int x, int y);
 t_color		lerp(t_color a, t_color b, double t);
 int			cdiff(t_color a, t_color b);

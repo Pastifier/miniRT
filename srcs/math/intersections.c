@@ -27,6 +27,7 @@ t_itx_computation prepare_computations(t_intersection itx, t_ray *r)
 		comps.inside = false;
 	d4mul(&margin, &comps.normalv, EPSILON);
 	d4add(&comps.p, &comps.p, &margin);
+	comps.reflectv = reflect(&r->direction, &comps.normalv);
 	return (comps);
 }
 

@@ -37,7 +37,7 @@ t_color	super_sample_pix(t_thread_data *data, double x, double y)
 			r = ray_for_pixel(&data->context->camera,
 			x + (i + 0.5) / (SKIPPED_PIX - 1),
 			y + (j + 0.5) / (SKIPPED_PIX - 1));
-			color = color_at(&data->context->world, &r);
+			color = color_at(&data->context->world, &r, REFLECTION_DEPTH);
 			cadd(&avg_color, &avg_color, &color);
 		}
 	}

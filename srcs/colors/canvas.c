@@ -17,7 +17,7 @@
 #include "macros.h"
 #include <stdio.h>
 
-t_color	color_at(t_world *w, t_ray *r)
+t_color	color_at(t_world *w, t_ray *r, int depth)
 {
 	t_intersections		world_itxs;
 	t_intersection		*hit;
@@ -32,7 +32,7 @@ t_color	color_at(t_world *w, t_ray *r)
 		return (result);
 	}
 	comps = prepare_computations(*hit, r);
-	return (shade_hit(w, &comps));
+	return (shade_hit(w, &comps, depth));
 }
 
 void	canvas(t_program *context, int width, int height)
