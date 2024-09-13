@@ -18,11 +18,10 @@
 t_double4	reflect(t_double4 *in, t_double4 *normal)
 {
 	t_double4 result;
-	t_double4 cross;
-	
-	d4_cross_vec(&cross, in, normal);
-	d4_cross_vec(&result, &cross, normal);
-	d4mul(&result, &result, 2.0);
+	double dot;
+
+	dot = vdot(in, normal);
+	d4mul(&result, normal, 2.0 * dot);
 	d4sub(&result, in, &result);
 	return (result);
 }
