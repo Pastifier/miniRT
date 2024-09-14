@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:23:51 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/12 19:56:52 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/13 20:40:52 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ typedef struct s_thread_data
 	t_program	*context;
 	int			y;
 	int			y_f;
-	int			x;
-	int			x_f;
 }	t_thread_data;
 
 uint32_t	get_color(t_color *color);
@@ -60,6 +58,8 @@ void		put_pixel(t_canvas *canvas, int x, int y, t_color color);
 void		render_clock(t_program	*context);
 void		render_sphere(t_program *context);
 void		render_scene(t_program *context);
+void		refresh_camera(int keycode, t_camera *cam);
+void		render_new_frame(t_program *context);
 
 t_color		super_sample_pix(t_thread_data *data, double x, double y);
 void		interpolate_horizontal(t_thread_data *data);

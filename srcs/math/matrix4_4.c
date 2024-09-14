@@ -14,27 +14,43 @@
 #include "linear_algebra.h"
 #include <stdbool.h>
 
+static inline void	unrolled_cross(t_mat4x4 *res, t_mat4x4 *m1, __m256d *col)
+{
+	__m256d	row;
+
+	row = _mm256_set_pd(m1->m[0][3], m1->m[0][2], m1->m[0][1], m1->m[0][0]);
+	res->m[0][0] = avx_dot_product(row, col[0]);
+	res->m[0][1] = avx_dot_product(row, col[1]);
+	res->m[0][2] = avx_dot_product(row, col[2]);
+	res->m[0][3] = avx_dot_product(row, col[3]);
+	row = _mm256_set_pd(m1->m[1][3], m1->m[1][2], m1->m[1][1], m1->m[1][0]);
+	res->m[1][0] = avx_dot_product(row, col[0]);
+	res->m[1][1] = avx_dot_product(row, col[1]);
+	res->m[1][2] = avx_dot_product(row, col[2]);
+	res->m[1][3] = avx_dot_product(row, col[3]);
+	row = _mm256_set_pd(m1->m[2][3], m1->m[2][2], m1->m[2][1], m1->m[2][0]);
+	res->m[2][0] = avx_dot_product(row, col[0]);
+	res->m[2][1] = avx_dot_product(row, col[1]);
+	res->m[2][2] = avx_dot_product(row, col[2]);
+	res->m[2][3] = avx_dot_product(row, col[3]);
+	row = _mm256_set_pd(m1->m[3][3], m1->m[3][2], m1->m[3][1], m1->m[3][0]);
+	res->m[3][0] = avx_dot_product(row, col[0]);
+	res->m[3][1] = avx_dot_product(row, col[1]);
+	res->m[3][2] = avx_dot_product(row, col[2]);
+	res->m[3][3] = avx_dot_product(row, col[3]);
+}
 
 t_mat4x4 mat4x4_cross(t_mat4x4 *m1, t_mat4x4 *m2)
 {
 	t_mat4x4	result;
-	__m256d		row;
 	__m256d		col[4];
-	int			r;
 
+	result = (t_mat4x4){0};
 	col[0] = avx_extract_column(m2, 0);
 	col[1] = avx_extract_column(m2, 1);
 	col[2] = avx_extract_column(m2, 2);
 	col[3] = avx_extract_column(m2, 3);
-	r = -1;
-	while (++r < 4)
-	{
-		row = _mm256_set_pd(m1->m[r][3], m1->m[r][2], m1->m[r][1], m1->m[r][0]);
-		result.m[r][0] = avx_dot_product(row, col[0]);
-		result.m[r][1] = avx_dot_product(row, col[1]);
-		result.m[r][2] = avx_dot_product(row, col[2]);
-		result.m[r][3] = avx_dot_product(row, col[3]);
-	}
+	unrolled_cross(&result, m1, col);
 	return (result);
 }
 //t_mat4x4 mat4x4_cross(t_mat4x4 *m1, t_mat4x4 *m2)

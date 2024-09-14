@@ -28,7 +28,6 @@ t_mat3x3	mat3x3(t_double3 r1, t_double3 r2, t_double3 r3)
 {
 	t_mat3x3	m;
 
-	ft_bzero(&m, sizeof(t_mat3x3));
 	m.r1 = r1;
 	m.r2 = r2;
 	m.r3 = r3;
@@ -39,7 +38,6 @@ t_mat2x2	mat2x2(t_double2 r1, t_double2 r2)
 {
 	t_mat2x2	m;
 
-	ft_bzero(&m, sizeof(t_mat2x2));
 	m.r1 = r1;
 	m.r2 = r2;
 	return (m);

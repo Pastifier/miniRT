@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:12:40 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/13 07:31:27 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/15 01:03:07 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # endif // !SKIPPED_PIX
 
 # ifndef THREAD_NUM
-#  define THREAD_NUM 12
+#  define THREAD_NUM 16
 # endif // !THREAD_NUM
 
 # ifndef WIN_WIDTH

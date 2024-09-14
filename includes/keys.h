@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:49:01 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/09 13:49:02 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/13 10:07:44 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,7 @@
   #define KEY_NUMPAD_DECIMAL 65
   #define KEY_NUMPAD_EQUAL 81
 
- #endif // __MACH__
-
- #ifdef __linux__ || __unix__
+ #else
 
   // Alphabet Keys
   #define KEY_A 97
@@ -235,5 +233,20 @@
   #define KEY_GRAVE 96 // Tilde/backtick key
 
  #endif // __linux__
+
+#include "render.h"
+
+enum
+{
+	ON_KEYDOWN = 2,
+	ON_KEYUP,
+	ON_MOUSEDOWN,
+	ON_MOUSEUP,
+	ON_MOUSEMOVE,
+	ON_EXPOSE = 12,
+	ON_DESTROY = 17
+};
+
+int	key_hook(int keycode, t_program *context);
 
 #endif // !KEYS_H

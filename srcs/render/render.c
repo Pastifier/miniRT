@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/13 07:22:50 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/15 00:34:11 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "libft.h"
 #include "colors.h"
 
-static void	setup_world_chapter7(t_world *w)
+void	setup_world_chapter7(t_world *w)
 {
 	t_mat4x4 transform_operations;
 	t_light	light;
@@ -150,6 +150,30 @@ void	*interpolate_routine(void *arg)
 	return (NULL);
 }
 
+void	render_new_frame(t_program *context)
+{
+	int			y;
+
+	y = -1;
+	t_thread_data	threads[THREAD_NUM];
+	while (++y < THREAD_NUM)
+	{
+		threads[y].id = y;
+		threads[y].context = context;
+		threads[y].y = y * (context->camera.vsize / THREAD_NUM);
+		threads[y].y_f = (y + 1) * (context->camera.vsize / THREAD_NUM);
+		pthread_create(&threads[y].thread, NULL, render_row, &threads[y]);
+	}
+	while (y--)
+		pthread_join(threads[y].thread, NULL);
+	y = -1;
+	while (++y < THREAD_NUM)
+		pthread_create(&threads[y].thread, NULL, interpolate_routine, &threads[y]);
+	while (y--)
+		pthread_join(threads[y].thread, NULL);
+	mlx_put_image_to_window(context->mlx, context->win, context->canvas.ptr, 0, 0);
+}
+
 void	render_scene(t_program *context)
 {
 	int			y;
@@ -168,10 +192,11 @@ void	render_scene(t_program *context)
 	cam.transform = t;
 	w.cam_inverse = mat4x4_inverse(&t);
 	cam.inverse = w.cam_inverse;
+	cam.from = from;
+	cam.to = to;
+	cam.up = up;
 	empty_world(&w);
 	setup_world_chapter7(&w);
-
-	// default_world(&w);
 
 	y = -1;
 	context->world = w;
@@ -183,8 +208,6 @@ void	render_scene(t_program *context)
 		threads[y].context = context;
 		threads[y].y = y * (cam.vsize / THREAD_NUM);
 		threads[y].y_f = (y + 1) * (cam.vsize / THREAD_NUM);
-		threads[y].x = y * (cam.hsize / THREAD_NUM);			// ??
-		threads[y].x_f = (y + 1) * (cam.hsize / THREAD_NUM);	// ??
 		pthread_create(&threads[y].thread, NULL, render_row, &threads[y]);
 	}
 	while (y--)

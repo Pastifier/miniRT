@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 10:27:52 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/08/29 11:01:42 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/14 22:15:25 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "linear_algebra.h"
 #include <stdbool.h>
 
-double	cofactor4x4(t_mat4x4 *m, int row, int col)
+inline double	cofactor4x4(t_mat4x4 *m, int row, int col)
 {
 	t_mat3x3	sub;
 	t_mat4x4	intermediate;
@@ -34,28 +34,35 @@ double	cofactor4x4(t_mat4x4 *m, int row, int col)
 double	mat4x4_det(t_mat4x4 *m)
 {
 	double		result;
-	int			c;
 
 	result = 0;
-	c = -1;
-	while (++c < 4)
-		result += m->m[0][c] * cofactor4x4(m, 0, c);
+	result += m->m[0][0] * cofactor4x4(m, 0, 0);
+	result += m->m[0][1] * cofactor4x4(m, 0, 1);
+	result += m->m[0][2] * cofactor4x4(m, 0, 2);
+	result += m->m[0][3] * cofactor4x4(m, 0, 3);
 	return (result);
 }
 
 t_mat4x4	mat4x4_adjugate(t_mat4x4 *m)
 {
 	t_mat4x4	adj;
-	int			r;
-	int			c;
 
-	r = -1;
-	while (++r < 4)
-	{
-		c = -1;
-		while (++c < 4)
-			adj.m[c][r] = cofactor4x4(m, r, c);
-	}
+	adj.m[0][0] = cofactor4x4(m, 0, 0);
+	adj.m[1][0] = cofactor4x4(m, 0, 1);
+	adj.m[2][0] = cofactor4x4(m, 0, 2);
+	adj.m[3][0] = cofactor4x4(m, 0, 3);
+	adj.m[0][1] = cofactor4x4(m, 1, 0);
+	adj.m[1][1] = cofactor4x4(m, 1, 1);
+	adj.m[2][1] = cofactor4x4(m, 1, 2);
+	adj.m[3][1] = cofactor4x4(m, 1, 3);
+	adj.m[0][2] = cofactor4x4(m, 2, 0);
+	adj.m[1][2] = cofactor4x4(m, 2, 1);
+	adj.m[2][2] = cofactor4x4(m, 2, 2);
+	adj.m[3][2] = cofactor4x4(m, 2, 3);
+	adj.m[0][3] = cofactor4x4(m, 3, 0);
+	adj.m[1][3] = cofactor4x4(m, 3, 1);
+	adj.m[2][3] = cofactor4x4(m, 3, 2);
+	adj.m[3][3] = cofactor4x4(m, 3, 3);
 	return (adj);
 }
 

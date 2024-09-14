@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:04:24 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/13 02:43:26 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/15 02:12:49 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,30 @@
 #include "objects.h"
 #include "colors.h"
 #include "mlx.h"
-
-pthread_mutex_t	mutex;
+#include "keys.h"
 
 int main(void)
 {
 	t_program	context;
+	t_camera	cam;
+	t_world		w;
 
-	pthread_mutex_init(&mutex, NULL);
+	setup_camera(&cam, M_PI / 3);
+
+	empty_world(&w);
+	setup_world_chapter7(&w);
+
+	context.world = w;
+	context.camera = cam;
 
 	context.mlx = mlx_init();
 	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
 	canvas(&context, WIN_WIDTH, WIN_HEIGHT);
-	render_scene(&context);
+	render_new_frame(&context);
+
+	mlx_hook(context.win, ON_KEYDOWN, 1L, key_hook, &context);
 	mlx_loop(context.mlx);
-	// mlx_key_hook(context.win, key_hook, &context);
+
 	return (0);
 }
+

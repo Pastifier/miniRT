@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:30:02 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/13 07:09:34 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/15 02:02:17 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,19 @@ typedef struct s_camera
 	int			hsize;
 	int			vsize;
 	double		field_of_view;
-	t_mat4x4	transform;
-	t_mat4x4	inverse;
 	double		half_width;
 	double		half_height;
 	double		half_view;
 	double		aspect_ratio;
 	double		pixel_size;
+	t_double4	position;
+	t_double4	up;
+	t_double4	right;
+	t_double4	look_at;
+	t_mat4x4	transform;
+	t_mat4x4	inverse;
+	t_double4	from;
+	t_double4	to;
 }	t_camera;
 
 typedef struct s_world
