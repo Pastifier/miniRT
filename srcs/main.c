@@ -30,28 +30,46 @@ int main(void)
 
 	pthread_mutex_init(&mutex, NULL);
 
-	// t_world	w;
-	// default_world(&w);
-	// t_object	p;
-	// t_mat4x4	transform_operations;
-	// transform_operations = translation(0, -1, 0);
-	// plane(&p, NULL, &transform_operations);
-	// p.material.reflective = 0.5;
-	// world_add_object(&w, &p);
-	// t_ray	r;
-	// t_double4	origin;
-	// t_double4	direction;
-	// point(&origin, 0, 0, -3);
-	// vector(&direction, 0, -sqrt(2)/2, sqrt(2)/2);
-	// ray_create(&r, &origin, &direction);
-	// t_intersection	itx;
-	// itx.t = sqrt(2);
-	// itx.object = &p;
-	// t_itx_computation	comps;
-	// comps = prepare_computations(itx, &r);
-	// t_color	c;
-	// c = reflected_color(&w, &comps, 1);
-	// printf("Color: %f %f %f\n", c.r, c.g, c.b);
+	t_world	w;
+	empty_world(&w);
+	t_light	l;
+	l = default_point_light();
+	world_add_light(&w, l);
+	t_object	s1;
+	s1 = default_sphere();
+	s1.material.refraction = 1.5;
+	t_mat4x4	transform1;
+	transform1 = scaling(2, 2, 2);
+	s1.transform = transform1;
+	world_add_object(&w, s1);
+	t_object	s2;
+	s2 = default_sphere();
+	t_mat4x4	transform2;
+	transform2 = scaling(0, 0, -0.25);
+	s2.transform = transform2;
+	s1.material.refraction = 2.0;
+	world_add_object(&w, s2);
+	t_object	s3;
+	s3 = default_sphere();
+	t_mat4x4	transform3;
+	transform3 = scaling(0, 0, 0.25);
+	s3.transform = transform3;
+	s1.material.refraction = 2.5;
+	world_add_object(&w, s3);
+
+	t_ray	r;
+	point(&r.origin, 0, 0, -4);
+	vector(&r.direction, 0, 0, 1);
+	t_intersections	itx;
+	itx.data[0].t = 2;
+	itx.data[0].object = &s1;
+	itx.data[1].t = 2.75;
+	itx.data[1].object = &s2;
+	itx.data[2].t = 3.25;
+	itx.data[2].object = &s3;
+	t_itx_computation	comps;
+	comps = prepare_computations(itx.data[0], &r);
+	
 
 	context.mlx = mlx_init();
 	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");

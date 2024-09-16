@@ -53,6 +53,8 @@ typedef struct	s_material
 	double		specular;
 	double		shininess;
 	double		reflective;
+	double		transparency;
+	double		refractive_index;
 }	t_material;
 
 typedef struct	s_object
