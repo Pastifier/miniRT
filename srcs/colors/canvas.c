@@ -31,7 +31,7 @@ t_color	color_at(t_world *w, t_ray *r, int depth)
 		color(&result, 0.0, 0.0, 0.0);
 		return (result);
 	}
-	comps = prepare_computations(*hit, r);
+	comps = prepare_computations(hit, r, &world_itxs);
 	return (shade_hit(w, &comps, depth));
 }
 

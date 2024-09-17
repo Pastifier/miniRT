@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rtmath.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 21:06:09 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/12 21:31:52 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:11:41 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct	s_intersection
 typedef struct	s_intersections
 {
 	t_intersection	data[MAX_INTERSECTIONS];
-	short			count;
+	int				count;
 }	t_intersections;
 
 typedef struct	itx_computation
@@ -95,18 +95,22 @@ typedef struct	itx_computation
 	double		t;
 	t_object	*obj;
 	t_double4	p;
+	t_double4	over_point;
 	t_double4	eyev;
 	t_double4	normalv;
 	t_double4	reflectv;
 	int			inside;
+	double		n1;
+	double		n2;
 }	t_itx_computation;
 
 typedef t_itx_computation t_comps;
 
-t_itx_computation prepare_computations(t_intersection itx, t_ray *r);
-t_intersection	*get_hit(t_intersections *xs);
-void quick_sort_intersections(t_intersection *arr, size_t size);
-t_intersections	intersect_world(t_world *w, t_ray *r);
-void store_intersections(t_intersections *intersects, double t_values[], t_object *object);
+void				prepare_refractions(t_intersection *hit, t_itx_computation *comps, t_intersections *itxs);
+t_itx_computation	prepare_computations(t_intersection *itx, t_ray *r, t_intersections	*itxs);
+t_intersection		*get_hit(t_intersections *xs);
+void				quick_sort_intersections(t_intersection *arr, size_t size);
+t_intersections		intersect_world(t_world *w, t_ray *r);
+void				store_intersections(t_intersections *intersects, double t_values[], t_object *object);
 
 #endif // !RTMATH_H

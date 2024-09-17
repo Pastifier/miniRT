@@ -1,23 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersections.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/17 11:57:42 by melshafi          #+#    #+#             */
+/*   Updated: 2024/09/17 13:13:23 by melshafi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "objects.h"
 #include "rtmath.h"
 #include "linear_algebra.h"
 #include "libft.h"
 #include <stdio.h>
 
-t_itx_computation prepare_computations(t_intersection itx, t_ray *r)
+t_itx_computation prepare_computations(t_intersection *itx, t_ray *r, t_intersections *itxs)
 {
 	t_itx_computation	comps;
 	t_double4			margin;
 
-	comps.t = itx.t;
-	comps.obj = itx.object;
+	comps.t = itx->t;
+	comps.obj = itx->object;
 	ray_position(&comps.p, r, comps.t);
 	comps.eyev = r->direction;
 	d4negate(&comps.eyev);
-	if (itx.object->type == OBJ_SPHERE)
-		comps.normalv = sphere_normal_at(itx.object, &comps.p);
-	else if (itx.object->type == OBJ_PLANE)
-		comps.normalv = plane_normal_at(itx.object);
+	if (itx->object->type == OBJ_SPHERE)
+		comps.normalv = sphere_normal_at(itx->object, &comps.p);
+	else if (itx->object->type == OBJ_PLANE)
+		comps.normalv = plane_normal_at(itx->object);
 	if (vdot(&comps.normalv, &comps.eyev) < 0)
 	{
 		comps.inside = true;
@@ -26,8 +38,9 @@ t_itx_computation prepare_computations(t_intersection itx, t_ray *r)
 	else
 		comps.inside = false;
 	d4mul(&margin, &comps.normalv, EPSILON);
-	d4add(&comps.p, &comps.p, &margin);
+	d4add(&comps.over_point, &comps.p, &margin);
 	comps.reflectv = reflect(&r->direction, &comps.normalv);
+	prepare_refractions(itx, &comps, itxs);
 	return (comps);
 }
 
