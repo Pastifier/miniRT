@@ -92,7 +92,7 @@ t_color	reflected_color(t_world *world, t_itx_computation *comps, int depth)
 		return (c);
 	reflectv = comps->reflectv;
 	d4mul(&offset, &comps->normalv, EPSILON);
-	d4add(&reflect_origin, &comps->p, &offset);
+	d4add(&reflect_origin, &comps->over_point, &offset);
 	ray_create(&r, &reflect_origin, &reflectv);
 	reflected_color = color_at(world, &r, depth - 1);
 	cscale(&reflected_color, &reflected_color, comps->obj->material.reflective);
@@ -103,20 +103,31 @@ t_color	shade_hit(t_world *world, t_itx_computation *comps, int depth)
 {
 	t_color		lighting_result;
 	t_color		reflection_result;
+	t_color		refraction_result;
 	t_color		return_color;
 	bool		in_shadow;
 	
 	color(&return_color, 0.0, 0.0, 0.0);
 	for (int i = 0; i < world->num_lights; i++)
 	{
-		in_shadow = is_shadowed(world, &comps->p, &world->lights[i]);
-		lighting_result = lighting(&comps->obj->material, &world->lights[i], &comps->p, &comps->eyev, &comps->normalv, in_shadow);
+		in_shadow = is_shadowed(world, &comps->over_point, &world->lights[i]);
+		lighting_result = lighting(&comps->obj->material, &world->lights[i], &comps->over_point, &comps->eyev, &comps->normalv, in_shadow);
 		cadd(&return_color, &return_color, &lighting_result);
 	}
 	reflection_result = reflected_color(world, comps, depth);
+	refraction_result = refracted_color(world, comps, depth);
 	if (comps->obj->material.reflective > 0.0)
 		cscale(&return_color, &return_color, 1.0 - comps->obj->material.reflective);
+	if (comps->obj->material.transparency > 0.0)
+		cscale(&return_color, &return_color, 1.0 - comps->obj->material.transparency);
+	double schlick_value = schlick(comps);
+	if (comps->obj->material.reflective > 0.0 && comps->obj->material.transparency > 0.0)
+	{
+		cscale(&reflection_result, &reflection_result, 1.0 - schlick_value);
+		cscale(&reflection_result, &reflection_result, schlick_value);
+	}
 	cadd(&return_color, &return_color, &reflection_result);
+	cadd(&return_color, &return_color, &refraction_result);
 	cclamp(&return_color);
 	return (return_color);
 }

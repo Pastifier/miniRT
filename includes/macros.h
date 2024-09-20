@@ -36,11 +36,11 @@
 # endif // !THREAD_NUM
 
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH 1000
+#  define WIN_WIDTH 1280
 # endif // !WIN_WIDTH
 
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT 600
+#  define WIN_HEIGHT 720
 # endif // !WIN_HEIGHT
 
 #define PRINT_VECTOR(v) printf("(%0.3f, %0.3f, %0.3f)\n", v.x, v.y, v.z)

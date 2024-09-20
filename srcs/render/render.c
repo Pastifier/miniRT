@@ -63,6 +63,8 @@ static void	setup_world_chapter7(t_world *w)
 	middle.material.diffuse = 0.7;
 	middle.material.specular = 0.3;
 	middle.material.reflective = 0.25;
+	middle.material.refractive_index = 1.5;
+	middle.material.transparency = 1.0;
 
 	t_object right;
 	sphere(&right, NULL, 1, NULL);
@@ -83,8 +85,9 @@ static void	setup_world_chapter7(t_world *w)
 	transform_operations = scaling(0.33, 0.33, 0.33);
 	left.transform = mat4x4_cross(&left.transform, &transform_operations);
 	color(&left.material.color, 1, 0.8, 0.1);
-	left.material.diffuse = 0.7;
+	left.material.diffuse = 0.3;
 	left.material.specular = 0.3;
+	left.material.transparency = 0.6;
 
 	world_add_light(w, &w->lights[0]);
 	world_add_object(w, &floor);

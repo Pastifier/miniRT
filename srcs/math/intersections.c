@@ -39,8 +39,11 @@ t_itx_computation prepare_computations(t_intersection *itx, t_ray *r, t_intersec
 		comps.inside = false;
 	d4mul(&margin, &comps.normalv, EPSILON);
 	d4add(&comps.over_point, &comps.p, &margin);
+	d4sub(&comps.under_point, &comps.p, &margin);
 	comps.reflectv = reflect(&r->direction, &comps.normalv);
-	prepare_refractions(itx, &comps, itxs);
+	if (comps.obj->material.refractive_index > 0)
+		prepare_refractions(itx, &comps, itxs);
+	// (void)itxs;
 	return (comps);
 }
 

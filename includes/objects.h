@@ -143,6 +143,8 @@ t_color			lighting(t_material *material, t_light *light, t_double4 *point, t_dou
 t_double4		reflect(t_double4 *in, t_double4 *normal);
 t_color			shade_hit(t_world *world, t_itx_computation *comps, int depth);
 t_color			reflected_color(t_world *world, t_itx_computation *comps, int depth);
+t_color			refracted_color(t_world *world, t_itx_computation *comps, int depth);
+double			schlick(t_itx_computation *comps);
 
 void			ray_create(t_ray *ray, t_double4 *origin, t_double4 *direction);
 void			ray_position(t_double4 *result, t_ray *ray, double t);

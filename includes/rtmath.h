@@ -96,6 +96,7 @@ typedef struct	itx_computation
 	t_object	*obj;
 	t_double4	p;
 	t_double4	over_point;
+	t_double4	under_point;
 	t_double4	eyev;
 	t_double4	normalv;
 	t_double4	reflectv;

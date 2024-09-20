@@ -67,8 +67,6 @@ static void sphere_discriminant(t_ray *ray, t_object *sphere, t_discriminant *di
 static void sphere_t_values(t_discriminant *disc, double t_values[], int *t_count)
 {
 	*t_count = 0;
-	if (disc->sqrt_disc < 0) // sqrts of negative numbers are imaginary // (Psst! This check is unneeded<3)
-		return;
 	t_values[0] = (-disc->b - disc->sqrt_disc) / (2.0 * disc->a);
 	t_values[1] = (-disc->b + disc->sqrt_disc) / (2.0 * disc->a);
 	if (*t_count + 2 < MAX_INTERSECTIONS)
