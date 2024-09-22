@@ -76,6 +76,7 @@ static void	setup_world_chapter7(t_world *w)
 	color(&right.material.color, 0.5, 1, 0.1);
 	right.material.diffuse = 0.7;
 	right.material.specular = 0.3;
+	right.material.reflective = 0.75;
 
 	t_object left;
 	sphere(&left, NULL, 1, NULL);
@@ -89,6 +90,19 @@ static void	setup_world_chapter7(t_world *w)
 	left.material.specular = 0.3;
 	left.material.transparency = 0.6;
 
+	t_object box;
+	cube(&box, NULL, 0.5, NULL);
+	box.transform = mat4x4_identity();
+	transform_operations = translation(-2, 2, 0);
+	box.transform = mat4x4_cross(&box.transform, &transform_operations);
+	transform_operations = rotation_x(M_PI / 4);
+	box.transform = mat4x4_cross(&box.transform, &transform_operations);
+	color(&box.material.color, 0.1, 1, 0.5);
+	box.material.diffuse = 0.7;
+	box.material.specular = 0.3;
+	box.material.reflective = 0.75;
+
+	world_add_object(w, &box);
 	world_add_light(w, &w->lights[0]);
 	world_add_object(w, &floor);
 	world_add_object(w, &left_wall);

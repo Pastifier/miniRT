@@ -30,6 +30,8 @@ t_itx_computation prepare_computations(t_intersection *itx, t_ray *r, t_intersec
 		comps.normalv = sphere_normal_at(itx->object, &comps.p);
 	else if (itx->object->type == OBJ_PLANE)
 		comps.normalv = plane_normal_at(itx->object);
+	else if (itx->object->type == OBJ_CUBE)
+		comps.normalv = cube_normal_at(itx->object, &comps.p);
 	if (vdot(&comps.normalv, &comps.eyev) < 0)
 	{
 		comps.inside = true;
@@ -64,6 +66,8 @@ t_intersections	intersect_world(t_world *w, t_ray *r)
 			intersect_sphere(r, &w->objects[i], &result);
 		else if (w->objects[i].type == OBJ_PLANE)
 			intersect_plane(r, &w->objects[i], &result);
+		else if (w->objects[i].type == OBJ_CUBE)
+			intersect_cube(r, &w->objects[i], &result);
 	}
 	quick_sort_intersections(result.data, result.count);
 	return (result);

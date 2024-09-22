@@ -19,7 +19,11 @@
 typedef enum	e_object_type
 {
 	OBJ_SPHERE,
-	OBJ_PLANE
+	OBJ_PLANE,
+	OBJ_CUBE,
+	OBJ_CYLINDER,
+	OBJ_CONE,
+	OBJ_TRIANGLE
 }	t_object_type;
 
 typedef struct	s_light
@@ -83,6 +87,7 @@ typedef struct	s_object
 			double	radius;
 			double	min;
 			double	max;
+			bool	closed;
 		}	cy;
 	}	obj;
 }	t_object;
@@ -157,5 +162,9 @@ t_double4		sphere_normal_at(t_object *sphere, t_double4 *world_point);
 void 			plane(t_object *plane, t_double4 *center, t_mat4x4 *transform);
 t_double4		plane_normal_at(t_object *plane);
 void			intersect_plane(t_ray *ray, t_object *plane, t_intersections *xs);
+
+void			cube(t_object *cube, t_double4 *center, double length, t_mat4x4 *transform);
+t_double4		cube_normal_at(t_object *cube, t_double4 *world_point);
+void			intersect_cube(t_ray *ray, t_object *cube, t_intersections *xs);
 
 #endif // !OBJECTS_H
