@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/12 21:25:44 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/23 11:49:14 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,18 @@ static void	setup_world_chapter7(t_world *w)
 	left.material.transparency = 0.6;
 
 	t_object box;
-	cube(&box, NULL, 0.5, NULL);
+	cube(&box, NULL, 1.0, NULL);
 	box.transform = mat4x4_identity();
-	transform_operations = translation(-2, 2, 0);
+	transform_operations = translation(-1, 1, -0.5);
 	box.transform = mat4x4_cross(&box.transform, &transform_operations);
 	transform_operations = rotation_x(M_PI / 4);
 	box.transform = mat4x4_cross(&box.transform, &transform_operations);
 	color(&box.material.color, 0.1, 1, 0.5);
 	box.material.diffuse = 0.7;
 	box.material.specular = 0.3;
-	box.material.reflective = 0.75;
+	box.material.reflective = 0.25;
+	box.material.refractive_index = 1.5;
+	box.material.transparency = 1.0;
 
 	world_add_object(w, &box);
 	world_add_light(w, &w->lights[0]);

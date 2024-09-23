@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cube.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/23 11:05:59 by melshafi          #+#    #+#             */
+/*   Updated: 2024/09/23 11:30:05 by melshafi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "objects.h"
 #include "rtmath.h"
 #include "linear_algebra.h"
@@ -18,29 +30,31 @@ void cube(t_object *cube, t_double4 *center, double length, t_mat4x4 *transform)
 	cube->material = default_material();
 }
 
-static void check_axis(double origin, double direction, double side_length, double *tmin, double *tmax)
+static void check_axis(double origin, double direction, double side_length, t_double2 *t)
 {
-	double half_side = side_length / 2.0;
-	double tmin_numerator = (-half_side - origin);
-	double tmax_numerator = (half_side - origin);
+	double half_side;
+	double tmin_numerator;
+	double tmax_numerator;
 	double temp;
 
+	half_side = side_length / 2.0;
+	tmin_numerator = (-half_side - origin);
+	tmax_numerator = (half_side - origin);
 	if (fabs(direction) >= EPSILON)
 	{
-		*tmin = tmin_numerator / direction;
-		*tmax = tmax_numerator / direction;
+		t->x = tmin_numerator / direction;
+		t->y = tmax_numerator / direction;
 	}
 	else
 	{
-		*tmin = tmin_numerator * INFINITY;
-		*tmax = tmax_numerator * INFINITY;
+		t->x = tmin_numerator * INFINITY;
+		t->y = tmax_numerator * INFINITY;
 	}
-
-	if (*tmin > *tmax)
+	if (t->x > t->y)
 	{
-		temp = *tmin;
-		*tmin = *tmax;
-		*tmax = temp;
+		temp = t->x;
+		t->x = t->y;
+		t->y = temp;
 	}
 }
 
@@ -48,49 +62,48 @@ void intersect_cube(t_ray *ray, t_object *cube, t_intersections *xs)
 {
 	t_mat4x4 inv_transform;
 	t_ray transformed_ray;
-	double xtmin, xtmax;
-	double ytmin, ytmax;
-	double ztmin, ztmax;
-	double tmin, tmax;
-	double side_length = cube->obj.cube.side_length;
+	t_double2 xt;
+	t_double2 yt;
+	t_double2 zt;
+	t_double2 t;
 
 	inv_transform = mat4x4_inverse(&cube->transform);
 	transformed_ray = *ray;
 	ray_transform(&transformed_ray, &(inv_transform));
 
-	check_axis(transformed_ray.origin.x, transformed_ray.direction.x, side_length, &xtmin, &xtmax);
-	check_axis(transformed_ray.origin.y, transformed_ray.direction.y, side_length, &ytmin, &ytmax);
-	check_axis(transformed_ray.origin.z, transformed_ray.direction.z, side_length, &ztmin, &ztmax);
+	check_axis(transformed_ray.origin.x, transformed_ray.direction.x, cube->obj.cube.side_length, &xt);
+	check_axis(transformed_ray.origin.y, transformed_ray.direction.y, cube->obj.cube.side_length, &yt);
+	check_axis(transformed_ray.origin.z, transformed_ray.direction.z, cube->obj.cube.side_length, &zt);
 
-	tmin = fmax(fmax(xtmin, ytmin), ztmin);
-	tmax = fmin(fmin(xtmax, ytmax), ztmax);
+	t.x = fmax(fmax(xt.x, yt.x), zt.x);
+	t.y = fmin(fmin(xt.y, yt.y), zt.y);
 
-	if (tmin > tmax)
-		return; // Ray misses the cube
-
-	// Register the intersection points
+	if (t.x > t.y)
+		return;
 	xs->data[xs->count].object = cube;
-	xs->data[xs->count++].t = tmin;
+	xs->data[xs->count++].t = t.x;
 	xs->data[xs->count].object = cube;
-	xs->data[xs->count++].t = tmax;
+	xs->data[xs->count++].t = t.y;
 }
 
 t_double4 cube_normal_at(t_object *cube, t_double4 *world_point)
 {
-	t_double4 object_point;
-	t_double4 normal;
-	t_mat4x4 inv_transform = mat4x4_inverse(&cube->transform);
+	t_double4	object_n_p[2];
+	t_double4	world_normal;
+	t_mat4x4	inv_transform;
+	double		maxc;
 
-	object_point = mat4x4_cross_vec(&inv_transform, world_point);
+	inv_transform = mat4x4_inverse(&cube->transform);
+	object_n_p[1] = mat4x4_cross_vec(&inv_transform, world_point);
 
-	double maxc = fmax(fmax(fabs(object_point.x), fabs(object_point.y)), fabs(object_point.z));
+	maxc = fmax(fmax(fabs(object_n_p[1].x), fabs(object_n_p[1].y)), fabs(object_n_p[1].z));
 
-	if (maxc == fabs(object_point.x))
-		vector(&normal, object_point.x, 0, 0);
-	else if (maxc == fabs(object_point.y))
-		vector(&normal, 0, object_point.y, 0);
+	if (maxc == fabs(object_n_p[1].x))
+		vector(&world_normal, object_n_p[1].x, 0, 0);
+	else if (maxc == fabs(object_n_p[1].y))
+		vector(&world_normal, 0, object_n_p[1].y, 0);
 	else
-		vector(&normal, 0, 0, object_point.z);
-
-	return normal;
+		vector(&world_normal, 0, 0, object_n_p[1].z);
+	vnormalize(&world_normal);
+	return (world_normal);
 }

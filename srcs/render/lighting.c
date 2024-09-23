@@ -68,14 +68,14 @@ bool	is_shadowed(t_world *world, t_double4 *point, t_light *light)
 	t_double4		v;
 	t_ray			r;
 	t_intersection	*itx;
-	
+
 	d4sub(&v, &light->position, point);
 	ray_create(&r, point, &v);
 	r.itx = intersect_world(world, &r);
 	itx = get_hit(&r.itx);
 	if (itx && itx->t < vmag(&v))
 		return (true);
-	return (false);	
+	return (false);
 }
 
 t_color	reflected_color(t_world *world, t_itx_computation *comps, int depth)
@@ -106,7 +106,7 @@ t_color	shade_hit(t_world *world, t_itx_computation *comps, int depth)
 	t_color		refraction_result;
 	t_color		return_color;
 	bool		in_shadow;
-	
+
 	color(&return_color, 0.0, 0.0, 0.0);
 	for (int i = 0; i < world->num_lights; i++)
 	{

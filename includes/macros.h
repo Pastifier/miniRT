@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/29 00:12:40 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/09 15:58:42 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/23 11:29:14 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@
 # endif // !THREAD_NUM
 
 # ifndef WIN_WIDTH
-#  define WIN_WIDTH 1280
+#  define WIN_WIDTH 800
 # endif // !WIN_WIDTH
 
 # ifndef WIN_HEIGHT
-#  define WIN_HEIGHT 720
+#  define WIN_HEIGHT 520
 # endif // !WIN_HEIGHT
 
 #define PRINT_VECTOR(v) printf("(%0.3f, %0.3f, %0.3f)\n", v.x, v.y, v.z)
