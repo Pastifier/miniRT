@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:57:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/23 11:06:13 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:53:24 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void prepare_refractions(t_intersection *hit, t_itx_computation *comps, t_inters
 			remove_from_container(container, &count, i, itxs);
 		else
 			container[count++] = itxs->data[i].object;
-
 		if (&(itxs->data[i]) == hit)
 		{
 			if (count)

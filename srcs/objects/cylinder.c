@@ -123,7 +123,7 @@ void intersect_cylinder(t_ray *ray, t_object *cy, t_intersections *xs)
 	t_mat4x4 inv_transform;
 	t_ray transformed_ray;
 
-	inv_transform = mat4x4_inverse(&cy->transform);
+	inv_transform = mat4x4_inverse(&cy->transform); // cache this
 	ray->itx.count = 0;
 	ray->itx.data->object = cy;
 	transformed_ray = *ray;

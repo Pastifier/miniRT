@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/23 15:46:46 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:26:36 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ void	render_scene(t_program *context)
 	t_mat4x4 t = view_transform(from, to, up);
 	cam.transform = t;
 	w.cam_inverse = mat4x4_inverse(&t);
+	cam.inv_transform = w.cam_inverse;
 	setup_world_chapter7(&w);
 
 	y = -1;

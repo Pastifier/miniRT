@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 14:35:45 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/09 21:02:49 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:28:41 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ t_ray	ray_for_pixel(t_camera *camera, int px, int py)
 	t_double4	pixel;
 	t_double4	origin;
 	t_double4	direction;
-	t_mat4x4	inverse_transform;
+	// t_mat4x4	inverse_transform;
 
 	point(&pixel, (camera->half_width - (px + 0.5) * camera->pixel_size),
 			(camera->half_height - (py + 0.5) * camera->pixel_size), -1);
-	inverse_transform = mat4x4_inverse(&camera->transform);
-	pixel = mat4x4_cross_vec(&inverse_transform, &pixel);
+	// inverse_transform = mat4x4_inverse(&camera->transform); // use the cached one!
+	pixel = mat4x4_cross_vec(&camera->inv_transform, &pixel);
 	point(&origin, 0, 0, 0);
-	origin = mat4x4_cross_vec(&inverse_transform, &origin);
+	origin = mat4x4_cross_vec(&camera->inv_transform, &origin);
 	d4sub(&direction, &pixel, &origin);
 	vnormalize(&direction);
 	ray_create(&r, &origin, &direction);

@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:30:02 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/23 14:44:52 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:26:16 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ typedef struct s_camera
 	double		half_view;
 	double		aspect_ratio;
 	double		pixel_size;
+	t_mat4x4	inv_transform;
 }	t_camera;
 
 typedef struct s_world
