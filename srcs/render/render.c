@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:29:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/23 11:49:14 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:46:46 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static void	setup_world_chapter7(t_world *w)
 
 	// t_object right_wall;
 	// plane(&right_wall, NULL, NULL);
-	// right_wall.transform = mat4x4_identity();
 	// transform_operations = translation(0, 0, 5);
 	// right_wall.transform = mat4x4_cross(&right_wall.transform, &transform_operations);
 	// transform_operations = rotation_y(M_PI / 4);
@@ -56,7 +55,6 @@ static void	setup_world_chapter7(t_world *w)
 
 	t_object middle;
 	sphere(&middle, NULL, 1, NULL);
-	middle.transform = mat4x4_identity();
 	transform_operations = translation(-0.5, 1, 0.5);
 	middle.transform = mat4x4_cross(&middle.transform, &transform_operations);
 	color(&middle.material.color, 0.1, 1, 0.5);
@@ -68,7 +66,6 @@ static void	setup_world_chapter7(t_world *w)
 
 	t_object right;
 	sphere(&right, NULL, 1, NULL);
-	right.transform = mat4x4_identity();
 	transform_operations = translation(1.5, 0.5, -0.5);
 	right.transform = mat4x4_cross(&right.transform, &transform_operations);
 	transform_operations = scaling(0.5, 0.5, 0.5);
@@ -80,7 +77,6 @@ static void	setup_world_chapter7(t_world *w)
 
 	t_object left;
 	sphere(&left, NULL, 1, NULL);
-	left.transform = mat4x4_identity();
 	transform_operations = translation(-1.5, 1.0, -0.75);
 	left.transform = mat4x4_cross(&left.transform, &transform_operations);
 	transform_operations = scaling(0.33, 0.33, 0.33);
@@ -88,14 +84,15 @@ static void	setup_world_chapter7(t_world *w)
 	color(&left.material.color, 1, 0.8, 0.1);
 	left.material.diffuse = 0.3;
 	left.material.specular = 0.3;
-	left.material.transparency = 0.6;
+	left.material.reflective = 0.75;
 
 	t_object box;
-	cube(&box, NULL, 1.0, NULL);
-	box.transform = mat4x4_identity();
-	transform_operations = translation(-1, 1, -0.5);
+	cube(&box, NULL, 0.5, NULL);
+	transform_operations = translation(0.0, 0.75, -1.5);
 	box.transform = mat4x4_cross(&box.transform, &transform_operations);
 	transform_operations = rotation_x(M_PI / 4);
+	box.transform = mat4x4_cross(&box.transform, &transform_operations);
+	transform_operations = rotation_y(M_PI / 4);
 	box.transform = mat4x4_cross(&box.transform, &transform_operations);
 	color(&box.material.color, 0.1, 1, 0.5);
 	box.material.diffuse = 0.7;
@@ -104,7 +101,17 @@ static void	setup_world_chapter7(t_world *w)
 	box.material.refractive_index = 1.5;
 	box.material.transparency = 1.0;
 
-	world_add_object(w, &box);
+	t_object cy;
+	cylinder(&cy, NULL, 0.5, NULL);
+	transform_operations = translation(1.25, 2.0, -1.5);
+	cy.transform = mat4x4_cross(&cy.transform, &transform_operations);
+	transform_operations = rotation_x(M_PI / 2);
+	cy.transform = mat4x4_cross(&cy.transform, &transform_operations);
+	color(&cy.material.color, 0.1, 1, 0.5);
+	cy.material.diffuse = 0.7;
+	cy.material.specular = 0.3;
+	cy.material.reflective = 0.75;
+
 	world_add_light(w, &w->lights[0]);
 	world_add_object(w, &floor);
 	world_add_object(w, &left_wall);
@@ -112,6 +119,8 @@ static void	setup_world_chapter7(t_world *w)
 	world_add_object(w, &middle);
 	world_add_object(w, &right);
 	world_add_object(w, &left);
+	world_add_object(w, &cy);
+	world_add_object(w, &box);
 }
 
 t_color	render_pixel(t_program *context, int x, int y)

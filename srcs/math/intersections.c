@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:57:42 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/17 13:13:23 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:51:53 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_itx_computation prepare_computations(t_intersection *itx, t_ray *r, t_intersec
 		comps.normalv = plane_normal_at(itx->object);
 	else if (itx->object->type == OBJ_CUBE)
 		comps.normalv = cube_normal_at(itx->object, &comps.p);
+	else if (itx->object->type == OBJ_CYLINDER)
+		comps.normalv = cylinder_normal_at(itx->object, &comps.p);
 	if (vdot(&comps.normalv, &comps.eyev) < 0)
 	{
 		comps.inside = true;
@@ -68,6 +70,8 @@ t_intersections	intersect_world(t_world *w, t_ray *r)
 			intersect_plane(r, &w->objects[i], &result);
 		else if (w->objects[i].type == OBJ_CUBE)
 			intersect_cube(r, &w->objects[i], &result);
+		else if (w->objects[i].type == OBJ_CYLINDER)
+			intersect_cylinder(r, &w->objects[i], &result);
 	}
 	quick_sort_intersections(result.data, result.count);
 	return (result);

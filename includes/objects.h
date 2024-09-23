@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:30:02 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/12 22:32:56 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:44:52 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,5 +166,9 @@ void			intersect_plane(t_ray *ray, t_object *plane, t_intersections *xs);
 void			cube(t_object *cube, t_double4 *center, double length, t_mat4x4 *transform);
 t_double4		cube_normal_at(t_object *cube, t_double4 *world_point);
 void			intersect_cube(t_ray *ray, t_object *cube, t_intersections *xs);
+
+void			cylinder(t_object *cy, t_double4 *center, double radius, t_mat4x4 *transform);
+t_double4		cylinder_normal_at(t_object *cylinder, t_double4 *world_point);
+void			intersect_cylinder(t_ray *ray, t_object *cy, t_intersections *xs);
 
 #endif // !OBJECTS_H
