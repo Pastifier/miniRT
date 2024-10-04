@@ -28,7 +28,7 @@ SRC := main.c
 SRC_DIR := src
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 
-INC := miniRT.h
+INC := miniRT.h common.h
 INC_DIR := include
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
 all: $(NAME)

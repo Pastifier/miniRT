@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 16:35:32 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/04 20:19:18 by ebinjama         ###   ########.fr       */
+/*   Created: 2023/11/04 17:59:52 by ebinjama          #+#    #+#             */
+/*   Updated: 2023/11/09 06:32:03 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "macros.h"
-#include "miniRT.h"
-#include "mlx.h"
+#include "libft.h"
 
-int	main(int argc, char *argv[])
+size_t	ft_strlcpy(char *dst, const char *src, size_t sz)
 {
-	(void)argc; (void)argv;
-	t_program	context;
+	size_t	i;
+	size_t	src_len;
 
-	context.mlx = mlx_init();
-	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
-	// create_canvas(&context, WIN_WIDTH, WIN_HEIGHT);
-	// setup_hooks(...);
-	// render_frame(&context);
-	 mlx_loop(context.mlx);
-	return (0);
+	if (!sz)
+		return (ft_strlen(src));
+	src_len = ft_strlen(src);
+	if (src_len > --sz)
+		src_len = sz;
+	i = 0;
+	while (i < src_len)
+	{
+		dst[i] = src[i];
+		++i;
+	}
+	dst[i] = 0;
+	return (ft_strlen(src));
 }

@@ -6,14 +6,15 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:38:28 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/04 17:04:59by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/04 20:18:54 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMON_H
 # define COMMON_H
 
-# include "../LagAMat/include/lag.h"
+# include "../LagAMat/include/lag.h" // for t_vec4s, t_mat4s, and their funcs
+# include <stdbool.h> // for `true`, `false`
 
 enum e_object_types
 {
@@ -57,21 +58,17 @@ typedef struct s_obj
 	t_vec4s	orientation;
 	union u_specs
 	{
-		struct s_sphere
-		{
-			double	radius;
-		};
-		struct s_plane
+		double	radius;
+		struct
 		{
 			t_vec4s	normal;
 		};
-		struct s_cube
+		struct
 		{
 			double	side_length;
 		};
-		struct s_cylinder
+		struct
 		{
-			double	radius;
 			double	min;
 			double	max;
 			bool	closed;
@@ -123,7 +120,7 @@ typedef struct s_camera
 	double		half_view;
 	double		aspect_ratio;
 	double		pixel_size;
-}	t_cam;
+}	t_camera;
 
 typedef struct s_light
 {
@@ -135,11 +132,11 @@ typedef struct s_light
 		struct s_point
 		{
 			t_color	intensity;
-		};
+		}	point;
 		struct s_spot
 		{
 			double	intensity;
-		};
+		}	spot;
 	}	specs;
 }	t_light;
 

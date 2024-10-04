@@ -1,29 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 16:35:32 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/04 20:19:18 by ebinjama         ###   ########.fr       */
+/*   Created: 2023/11/04 17:59:17 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/02/01 11:42:59 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "macros.h"
-#include "miniRT.h"
-#include "mlx.h"
+#include "libft.h"
 
-int	main(int argc, char *argv[])
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	(void)argc; (void)argv;
-	t_program	context;
+	char	*self;
+	char	*dummy;
+	size_t	len;
 
-	context.mlx = mlx_init();
-	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
-	// create_canvas(&context, WIN_WIDTH, WIN_HEIGHT);
-	// setup_hooks(...);
-	// render_frame(&context);
-	 mlx_loop(context.mlx);
-	return (0);
+	len = 0;
+	if (!s1 && !s2)
+		return (NULL);
+	len = ft_strlen(s1) + ft_strlen(s2);
+	self = malloc(sizeof(char) * (len + 1));
+	if (!self)
+		return (NULL);
+	dummy = self;
+	if (s1)
+		while (*s1)
+			*dummy++ = *s1++;
+	if (s2)
+		while (*s2)
+			*dummy++ = *s2++;
+	*dummy = 0;
+	return (self);
 }

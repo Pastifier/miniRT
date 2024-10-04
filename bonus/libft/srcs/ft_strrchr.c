@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 16:35:32 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/04 20:19:18 by ebinjama         ###   ########.fr       */
+/*   Created: 2023/11/04 18:00:56 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/02/01 10:40:36 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "macros.h"
-#include "miniRT.h"
-#include "mlx.h"
+#include "libft.h"
 
-int	main(int argc, char *argv[])
+char	*ft_strrchr(const char *s, int c)
 {
-	(void)argc; (void)argv;
-	t_program	context;
+	char	*ptr;
+	char	*store;
 
-	context.mlx = mlx_init();
-	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
-	// create_canvas(&context, WIN_WIDTH, WIN_HEIGHT);
-	// setup_hooks(...);
-	// render_frame(&context);
-	 mlx_loop(context.mlx);
-	return (0);
+	ptr = (char *)s;
+	if (!ptr)
+		return (NULL);
+	store = NULL;
+	while (*ptr)
+	{
+		if (*ptr == (char)c)
+			store = ptr;
+		ptr++;
+	}
+	if (!(char)c)
+		return (ptr);
+	return (store);
 }

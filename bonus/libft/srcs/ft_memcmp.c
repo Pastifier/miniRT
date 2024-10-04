@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 16:35:32 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/04 20:19:18 by ebinjama         ###   ########.fr       */
+/*   Created: 2023/11/04 17:43:20 by ebinjama          #+#    #+#             */
+/*   Updated: 2023/11/10 21:36:18 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "macros.h"
-#include "miniRT.h"
-#include "mlx.h"
+#include "libft.h"
 
-int	main(int argc, char *argv[])
+int	ft_memcmp(const void *p1, const void *p2, size_t n)
 {
-	(void)argc; (void)argv;
-	t_program	context;
+	int				i;
+	unsigned char	*p1_ptr;
+	unsigned char	*p2_ptr;
 
-	context.mlx = mlx_init();
-	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
-	// create_canvas(&context, WIN_WIDTH, WIN_HEIGHT);
-	// setup_hooks(...);
-	// render_frame(&context);
-	 mlx_loop(context.mlx);
+	p1_ptr = (unsigned char *)p1;
+	p2_ptr = (unsigned char *)p2;
+	i = -1;
+	while ((size_t)(++i) < n)
+	{
+		if (p1_ptr[i] != p2_ptr[i])
+			return (p1_ptr[i] - p2_ptr[i]);
+	}
 	return (0);
 }

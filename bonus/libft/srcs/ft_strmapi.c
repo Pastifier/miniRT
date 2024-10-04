@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 16:35:32 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/04 20:19:18 by ebinjama         ###   ########.fr       */
+/*   Created: 2023/11/04 18:00:23 by ebinjama          #+#    #+#             */
+/*   Updated: 2023/11/09 05:43:19 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "macros.h"
-#include "miniRT.h"
-#include "mlx.h"
+#include "libft.h"
 
-int	main(int argc, char *argv[])
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 {
-	(void)argc; (void)argv;
-	t_program	context;
+	char	*self;
+	int		i;
 
-	context.mlx = mlx_init();
-	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
-	// create_canvas(&context, WIN_WIDTH, WIN_HEIGHT);
-	// setup_hooks(...);
-	// render_frame(&context);
-	 mlx_loop(context.mlx);
-	return (0);
+	if (!s || !f)
+		return (NULL);
+	self = ft_strdup(s);
+	if (!self)
+		return (NULL);
+	i = -1;
+	while (self[++i])
+		self[i] = (*f)(i, self[i]);
+	return (self);
 }

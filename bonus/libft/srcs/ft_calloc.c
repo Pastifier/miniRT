@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/04 16:35:32 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/04 20:19:18 by ebinjama         ###   ########.fr       */
+/*   Created: 2023/11/04 17:39:55 by ebinjama          #+#    #+#             */
+/*   Updated: 2023/11/10 21:14:56 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "macros.h"
-#include "miniRT.h"
-#include "mlx.h"
+#include "libft.h"
 
-int	main(int argc, char *argv[])
+void	*ft_calloc(size_t nmemb, size_t n)
 {
-	(void)argc; (void)argv;
-	t_program	context;
+	void	*self;
+	size_t	total_size;
 
-	context.mlx = mlx_init();
-	context.win = mlx_new_window(context.mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
-	// create_canvas(&context, WIN_WIDTH, WIN_HEIGHT);
-	// setup_hooks(...);
-	// render_frame(&context);
-	 mlx_loop(context.mlx);
-	return (0);
+	if (!nmemb || !n)
+	{
+		nmemb = 1;
+		n = 1;
+	}
+	if (nmemb > SIZE_MAX / n)
+		return (NULL);
+	total_size = n * nmemb;
+	self = malloc(total_size);
+	if (!self)
+		return (NULL);
+	ft_bzero(self, total_size);
+	return (self);
 }
