@@ -24,12 +24,12 @@ endif
 # PROJECT
 NAME := miniRT
 
-SRC := main.c vector_triv.c vector.c init.c log.c colors.c render.c
-SRC_DIR := srcs
+SRC := main.c
+SRC_DIR := src
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 
-INC := minirt.h vectors.h rendering.h log.h ray.h
-INC_DIR := includes
+INC := miniRT.h
+INC_DIR := include
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
 all: $(NAME)
 
