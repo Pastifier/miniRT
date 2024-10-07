@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:17:38 by pastifier         #+#    #+#             */
-/*   Updated: 2024/02/04 02:03:46 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/07 03:37:24 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 // Mainly for open(2) stuff.
 # include <sys/types.h>
 # include <sys/stat.h>
+
+# define _FT_WHITESPACE_ " \t\v\r\f"
 
 /************************************
  *                                  *
@@ -365,7 +367,7 @@ void	ft_putchar_fd(char c, int fd);
 
 	(Invalid `fd` values will cause it to do nothing). 
 */
-void	ft_putstr_fd(char *s, int fd);
+void	ft_putstr_fd(const char *s, int fd);
 
 /*
 	Writes the string `s` into the file descriptor `fd`, 
@@ -373,7 +375,7 @@ void	ft_putstr_fd(char *s, int fd);
 
 	(Feeding it an invalid string or `fd` will cause it to do nothing).
 */
-void	ft_putendl_fd(char *s, int fd);
+void	ft_putendl_fd(const char *s, int fd);
 
 /*
 	Writes the integer `int` into the file descriptor `fd`.

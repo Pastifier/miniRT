@@ -24,8 +24,11 @@ endif
 # PROJECT
 NAME := miniRT
 
-SRC := main.c
-SRC_DIR := src
+SRC := main.c \
+			$(addprefix colors/, canvas.c paint.c color_op.c) \
+			$(addprefix parsing/, parse.c) \
+			$(addprefix destroy/, destroy.c)
+SRC_DIR :=	src
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 
 INC := miniRT.h common.h

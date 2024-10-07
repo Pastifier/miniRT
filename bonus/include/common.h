@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:38:28 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/06 17:37:37 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/07 05:45:46 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ typedef union u_color
 typedef struct s_material
 {
 	t_color	color;
-	double	ambient;
-	double	diffuse;
-	double	specular;
-	double	sheen;
-	double	reflective;
-	double	transparency;
-	double	refractive_index;
+	float	ambient;
+	float	diffuse;
+	float	specular;
+	float	sheen;
+	float	reflective;
+	float	transparency;
+	float	refractive_index;
 }	t_material;
 
 typedef struct s_obj
@@ -58,19 +58,19 @@ typedef struct s_obj
 	t_vec4s	orientation;
 	union u_specs
 	{
-		double	radius;
+		float	radius;
 		struct
 		{
 			t_vec4s	normal;
 		};
 		struct
 		{
-			double	side_length;
+			float	side_length;
 		};
 		struct
 		{
-			double	min;
-			double	max;
+			float	min;
+			float	max;
 			bool	closed;
 		};
 	}	specs;
@@ -84,7 +84,7 @@ typedef struct s_ray
 
 typedef struct s_intersection
 {
-	double	t;
+	float	t;
 	t_obj	*object;
 	t_vec4s	itx_p;
 	// subject to be grouped somewhere else:
@@ -96,8 +96,8 @@ typedef struct s_intersection
 	t_vec4s	normalv;
 	t_vec4s	reflectv;
 	int		inside;
-	double	n1;
-	double	n2;
+	float	n1;
+	float	n2;
 }	t_itx;
 
 typedef struct s_intersection_group
@@ -110,16 +110,16 @@ typedef struct s_camera
 {
 	int			hsize;
 	int			vsize;
-	double		fov;
+	float		fov;
 	t_mat4s		inv_transform;
 	t_mat4s		rot;
 	t_vec4s		trans;
-	t_vec4s		scale;
-	double		half_width;
-	double		half_height;
-	double		half_view;
-	double		aspect_ratio;
-	double		pixel_size;
+	t_vec4s		scale; // (1, 1, 1, 1)
+	float		half_width;
+	float		half_height;
+	float		half_view;
+	float		aspect_ratio;
+	float		pixel_size;
 }	t_camera;
 
 typedef struct s_light
@@ -135,16 +135,17 @@ typedef struct s_light
 		}	point;
 		struct s_spot
 		{
-			double	intensity;
+			float	intensity;
 		}	spot;
 	}	specs;
 }	t_light;
 
 typedef struct s_world
 {
-	int		num_obj;
+	int		num_shapes;
 	int		num_lights;
-	t_obj	objects[100];
+	t_obj	*shapes;
+	t_light	*lights;
 }	t_world;
 
 #endif // !COMMON_H

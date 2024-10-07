@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:35:52 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/06 18:49:45 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/07 06:07:59 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@
 typedef struct s_canvas
 {
 	void	*ptr;
-	char	addr;
+	char	*addr;
 	int		bpp;
+	int		bpp_8;
 	int		line_length;
 	int		endian;
 }	t_canvas;
@@ -57,6 +58,12 @@ typedef struct s_thread_data
 	int			x_f;
 }	t_thread;
 
+/*--- PARSING ---*/
+
+bool		parse_file(const char *filename, t_program *context);
+
+/*--- RENDERING ---*/
+
 t_color		rt_render_pixel(t_program *context, int x, int y);
 bool		create_canvas(t_program *context, int width, int height);
 void		put_pixel(t_canvas *canvas, int x, int y, const t_color *color);
@@ -66,6 +73,11 @@ void		render_frame(t_program *current_context);
 
 void		interpolate_horizontal(t_thread const *data);
 void		interpolate_vertical(t_thread const *data);
-t_color		lerp_colors(const t_color *a, const t_color *b, double t);
+t_color		lerp_colors(const t_color *a, const t_color *b, float t);
+
+/*--- DESTROY ---*/
+
+void	destroy_mlx(t_program *context);
+void	destroy_world(t_program *context);
 
 #endif // !MINIRT_H
