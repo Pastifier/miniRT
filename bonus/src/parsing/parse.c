@@ -6,15 +6,15 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 03:10:59 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/07 06:39:24 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:26:33 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "libft.h"
 
-bool	read_file(int fd, t_program *context, const char *filename);
-bool	check_object_validity_and_add(t_program *context, const char *info,
+static bool	read_file(int fd, t_program *context, const char *filename);
+static bool	check_object_validity_and_add(t_program *context, const char *info,
 			int curr_line);
 
 bool	parse_file(const char *filename, t_program *context)
@@ -68,16 +68,36 @@ bool	read_file(int fd, t_program *context, const char *filename)
 		//	free(line.line);
 		ft_putstr_fd("Error: file `", STDERR_FILENO);
 		ft_putstr_fd(filename, STDERR_FILENO);
-		ft_putendl_fd("` appears to be empty.", STDERR_FILENO);
+		ft_putendl_fd("` appears to be incomplete.", STDERR_FILENO);
 		return (false);
 	}
+	return (true);
+}
+
+bool	parse_uppercase_object(t_program *context, const char *info,
+			int curr_line)
+{
+	t_split	split;
+
+	split = ft_split(info, " ");
+	if (!split.array)
+	{
+		ft_putendl_fd("FATAL: Couldn't allocate for necessary operation", 2);
+		return (false);
+	}
+	if (*info == 'A')
+		return (parse_ambient(context, &split, curr_line));
+	//if (*info == 'C')
+	//	return (parse_camera(context, &split, curr_line));
+	if (*info == 'L')
+		return (parse_light(context, &split, curr_line));
+	str_arr_destroy(split.array);
 	return (true);
 }
 
 bool	check_object_validity_and_add(t_program *context, const char *info,
 			int curr_line)
 {
-	(void)context;
 	if (!ft_isalpha(*info))
 	{
 		ft_putstr_fd("Syntax error near unexpected token: `", STDERR_FILENO);
@@ -86,8 +106,8 @@ bool	check_object_validity_and_add(t_program *context, const char *info,
 		ft_putnbr_fd(curr_line, STDERR_FILENO);
 		ft_putendl_fd(".", STDERR_FILENO);
 	}
-	//if (*info >= 'A' && *info <= 'Z')
-	//	return (parse_uppercase_object(context, info, curr_line));
+	if (*info == 'A' || *info == 'C' || *info == 'L')
+		return (parse_uppercase_object(context, info, curr_line));
 	//if (*info == 's' && *(info + 1) == 'p')
 	//	return (parse_sphere(context, info, curr_line));
 	//if (*info == 'c' && *(info + 1) == 'y')
@@ -96,12 +116,12 @@ bool	check_object_validity_and_add(t_program *context, const char *info,
 	//	return (parse_plane(context, info, curr_line));
 	//if (*info == 'c' && *(info + 1) == 'u')
 	//	return (parse_cube(context, info, curr_line));
-	//else
-	//{
+	else
+	{
 		ft_putstr_fd("Error: couldn't recognize object in line ", 2);
 		ft_putnbr_fd(curr_line, 2);
 		(ft_putstr_fd(":\n\t", 2), ft_putendl_fd(info, 2));
-	//}
+	}
 	return (false);
 }
 
