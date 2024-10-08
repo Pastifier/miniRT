@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 03:10:59 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/07 15:26:33 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/09 02:08:58 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	read_file(int fd, t_program *context, const char *filename)
 	curr_line = 1;
 	while (!line.error && !line.eof)
 	{
-		if (*line.line == '\n')
+		if (*line.line == '\n' || *line.line == '#')
 		{
 			(free(line.line), curr_line++);
 			line = get_next_line(fd);
@@ -62,7 +62,8 @@ bool	read_file(int fd, t_program *context, const char *filename)
 		return (false);
 	}
 	if ((line.eof && curr_line == 1)
-		|| (context->world.num_lights == 0 && context->world.num_shapes == 0))
+		|| (context->world.num_lights == 0 || context->world.num_shapes == 0)
+		|| (!context->ambiance.is_set || !context->cam.is_set))
 	{
 		//if (line.line)
 		//	free(line.line);
@@ -105,6 +106,7 @@ bool	check_object_validity_and_add(t_program *context, const char *info,
 		ft_putstr_fd("` in line: ", STDERR_FILENO);
 		ft_putnbr_fd(curr_line, STDERR_FILENO);
 		ft_putendl_fd(".", STDERR_FILENO);
+		return (false);
 	}
 	if (*info == 'A' || *info == 'C' || *info == 'L')
 		return (parse_uppercase_object(context, info, curr_line));

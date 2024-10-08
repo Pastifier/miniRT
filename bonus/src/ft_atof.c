@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 10:25:14 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/07 15:32:24 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/09 01:45:27 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ float	ft_atof(char *rep, t_program *context)
 	dividend = 1.0;
 	found_point = false;
 	init_atof(&rep, &dividend, context);
-	while (*rep)
+	while (*rep && ++context->flt_operations)
 	{
-		if (ft_isdigit(*rep) && ++context->flt_operations)
+		if (ft_isdigit(*rep)/* && ++context->flt_operations*/)
 		{
 			mantissa = (10 * mantissa) + (*rep - '0');
 			if (found_point)
 				dividend *= 10;
 		}
-		else if (*rep == '.' && !found_point && ++context->flt_operations)
+		else if (*rep == '.' && !found_point/* && ++context->flt_operations*/)
 			found_point = true;
 		else
 			break ;
@@ -76,7 +76,7 @@ static void	validate_rep(char *rep, t_program *context)
 {
 	t_vatof	utils;
 
-	if (!*rep)
+	if (!rep || (rep && !*rep))
 		return (context->runtime_error = 2, (void)free(NULL));
 	utils = (t_vatof){0};
 	while (*rep == ' ' || *rep == '\t')
