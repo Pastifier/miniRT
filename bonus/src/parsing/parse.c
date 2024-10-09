@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 03:10:59 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/09 02:08:58 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/09 05:13:35 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static bool	read_file(int fd, t_program *context, const char *filename);
 static bool	check_object_validity_and_add(t_program *context, const char *info,
-			int curr_line);
+			int curr_line, size_t line_len);
 
 bool	parse_file(const char *filename, t_program *context)
 {
@@ -50,8 +50,13 @@ bool	read_file(int fd, t_program *context, const char *filename)
 			line = get_next_line(fd);
 			continue ;
 		}
-		if (!check_object_validity_and_add(context, line.line, curr_line++))
+		if (!check_object_validity_and_add(context, line.line, curr_line++, line.len))
+		{
+			ft_putstr_fd(filename, 2);
+			ft_putstr_fd(":\n\t", 2);
+			ft_putendl_fd(line.line, 2);
 			return ((void)close(fd), free(line.line), false);
+		}
 		free(line.line);
 		line = get_next_line(fd);
 	}
@@ -65,11 +70,19 @@ bool	read_file(int fd, t_program *context, const char *filename)
 		|| (context->world.num_lights == 0 || context->world.num_shapes == 0)
 		|| (!context->ambiance.is_set || !context->cam.is_set))
 	{
-		//if (line.line)
-		//	free(line.line);
+		if (line.line)
+			free(line.line);
 		ft_putstr_fd("Error: file `", STDERR_FILENO);
 		ft_putstr_fd(filename, STDERR_FILENO);
-		ft_putendl_fd("` appears to be incomplete.", STDERR_FILENO);
+		ft_putendl_fd("` appears to be incomplete. Need:", STDERR_FILENO);
+		if (!context->world.num_lights)
+			ft_putendl_fd("\tAt least one light.", 2);
+		if (!context->world.num_shapes)
+			ft_putendl_fd("\tAt least one shape.", 2);
+		if (!context->ambiance.is_set)
+			ft_putendl_fd("\tExactly one value for global Ambiance lighting.", 2);
+		if (!context->cam.is_set)
+			ft_putendl_fd("\tExactly one camera.", 2);
 		return (false);
 	}
 	return (true);
@@ -97,7 +110,7 @@ bool	parse_uppercase_object(t_program *context, const char *info,
 }
 
 bool	check_object_validity_and_add(t_program *context, const char *info,
-			int curr_line)
+			int curr_line, size_t line_len)
 {
 	if (!ft_isalpha(*info))
 	{
@@ -109,7 +122,18 @@ bool	check_object_validity_and_add(t_program *context, const char *info,
 		return (false);
 	}
 	if (*info == 'A' || *info == 'C' || *info == 'L')
+	{
+		if (line_len > 1 && *(info + 1) != ' ')
+		{
+			ft_putstr_fd("Syntax error near unexpected token: `", STDERR_FILENO);
+			ft_putchar_fd(*info, STDERR_FILENO);
+			ft_putstr_fd("` in line: ", STDERR_FILENO);
+			ft_putnbr_fd(curr_line, STDERR_FILENO);
+			ft_putendl_fd(".", STDERR_FILENO);
+			return (false);
+		}
 		return (parse_uppercase_object(context, info, curr_line));
+	}
 	//if (*info == 's' && *(info + 1) == 'p')
 	//	return (parse_sphere(context, info, curr_line));
 	//if (*info == 'c' && *(info + 1) == 'y')
@@ -122,7 +146,7 @@ bool	check_object_validity_and_add(t_program *context, const char *info,
 	{
 		ft_putstr_fd("Error: couldn't recognize object in line ", 2);
 		ft_putnbr_fd(curr_line, 2);
-		(ft_putstr_fd(":\n\t", 2), ft_putendl_fd(info, 2));
+		ft_putendl_fd(":", 2);
 	}
 	return (false);
 }

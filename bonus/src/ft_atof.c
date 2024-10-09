@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 10:25:14 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/09 01:45:27 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/09 04:04:30 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ float	ft_atof(char *rep, t_program *context)
 
 static void	init_atof(char **rep, float *sign, t_program *f)
 {
+	f->flt_operations = 0;
+	f->runtime_error = 0;
 	while (**rep && (**rep == ' ' || **rep == '\t'))
 		(*rep)++;
 	*sign = 1.0;

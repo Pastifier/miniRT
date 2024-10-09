@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 09:26:43 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/07 15:49:30 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/09 04:07:00 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 static bool	get_ambient_color(t_program *context, t_split *fields,
 				int curr_line);
-
 bool	parse_ambient(t_program *context, t_split *fields, int curr_line)
 {
 	if (context->ambiance.is_set)
@@ -48,7 +47,7 @@ bool	parse_ambient(t_program *context, t_split *fields, int curr_line)
 	{
 		ft_putstr_fd("Error: Invalid value for Ambient Light ratio on line ", 2);
 		ft_putnbr_fd(curr_line, 2);
-		ft_putendl_fd(". Expected: value in range [0.0, 1.0]", 2);
+		ft_putendl_fd(". Expected: floating-point value in range [0.0, 1.0]", 2);
 		return (str_arr_destroy(fields->array), false);
 	}
 	return (get_ambient_color(context, fields, curr_line));

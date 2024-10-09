@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:38:28 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/07 09:21:16 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/09 05:00:45 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef struct s_intersection_group
 typedef struct s_camera
 {
 	bool		is_set;
+	int			line_set;
 	int			hsize;
 	int			vsize;
 	float		fov;
@@ -128,6 +129,7 @@ typedef struct s_light
 	int		type;
 	t_vec4s	pos;
 	t_color	color;
+	float	ratio;
 	union u_light_type
 	{
 		struct s_point
