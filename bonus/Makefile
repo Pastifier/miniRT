@@ -26,7 +26,8 @@ NAME := miniRT
 
 SRC := main.c ft_atof.c \
 			$(addprefix colors/, canvas.c paint.c color_op.c) \
-			$(addprefix parsing/, parse.c parse_ambient.c parse_light.c) \
+			$(addprefix parsing/, parse.c parse_ambient.c parse_light.c \
+				parse_camera.c) \
 			$(addprefix destroy/, destroy.c)
 SRC_DIR :=	src
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
@@ -39,7 +40,7 @@ all: $(NAME)
 $(NAME): $(SRCS) $(INCLUDE)
 	@make -C $(BUILD_DIR)
 	make -C libft
-	$(CC) -o $(NAME) -I$(INC_DIR) $(SRCS) $(CFLAGS)
+	$(CC) -o $(NAME) -I$(INC_DIR) -ILagAMat/include $(SRCS) $(CFLAGS)
 
 clean:
 	@make -C $(BUILD_DIR) clean

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/04 16:35:52 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/07 15:30:00 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:18:51 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ float		ft_atof(char *rep, t_program *context);
 bool		parse_file(const char *filename, t_program *context);
 bool		parse_ambient(t_program *context, t_split *fields, int curr_line);
 bool		parse_light(t_program *context, t_split *fields, int curr_line);
+bool		parse_camera(t_program *context, t_split *fields, int curr_line);
 
 /*--- RENDERING ---*/
 

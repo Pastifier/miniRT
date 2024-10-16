@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 03:10:59 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/09 05:13:35 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:29:29 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ bool	parse_uppercase_object(t_program *context, const char *info,
 	}
 	if (*info == 'A')
 		return (parse_ambient(context, &split, curr_line));
-	//if (*info == 'C')
-	//	return (parse_camera(context, &split, curr_line));
+	if (*info == 'C')
+		return (parse_camera(context, &split, curr_line));
 	if (*info == 'L')
 		return (parse_light(context, &split, curr_line));
 	str_arr_destroy(split.array);
