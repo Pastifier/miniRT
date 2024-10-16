@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 13:11:06 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/16 15:45:43 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:33:24 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ bool parse_camera(t_program *context, t_split *fields, int curr_line)
 	t_camera *camera;
 	char *next;
 	float temp;
+	t_vec4d forward;
+	t_vec4d up;
+	t_vec4d left;
 
 	camera = &context->cam;
 
@@ -59,6 +62,41 @@ bool parse_camera(t_program *context, t_split *fields, int curr_line)
 		and the left vector is the same as I-hat.
 	*/
 	next = fields->array[2];
+	forward.x = ft_atof(next, context);
+	next += context->flt_operations + (forward.x <= -0.f);
+	forward.y = ft_atof(next, context);
+	next += context->flt_operations + (forward.y <= -0.f);
+	forward.z = ft_atof(next, context);
+	forward.w = 0.0f;
+
+	//Normalize the forward vector
+	forward = lag_vec4d_normalize_ret(forward);
+
+	//Get the up vector
+	if (forward.y == 1.0f || forward.y == -1.0f)
+		up = lag_vec4d_ret(0.0f, 0.0f, 1.0f, 0.0f);
+	else
+		up = lag_vec4d_cross_ret(forward, lag_vec4d_ret(0.0f, 1.0f, 0.0f, 0.0f));
+
+	//Normalize the up vector
+	up = lag_vec4d_normalize_ret(up);
+
+	//Get the left vector
+	left = lag_vec4d_cross_ret(up, forward);
+
+	//Normalize the left vector
+	left = lag_vec4d_normalize_ret(left);
+
+	//Set the orientation matrix for the cam
+	camera->inv_transform = lag_mat4s_rows_ret(
+		lag_vec4s_ret(left.x, left.y, left.z, 0.0f),
+		lag_vec4s_ret(up.x, up.y, up.z, 0.0f),
+		lag_vec4s_ret(-forward.x, -forward.y, -forward.z, 0.0f),
+		lag_vec4s_ret(0.0f, 0.0f, 0.0f, 1.0f)
+	);
+
+	//Set the inverse transform matrix
+	lag_mat4s_cross_mat4s(camera->inv_transform, lag_mat4s_translation(-camera->trans.x, -camera->trans.y, -camera->trans.z), &camera->inv_transform);
 
 	//get FOV
 	temp = ft_atof(fields->array[3], context);
@@ -78,8 +116,6 @@ bool parse_camera(t_program *context, t_split *fields, int curr_line)
 	camera->hsize = WIN_WIDTH;
 	camera->vsize = WIN_HEIGHT;
 	camera->aspect_ratio = (float)camera->hsize / (float)camera->vsize;
-
-	//Set the inverse transform matrix for the cam here (incomplete)
 
 	//Calculate the pixel size and half view size
 	camera->half_view = tan((camera->fov / 2) * (M_PI / 180.0f));
