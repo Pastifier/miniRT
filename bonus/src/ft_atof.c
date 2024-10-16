@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 10:25:14 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/09 04:04:30 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:01:58 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,30 @@ float	ft_atof(char *rep, t_program *context)
 	float	mantissa;
 	float	dividend;
 	bool	found_point;
+	float	sign;
 
 	validate_rep(rep, context);
 	mantissa = 0.0;
 	dividend = 1.0;
 	found_point = false;
-	init_atof(&rep, &dividend, context);
+	sign = 1.0;
+	init_atof(&rep, &sign, context);
 	while (*rep && ++context->flt_operations)
 	{
-		if (ft_isdigit(*rep)/* && ++context->flt_operations*/)
+		if (ft_isdigit(*rep))
 		{
 			mantissa = (10 * mantissa) + (*rep - '0');
 			if (found_point)
 				dividend *= 10;
 		}
-		else if (*rep == '.' && !found_point/* && ++context->flt_operations*/)
+		else if (*rep == '.' && !found_point)
 			found_point = true;
 		else
 			break ;
 		++rep;
 	}
-	validate_float(mantissa / dividend, context);
-	return (mantissa / dividend);
+	validate_float((mantissa / dividend) * sign, context);
+	return ((mantissa / dividend) * sign);
 }
 
 static void	init_atof(char **rep, float *sign, t_program *f)
@@ -57,6 +59,7 @@ static void	init_atof(char **rep, float *sign, t_program *f)
 		if (**rep == '-')
 			*sign = -1.0;
 		(*rep)++;
+		f->flt_operations++;
 		if (!ft_isdigit(**rep))
 			return (f->runtime_error = 2, (void)free(NULL));
 	}
@@ -67,7 +70,7 @@ static void	init_atof(char **rep, float *sign, t_program *f)
 			if (!ft_isdigit(*(*rep + 2)))
 				return (f->runtime_error = 2, (void)free(NULL));
 		}
-		else if (!ft_isdigit(*(*rep + 1)) && (*(*rep + 1)))
+		else if (!ft_isdigit(*(*rep + 1)) && (*(*rep + 1) && *(*rep + 1) != ',' && *(*rep + 1) != ' '))
 			return (f->runtime_error = 2, (void)free(NULL));
 	}
 	else
@@ -93,10 +96,11 @@ static void	validate_rep(char *rep, t_program *context)
 			++utils.dot_count;
 		else if (ft_isalpha(*rep))
 			utils.found_alpha = true;
+		else
+			break;
 		++rep;
 	}
-	if (!utils.digit_count || utils.sign_count > 1 || utils.found_alpha
-		|| utils.dot_count > 1)
+	if (!utils.digit_count || utils.sign_count > 1 || utils.found_alpha)
 		return (context->runtime_error = 2, (void)free(NULL));
 }
 

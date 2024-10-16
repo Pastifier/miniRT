@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_light.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 14:22:24 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/09 04:50:18 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/16 13:02:23 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool		parse_light(t_program *context, t_split *fields, int curr_line)
 	}
 	if (fields->wordcount < 3)
 	{
-		ft_putstr_fd("Error: Invalid format for Light Object on line ", 2);
+		ft_putstr_fd("Error:9 Invalid format for Light Object on line ", 2);
 		ft_putnbr_fd(curr_line, 2);
 		ft_putendl_fd(". Expected:\n\tL <x>,<y>,<z> <ratio> [<R>,<G>,<B>]", 2);
 		return (str_arr_destroy(fields->array), false);
@@ -42,7 +42,7 @@ bool		parse_light(t_program *context, t_split *fields, int curr_line)
 	temp = ft_atof(next, context);
 	if (context->runtime_error == 2 && *(next + context->flt_operations + (temp < 0) - 1) != ',')
 	{
-		ft_putstr_fd("Error: Invalid format for Light Object on line ", 2);
+		ft_putstr_fd("Error:8 Invalid format for Light Object on line ", 2);
 		ft_putnbr_fd(curr_line, 2);
 		ft_putendl_fd(". Expected:\n\tL <x>,<y>,<z> <ratio> [<R>,<G>,<B>]", 2);
 		return (str_arr_destroy(fields->array), false);
@@ -51,7 +51,7 @@ bool		parse_light(t_program *context, t_split *fields, int curr_line)
 	temp = ft_atof((next += context->flt_operations + (temp <= -0.f)), context);
 	if (context->runtime_error == 2 && *(next - 1) != ',')
 	{
-		ft_putstr_fd("Error: Invalid format for Light Object on line ", 2);
+		ft_putstr_fd("Error:7 Invalid format for Light Object on line ", 2);
 		ft_putnbr_fd(curr_line, 2);
 		ft_putendl_fd(". Expected:\n\tL <x>,<y>,<z> <ratio> [<R>,<G>,<B>]", 2);
 		return (str_arr_destroy(fields->array), false);
@@ -59,9 +59,9 @@ bool		parse_light(t_program *context, t_split *fields, int curr_line)
 	world->lights[world->num_lights].pos.y = temp;
 	temp = ft_atof((next += context->flt_operations + (temp <= -0.f)), context);
 	if ((context->runtime_error == 2 && *(next - 1) != ',')
-		|| *(next + context->flt_operations))
+		|| (*(next + context->flt_operations) != '\0' && *(next + context->flt_operations) != ' '))
 	{
-		ft_putstr_fd("Error: Invalid format for Light Object on line ", 2);
+		ft_putstr_fd("Error:6 Invalid format for Light Object on line ", 2);
 		ft_putnbr_fd(curr_line, 2);
 		ft_putendl_fd(". Expected:\n\tL <x>,<y>,<z> <ratio> [<R>,<G>,<B>]", 2);
 		return (str_arr_destroy(fields->array), false);
@@ -71,14 +71,14 @@ bool		parse_light(t_program *context, t_split *fields, int curr_line)
 	temp = ft_atof(fields->array[2], context);
 	if (context->runtime_error == 2)
 	{
-		ft_putstr_fd("Error: Invalid value for Light Object ratio on line ", 2);
+		ft_putstr_fd("Error:5 Invalid value for Light Object ratio on line ", 2);
 		ft_putnbr_fd(curr_line, 2);
 		ft_putendl_fd(". Expected: valid floating-point value", 2);
 		return (str_arr_destroy(fields->array), false);
 	}
 	if (temp < -0.f || temp > 1.f)
 	{
-		ft_putstr_fd("Error: Invalid value for Light Object ratio on line ", 2);
+		ft_putstr_fd("Error:4 Invalid value for Light Object ratio on line ", 2);
 		ft_putnbr_fd(curr_line, 2);
 		ft_putendl_fd(". Expected: floating-point value in range [0.0, 1.0]", 2);
 		return (str_arr_destroy(fields->array), false);
@@ -99,7 +99,7 @@ bool		parse_color(t_split *fields, int curr_line, t_world *world)
 	rgb = ft_atoi(fields->array[3]);
 	if (rgb.error && *(fields->array[3] + rgb.operations + (rgb.value < 0)) != ',')
 	{
-		ft_putstr_fd("Error: Invalid format for Light Object on line ", 2);
+		ft_putstr_fd("Error:3 Invalid format for Light Object on line ", 2);
 		ft_putnbr_fd(curr_line, 2);
 		ft_putendl_fd(". Expected:\n\tL <x>,<y>,<z> <ratio> [<R>,<G>,<B>]", 2);
 		return (str_arr_destroy(fields->array), false);
@@ -115,7 +115,7 @@ bool		parse_color(t_split *fields, int curr_line, t_world *world)
 	rgb = ft_atoi((next = fields->array[3] + rgb.operations + 1 + (rgb.value < 0)));
 	if (rgb.error && *(next - 1) != ',')
 	{
-		ft_putstr_fd("Error: Invalid format for Light Object on line ", 2);
+		ft_putstr_fd("Error:2 Invalid format for Light Object on line ", 2);
 		ft_putnbr_fd(curr_line, 2);
 		ft_putendl_fd(". Expected:\n\tL <x>,<y>,<z> <ratio> [<R>,<G>,<B>]", 2);
 		return (str_arr_destroy(fields->array), false);
@@ -131,7 +131,7 @@ bool		parse_color(t_split *fields, int curr_line, t_world *world)
 	rgb = ft_atoi((next += rgb.operations + 1 + (rgb.value < 0)));
 	if (rgb.error && *(next - 1) != ',')
 	{
-		ft_putstr_fd("Error: Invalid format for Light Object on line ", 2);
+		ft_putstr_fd("Error:1 Invalid format for Light Object on line ", 2);
 		ft_putnbr_fd(curr_line, 2);
 		ft_putendl_fd(". Expected:\n\tL <x>,<y>,<z> <ratio> [<R>,<G>,<B>]", 2);
 		return (str_arr_destroy(fields->array), false);
