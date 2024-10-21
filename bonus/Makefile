@@ -1,6 +1,6 @@
 # Necessities
 CC := cc
-CFLAGS = -Wextra -Werror -Wall -g3 -fsanitize=address,undefined
+CFLAGS = -Wextra -Werror -Wall -mavx -mavx2 -g3 -fsanitize=address,undefined
 
 # OS-specification
 OS := $(shell uname)
