@@ -15,8 +15,6 @@
 #include "libft.h"
 #include "colors.h"
 
-#include "miniRT.h"
-
 bool parse_camera(t_program *context, t_split *fields, int curr_line)
 {
 	t_camera *camera;
@@ -130,7 +128,7 @@ bool parse_camera(t_program *context, t_split *fields, int curr_line)
 		camera->half_height = camera->half_view;
 	}
 	camera->pixel_size = (camera->half_width * 2) / camera->hsize;
-
+	context->cam = *camera;
 	return (str_arr_destroy(fields->array), true);
 }
 

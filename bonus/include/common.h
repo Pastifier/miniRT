@@ -56,6 +56,7 @@ typedef struct s_obj
 	t_vec4s	trans;
 	t_vec4s	scale;
 	t_vec4s	orientation;
+	t_color	color;
 	union u_specs
 	{
 		float	radius;
