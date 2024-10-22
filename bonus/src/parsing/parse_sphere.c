@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:14:10 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/21 14:15:57 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:14:14 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,8 @@ bool	parse_sphere(t_program *context, t_split *fields, int curr_line)
 	t_color	*c;
 
 	if (fields->wordcount != 4)
-	{
-		ft_putstr_fd("Error: Invalid format for Sphere Object on line ", 2);
-		ft_putnbr_fd(curr_line, 2);
-		ft_putendl_fd(". Expected:\n\tSP <x>,<y>,<z> <diameter> <color>", 2);
-		return (str_arr_destroy(fields->array), false);
-	}
-
+		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_SP,
+			curr_line), str_arr_destroy(fields->array), false);
 	sp.type = SPHERE;
 	vec = parse_vec4(fields->array[1], context, curr_line);
 	if (!vec)

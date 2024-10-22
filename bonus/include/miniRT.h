@@ -82,8 +82,9 @@ bool		parse_sphere(t_program *context, t_split *fields, int curr_line);
 t_color		*parse_color(char *str, t_program *context, int curr_line);
 t_vec4s		*parse_vec4(char *str, t_program *context, int curr_line);
 
-void	parse_err_msg_abort(char *msg, char *expected, int curr_line);
-void	parse_err_msg_ignore(char *msg, char *expected, int curr_line);
+void	parse_fatal_msg(char *msg, int curr_line);
+void	parse_warn_msg(char *msg, int curr_line);
+void	parse_err_msg(char *msg, char *expected, int curr_line);
 
 /*--- RENDERING ---*/
 

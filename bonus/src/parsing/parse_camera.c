@@ -27,19 +27,11 @@ bool parse_camera(t_program *context, t_split *fields, int curr_line)
 	camera = &context->cam;
 
 	if (camera->is_set)
-	{
-		ft_putstr_fd("Error: Camera is already defined. Ignoring line ", 2);
-		ft_putnbr_fd(curr_line, 2);
-		ft_putendl_fd(".", 2);
-		return (str_arr_destroy(fields->array), false);
-	}
+		return (parse_warn_msg(ERR_CAM_DEFINED, curr_line),
+			str_arr_destroy(fields->array), false);
 	if (fields->wordcount != 4)
-	{
-		ft_putstr_fd("Error: Invalid format for Camera Object on line ", 2);
-		ft_putnbr_fd(curr_line, 2);
-		ft_putendl_fd(". Expected:\n\tC <x>,<y>,<z> <ox>,<oy>,<oz> <FOV>", 2);
-		return (str_arr_destroy(fields->array), false);
-	}
+		return (parse_err_msg(ERR_CAM_FORMAT, ERR_EXPECT_TYPE_C, curr_line),
+			str_arr_destroy(fields->array), false);
 
 	//get position vector
 	next = fields->array[1];
@@ -99,12 +91,8 @@ bool parse_camera(t_program *context, t_split *fields, int curr_line)
 	//get FOV
 	temp = ft_atof(fields->array[3], context);
 	if (temp < 0.0f || temp > 180.0f)
-	{
-		ft_putstr_fd("Error: Invalid FOV value on line ", 2);
-		ft_putnbr_fd(curr_line, 2);
-		ft_putendl_fd(". Expected: FOV in range [0, 180]", 2);
-		return (str_arr_destroy(fields->array), false);
-	}
+		return (parse_err_msg(ERR_CAM_FOV, ERR_EXPECT_FOV_RANGE, curr_line),
+			str_arr_destroy(fields->array), false);
 	camera->fov = temp;
 
 	camera->is_set = true;

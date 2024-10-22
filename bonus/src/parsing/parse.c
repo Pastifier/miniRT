@@ -62,10 +62,7 @@ bool	read_file(int fd, t_program *context, const char *filename)
 	}
 	close(fd);
 	if (line.error)
-	{
-		ft_putendl_fd("FATAL: Allocation failure", STDERR_FILENO);
-		return (false);
-	}
+		return (parse_fatal_msg("Allocation failure", curr_line), false);
 	if ((line.eof && curr_line == 1)
 		|| (context->world.num_lights == 0 || context->world.num_shapes == 0)
 		|| (!context->ambiance.is_set || !context->cam.is_set))
