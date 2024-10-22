@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*   parse_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/04 17:40:36 by ebinjama          #+#    #+#             */
-/*   Updated: 2023/11/07 11:28:38 by ebinjama         ###   ########.fr       */
+/*   Created: 2024/10/22 12:36:32 by melshafi          #+#    #+#             */
+/*   Updated: 2024/10/22 12:36:40 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "miniRT.h"
+#include "macros.h"
 #include "libft.h"
+#include "colors.h"
 
-int	ft_isascii(int c)
-{
-	return (c >= 0 && c <= 127);
-}
+

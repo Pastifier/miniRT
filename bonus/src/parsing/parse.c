@@ -28,7 +28,7 @@ bool	parse_file(const char *filename, t_program *context)
 	if (fd < 0)
 	{
 		ft_putstr_fd("FATAL: file `", STDERR_FILENO);
-		ft_putstr_fd(filename, STDERR_FILENO);
+		ft_putstr_fd((char *)filename, STDERR_FILENO);
 		ft_putendl_fd("` could not be opened.", STDERR_FILENO);
 		return (false);
 	}
@@ -52,7 +52,7 @@ bool	read_file(int fd, t_program *context, const char *filename)
 		}
 		if (!check_object_validity_and_add(context, line.line, curr_line++, line.len))
 		{
-			ft_putstr_fd(filename, 2);
+			ft_putstr_fd((char *)filename, 2);
 			ft_putstr_fd(":\n\t", 2);
 			ft_putendl_fd(line.line, 2);
 			return ((void)close(fd), free(line.line), false);
@@ -73,7 +73,7 @@ bool	read_file(int fd, t_program *context, const char *filename)
 		if (line.line)
 			free(line.line);
 		ft_putstr_fd("Error: file `", STDERR_FILENO);
-		ft_putstr_fd(filename, STDERR_FILENO);
+		ft_putstr_fd((char *)filename, STDERR_FILENO);
 		ft_putendl_fd("` appears to be incomplete. Need:", STDERR_FILENO);
 		if (!context->world.num_lights)
 			ft_putendl_fd("\tAt least one light.", 2);

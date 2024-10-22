@@ -3,28 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 12:17:38 by pastifier         #+#    #+#             */
-/*   Updated: 2024/10/07 03:37:24 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/22 12:31:46 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdlib.h>	// for malloc, free, size_t 
+# include <stdlib.h>	// for malloc, free, size_t
 # include <stdbool.h>	// for true, false
 # include <unistd.h>	// for write
 # include <limits.h>	// for INT_MIN, INT_MAX
 # include <stdint.h>	// for SIZE_MAX
 # include <fcntl.h>		// for open, close,...
+# include <stdarg.h>	// for va_list, va_start, va_arg, va_end
 
 // Mainly for open(2) stuff.
 # include <sys/types.h>
 # include <sys/stat.h>
-
-# define _FT_WHITESPACE_ " \t\v\r\f"
 
 /************************************
  *                                  *
@@ -42,21 +41,21 @@ int		ft_isalpha(int c);
 
 /*
 * Returns `1` if `c` is a digit, and `0` otherwise.
-* 
+*
 * (ASCII REPRESENTED)
 */
 int		ft_isdigit(int c);
 
 /*
 * Returns `1` if `c` is alphanumeric, and `0` otherwise.
-* 
+*
 * (ASCII REPRESENTED)
 */
 int		ft_isalnum(int c);
 
 /*
 * Returns `1` if `c` is within ASCII range, and `0` otherwise.
-* 
+*
 * This is a legacy function, and is pretty much useless if you're not
 * strictly operating on integers.
 
@@ -66,7 +65,7 @@ int		ft_isascii(int c);
 
 /*
 * Returns `1` if `c` represents a printable character
-* according to the ASCII table, and `0` otherwise. 
+* according to the ASCII table, and `0` otherwise.
 */
 int		ft_isprint(int c);
 
@@ -158,7 +157,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t sz);
  	returns a pointer to that address, or NULL if `needle`
   	doesn't exist in `haystack`. If `needle` is empty,
    	a pointer to `haystack` is returned.
- 	
+
   	This function uses ft_strncmp for its implementation, so
   	make sure the inputs are true C strings (see ft_strncmp).
 */
@@ -188,7 +187,7 @@ typedef struct s_split_result
 /*
  * Fill the first `n` bytes of memory the memory region
  	pointed to by `s` with zeroes(value).
- 
+
 	This function is NOT safe! Only use it when you're
 	sure `n` is within the range of memory you're allowed
 	after `s`.
@@ -200,7 +199,7 @@ void	ft_bzero(void *s, size_t n);
 /*
 	Fills the first n bytes of the memory area pointed
 	to by `s` with the constant byte `c`.
-	
+
 	This function is NOT safe! Only use it when you're
 	sure `n` is within the range of memory you're allowed
 	after `s`.
@@ -210,11 +209,11 @@ void	ft_bzero(void *s, size_t n);
 void	*ft_memset(void *s, int c, size_t n);
 
 /*
-	Searches the first `n` bytes of the memory region 
-	pointed to by `s` for the first occurence of `c`, 
+	Searches the first `n` bytes of the memory region
+	pointed to by `s` for the first occurence of `c`,
 	and returns a pointer to that location.
 	Returns a NULL pointer if fed an invalid `s` value.
-	
+
 	(`c` is casted into an `unsigned char`, so providing
 	lower or higher values is undefined behaviour).
 */
@@ -231,8 +230,8 @@ void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 
 /*
-	Copies `n` bytes from memory area `src` to memory area `dst`. 
-	
+	Copies `n` bytes from memory area `src` to memory area `dst`.
+
 	The memory areas may overlap: copying takes place as though the
 	bytes in `src` are first copied into a temporary array that does
 	not overlap `src` or `dst`, and the bytes are then copied
@@ -262,9 +261,9 @@ int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strdup(const char *str);
 
 /*
- * Allocates memory for an array of nmemb elements of `n` bytes each 
- * and returns a pointer to the allocated memory, and the memory is 
- * filled with zeroes (value). 
+ * Allocates memory for an array of nmemb elements of `n` bytes each
+ * and returns a pointer to the allocated memory, and the memory is
+ * filled with zeroes (value).
  * If `nmemb` or `n` is 0, NULL is returned.
  */
 void	*ft_calloc(size_t nmemb, size_t n);
@@ -274,14 +273,14 @@ void	*ft_calloc(size_t nmemb, size_t n);
  * integer representation.
  * Whitespace at the start will be ignored, and non-digit characters will stop
  * execution if present anywhere within the string.
- * 
- * (If the resulting int representation is not within 
+ *
+ * (If the resulting int representation is not within
  * INT_MIN to INT_MAX, it's undefined behaviour).
- * 
- * 
+ *
+ *
  * EXAMPLE OF INVALID INPUT:
  * "   sdf -+29skj"
- * 
+ *
  * EXAMPLE OF VALID INPUT:
  * "       -20001"
  */
@@ -358,29 +357,29 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 /*
 	Writes the character `c` into the file descriptor `fd`.
 
-	(Invalid `fd` values will cause it to do nothing). 
+	(Invalid `fd` values will cause it to do nothing).
 */
 void	ft_putchar_fd(char c, int fd);
 
 /*
 	Writes the string `s` into the file descriptor `fd`.
 
-	(Invalid `fd` values will cause it to do nothing). 
+	(Invalid `fd` values will cause it to do nothing).
 */
-void	ft_putstr_fd(const char *s, int fd);
+void	ft_putstr_fd(char *s, int fd);
 
 /*
-	Writes the string `s` into the file descriptor `fd`, 
+	Writes the string `s` into the file descriptor `fd`,
 	followed by a newline character.
 
 	(Feeding it an invalid string or `fd` will cause it to do nothing).
 */
-void	ft_putendl_fd(const char *s, int fd);
+void	ft_putendl_fd(char *s, int fd);
 
 /*
 	Writes the integer `int` into the file descriptor `fd`.
 
-	(Invalid `fd` values will cause it to do nothing). 
+	(Invalid `fd` values will cause it to do nothing).
 */
 void	ft_putnbr_fd(int n, int fd);
 
@@ -444,7 +443,7 @@ t_list	*ft_lstlast(t_list *lst);
  */
 void	ft_lstadd_back(t_list **lst, t_list *to_add);
 
-/* 
+/*
  * Takes a node and applies `del` to its contents (usually a deleting function)
  * and frees the node `free(3)`
 
@@ -512,5 +511,61 @@ typedef struct s_gnl
 // or on error/failure.
 // @param fd: The file-descriptor in question.
 t_gnl	get_next_line(int fd);
+
+/*--------FT_FPRINTF--------*/
+
+// Writes the string `s` into the file descriptor `fd`.
+
+/*
+	Writes the string `s` into the file descriptor `fd`.
+	(Invalid `fd` values will do nothing and return with -1).
+*/
+int		ft_fprintf(int fd, const char *s, ...);
+/*
+	Returns the index that comes after the next conversion '%' symbol
+	(Used to skip onto the next conversion)
+*/
+int		get_next_index(const char *str, int count);
+/*
+	Finds the next conversion in the string and
+	prints out the string till that point.
+*/
+char	check_next_conversion(const char *str, int count, int fd);
+/*
+	Checks for the conversions and returns the char of the
+	found conversion.
+*/
+char	exists_in(char c, char *set);
+/*
+	Returns the total length of the string, excluding the conversions
+*/
+int		get_pure_strlen(const char *str);
+/*
+	Handles arguments passed from ft_printf and takes in the original
+	str to write out. Controls and calls all other functions.
+	(arg_str cannot be null, it is checked in printf beforehand)
+*/
+int		step_into_args(const char *str, va_list args, int fd);
+//	Write char 'c' to file descriptor 'fd'
+int		ft_putchar(char c, int fd);
+//	Write string 'str' to file descriptor 'fd'
+int		ft_putstr(char *str, int fd);
+//	Write string 'str' to file descriptor 'fd' in reverse
+int		ft_putstr_rev(char *str, int len, int fd);
+//	Write integer 'n' to file descriptor 'fd' in hexadecimal.
+//	Uses 2 modes for upper and lower case hex letters (1 & 0).
+int		ft_putnbr_hex(unsigned int nbr, int mode, int fd);
+//	Write integer 'n' to file descriptor 'fd' in upper hexadecimal.
+int		putnbr_hex_upper(unsigned int nbr, size_t len, int fd);
+//	Write integer 'n' to file descriptor 'fd' in lower hexadecimal.
+int		putnbr_hex_low(unsigned int nbr, size_t len, int fd);
+//	Returns the length of the number 'nbr'
+int		get_num_len(unsigned int nbr);
+//	Write pointer 'ptr' to file descriptor 'fd' in hexadecimal.
+int		putptr_hex(size_t ptr, size_t len, int fd);
+//	Handles the calls for the necessary functions to complete pointer conversion.
+int		ft_putptr(void *ptr, int fd);
+//	Converts an unsigned integer to a string.
+char	*ft_unsigned_itoa(unsigned int n);
 
 #endif // !LIBFT_H

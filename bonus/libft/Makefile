@@ -2,7 +2,6 @@ CC := cc
 INCLUDES_DIR := includes
 CFLAGS = -Wall -Wextra -Werror -g3 -I$(INCLUDES_DIR)
 
-
 SRC := ft_isalpha.c \
 		ft_isdigit.c \
 		ft_isalnum.c \
@@ -48,10 +47,17 @@ SRC := ft_isalpha.c \
 		ft_lstnew.c \
 		get_next_line.c
 
+F_PRINTF_SRC := ft_fprintf.c \
+		ft_conversions.c \
+		ft_extension.c \
+		ft_put.c
+
 SRCS := $(addprefix srcs/,$(SRC))
+SRCS += $(addprefix srcs/ft_fprintf/,$(F_PRINTF_SRC))
 HEADERS := $(INCLUDES_DIR)/libft.h
 
 OBJS := $(addprefix objs/,$(SRC:.c=.o))
+F_FPRINTF_OBJS := $(addprefix objs/ft_fprintf/,$(F_PRINTF_SRC:.c=.o))
 NAME := libft.a
 
 # Misc.
@@ -63,8 +69,8 @@ DFLT := '\033[0m'
 
 all: $(NAME)
 
-$(NAME): | objs $(OBJS)
-	@if ar -rcs $@ $(OBJS); then \
+$(NAME): | objs objs/ft_fprintf $(OBJS) $(F_FPRINTF_OBJS)
+	@if ar -rcs $@ $(OBJS) $(F_FPRINTF_OBJS); then \
 		printf "\n$(GREEN)Compiled libft!$(DFLT)\n"; \
 	else \
 		printf "\n$(RED)Failed to compile libft.$(DFLT)\n"; \
@@ -73,11 +79,17 @@ $(NAME): | objs $(OBJS)
 objs:
 	@mkdir -p objs
 
-objs/%.o: srcs/%.c $(HEADERS)
+objs/ft_fprintf:
+	@mkdir -p objs/ft_fprintf
+
+objs/%.o: srcs/%.c  $(HEADERS)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+objs/ft_fprintf/%.o: srcs/ft_fprintf/%.c  $(HEADERS)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -rf objs
+	@rm -rf objs objs/ft_fprintf
 
 fclean: clean
 	@rm -rf $(NAME)
