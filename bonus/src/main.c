@@ -13,9 +13,6 @@
 #include "macros.h"
 #include "miniRT.h"
 #include "mlx.h"
-#include <stdlib.h> // for `exit(3)`
-#include <unistd.h> // for `write(2)`
-#include "libft.h"
 
 void	init_mlx(t_program *context);
 bool	init_obj_arr(t_program *context);
