@@ -31,8 +31,8 @@ bool parse_cylinder(t_program *context, t_split *fields, int curr_line)
 		return (str_arr_destroy(fields->array), false);
 	cy.color = *c;
 	//Set scale and rot to default values
-	sp.scale = lag_vec4s_ret(1, 1, 1, 1);
-	sp.rot = lag_mat4s_identity();
+	cy.scale = lag_vec4s_ret(1, 1, 1, 1);
+	cy.rot = lag_mat4s_identity();
 	context->world.shapes[context->world.num_shapes++] = cy;
 	str_arr_destroy(fields->array);
 	return (true);

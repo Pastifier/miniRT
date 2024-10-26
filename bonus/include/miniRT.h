@@ -79,6 +79,9 @@ bool		parse_ambient(t_program *context, t_split *fields, int curr_line);
 bool		parse_light(t_program *context, t_split *fields, int curr_line);
 bool		parse_camera(t_program *context, t_split *fields, int curr_line);
 bool		parse_sphere(t_program *context, t_split *fields, int curr_line);
+bool		parse_plane(t_program *context, t_split *fields, int curr_line);
+bool		parse_cube(t_program *context, t_split *fields, int curr_line);
+bool		parse_cylinder(t_program *context, t_split *fields, int curr_line);
 t_color		*parse_color(char *str, t_program *context, int curr_line);
 t_vec4s		*parse_vec4(char *str, t_program *context, int curr_line);
 

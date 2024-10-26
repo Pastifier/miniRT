@@ -26,8 +26,8 @@ bool	parse_plane(t_program *context, t_split *fields, int curr_line)
 		return (str_arr_destroy(fields->array), false);
 	pl.color = *c;
 	//Set scale and rot to default values
-	sp.scale = lag_vec4s_ret(1, 1, 1, 1);
-	sp.rot = lag_mat4s_identity();
+	pl.scale = lag_vec4s_ret(1, 1, 1, 1);
+	pl.rot = lag_mat4s_identity();
 	context->world.shapes[context->world.num_shapes++] = pl;
 	str_arr_destroy(fields->array);
 	return (true);
