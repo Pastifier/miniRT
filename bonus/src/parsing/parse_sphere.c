@@ -34,5 +34,7 @@ bool	parse_sphere(t_program *context, t_split *fields, int curr_line)
 	if (!c)
 		return (str_arr_destroy(fields->array), false);
 	sp.color = *c;
+	context->world.shapes[context->world.num_shapes++] = sp;
+	str_arr_destroy(fields->array);
 	return (true);
 }

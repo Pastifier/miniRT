@@ -15,14 +15,45 @@
 #include "libft.h"
 #include "colors.h"
 
+t_mat4s rt_get_cam_inverse(const t_mat4s *view)
+{
+	t_mat4s ret;
+
+	// Transpose the rotational component (upper-left 3x3 matrix)
+	ret.a[0][0] = view->a[0][0];
+	ret.a[0][1] = view->a[1][0];
+	ret.a[0][2] = view->a[2][0];
+
+	ret.a[1][0] = view->a[0][1];
+	ret.a[1][1] = view->a[1][1];
+	ret.a[1][2] = view->a[2][1];
+
+	ret.a[2][0] = view->a[0][2];
+	ret.a[2][1] = view->a[1][2];
+	ret.a[2][2] = view->a[2][2];
+
+	// Compute the new translation components by applying the transposed rotation to the original translation and negating it
+	ret.a[0][3] = -(view->a[0][3] * view->a[0][0] + view->a[1][3] * view->a[0][1] + view->a[2][3] * view->a[0][2]);
+	ret.a[1][3] = -(view->a[0][3] * view->a[1][0] + view->a[1][3] * view->a[1][1] + view->a[2][3] * view->a[1][2]);
+	ret.a[2][3] = -(view->a[0][3] * view->a[2][0] + view->a[1][3] * view->a[2][1] + view->a[2][3] * view->a[2][2]);
+
+	// Set the last row to [0, 0, 0, 1] for homogeneous coordinates
+	ret.a[3][0] = 0.0f;
+	ret.a[3][1] = 0.0f;
+	ret.a[3][2] = 0.0f;
+	ret.a[3][3] = 1.0f;
+
+	return ret;
+}
+
 bool parse_camera(t_program *context, t_split *fields, int curr_line)
 {
 	t_camera *camera;
 	char *next;
 	float temp;
-	t_vec4d forward;
-	t_vec4d up;
-	t_vec4d left;
+	t_vec4s forward;
+	t_vec4s up;
+	t_vec4s left;
 
 	camera = &context->cam;
 
@@ -60,22 +91,22 @@ bool parse_camera(t_program *context, t_split *fields, int curr_line)
 	forward.w = 0.0f;
 
 	//Normalize the forward vector
-	forward = lag_vec4d_normalize_ret(forward);
+	lag_vec4s_normalize(&forward);
 
 	//Get the up vector
-	if (forward.y == 1.0f || forward.y == -1.0f)
-		up = lag_vec4d_ret(0.0f, 0.0f, 1.0f, 0.0f);
+	if (forward.x == 0.0f && forward.z == 0.0f)
+		up = lag_vec4s_ret(0.0f, 0.0f, 1.0f, 0.0f);
 	else
-		up = lag_vec4d_cross_ret(forward, lag_vec4d_ret(0.0f, 1.0f, 0.0f, 0.0f));
+		up = lag_vec4s_cross_ret(forward, lag_vec4s_ret(0.0f, 1.0f, 0.0f, 0.0f));
 
 	//Normalize the up vector
-	up = lag_vec4d_normalize_ret(up);
+	up = lag_vec4s_normalize_ret(up);
 
 	//Get the left vector
-	left = lag_vec4d_cross_ret(up, forward);
+	left = lag_vec4s_cross_ret(up, forward);
 
 	//Normalize the left vector
-	left = lag_vec4d_normalize_ret(left);
+	left = lag_vec4s_normalize_ret(left);
 
 	//Set the orientation matrix for the cam
 	camera->inv_transform = lag_mat4s_rows_ret(
@@ -84,9 +115,12 @@ bool parse_camera(t_program *context, t_split *fields, int curr_line)
 		lag_vec4s_ret(-forward.x, -forward.y, -forward.z, 0.0f),
 		lag_vec4s_ret(0.0f, 0.0f, 0.0f, 1.0f)
 	);
-
-	//Set the inverse transform matrix
+	
+	//Set the view matrix
 	lag_mat4s_cross_mat4s(camera->inv_transform, lag_mat4s_translation(-camera->trans.x, -camera->trans.y, -camera->trans.z), &camera->inv_transform);
+	
+	//Set the inverse view matrix
+	camera->inv_transform = rt_get_cam_inverse(&camera->inv_transform);
 
 	//get FOV
 	temp = ft_atof(fields->array[3], context);

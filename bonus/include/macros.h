@@ -64,6 +64,6 @@
 # define ERR_EXPECT_TYPE_PL "Expected:\n\tPL <x>,<y>,<z> <ox>,<oy>,<oz> [<R>,<G>,<B>]"
 # define ERR_EXPECT_TYPE_SQ "Expected:\n\tSQ <x>,<y>,<z> <ox>,<oy>,<oz> <side> [<R>,<G>,<B>]"
 # define ERR_EXPECT_TYPE_CY "Expected:\n\tCY <x>,<y>,<z> <ox>,<oy>,<oz> <diameter> <height> [<R>,<G>,<B>]"
-
+# define ERR_EXPECT_TYPE_CU "Expected:\n\tCU <x>,<y>,<z> <side> [<R>,<G>,<B>]"
 
 #endif // !MACROS_H
