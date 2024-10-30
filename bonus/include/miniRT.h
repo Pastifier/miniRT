@@ -76,6 +76,7 @@ typedef struct s_validate_atof
 	bool	found_alpha;
 }	t_vatof;
 
+bool		is_normalised(t_vec4s vec);
 float		ft_atof(char *rep, t_program *context);
 bool		parse_file(const char *filename, t_program *context);
 bool		parse_ambient(t_program *context, t_split *fields, int curr_line);
@@ -88,6 +89,7 @@ bool		parse_cylinder(t_program *context, const t_split *fields, int curr_line);
 bool		parse_color(t_color *color, char *str, t_program *context, int curr_line);
 bool		parse_vec4(t_vec4s *vec, char *str, t_program *context, int curr_line);
 bool		parse_single_f(float *f, char *str, t_program *context, int curr_line);
+t_mat4s		rt_extract_rot_vertical(const t_vec4s u);
 
 void		parse_fatal_msg(char *msg, int curr_line);
 void		parse_warn_msg(char *msg, int curr_line);

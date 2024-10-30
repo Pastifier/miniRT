@@ -17,9 +17,7 @@ bool parse_cube(t_program *context, const t_split *fields, int curr_line)
 	cu->specs.side_length = ft_atof(fields->array[2], context);
 	if (!parse_color(&cu->color, fields->array[3], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
-	//Set scale, rot, and orientation to default values
 	cu->scale = lag_vec4s_ret(1, 1, 1, 1);
 	cu->rot = lag_mat4s_identity();
-	cu->orientation = lag_vec4s_ret(0, 0, 0, 0);
 	return (str_arr_destroy(fields->array), true);
 }

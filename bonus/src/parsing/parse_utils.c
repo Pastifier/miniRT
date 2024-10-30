@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:22:29 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/30 17:22:36 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:25:14 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,14 @@ t_mat4s	rt_extract_rot_vertical(const t_vec4s u)
 			(t_vec4s){0, 0, 0, 1}
 		)
 	);
+}
+
+bool	is_normalised(t_vec4s vec)
+{
+	float	mag;
+
+	lag_vec4s_magnitude(&mag, vec);
+	if (abs(mag - 1.0f) > EPSILON)
+		return (false);
+	return (true);
 }

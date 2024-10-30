@@ -15,11 +15,11 @@ bool parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 	cy->type = CYLINDER;
 	if (!parse_vec4(&cy->trans, fields->array[1], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
-	// 1. Need to check that orientation is normalised (use normalize_highp())
-	// 2. Need to convert it into a rotation matrix.
 	if (!parse_vec4(&cy->orientation, fields->array[2], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
 	cy->orientation.w = 0;
+	if (!is_normalised(cy->orientation))
+		cy->orientation = lag_vec4s_normalize_highp(cy->orientation);
 	cy->specs.radius = ft_atof(fields->array[3], context) / 2.0f;
 	if (context->runtime_error == 2)
 		return (parse_err_msg(ERR_OBJ_VALUE, ERR_EXPECT_FLOAT, curr_line),
@@ -33,7 +33,7 @@ bool parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 	if (!parse_color(&cy->color, fields->array[5], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
 	cy->scale = lag_vec4s_ret(1, 1, 1, 1);
-	cy->rot = lag_mat4s_identity(); ////
+	cy->rot = rt_extract_rot_vertical(cy->orientation);
 	cy->inv_transform = lag_mat4s_get_transform_inverse(cy->rot, cy->scale.simd, cy->trans.simd);
 	return (str_arr_destroy(fields->array), true);
 }
