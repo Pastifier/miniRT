@@ -36,12 +36,12 @@ bool		parse_light(t_program *context, const t_split *fields, int curr_line)
 		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_L, curr_line),
 			str_arr_destroy(fields->array), false);
 	world->lights[world->num_lights].pos.x = temp;
-	temp = ft_atof((next += context->flt_operations + (temp <= -0.f)), context);
+	temp = ft_atof((next += context->flt_operations + (temp <= -0.f) - 1), context);
 	if (context->runtime_error == 2 && *(next - 1) != ',')
 		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_L, curr_line),
 			str_arr_destroy(fields->array), false);
 	world->lights[world->num_lights].pos.y = temp;
-	temp = ft_atof((next += context->flt_operations + (temp <= -0.f)), context);
+	temp = ft_atof((next += context->flt_operations + (temp <= -0.f) - 1), context);
 	if ((context->runtime_error == 2 && *(next - 1) != ',')
 		|| (*(next + context->flt_operations) != '\0' && *(next + context->flt_operations) != ' '))
 		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_L, curr_line),

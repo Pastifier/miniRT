@@ -67,11 +67,11 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 	//get position vector
 	next = fields->array[1];
 	camera->trans.x = ft_atof(next, context);
-	next += context->flt_operations + (camera->trans.x <= -0.f);
+	next += context->flt_operations + (camera->trans.x <= -0.f) - 1;
 	camera->trans.y = ft_atof(next, context);
-	next += context->flt_operations + (camera->trans.y <= -0.f);
+	next += context->flt_operations + (camera->trans.y <= -0.f) - 1;
 	camera->trans.z = ft_atof(next, context);
-	camera->trans.w = 1.0f;
+	camera->trans.w = 0.0f;
 
 
 	//Orientation vector here (incomplete)
@@ -84,29 +84,29 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 	*/
 	next = fields->array[2];
 	forward.x = ft_atof(next, context);
-	next += context->flt_operations + (forward.x <= -0.f);
+	next += context->flt_operations + (forward.x <= -0.f) - 1;
 	forward.y = ft_atof(next, context);
-	next += context->flt_operations + (forward.y <= -0.f);
+	next += context->flt_operations + (forward.y <= -0.f) - 1;
 	forward.z = ft_atof(next, context);
 	forward.w = 0.0f;
 
 	//Normalize the forward vector
-	lag_vec4s_normalize(&forward);
+	forward = lag_vec4s_normalize_highp(forward);
 
 	//Get the up vector
 	if (forward.x == 0.0f && forward.z == 0.0f)
-		up = lag_vec4s_ret(0.0f, 0.0f, 1.0f, 0.0f);
+		left = lag_vec4s_ret(0.0f, 0.0f, 1.0f, 0.0f);
 	else
-		up = lag_vec4s_cross_ret(forward, lag_vec4s_ret(0.0f, 1.0f, 0.0f, 0.0f));
-
-	//Normalize the up vector
-	up = lag_vec4s_normalize_ret(up);
-
-	//Get the left vector
-	left = lag_vec4s_cross_ret(up, forward);
+		left = lag_vec4s_cross_ret(forward, lag_vec4s_ret(0.0f, 1.0f, 0.0f, 0.0f));
 
 	//Normalize the left vector
-	left = lag_vec4s_normalize_ret(left);
+	left = lag_vec4s_normalize_highp(left);
+
+	//Get the true up vector
+	up = lag_vec4s_cross_ret(left, forward);
+
+	//Normalize the up vector
+	up = lag_vec4s_normalize_highp(up);
 
 	//Set the orientation matrix for the cam
 	camera->inv_transform = lag_mat4s_rows_ret(
@@ -138,19 +138,18 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 	camera->aspect_ratio = (float)camera->hsize / (float)camera->vsize;
 
 	//Calculate the pixel size and half view size
-	camera->half_view = tan((camera->fov / 2) * (M_PI / 180.0f));
+	camera->half_view = tanf((camera->fov / 2.f) * (M_PI / 180.0f));
 	if (camera->aspect_ratio >= 1.0f)
 	{
 		camera->half_width = camera->half_view;
 		camera->half_height = camera->half_view / camera->aspect_ratio;
 	}
-	else
+	else // useless?
 	{
 		camera->half_width = camera->half_view * camera->aspect_ratio;
 		camera->half_height = camera->half_view;
 	}
-	camera->pixel_size = (camera->half_width * 2) / camera->hsize;
-	context->cam = *camera;
+	camera->pixel_size = (camera->half_width * 2.f) / camera->hsize;
 	return (str_arr_destroy(fields->array), true);
 }
 
