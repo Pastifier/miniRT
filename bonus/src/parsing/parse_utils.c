@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:22:29 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/30 17:25:14 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:42:21 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ bool	parse_single_f(float *f, char *str, t_program *context, int curr_line)
 t_mat4s	rt_extract_rot_vertical(const t_vec4s u)
 {
 	const t_vec4s	j_hat = lag_vec4s_ret(0.f, 0.1f, 0.f, 0);
-	const t_vec4s	v = lag_vec4s_cross_ret(u, j_hat);
+	const t_vec4s	v = lag_vec4s_cross_ret(j_hat, u);
 	const t_vec4s	w = lag_vec4s_cross_ret(u, v);
 
 	return (
@@ -87,7 +87,7 @@ t_mat4s	rt_extract_rot_vertical(const t_vec4s u)
 			u,
 			lag_vec4s_normalize_highp(v),
 			lag_vec4s_normalize_highp(w),
-			(t_vec4s){0, 0, 0, 1}
+			lag_vec4s_ret(0, 0, 0, 1)
 		)
 	);
 }
@@ -97,7 +97,7 @@ bool	is_normalised(t_vec4s vec)
 	float	mag;
 
 	lag_vec4s_magnitude(&mag, vec);
-	if (abs(mag - 1.0f) > EPSILON)
+	if (fabsf(mag - 1.0f) > EPSILON)
 		return (false);
 	return (true);
 }
