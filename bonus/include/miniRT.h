@@ -79,14 +79,14 @@ typedef struct s_validate_atof
 float		ft_atof(char *rep, t_program *context);
 bool		parse_file(const char *filename, t_program *context);
 bool		parse_ambient(t_program *context, t_split *fields, int curr_line);
-bool		parse_light(t_program *context, t_split *fields, int curr_line);
-bool		parse_camera(t_program *context, t_split *fields, int curr_line);
-bool		parse_sphere(t_program *context, t_split *fields, int curr_line);
-bool		parse_plane(t_program *context, t_split *fields, int curr_line);
-bool		parse_cube(t_program *context, t_split *fields, int curr_line);
-bool		parse_cylinder(t_program *context, t_split *fields, int curr_line);
-t_color		*parse_color(char *str, t_program *context, int curr_line);
-t_vec4s		*parse_vec4(char *str, t_program *context, int curr_line);
+bool		parse_light(t_program *context, const t_split *fields, int curr_line);
+bool		parse_camera(t_program *context, const t_split *fields, int curr_line);
+bool		parse_sphere(t_program *context, const t_split *fields, int curr_line);
+bool		parse_plane(t_program *context, const t_split *fields, int curr_line);
+bool		parse_cube(t_program *context, const t_split *fields, int curr_line);
+bool		parse_cylinder(t_program *context, const t_split *fields, int curr_line);
+bool		parse_color(t_color *color, char *str, t_program *context, int curr_line);
+bool		parse_vec4(t_vec4s *vec, char *str, t_program *context, int curr_line);
 
 void		parse_fatal_msg(char *msg, int curr_line);
 void		parse_warn_msg(char *msg, int curr_line);

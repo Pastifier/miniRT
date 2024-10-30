@@ -46,7 +46,7 @@ t_mat4s rt_get_cam_inverse(const t_mat4s *view)
 	return ret;
 }
 
-bool parse_camera(t_program *context, t_split *fields, int curr_line)
+bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 {
 	t_camera *camera;
 	char *next;

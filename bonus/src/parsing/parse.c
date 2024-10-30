@@ -109,6 +109,8 @@ bool	parse_uppercase_object(t_program *context, const char *info,
 bool	check_object_validity_and_add(t_program *context, const char *info,
 			int curr_line, size_t line_len)
 {
+	const t_split	fields = ft_split(info, " ");
+
 	if (!ft_isalpha(*info))
 	{
 		ft_putstr_fd("Syntax error near unexpected token: `", STDERR_FILENO);
@@ -131,14 +133,14 @@ bool	check_object_validity_and_add(t_program *context, const char *info,
 		}
 		return (parse_uppercase_object(context, info, curr_line));
 	}
-	//if (*info == 's' && *(info + 1) == 'p')
-	//	return (parse_sphere(context, info, curr_line));
-	//if (*info == 'c' && *(info + 1) == 'y')
-	//	return (parse_cylinder(context, info, curr_line));
-	//if (*info == 'p' && *(info + 1) == 'l')
-	//	return (parse_plane(context, info, curr_line));
-	//if (*info == 'c' && *(info + 1) == 'u')
-	//	return (parse_cube(context, info, curr_line));
+	if (*info == 's' && *(info + 1) == 'p')
+		return (parse_sphere(context, &fields, curr_line));
+	else if (*info == 'c' && *(info + 1) == 'y')
+		return (parse_cylinder(context, &fields, curr_line));
+	else if (*info == 'p' && *(info + 1) == 'l')
+		return (parse_plane(context, &fields, curr_line));
+	else if (*info == 'c' && *(info + 1) == 'u')
+		return (parse_cube(context, &fields, curr_line));
 	else
 	{
 		ft_putstr_fd("Error: couldn't recognize object in line ", 2);

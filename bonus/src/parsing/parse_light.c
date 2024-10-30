@@ -15,9 +15,9 @@
 #include "libft.h"
 #include "colors.h"
 
-bool		parse_light_color(t_split *fields, int curr_line, t_world *world);
+bool		parse_light_color(const t_split *fields, int curr_line, t_world *world);
 
-bool		parse_light(t_program *context, t_split *fields, int curr_line)
+bool		parse_light(t_program *context, const t_split *fields, int curr_line)
 {
 	t_world	*world;
 	char	*next;
@@ -62,7 +62,7 @@ bool		parse_light(t_program *context, t_split *fields, int curr_line)
 	return (str_arr_destroy(fields->array), true);
 }
 
-bool		parse_light_color(t_split *fields, int curr_line, t_world *world)
+bool		parse_light_color(const t_split *fields, int curr_line, t_world *world)
 {
 	char	*next;
 	t_eint	rgb;
