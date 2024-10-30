@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:22:29 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/30 17:06:51 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:22:36 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,22 @@ bool	parse_single_f(float *f, char *str, t_program *context, int curr_line)
 	if (context->runtime_error == 2)
 		return (parse_err_msg(ERR_OBJ_VALUE, ERR_EXPECT_FLOAT, curr_line), false);
 	return (true);
+}
+
+/// @param u Normalized orientation vector.
+/// @warning At the risk of being repetitive, `u` must be a normalized vector!!
+t_mat4s	rt_extract_rot_vertical(const t_vec4s u)
+{
+	const t_vec4s	j_hat = lag_vec4s_ret(0.f, 0.1f, 0.f, 0);
+	const t_vec4s	v = lag_vec4s_cross_ret(u, j_hat);
+	const t_vec4s	w = lag_vec4s_cross_ret(u, v);
+
+	return (
+		lag_mat4s_rows_ret(
+			u,
+			lag_vec4s_normalize_highp(v),
+			lag_vec4s_normalize_highp(w),
+			(t_vec4s){0, 0, 0, 1}
+		)
+	);
 }
