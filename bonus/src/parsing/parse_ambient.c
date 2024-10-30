@@ -37,35 +37,8 @@ bool	parse_ambient(t_program *context, t_split *fields, int curr_line)
 
 bool	get_ambient_color(t_program *context, t_split *fields, int curr_line)
 {
-	char	*next;
-	t_eint	rgb;
-
-	context->ambiance.color.a = 1 * (_RT_OS_MACOS_ == 0);
-	rgb = ft_atoi(fields->array[2]);
-	if (rgb.error && *(fields->array[2] + rgb.operations + (rgb.value < 0)) != ',')
-		return (parse_err_msg(ERR_AMBIENT_FORMAT, ERR_EXPECT_TYPE_A,
-			curr_line), str_arr_destroy(fields->array), false);
-	if (rgb.value > 255 || rgb.value < 0)
-		return (parse_err_msg(ERR_AMBIENT_COLOR_VALUE, ERR_EXPECT_COLOR_RANGE,
-			curr_line), str_arr_destroy(fields->array), false);
-	context->ambiance.color.r = rgb.value / 255.999;
-	rgb = ft_atoi((next = fields->array[2] + rgb.operations + 1 + (rgb.value < 0)));
-	if (rgb.error && *(next - 1) != ',')
-		return (parse_err_msg(ERR_AMBIENT_FORMAT, ERR_EXPECT_TYPE_A,
-			curr_line), str_arr_destroy(fields->array), false);
-	if (rgb.value > 255 || rgb.value < 0)
-		return (parse_err_msg(ERR_AMBIENT_COLOR_VALUE, ERR_EXPECT_COLOR_RANGE,
-			curr_line), str_arr_destroy(fields->array), false);
-	context->ambiance.color.g = rgb.value / 255.999;
-	rgb = ft_atoi((next += rgb.operations + 1 + (rgb.value < 0)));
-	if (rgb.error && *(next - 1) != ',')
-		return (parse_err_msg(ERR_AMBIENT_FORMAT, ERR_EXPECT_TYPE_A,
-			curr_line), str_arr_destroy(fields->array), false);
-	if (rgb.value > 255 || rgb.value < 0)
-		return (parse_err_msg(ERR_AMBIENT_COLOR_VALUE, ERR_EXPECT_COLOR_RANGE,
-			curr_line), str_arr_destroy(fields->array), false);
-	context->ambiance.color.b = rgb.value / 255.999;
-	color_clamp(&context->ambiance.color);
+	if (!parse_color(&context->ambiance.color, fields->array[2], context, curr_line))
+		return (str_arr_destroy(fields->array), false);
 	context->ambiance.is_set = true;
 	context->ambiance.line_set = curr_line;
 	return (str_arr_destroy(fields->array), true);
