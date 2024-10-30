@@ -20,7 +20,6 @@ bool		parse_light_color(const t_split *fields, int curr_line, t_world *world);
 bool		parse_light(t_program *context, const t_split *fields, int curr_line)
 {
 	t_world	*world;
-	char	*next;
 	float	temp;
 
 	world = &context->world;
