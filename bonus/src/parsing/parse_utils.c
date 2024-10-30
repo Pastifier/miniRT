@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:22:29 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/30 16:11:55 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:06:51 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,13 @@ bool	parse_color(t_color *color, char *str, t_program *context,
 				curr_line), false);
 	color->a = (_RT_OS_MACOS_ == 0);
 	str_arr_destroy(split.array);
+	return (true);
+}
+
+bool	parse_single_f(float *f, char *str, t_program *context, int curr_line)
+{
+	*f = ft_atof(str, context);
+	if (context->runtime_error == 2)
+		return (parse_err_msg(ERR_OBJ_VALUE, ERR_EXPECT_FLOAT, curr_line), false);
 	return (true);
 }

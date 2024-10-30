@@ -87,6 +87,7 @@ bool		parse_cube(t_program *context, const t_split *fields, int curr_line);
 bool		parse_cylinder(t_program *context, const t_split *fields, int curr_line);
 bool		parse_color(t_color *color, char *str, t_program *context, int curr_line);
 bool		parse_vec4(t_vec4s *vec, char *str, t_program *context, int curr_line);
+bool		parse_single_f(float *f, char *str, t_program *context, int curr_line);
 
 void		parse_fatal_msg(char *msg, int curr_line);
 void		parse_warn_msg(char *msg, int curr_line);
