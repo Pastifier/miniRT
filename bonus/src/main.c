@@ -17,6 +17,8 @@
 void	init_mlx(t_program *context);
 bool	init_obj_arr(t_program *context);
 
+extern int	update(void *param);
+
 int	main(int argc, char *argv[])
 {
 	(void)argc; (void)argv;
@@ -35,6 +37,7 @@ int	main(int argc, char *argv[])
 	init_mlx(&context);
 	// setup_hooks(...);
 	// update loop:
+	mlx_loop_hook(context.mlx, &update, &context);
 	mlx_loop(context.mlx);
 	return (0);
 }

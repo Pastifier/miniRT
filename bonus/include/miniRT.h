@@ -34,6 +34,8 @@ typedef struct s_canvas
 	int		endian;
 }	t_canvas;
 
+typedef struct s_thread_data	t_thread;
+
 typedef struct s_program
 {
 	int			runtime_error;
@@ -43,6 +45,7 @@ typedef struct s_program
 	t_canvas	canvas;
 	t_world		world;
 	t_camera	cam;
+	t_thread	*pool;
 	struct s_ambient
 	{
 		bool	is_set;
@@ -52,7 +55,7 @@ typedef struct s_program
 	}	ambiance;
 }	t_program;
 
-typedef struct s_thread_data
+struct s_thread_data
 {
 	int			id;
 	pthread_t	thread;
@@ -61,7 +64,7 @@ typedef struct s_thread_data
 	int			y_f;
 	int			x;
 	int			x_f;
-}	t_thread;
+};
 
 /*--- PARSING ---*/
 
@@ -85,9 +88,9 @@ bool		parse_cylinder(t_program *context, t_split *fields, int curr_line);
 t_color		*parse_color(char *str, t_program *context, int curr_line);
 t_vec4s		*parse_vec4(char *str, t_program *context, int curr_line);
 
-void	parse_fatal_msg(char *msg, int curr_line);
-void	parse_warn_msg(char *msg, int curr_line);
-void	parse_err_msg(char *msg, char *expected, int curr_line);
+void		parse_fatal_msg(char *msg, int curr_line);
+void		parse_warn_msg(char *msg, int curr_line);
+void		parse_err_msg(char *msg, char *expected, int curr_line);
 
 /*--- RENDERING ---*/
 
@@ -98,6 +101,7 @@ void		render_frame(t_program *current_context);
 
 /*---- THREADS ----*/
 
+bool		pool_init_join(t_program *context);
 void		interpolate_horizontal(t_thread const *data);
 void		interpolate_vertical(t_thread const *data);
 t_color		lerp_colors(const t_color *a, const t_color *b, float t);
@@ -107,5 +111,19 @@ t_color		lerp_colors(const t_color *a, const t_color *b, float t);
 void		destroy_mlx(t_program *context);
 void		destroy_world(t_program *context);
 void		str_arr_destroy(char **arr);
+
+/*--- RAY - MANIPULATION ---*/
+
+void		ray_create(t_ray *ray, t_vec4s *origin, t_vec4s *direction);
+void		ray_position(t_vec4s *result, const t_ray *ray, float t);
+void		ray_transform(t_ray *ray, const t_mat4s *matrix);
+
+/*--- FRAGMENT CALCULATION ---*/
+
+t_itx_grp	intersect_world(t_world *w, t_ray *r);
+void		intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs);
+t_vec4s		sphere_normal_at(t_obj *sphere, t_vec4s *world_p);
+void		quick_sort_intersections(t_itx *arr, size_t size);
+t_itx		*get_hit(t_itx_grp *xs);
 
 #endif // !MINIRT_H

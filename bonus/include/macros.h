@@ -20,6 +20,10 @@
 # define _RT_MAX_LIGHTS_ 100
 # define _RT_MAX_SHAPES_ 100
 
+# define _RT_NUM_THREADS 16
+
+# define _RT_MAX_ITX 200
+
 # ifdef __MACH__
 #  undef _RT_OS_MACOS_
 #  define _RT_OS_MACOS_ 1

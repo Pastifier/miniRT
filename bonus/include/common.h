@@ -53,6 +53,8 @@ typedef struct s_material
 typedef struct s_obj
 {
 	int		type;
+	t_vec4s	center;
+	t_mat4s	inv_transform;
 	t_mat4s	rot;
 	t_vec4s	trans;
 	t_vec4s	scale;
@@ -60,7 +62,13 @@ typedef struct s_obj
 	t_color	color;
 	union u_specs
 	{
-		float	radius;
+		struct
+		{
+			float	radius;
+			float	a;
+			float	b;
+			float	c;
+		};
 		struct
 		{
 			t_vec4s	normal;
@@ -77,12 +85,6 @@ typedef struct s_obj
 		};
 	}	specs;
 }	t_obj;
-
-typedef struct s_ray
-{
-	t_vec4s	origin;
-	t_vec4s	dir;
-}	t_ray;
 
 typedef struct s_intersection
 {
@@ -107,6 +109,13 @@ typedef struct s_intersection_group
 	t_itx	arr[200];
 	int		count;
 }	t_itx_grp;
+
+typedef struct s_ray
+{
+	t_vec4s		origin;
+	t_vec4s		dir;
+	t_itx_grp	xs;
+}	t_ray;
 
 typedef struct s_camera
 {
