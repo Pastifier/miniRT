@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:22:29 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/30 12:02:36 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/30 14:27:34 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,46 +21,46 @@ bool	parse_vec4(t_vec4s *vec, char *str, t_program *context, int curr_line)
 
 	split = ft_split(str, ",");
 	if (split.wordcount != 3)
-	{
-		ft_putstr_fd("Error: Invalid format for Vector4 on line ", 2);
-		ft_putnbr_fd(curr_line, 2);
-		ft_putendl_fd(": ", 2);
-		ft_putendl_fd(str, 2);
-		return (false);
-	}
+		return (parse_err_msg(ERR_VEC4_FORMAT, ERR_EXPECT_TUPLE, curr_line),
+			false);
 	vec->x = ft_atof(split.array[0], context);
+	if (context->runtime_error == 2)
+		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
 	vec->y = ft_atof(split.array[1], context);
+	if (context->runtime_error == 2)
+		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
 	vec->z = ft_atof(split.array[2], context);
+	if (context->runtime_error == 2)
+		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
 	vec->w = 1.0f;
-	str_arr_destroy(split.array);
-	return (true);
+	return (str_arr_destroy(split.array), true);
 }
 
-bool	parse_color(t_color *color, char *str, t_program *context, int curr_line)
+bool	parse_color(t_color *color, char *str, t_program *context,
+	int curr_line)
 {
 	t_split	split;
 
 	split = ft_split(str, ",");
 	if (split.wordcount != 3)
-	{
-		ft_putstr_fd("Error: Invalid format for Color on line ", 2);
-		ft_putnbr_fd(curr_line, 2);
-		ft_putendl_fd(": ", 2);
-		ft_putendl_fd(str, 2);
-		return (false);
-	}
+		return (parse_err_msg(ERR_COLOR_FORMAT, ERR_EXPECT_TYPE_C, curr_line),
+			false);
 	color->r = ft_atof(split.array[0], context);
+	if (context->runtime_error == 2)
+		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
+	color->r = color->r / 255.999;
 	color->g = ft_atof(split.array[1], context);
+	if (context->runtime_error == 2)
+		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
+	color->g = color->g / 255.999;
 	color->b = ft_atof(split.array[2], context);
-	if (color->r < 0.0f || color->g < 0.0f || color->b < 0.0f ||
-		color->r > 255.0f || color->g > 255.0f || color->b > 255.0f)
-	{
-		ft_putstr_fd("Error: Color values must be between 0 and 255 on line ", 2);
-		ft_putnbr_fd(curr_line, 2);
-		ft_putendl_fd(": ", 2);
-		ft_putendl_fd(str, 2);
-		return (false);
-	}
+	if (context->runtime_error == 2)
+		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
+	color->b = color->b / 255.999;
+	if (color->r < 0.0f || color->g < 0.0f || color->b < 0.0f
+		|| color->r > 1.0f || color->g > 1.0f || color->b > 1.0f)
+		return (parse_err_msg(ERR_COLOR_VALUE, ERR_EXPECT_COLOR_RANGE,
+				curr_line), false);
 	color->a = 1.0f;
 	str_arr_destroy(split.array);
 	return (true);

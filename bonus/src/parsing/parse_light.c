@@ -30,24 +30,8 @@ bool		parse_light(t_program *context, const t_split *fields, int curr_line)
 	if (fields->wordcount < 3)
 		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_L,
 			curr_line), str_arr_destroy(fields->array), false);
-	next = fields->array[1];
-	temp = ft_atof(next, context);
-	if (context->runtime_error == 2 && *(next + context->flt_operations + (temp < 0) - 1) != ',')
-		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_L, curr_line),
-			str_arr_destroy(fields->array), false);
-	world->lights[world->num_lights].pos.x = temp;
-	temp = ft_atof((next += context->flt_operations + (temp <= -0.f) - 1), context);
-	if (context->runtime_error == 2 && *(next - 1) != ',')
-		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_L, curr_line),
-			str_arr_destroy(fields->array), false);
-	world->lights[world->num_lights].pos.y = temp;
-	temp = ft_atof((next += context->flt_operations + (temp <= -0.f) - 1), context);
-	if ((context->runtime_error == 2 && *(next - 1) != ',')
-		|| (*(next + context->flt_operations) != '\0' && *(next + context->flt_operations) != ' '))
-		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_L, curr_line),
-			str_arr_destroy(fields->array), false);
-	world->lights[world->num_lights].pos.z = temp;
-	world->lights[world->num_lights].pos.w = 1;
+	if (!parse_vec4(&world->lights[world->num_lights].pos, fields->array[1], context, curr_line))
+		return (str_arr_destroy(fields->array), false);
 	temp = ft_atof(fields->array[2], context);
 	if (context->runtime_error == 2)
 		return (parse_err_msg(ERR_LIGHT_VALUE, ERR_EXPECT_FLOAT, curr_line),
