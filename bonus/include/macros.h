@@ -51,6 +51,7 @@
 
 # define ERR_MAX_SHAPES "Maximum number of shapes reached"
 # define ERR_OBJ_FORMAT "Invalid format for Object"
+# define ERR_OBJ_VALUE "Invalid value for Object Attribute"
 
 # define ERR_VEC4_FORMAT "Invalid format for Vector4"
 

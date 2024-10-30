@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:22:29 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/30 14:27:34 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/10/30 16:11:55 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ bool	parse_color(t_color *color, char *str, t_program *context,
 		|| color->r > 1.0f || color->g > 1.0f || color->b > 1.0f)
 		return (parse_err_msg(ERR_COLOR_VALUE, ERR_EXPECT_COLOR_RANGE,
 				curr_line), false);
-	color->a = 1.0f;
+	color->a = (_RT_OS_MACOS_ == 0);
 	str_arr_destroy(split.array);
 	return (true);
 }
