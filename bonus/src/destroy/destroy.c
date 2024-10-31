@@ -30,7 +30,7 @@ void	destroy_world(t_program *context)
 void	destroy_program(t_program *context)
 {
 	for (int i = 0; i < _RT_NUM_THREADS; i++)
-		pthread_join(context->pool[i].thread, NULL);
+		pthread_cancel(context->pool[i].thread);
 	free(context->pool);
 	context->pool = NULL;
 	destroy_world(context);
