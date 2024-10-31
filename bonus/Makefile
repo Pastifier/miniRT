@@ -1,6 +1,6 @@
 # Necessities
 CC := cc
-CFLAGS = -Wextra -Werror -Wall -mavx -mavx2 -O3 -march=native -funroll-loops -fno-signed-zeros
+CFLAGS = -Wextra -Werror -Wall -mavx -mavx2 -O3 -march=native -funroll-loops -fno-signed-zeros -fsanitize=address,undefined -g
 
 # OS-specification
 OS := $(shell uname)
@@ -32,7 +32,7 @@ SRC := main.c ft_atof.c rays.c fragment.c sort.c lighting.c refractions.c \
 			$(addprefix destroy/, destroy.c) \
 			$(addprefix threads/, init_join.c routines.c) \
 			$(addprefix world/, itx_test_world.c) \
-			$(addprefix hooks/, update.c) \
+			$(addprefix hooks/, update.c keys.c) \
 			$(addprefix intersections/, sphere_test.c)
 SRC_DIR :=	src
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
