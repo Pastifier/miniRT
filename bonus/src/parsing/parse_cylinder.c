@@ -2,6 +2,7 @@
 #include "macros.h"
 #include "libft.h"
 #include "colors.h"
+#include <assert.h>
 
 static void	material_init(t_material *material)
 {
