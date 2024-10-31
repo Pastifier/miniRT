@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_join.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 04:47:50 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/31 16:43:40 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/10/31 22:39:25 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ bool	pool_init_join(t_program *context)
 	}
 	while (y-- && new_pool)
 		pthread_join(new_pool[y].thread, NULL);
-	//y = -1;
-	//while (++y < _RT_NUM_THREADS)
-	//	pthread_create(&new_pool[y].thread, NULL, lerp_routine, &new_pool[y]);
-	//while (y--)
-	//	pthread_join(new_pool[y].thread, NULL);
+	if (context->pool)
+	{
+		free(context->pool);
+		context->pool = NULL;
+	}
 	mlx_put_image_to_window(context->mlx, context->win, context->canvas.ptr, 0, 0);
 	printf("Done rendering\n");
 	return (true);
