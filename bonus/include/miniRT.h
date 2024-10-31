@@ -119,6 +119,7 @@ t_color		rt_render_pixel(t_program *context, int x, int y);
 bool		create_canvas(t_program *context, int width, int height);
 void		put_pixel(t_canvas *canvas, int x, int y, const t_color *color);
 void		render_frame(t_program *current_context);
+t_color		color_at(t_world *w, t_ray *r, int depth);
 
 /*---- THREADS ----*/
 
@@ -147,5 +148,12 @@ void		intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs);
 t_vec4s		sphere_normal_at(t_obj *sphere, t_vec4s *world_p);
 void		quick_sort_intersections(t_itx *arr, size_t size);
 t_itx		*get_hit(t_itx_grp *xs);
+
+/*--- LIGHTING ---*/
+
+t_color	shade_hit(t_world *world, t_itx_computation *comps, int depth);
+void	prepare_refractions(t_itx *hit, t_itx_computation *comps, t_itx_grp *itxs);
+t_color	refracted_color(t_world *world, t_itx_computation *comps, int depth);
+double	schlick(t_itx_computation *comps);
 
 #endif // !MINIRT_H

@@ -6,12 +6,13 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/31 13:08:33 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:51:27 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "colors.h"
+#include "macros.h"
 
 static inline t_ray	ray_for_pixel(const t_camera *cam, int px, int py)
 {
@@ -60,13 +61,12 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 	lag_vec4s_add(&comps.over_point, comps.p, margin);
 	lag_vec4s_sub(&comps.under_point, comps.p, margin);
 	comps.reflectv = reflect(&r->dir, &comps.normalv);
-	// if (comps.obj->material.refractive_index > 0)
-	// 	prepare_refractions(itx, &comps, itxs);
-	(void)itxs;
+	if (comps.obj->material.refractive_index > 0)
+		prepare_refractions(itx, &comps, itxs);
 	return (comps);
 }
 
-static inline t_color	color_at(t_world *w, t_ray *r)
+t_color	color_at(t_world *w, t_ray *r, int depth)
 {
 	t_itx_grp		world_itxs;
 	t_itx			*hit;
@@ -81,9 +81,7 @@ static inline t_color	color_at(t_world *w, t_ray *r)
 		return (result);
 	}
 	comps = prepare_computations(hit, r, &world_itxs);
-	color_init(&result, 0.0, 0.0, 0.0); //TEMP////
-	// return (shade_hit(w, &comps));
-	return (result); // temp////
+	return (shade_hit(w, &comps, depth));
 }
 
 
@@ -93,7 +91,7 @@ t_color	rt_render_pixel(t_program *context, int x, int y)
 	t_color		c;
 
 	r = ray_for_pixel(&context->cam, x, y);
-	c = color_at(&context->world, &r);
+	c = color_at(&context->world, &r, REFLECTION_DEPTH);
 	put_pixel(&context->canvas, x, y, &c);
 	return (c);
 }

@@ -52,14 +52,14 @@ typedef struct s_material
 
 typedef struct s_obj
 {
-	int		type;
-	t_vec4s	center;
-	t_mat4s	inv_transform;
-	t_mat4s	rot;
-	t_vec4s	trans;
-	t_vec4s	scale;
-	t_vec4s	orientation;
-	t_color	color;
+	int			type;
+	t_vec4s		center;
+	t_mat4s		inv_transform;
+	t_mat4s		rot;
+	t_vec4s		trans;
+	t_vec4s		scale;
+	t_vec4s		orientation;
+	t_material	material;
 	union u_specs
 	{
 		struct
