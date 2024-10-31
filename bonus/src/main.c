@@ -71,8 +71,8 @@ void	_rt_start(t_program *context)
 		exit(2);
 	}
 	update(context);
-	mlx_hook(context->win, ON_KEYDOWN, 0, &check_keys, context);
-	mlx_hook(context->win, 17, 0, &destroy_program, context);
+	mlx_hook(context->win, ON_KEYDOWN, 1L, &check_keys, context);
+	mlx_hook(context->win, ON_DESTROY, 1L >> 2, &destroy_program, context);
 	mlx_loop_hook(context->mlx, &check_state, context);
 	mlx_loop(context->mlx);
 }
