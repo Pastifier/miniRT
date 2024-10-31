@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:22:29 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/31 12:31:45 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:09:39 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ bool	parse_single_f(float *f, char *str, t_program *context, int curr_line)
 	return (true);
 }
 
-static inline t_mat4s extract_rot_around_axis(t_mat4s *m, const t_vec4s _axs, float _theta)
+static inline void extract_rot_around_axis(t_mat4s *m, const t_vec4s _axs, float _theta)
 {
 	lag_vec4sv_init(&m->r1, cosf(_theta) + _axs.x * _axs.x * (1 - cosf(_theta)),
 		_axs.x * _axs.y * (1 - cosf(_theta)) - _axs.z * sinf(_theta),

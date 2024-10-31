@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:05:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/27 05:21:58 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/31 12:34:31 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+
+t_vec4s	reflect(t_vec4s *in, t_vec4s *normal)
+{
+	t_vec4s	reflect;
+	float dot;
+
+	lag_vec4s_dot(&dot, *in, *normal);
+	reflect = lag_vec4s_scaleby_ret(*normal, 2.f * dot);
+	lag_vec4s_sub(&reflect, *in, reflect);
+	lag_vec4s_normalize(&reflect);
+	return (reflect);
+}
 
 void	ray_create(t_ray *ray, t_vec4s *origin, t_vec4s *direction)
 {

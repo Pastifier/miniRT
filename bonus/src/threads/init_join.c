@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_join.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 04:47:50 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/27 06:59:01 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/31 12:07:58 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "macros.h"
+#include <stdio.h>
 
 extern void	*render_row(void *param); //
 //extern void	*lerp_routine(void *param); //
@@ -42,5 +43,6 @@ bool	pool_init_join(t_program *context)
 	//	pthread_create(&new_pool[y].thread, NULL, lerp_routine, &new_pool[y]);
 	//while (y--)
 	//	pthread_join(new_pool[y].thread, NULL);
+	printf("Done rendering\n");
 	return (free(new_pool), true);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fragment.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/30 11:33:37 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:08:33 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,47 @@ static inline t_ray	ray_for_pixel(const t_camera *cam, int px, int py)
 	return (r);
 }
 
-//static inline void	prepare_computations(const t_itx *hit, t_ray *r)
-//{
-//	t_vec4s	margin;
+t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
+{
+	t_itx_computation	comps;
+	t_vec4s			margin;
 
-//	(void)hit;(void)r;(void)margin;
-//}
+	comps.t = itx->t;
+	comps.obj = itx->object;
+	ray_position(&comps.p, r, comps.t);
+	comps.eyev = r->dir;
+	lag_vec4s_negate(&comps.eyev);
+	if (itx->object->type == SPHERE)
+		comps.normalv = sphere_normal_at(itx->object, &comps.p);
+	// else if (itx->object->type == PLANE)
+	// 	comps.normalv = plane_normal_at(itx->object);
+	// else if (itx->object->type == CUBE)
+	// 	comps.normalv = cube_normal_at(itx->object, &comps.p);
+	// else if (itx->object->type == CYLINDER)
+	// 	comps.normalv = cylinder_normal_at(itx->object, &comps.p);
+	if (lag_vec4s_dot_ret(comps.normalv, comps.eyev) < 0)
+	{
+		comps.inside = true;
+		lag_vec4s_negate(&comps.normalv);
+	}
+	else
+		comps.inside = false;
+	lag_vec4s_scaleby(&margin, comps.normalv, EPSILON);
+	lag_vec4s_add(&comps.over_point, comps.p, margin);
+	lag_vec4s_sub(&comps.under_point, comps.p, margin);
+	comps.reflectv = reflect(&r->dir, &comps.normalv);
+	// if (comps.obj->material.refractive_index > 0)
+	// 	prepare_refractions(itx, &comps, itxs);
+	(void)itxs;
+	return (comps);
+}
 
-static inline t_color	color_at(t_world *w, t_ray *r/*, int depth*/)
+static inline t_color	color_at(t_world *w, t_ray *r)
 {
 	t_itx_grp		world_itxs;
 	t_itx			*hit;
 	t_color			result;
+	t_comps			comps;
 
 	world_itxs = intersect_world(w, r);
 	hit = get_hit(&world_itxs);
@@ -51,9 +80,9 @@ static inline t_color	color_at(t_world *w, t_ray *r/*, int depth*/)
 		color_init(&result, 0.0, 0.0, 0.0);
 		return (result);
 	}
-	//comps = prepare_computations(hit, r, &world_itxs);
-	//return (shade_hit(w, &comps, depth));
-		color_init(&result, 0.0, 0.0, 0.0); // temp////
+	comps = prepare_computations(hit, r, &world_itxs);
+	color_init(&result, 0.0, 0.0, 0.0); //TEMP////
+	// return (shade_hit(w, &comps));
 	return (result); // temp////
 }
 

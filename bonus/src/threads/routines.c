@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routines.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:31:02 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/29 04:19:55 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/31 11:39:11 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	*render_row(void *arg)
 {
-	t_thread	*data = (t_thread *)arg;
+	t_thread		*data = (t_thread *)arg;
 	t_program		*context = data->context;
 	t_camera		*cam = &context->cam;
 	int				x;

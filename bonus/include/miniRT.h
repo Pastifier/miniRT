@@ -66,6 +66,24 @@ struct s_thread_data
 	int			x_f;
 };
 
+typedef struct	itx_computation
+{
+	bool		shadowed;
+	double		t;
+	t_obj		*obj;
+	t_vec4s		p;
+	t_vec4s		over_point;
+	t_vec4s		under_point;
+	t_vec4s		eyev;
+	t_vec4s		normalv;
+	t_vec4s		reflectv;
+	int			inside;
+	double		n1;
+	double		n2;
+}	t_itx_computation;
+
+typedef t_itx_computation t_comps;
+
 /*--- PARSING ---*/
 
 typedef struct s_validate_atof
@@ -120,6 +138,7 @@ void		str_arr_destroy(char **arr);
 void		ray_create(t_ray *ray, t_vec4s *origin, t_vec4s *direction);
 void		ray_position(t_vec4s *result, const t_ray *ray, float t);
 void		ray_transform(t_ray *ray, const t_mat4s *matrix);
+t_vec4s		reflect(t_vec4s *in, t_vec4s *normal);
 
 /*--- FRAGMENT CALCULATION ---*/
 
