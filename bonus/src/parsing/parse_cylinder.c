@@ -2,6 +2,7 @@
 #include "macros.h"
 #include "libft.h"
 #include "colors.h"
+#include <assert.h>
 
 bool parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 {
@@ -35,6 +36,7 @@ bool parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 	cy->scale = lag_vec4s_ret(1, 1, 1, 1);
 	cy->rot = rt_extract_rot_vertical(cy->orientation);
 	t_vec4s debug = lag_mat4s_cross_vec4s(cy->rot, lag_vec4s_ret(0, 1, 0, 0));
+	assert(lag_vec4s_eq(debug, cy->orientation, EPSILON));
 	cy->inv_transform = lag_mat4s_get_transform_inverse(cy->rot, cy->scale.simd, cy->trans.simd);
 	(void)debug;
 	return (str_arr_destroy(fields->array), true);
