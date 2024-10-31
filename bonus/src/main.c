@@ -42,8 +42,6 @@ int	main(int argc, char *argv[])
 	if (!parse_file(argv[1], &context))
 		return (destroy_world(&context), 2);
 	init_mlx(&context);
-	// setup_hooks(...);
-	// update loop:
 	context.pool = ft_calloc(_RT_NUM_THREADS, sizeof(t_thread));
 	if (!context.pool)
 	{
@@ -53,9 +51,6 @@ int	main(int argc, char *argv[])
 		return (2);
 	}
 	update(&context);
-	mlx_hook(context.win, 17, 0, &destroy_program, &context);
-	mlx_loop_hook(context.mlx, &check_input, &context);
-	mlx_loop(context.mlx);
 	return (0);
 }
 
@@ -79,6 +74,9 @@ void	init_mlx(t_program *context)
 		free(context->mlx);
 		exit(2);
 	}
+	mlx_hook(context->win, 17, 0, &destroy_program, context);
+	mlx_loop_hook(context->mlx, &check_input, context);
+	mlx_loop(context->mlx);
 }
 
 bool	init_obj_arr(t_program *context)
