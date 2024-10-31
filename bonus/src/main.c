@@ -20,6 +20,12 @@ bool	init_obj_arr(t_program *context);
 extern int	update(void *param);
 extern int	destroy_program(t_program *context);
 
+int	check_input(int keysym)
+{
+	(void)keysym;
+	return (0);
+}
+
 int	main(int argc, char *argv[])
 {
 	(void)argc; (void)argv;
@@ -46,8 +52,9 @@ int	main(int argc, char *argv[])
 		ft_putendl_fd("FATAL: Couldn't allocate for threads.", 2);
 		return (2);
 	}
-	mlx_loop_hook(context.mlx, &update, &context);
+	update(&context);
 	mlx_hook(context.win, 17, 0, &destroy_program, &context);
+	mlx_loop_hook(context.mlx, &check_input, &context);
 	mlx_loop(context.mlx);
 	return (0);
 }
