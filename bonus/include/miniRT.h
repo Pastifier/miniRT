@@ -129,10 +129,17 @@ void		interpolate_horizontal(t_thread const *data);
 void		interpolate_vertical(t_thread const *data);
 t_color		lerp_colors(const t_color *a, const t_color *b, float t);
 
+/*--- STATE ---*/
+
+int			update(void *context);
+int			check_state(void *context);
+int			check_keys(int keysym, void *context);
+
 /*--- DESTROY ---*/
 
 void		destroy_mlx(t_program *context);
 void		destroy_world(t_program *context);
+int			destroy_program(t_program *context);
 void		str_arr_destroy(char **arr);
 
 /*--- RAY - MANIPULATION ---*/
