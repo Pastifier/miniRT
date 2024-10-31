@@ -27,15 +27,18 @@ void	destroy_world(t_program *context)
 	free(context->world.shapes);
 }
 
-void	destroy_program(t_program *context)
+int	destroy_program(t_program *context)
 {
-	for (int i = 0; i < _RT_NUM_THREADS; i++)
-		pthread_cancel(context->pool[i].thread);
-	free(context->pool);
-	context->pool = NULL;
+	if (context->pool)
+	{
+		for (int i = 0; i < _RT_NUM_THREADS; i++)
+			pthread_cancel(context->pool[i].thread);
+		free(context->pool);
+		context->pool = NULL;
+	}
 	destroy_world(context);
 	destroy_mlx(context);
-	exit(0);
+	return (exit(0), 0);
 }
 
 // @warning Assumes `arr` is `NULL`-terminated.
