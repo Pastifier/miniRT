@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:22:29 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/30 17:42:21 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/31 12:31:45 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,22 +74,41 @@ bool	parse_single_f(float *f, char *str, t_program *context, int curr_line)
 	return (true);
 }
 
+static inline t_mat4s extract_rot_around_axis(t_mat4s *m, const t_vec4s _axs, float _theta)
+{
+	lag_vec4sv_init(&m->r1, cosf(_theta) + _axs.x * _axs.x * (1 - cosf(_theta)),
+		_axs.x * _axs.y * (1 - cosf(_theta)) - _axs.z * sinf(_theta),
+		_axs.x * _axs.z * (1 - cosf(_theta)) + _axs.y * sinf(_theta)
+	);
+	lag_vec4sv_init(&m->r2, _axs.x * _axs.y * (1 - cos(_theta)) + _axs.z * sinf(_theta),
+		cosf(_theta) + _axs.y * _axs.y * (1 - cosf(_theta)),
+		_axs.y * _axs.z * (1 - cosf(_theta)) - _axs.x * sinf(_theta)
+	);
+	lag_vec4sv_init(&m->r3, _axs.z * _axs.x * (1 - cosf(_theta)) - _axs.y * sinf(_theta),
+		_axs.z * _axs.y * (1 - cosf(_theta)) + _axs.x * sinf(_theta),
+		cosf(_theta) + _axs.z * _axs.z * (1 - cosf(_theta))
+	);
+	lag_vec4sp_init(&m->r4, 0.f, 0.f, 0.f);
+}
+
 /// @param u Normalized orientation vector.
 /// @warning At the risk of being repetitive, `u` must be a normalized vector!!
 t_mat4s	rt_extract_rot_vertical(const t_vec4s u)
 {
-	const t_vec4s	j_hat = lag_vec4s_ret(0.f, 0.1f, 0.f, 0);
-	const t_vec4s	v = lag_vec4s_cross_ret(j_hat, u);
-	const t_vec4s	w = lag_vec4s_cross_ret(u, v);
+	const t_vec4s	j_hat = lag_vec4sv_ret(0.f, 1.f, 0.f);
+	t_vec4s			rot_axis;
+	float			theta;
+	t_mat4s			ret;
 
-	return (
-		lag_mat4s_rows_ret(
-			u,
-			lag_vec4s_normalize_highp(v),
-			lag_vec4s_normalize_highp(w),
-			lag_vec4s_ret(0, 0, 0, 1)
-		)
-	);
+	if (u.x == 0 && fabsf(u.y - 1) < EPSILON && u.z == 0)
+		return (lag_mat4s_rotation_x(0));
+	if (u.x == 0 && fabsf(u.y + 1) < EPSILON && u.z == 0)
+		return (lag_mat4s_rotation_x(-M_PI));
+	rot_axis = lag_vec4s_cross_ret(j_hat, u);
+	rot_axis = lag_vec4s_normalize_highp(rot_axis);
+	theta = acosf(lag_vec4s_dot_ret(u, j_hat));
+	extract_rot_around_axis(&ret, rot_axis, theta);
+	return (ret);
 }
 
 bool	is_normalised(t_vec4s vec)
