@@ -21,7 +21,7 @@
 
 # ifdef EPSILON
 #  undef EPSILON
-#  define EPSILON 0.0001
+#  define EPSILON 0.0001f
 # endif // !EPSILON
 
 typedef struct s_canvas
