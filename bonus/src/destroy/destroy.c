@@ -12,6 +12,7 @@
 
 #include "mlx.h"
 #include "miniRT.h"
+#include "macros.h"
 
 void	destroy_mlx(t_program *context)
 {
@@ -24,6 +25,17 @@ void	destroy_world(t_program *context)
 {
 	free(context->world.lights);
 	free(context->world.shapes);
+}
+
+void	destroy_program(t_program *context)
+{
+	for (int i = 0; i < _RT_NUM_THREADS; i++)
+		pthread_join(context->pool[i].thread, NULL);
+	free(context->pool);
+	context->pool = NULL;
+	destroy_world(context);
+	destroy_mlx(context);
+	exit(0);
 }
 
 // @warning Assumes `arr` is `NULL`-terminated.

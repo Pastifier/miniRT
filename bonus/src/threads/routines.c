@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:31:02 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/31 11:39:11 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:58:16 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void	*render_row(void *arg)
 		while(x < cam->hsize)
 		{
 			rt_render_pixel(context, x, y);
-			x++; //+= 3;
+			x++;
 		}
-		y++; //+= 3;
+		y++;
 	}
 	return (NULL);
 }

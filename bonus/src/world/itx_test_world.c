@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:34:00 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/31 13:51:09 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:59:38 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_itx	*get_hit(t_itx_grp *xs) ////
 
 	i = -1;
 	while (++i < xs->count)
-		if (xs->arr[i].t >= 0)
+		if (xs->arr[i].t >= 0.f)
 			return (&xs->arr[i]);
 	return (NULL);
 }

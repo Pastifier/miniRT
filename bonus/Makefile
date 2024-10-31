@@ -1,6 +1,6 @@
 # Necessities
 CC := cc
-CFLAGS = -Wextra -Werror -Wall -mavx -mavx2 -g3 -fsanitize=address,undefined
+CFLAGS = -Wextra -Werror -Wall -mavx -mavx2 -O3 -march=native -funroll-loops -fno-signed-zeros
 
 # OS-specification
 OS := $(shell uname)
@@ -18,7 +18,7 @@ else ifeq (${OS}, ${Lin})
 	MLX := mlx_Linux
 	CFLAGS += -L$(BUILD_DIR) -I$(BUILD_DIR) -l$(MLX) -L/usr/lib -lXext -lX11 -lm -lz -Llibft -Ilibft/includes -lft
 else
-    $(error Idk, man. Doesn't look like something I was BUILT to deal with ;3)
+	$(error Idk, man. Doesn't look like something I was BUILT to deal with ;3)
 endif
 
 # PROJECT

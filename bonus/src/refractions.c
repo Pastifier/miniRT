@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:36:36 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/31 13:45:22 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:56:52 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_color	refracted_color(t_world *world, t_itx_computation *comps, int depth)
 	sin2_t = n_ratio * n_ratio * (1 - cos_i * cos_i);
 	if (sin2_t > 1.0)
 		return (c);
-	lag_vec4s_scaleby(&r.dir, comps->normalv, n_ratio * cos_i - sqrt(1 - sin2_t));
+	lag_vec4s_scaleby(&r.dir, comps->normalv, n_ratio * cos_i - sqrtf(1 - sin2_t));
 	lag_vec4s_scaleby(&temp, comps->eyev, n_ratio);
 	lag_vec4s_sub(&r.dir, r.dir, temp);
 	r.origin = comps->under_point;
@@ -114,9 +114,9 @@ double	schlick(t_itx_computation *comps)
 		sin2_t = n_ratio * n_ratio * (1 - cos * cos);
 		if (sin2_t > 1.0)
 			return (1.0);
-		cos_t = sqrt(1.0 - sin2_t);
+		cos_t = sqrtf(1.0 - sin2_t);
 		cos = cos_t;
 	}
-	r0 = pow((comps->n1 - comps->n2) / (comps->n1 + comps->n2), 2);
+	r0 = powf((comps->n1 - comps->n2) / (comps->n1 + comps->n2), 2);
 	return (r0 + (1 - r0) * pow(1 - cos, 5));
 }

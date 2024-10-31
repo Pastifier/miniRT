@@ -21,7 +21,7 @@
 
 # ifdef EPSILON
 #  undef EPSILON
-#  define EPSILON 0.0001f
+#  define EPSILON 0.0001
 # endif // !EPSILON
 
 typedef struct s_canvas
@@ -53,6 +53,7 @@ typedef struct s_program
 		t_color	color;
 		float	ratio;
 	}	ambiance;
+	bool		stop;
 }	t_program;
 
 struct s_thread_data

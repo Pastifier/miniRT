@@ -18,6 +18,7 @@ void	init_mlx(t_program *context);
 bool	init_obj_arr(t_program *context);
 
 extern int	update(void *param);
+extern int	destroy_program(t_program *context);
 
 int	main(int argc, char *argv[])
 {
@@ -37,7 +38,16 @@ int	main(int argc, char *argv[])
 	init_mlx(&context);
 	// setup_hooks(...);
 	// update loop:
+	context.pool = ft_calloc(_RT_NUM_THREADS, sizeof(t_thread));
+	if (!context.pool)
+	{
+		destroy_world(&context);
+		destroy_mlx(&context);
+		ft_putendl_fd("FATAL: Couldn't allocate for threads.", 2);
+		return (2);
+	}
 	mlx_loop_hook(context.mlx, &update, &context);
+	mlx_hook(context.win, 17, 0, &destroy_program, &context);
 	mlx_loop(context.mlx);
 	return (0);
 }

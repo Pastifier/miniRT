@@ -115,10 +115,10 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 		lag_vec4s_ret(-forward.x, -forward.y, -forward.z, 0.0f),
 		lag_vec4s_ret(0.0f, 0.0f, 0.0f, 1.0f)
 	);
-	
+
 	//Set the view matrix
 	lag_mat4s_cross_mat4s(camera->inv_transform, lag_mat4s_translation(-camera->trans.x, -camera->trans.y, -camera->trans.z), &camera->inv_transform);
-	
+
 	//Set the inverse view matrix
 	camera->inv_transform = rt_get_cam_inverse(&camera->inv_transform);
 
@@ -138,7 +138,7 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 	camera->aspect_ratio = (float)camera->hsize / (float)camera->vsize;
 
 	//Calculate the pixel size and half view size
-	camera->half_view = tanf((camera->fov / 2.f) * (M_PI / 180.0f));
+	camera->half_view = tanf((camera->fov / 2.f) * ((float)M_PI / 180.0f));
 	if (camera->aspect_ratio >= 1.0f)
 	{
 		camera->half_width = camera->half_view;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_test.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 03:07:20 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/30 11:36:56 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:20:26 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,23 @@ void	intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs)
 	float	d;
 	t_ray	trans_r;
 	t_vec4s	sphere_to_ray;
+	t_vec4s	abc;
 
 	if (xs->count + 2 >= _RT_MAX_ITX)
 		return ;
 	trans_r = *r;
 	ray_transform(&trans_r, &sphere->inv_transform);
 	lag_vec4s_sub(&sphere_to_ray, trans_r.origin, sphere->trans);
-	sphere->specs.a = lag_vec4s_dot_ret(trans_r.dir, trans_r.dir);
-	sphere->specs.b = 2.0 * lag_vec4s_dot_ret(sphere_to_ray, trans_r.dir);
-	sphere->specs.c = lag_vec4s_dot_ret(sphere_to_ray, sphere_to_ray)
+	abc.x = lag_vec4s_dot_ret(trans_r.dir, trans_r.dir);
+	abc.y = 2.0 * lag_vec4s_dot_ret(sphere_to_ray, trans_r.dir);
+	abc.z = lag_vec4s_dot_ret(sphere_to_ray, sphere_to_ray)
 		- (sphere->specs.radius * sphere->specs.radius);
-	d = powf(sphere->specs.b, 2) - 4.f * sphere->specs.a * sphere->specs.c;
+	d = abc.y * abc.y - 4.f * abc.x * abc.z;
 	if (d < 0)
 		return ;
 	d = sqrtf(d);
 	xs->arr[xs->count].object = sphere;
-	xs->arr[xs->count++].t = (-sphere->specs.b - d) / (2.f * sphere->specs.a);
+	xs->arr[xs->count++].t = (-abc.y - d) / (2.f * abc.x);
 	xs->arr[xs->count].object = sphere;
-	xs->arr[xs->count++].t = (-sphere->specs.b + d) / (2.f * sphere->specs.a);
+	xs->arr[xs->count++].t = (-abc.y + d) / (2.f * abc.x);
 }

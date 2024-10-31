@@ -65,9 +65,6 @@ typedef struct s_obj
 		struct
 		{
 			float	radius;
-			float	a;
-			float	b;
-			float	c;
 		};
 		struct
 		{

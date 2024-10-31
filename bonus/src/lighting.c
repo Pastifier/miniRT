@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:36:57 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/31 13:51:32 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:02:44 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,32 +99,32 @@ t_color	reflected_color(t_world *world, t_itx_computation *comps, int depth)
 t_color	shade_hit(t_world *world, t_itx_computation *comps, int depth)
 {
 	t_color		lighting_result;
-	t_color		reflection_result;
-	t_color		refraction_result;
-	t_color		return_color;
+	// t_color		reflection_result;
+	// t_color		refraction_result;
+	t_color		return_color; (void)depth;
 	bool		in_shadow;
 
-	color_init(&return_color, 0.0, 0.0, 0.0);
+	color_init(&return_color, 0.f, 0.f, 0.f);
 	for (int i = 0; i < world->num_lights; i++)
 	{
 		in_shadow = is_shadowed(world, &comps->over_point, &world->lights[i]);
 		lighting_result = lighting(&comps->obj->material, &world->lights[i], &comps->over_point, &comps->eyev, &comps->normalv, in_shadow);
 		color_add(&return_color, &return_color, &lighting_result);
 	}
-	reflection_result = reflected_color(world, comps, depth);
-	refraction_result = refracted_color(world, comps, depth);
-	if (comps->obj->material.reflective > 0.0)
-		color_scaleby(&return_color, &return_color, 1.0 - comps->obj->material.reflective);
-	if (comps->obj->material.transparency > 0.0)
-		color_scaleby(&return_color, &return_color, 1.0 - comps->obj->material.transparency);
-	double schlick_value = schlick(comps);
-	if (comps->obj->material.reflective > 0.0 && comps->obj->material.transparency > 0.0)
-	{
-		color_scaleby(&reflection_result, &reflection_result, 1.0 - schlick_value);
-		color_scaleby(&reflection_result, &reflection_result, schlick_value);
-	}
-	color_add(&return_color, &return_color, &reflection_result);
-	color_add(&return_color, &return_color, &refraction_result);
+	// reflection_result = reflected_color(world, comps, depth);
+	// refraction_result = refracted_color(world, comps, depth);
+	// if (comps->obj->material.reflective > 0.0f)
+	// 	color_scaleby(&return_color, &return_color, 1.0f - comps->obj->material.reflective);
+	// if (comps->obj->material.transparency > 0.0f)
+	// 	color_scaleby(&return_color, &return_color, 1.0f - comps->obj->material.transparency);
+	// double schlick_value = schlick(comps);
+	// if (comps->obj->material.reflective > 0.0f && comps->obj->material.transparency > 0.0f)
+	// {
+	// 	color_scaleby(&reflection_result, &reflection_result, 1.0f - schlick_value);
+	// 	color_scaleby(&reflection_result, &reflection_result, schlick_value);
+	// }
+	// color_add(&return_color, &return_color, &reflection_result);
+	// color_add(&return_color, &return_color, &refraction_result);
 	color_clamp(&return_color);
 	return (return_color);
 }

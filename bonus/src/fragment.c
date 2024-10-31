@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/31 13:51:27 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:59:18 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static inline t_ray	ray_for_pixel(const t_camera *cam, int px, int py)
 	t_vec4s		origin;
 	t_vec4s		direction;
 
-	lag_vec4sp_init(&pixel, (cam->half_width - (px + 0.5) * cam->pixel_size),
-			(cam->half_height - (py + 0.5) * cam->pixel_size), -1);
+	lag_vec4sp_init(&pixel, (cam->half_width - (px + 0.5f) * cam->pixel_size),
+			(cam->half_height - (py + 0.5f) * cam->pixel_size), -1);
 	pixel = lag_mat4s_cross_vec4s(cam->inv_transform, pixel);
 	origin = lag_vec4sp_ret(0.f, 0.f, 0.f);
 	origin = lag_mat4s_cross_vec4s(cam->inv_transform, origin);
@@ -50,7 +50,7 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 	// 	comps.normalv = cube_normal_at(itx->object, &comps.p);
 	// else if (itx->object->type == CYLINDER)
 	// 	comps.normalv = cylinder_normal_at(itx->object, &comps.p);
-	if (lag_vec4s_dot_ret(comps.normalv, comps.eyev) < 0)
+	if (lag_vec4s_dot_ret(comps.normalv, comps.eyev) < 0.f)
 	{
 		comps.inside = true;
 		lag_vec4s_negate(&comps.normalv);
@@ -61,7 +61,7 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 	lag_vec4s_add(&comps.over_point, comps.p, margin);
 	lag_vec4s_sub(&comps.under_point, comps.p, margin);
 	comps.reflectv = reflect(&r->dir, &comps.normalv);
-	if (comps.obj->material.refractive_index > 0)
+	if (comps.obj->material.refractive_index > 0.f)
 		prepare_refractions(itx, &comps, itxs);
 	return (comps);
 }
@@ -77,7 +77,7 @@ t_color	color_at(t_world *w, t_ray *r, int depth)
 	hit = get_hit(&world_itxs);
 	if (!hit)
 	{
-		color_init(&result, 0.0, 0.0, 0.0);
+		color_init(&result, 0.f, 0.f, 0.f);
 		return (result);
 	}
 	comps = prepare_computations(hit, r, &world_itxs);

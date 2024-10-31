@@ -21,7 +21,7 @@
 # define _RT_MAX_SHAPES_ 100
 
 # ifndef REFLECTION_DEPTH
-#  define REFLECTION_DEPTH 5
+#  define REFLECTION_DEPTH 4
 # endif // !THRESHOLD
 
 # define _RT_NUM_THREADS 16
