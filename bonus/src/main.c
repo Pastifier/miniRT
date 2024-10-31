@@ -13,6 +13,7 @@
 #include "macros.h"
 #include "miniRT.h"
 #include "mlx.h"
+#include "keys.h"
 
 void	init_mlx(t_program *context);
 bool	init_obj_arr(t_program *context);
@@ -20,9 +21,23 @@ bool	init_obj_arr(t_program *context);
 extern int	update(void *param);
 extern int	destroy_program(t_program *context);
 
-int	check_input(int keysym)
+int	check_input(void *context)
 {
-	(void)keysym;
+	t_program	*state;
+
+	state = (t_program *)context;
+	if (state->stop == true)
+		destroy_program(context);
+	return (0);
+}
+
+int	check_keys(int keysym, void *context)
+{
+	t_program	*state;
+
+	state = (t_program *)context;
+	if (keysym == KEY_ESC)
+		return (state->stop = true, 0);
 	return (0);
 }
 
@@ -53,6 +68,7 @@ int	main(int argc, char *argv[])
 		return (2);
 	}
 	update(&context);
+	mlx_hook(context.win, ON_KEYDOWN, 0, &check_keys, &context);
 	mlx_hook(context.win, 17, 0, &destroy_program, &context);
 	mlx_loop_hook(context.mlx, &check_input, &context);
 	mlx_loop(context.mlx);
