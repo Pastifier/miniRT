@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef	KEYS_H
+# define KEYS_H
+
 # ifdef __linux__
 
 enum e_keysyms
@@ -43,6 +46,8 @@ enum e_keysyms
 	AKEY_U
 };
 
+# endif // !__MACH__
+
 enum e_events
 {
 	ON_KEYDOWN = 2,
@@ -54,4 +59,4 @@ enum e_events
 	ON_DESTROY = 17
 };
 
-# endif // !__MACH__
+#endif // !KEYS_H

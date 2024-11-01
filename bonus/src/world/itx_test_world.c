@@ -26,8 +26,8 @@ t_itx_grp	intersect_world(t_world *w, t_ray *r)
 			break ;
 		if (w->shapes[i].type == SPHERE)
 			intersect_sphere(r, &w->shapes[i], &ret);
-		//if (w->shapes[i].type == PLANE)
-		//	intersect_plane(r, &w->shapes[i], &ret); //
+		if (w->shapes[i].type == PLANE)
+			intersect_plane(r, &w->shapes[i], &ret);
 	}
 	quick_sort_intersections(ret.arr, ret.count); //
 	return (ret);

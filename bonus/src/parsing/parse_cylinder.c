@@ -4,6 +4,10 @@
 #include "colors.h"
 #include <assert.h>
 
+/*
+	Change everything in object specs to unit version and rely on transformations for scaling/rot/trans/etc
+*/
+
 static void	material_init(t_material *material)
 {
 	material->ambient = 0.1;

@@ -44,8 +44,8 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 	lag_vec4s_negate(&comps.eyev);
 	if (itx->object->type == SPHERE)
 		comps.normalv = sphere_normal_at(itx->object, &comps.p);
-	// else if (itx->object->type == PLANE)
-	// 	comps.normalv = plane_normal_at(itx->object);
+	else if (itx->object->type == PLANE)
+		comps.normalv = plane_normal_at(itx->object);
 	// else if (itx->object->type == CUBE)
 	// 	comps.normalv = cube_normal_at(itx->object, &comps.p);
 	// else if (itx->object->type == CYLINDER)

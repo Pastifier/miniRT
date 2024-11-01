@@ -153,9 +153,12 @@ t_vec4s		reflect(t_vec4s *in, t_vec4s *normal);
 
 t_itx_grp	intersect_world(t_world *w, t_ray *r);
 void		intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs);
+void		intersect_plane(t_ray *ray, t_obj *plane, t_itx_grp *xs);
+t_vec4s		plane_normal_at(t_obj *plane);
 t_vec4s		sphere_normal_at(t_obj *sphere, t_vec4s *world_p);
 void		quick_sort_intersections(t_itx *arr, size_t size);
 t_itx		*get_hit(t_itx_grp *xs);
+t_mat4s		lag_mat4s_transpose_ret(const t_mat4s m);
 
 /*--- LIGHTING ---*/
 

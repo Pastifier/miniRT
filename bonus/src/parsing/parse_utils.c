@@ -40,23 +40,25 @@ bool	parse_color(t_color *color, char *str, t_program *context,
 	int curr_line)
 {
 	t_split	split;
+	t_eint	color_int;
 
-	split = ft_split(str, ",");
+	color_int = (t_eint){0};
+	split = ft_split(str, ",\n\r");
 	if (split.wordcount != 3)
 		return (parse_err_msg(ERR_COLOR_FORMAT, ERR_EXPECT_TYPE_C, curr_line),
 			false);
-	color->r = ft_atof(split.array[0], context);
-	if (context->runtime_error == 2)
+	color_int = ft_atoi(split.array[0]);
+	if (color_int.error)
 		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
-	color->r = color->r / 255.999;
-	color->g = ft_atof(split.array[1], context);
-	if (context->runtime_error == 2)
+	color->r = color_int.value / 255.999;
+	color_int = ft_atoi(split.array[1]);
+	if (color_int.error)
 		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
-	color->g = color->g / 255.999;
-	color->b = ft_atof(split.array[2], context);
-	if (context->runtime_error == 2)
+	color->g = color_int.value / 255.999;
+	color_int = ft_atoi(split.array[2]);
+	if (color_int.error)
 		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
-	color->b = color->b / 255.999;
+	color->b = color_int.value / 255.999;
 	if (color->r < 0.0f || color->g < 0.0f || color->b < 0.0f
 		|| color->r > 1.0f || color->g > 1.0f || color->b > 1.0f)
 		return (parse_err_msg(ERR_COLOR_VALUE, ERR_EXPECT_COLOR_RANGE,

@@ -29,7 +29,10 @@ int	main(int argc, char *argv[])
 	t_program	context;
 
 	if (argc != 2)
-		return ((void)write(2, "Usage:\n\t./miniRT <filename>.rt\n", 32), 2);
+	{
+		write(2, "Usage:\n\t./miniRT <filename>.rt\n", 32);
+		return (2);
+	}
 	context = (t_program){0};
 	if (!init_obj_arr(&context))
 	{
