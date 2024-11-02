@@ -32,6 +32,8 @@ t_itx_grp	intersect_world(t_world *w, t_ray *r)
 			intersect_cylinder(r, &w->shapes[i], &ret);
 		else if (w->shapes[i].type == CUBE)
 			intersect_cube(r, &w->shapes[i], &ret);
+		else if (w->shapes[i].type == CONE)
+			intersect_cone(r, &w->shapes[i], &ret);
 	}
 	quick_sort_intersections(ret.arr, ret.count); //
 	return (ret);
