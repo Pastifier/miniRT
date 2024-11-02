@@ -46,10 +46,10 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 		comps.normalv = sphere_normal_at(itx->object, &comps.p);
 	else if (itx->object->type == PLANE)
 		comps.normalv = plane_normal_at(itx->object);
-	// else if (itx->object->type == CUBE)
-	// 	comps.normalv = cube_normal_at(itx->object, &comps.p);
-	// else if (itx->object->type == CYLINDER)
-	// 	comps.normalv = cylinder_normal_at(itx->object, &comps.p);
+	else if (itx->object->type == CYLINDER)
+		comps.normalv = cylinder_normal_at(itx->object, &comps.p);
+	else if (itx->object->type == CUBE)
+		comps.normalv = cube_normal_at(itx->object, &comps.p);
 	if (lag_vec4s_dot_ret(comps.normalv, comps.eyev) < 0.f)
 	{
 		comps.inside = true;

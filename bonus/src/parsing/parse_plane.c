@@ -30,7 +30,7 @@ bool	parse_plane(t_program *context, const t_split *fields, int curr_line)
 	pl->orientation.w = 0;
 	if (!is_normalised(pl->orientation))
 		pl->orientation = lag_vec4s_normalize_highp(pl->orientation);
-	if (!parse_color(&pl->material.color, fields->array[3], context, curr_line))
+	if (!parse_color(&pl->material.color, fields->array[3], curr_line))
 		return (str_arr_destroy(fields->array), false);
 	material_init(&pl->material);
 	pl->scale = lag_vec4s_ret(1, 1, 1, 1);

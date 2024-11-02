@@ -36,8 +36,7 @@ bool	parse_vec4(t_vec4s *vec, char *str, t_program *context, int curr_line)
 	return (str_arr_destroy(split.array), true);
 }
 
-bool	parse_color(t_color *color, char *str, t_program *context,
-	int curr_line)
+bool	parse_color(t_color *color, char *str, int curr_line)
 {
 	t_split	split;
 	t_eint	color_int;

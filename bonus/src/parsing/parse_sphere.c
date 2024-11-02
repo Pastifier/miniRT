@@ -41,7 +41,7 @@ bool	parse_sphere(t_program *context, const t_split *fields, int curr_line)
 	if (context->runtime_error == 2)
 		return (parse_err_msg(ERR_OBJ_VALUE, ERR_EXPECT_FLOAT, curr_line),
 			str_arr_destroy(fields->array), false);
-	if (!parse_color(&sp->material.color, fields->array[3], context, curr_line))
+	if (!parse_color(&sp->material.color, fields->array[3], curr_line))
 		return (str_arr_destroy(fields->array), false);
 	material_init(&sp->material);
 	sp->scale = lag_vec4s_ret(1, 1, 1, 1);

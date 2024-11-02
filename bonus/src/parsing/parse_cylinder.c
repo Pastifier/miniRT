@@ -4,10 +4,6 @@
 #include "colors.h"
 #include <assert.h>
 
-/*
-	Change everything in object specs to unit version and rely on transformations for scaling/rot/trans/etc
-*/
-
 static void	material_init(t_material *material)
 {
 	material->ambient = 0.1;
@@ -19,6 +15,7 @@ static void	material_init(t_material *material)
 	material->refractive_index = 1.0;
 }
 
+//Radius does not affect the cylinder (Investigate)
 bool parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 {
 	t_obj	*cy;
@@ -46,10 +43,11 @@ bool parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 				str_arr_destroy(fields->array), false);
 	cy->specs.min = -height / 2.0f;
 	cy->specs.max = height / 2.0f;
-	if (!parse_color(&cy->material.color, fields->array[5], context, curr_line))
+	cy->specs.closed = true;
+	if (!parse_color(&cy->material.color, fields->array[5], curr_line))
 		return (str_arr_destroy(fields->array), false);
 	material_init(&cy->material);
-	cy->scale = lag_vec4s_ret(1, 1, 1, 1);
+	cy->scale = lag_vec4s_ret(cy->specs.radius, 1, cy->specs.radius, 1);
 	cy->rot = rt_extract_rot_vertical(cy->orientation);
 	t_vec4s debug = lag_mat4s_cross_vec4s(cy->rot, lag_vec4s_ret(0, 1, 0, 0));
 	assert(lag_vec4s_eq(debug, cy->orientation, EPSILON));

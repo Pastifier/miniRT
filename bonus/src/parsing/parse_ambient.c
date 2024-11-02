@@ -37,7 +37,7 @@ bool	parse_ambient(t_program *context, t_split *fields, int curr_line)
 
 bool	get_ambient_color(t_program *context, t_split *fields, int curr_line)
 {
-	if (!parse_color(&context->ambiance.color, fields->array[2], context, curr_line))
+	if (!parse_color(&context->ambiance.color, fields->array[2], curr_line))
 		return (str_arr_destroy(fields->array), false);
 	context->ambiance.is_set = true;
 	context->ambiance.line_set = curr_line;

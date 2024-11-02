@@ -48,7 +48,7 @@ bool		parse_light(t_program *context, const t_split *fields, int curr_line)
 bool		parse_light_color(t_program *context, const t_split *fields, int curr_line, t_world *world)
 {
 	if (!parse_color(&world->lights[world->num_lights++].specs.point.intensity,
-			fields->array[3], context, curr_line))
+			fields->array[3], curr_line))
 		return (str_arr_destroy(fields->array), false);
 	return (str_arr_destroy(fields->array), true);
 }

@@ -33,9 +33,9 @@ t_mat4s rt_get_cam_inverse(const t_mat4s *view)
 	ret.a[2][2] = view->a[2][2];
 
 	// Compute the new translation components by applying the transposed rotation to the original translation and negating it
-	ret.a[0][3] = -(view->a[0][3] * view->a[0][0] + view->a[1][3] * view->a[0][1] + view->a[2][3] * view->a[0][2]);
-	ret.a[1][3] = -(view->a[0][3] * view->a[1][0] + view->a[1][3] * view->a[1][1] + view->a[2][3] * view->a[1][2]);
-	ret.a[2][3] = -(view->a[0][3] * view->a[2][0] + view->a[1][3] * view->a[2][1] + view->a[2][3] * view->a[2][2]);
+	ret.a[0][3] = -(view->a[0][0] * view->a[0][3] + view->a[1][0] * view->a[1][3] + view->a[2][0] * view->a[2][3]);
+	ret.a[1][3] = -(view->a[0][1] * view->a[0][3] + view->a[1][1] * view->a[1][3] + view->a[2][1] * view->a[2][3]);
+	ret.a[2][3] = -(view->a[0][2] * view->a[0][3] + view->a[1][2] * view->a[1][3] + view->a[2][2] * view->a[2][3]);
 
 	// Set the last row to [0, 0, 0, 1] for homogeneous coordinates
 	ret.a[3][0] = 0.0f;
@@ -49,7 +49,6 @@ t_mat4s rt_get_cam_inverse(const t_mat4s *view)
 bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 {
 	t_camera *camera;
-	char *next;
 	float temp;
 	t_vec4s forward;
 	t_vec4s up;
@@ -65,14 +64,8 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 			str_arr_destroy(fields->array), false);
 
 	//get position vector
-	next = fields->array[1];
-	camera->trans.x = ft_atof(next, context);
-	next += context->flt_operations + (camera->trans.x <= -0.f) - 1;
-	camera->trans.y = ft_atof(next, context);
-	next += context->flt_operations + (camera->trans.y <= -0.f) - 1;
-	camera->trans.z = ft_atof(next, context);
-	camera->trans.w = 0.0f;
-
+	if (!parse_vec4(&camera->trans, fields->array[1], context, curr_line))
+		return (str_arr_destroy(fields->array), false);
 
 	//Orientation vector here (incomplete)
 	/*
@@ -82,19 +75,14 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 		-If the orientation vector is the same as the J-hat or negative J-hat, then the up vector is the same as K-hat
 		and the left vector is the same as I-hat.
 	*/
-	next = fields->array[2];
-	forward.x = ft_atof(next, context);
-	next += context->flt_operations + (forward.x <= -0.f) - 1;
-	forward.y = ft_atof(next, context);
-	next += context->flt_operations + (forward.y <= -0.f) - 1;
-	forward.z = ft_atof(next, context);
-	forward.w = 0.0f;
+	if (!parse_vec4(&forward, fields->array[2], context, curr_line))
+		return (str_arr_destroy(fields->array), false);
 
 	//Normalize the forward vector
 	forward = lag_vec4s_normalize_highp(forward);
 
 	//Get the up vector
-	if (forward.x == 0.0f && forward.z == 0.0f)
+	if (forward.x < EPSILON && forward.z < EPSILON)
 		left = lag_vec4s_ret(0.0f, 0.0f, 1.0f, 0.0f);
 	else
 		left = lag_vec4s_cross_ret(forward, lag_vec4s_ret(0.0f, 1.0f, 0.0f, 0.0f));

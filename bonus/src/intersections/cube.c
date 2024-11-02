@@ -13,95 +13,76 @@
 #include "miniRT.h"
 #include "macros.h"
 
-// void cube(t_object *cube, t_double4 *center, double length, t_mat4x4 *transform)
-// {
-// 	cube->type = OBJ_CUBE;
-// 	if (center)
-// 		cube->center = *center;
-// 	else
-// 		point(&cube->center, 0.0, 0.0, 0.0);
-// 	if (transform)
-// 		cube->transform = *transform;
-// 	else
-// 		cube->transform = mat4x4_identity();
-// 	cube->obj.cube.side_length = length;
-// 	cube->material = default_material();
-// }
+static void check_axis(float origin, float dir, float side_length, t_vec4s *t)
+{
+	float half_side;
+	float tmin_numerator;
+	float tmax_numerator;
+	float temp;
 
-// static void check_axis(double origin, double direction, double side_length, t_double2 *t)
-// {
-// 	double half_side;
-// 	double tmin_numerator;
-// 	double tmax_numerator;
-// 	double temp;
+	half_side = side_length / 2.0;
+	tmin_numerator = (-half_side - origin);
+	tmax_numerator = (half_side - origin);
+	if (fabsf(dir) >= EPSILON)
+	{
+		t->x = tmin_numerator / dir;
+		t->y = tmax_numerator / dir;
+	}
+	else
+	{
+		t->x = tmin_numerator * INFINITY;
+		t->y = tmax_numerator * INFINITY;
+	}
+	if (t->x > t->y)
+	{
+		temp = t->x;
+		t->x = t->y;
+		t->y = temp;
+	}
+}
 
-// 	half_side = side_length / 2.0;
-// 	tmin_numerator = (-half_side - origin);
-// 	tmax_numerator = (half_side - origin);
-// 	if (fabs(direction) >= EPSILON)
-// 	{
-// 		t->x = tmin_numerator / direction;
-// 		t->y = tmax_numerator / direction;
-// 	}
-// 	else
-// 	{
-// 		t->x = tmin_numerator * INFINITY;
-// 		t->y = tmax_numerator * INFINITY;
-// 	}
-// 	if (t->x > t->y)
-// 	{
-// 		temp = t->x;
-// 		t->x = t->y;
-// 		t->y = temp;
-// 	}
-// }
+void intersect_cube(t_ray *ray, t_obj *cube, t_itx_grp *xs)
+{
+	t_ray transformed_ray;
+	t_vec4s xt;
+	t_vec4s yt;
+	t_vec4s zt;
+	t_vec4s t;
 
-// void intersect_cube(t_ray *ray, t_object *cube, t_intersections *xs)
-// {
-// 	t_mat4x4 inv_transform;
-// 	t_ray transformed_ray;
-// 	t_double2 xt;
-// 	t_double2 yt;
-// 	t_double2 zt;
-// 	t_double2 t;
+	transformed_ray = *ray;
+	ray_transform(&transformed_ray, &(cube->inv_transform));
 
-// 	inv_transform = mat4x4_inverse(&cube->transform);
-// 	transformed_ray = *ray;
-// 	ray_transform(&transformed_ray, &(inv_transform));
+	check_axis(transformed_ray.origin.x, transformed_ray.dir.x, cube->specs.side_length, &xt);
+	check_axis(transformed_ray.origin.y, transformed_ray.dir.y, cube->specs.side_length, &yt);
+	check_axis(transformed_ray.origin.z, transformed_ray.dir.z, cube->specs.side_length, &zt);
 
-// 	check_axis(transformed_ray.origin.x, transformed_ray.direction.x, cube->obj.cube.side_length, &xt);
-// 	check_axis(transformed_ray.origin.y, transformed_ray.direction.y, cube->obj.cube.side_length, &yt);
-// 	check_axis(transformed_ray.origin.z, transformed_ray.direction.z, cube->obj.cube.side_length, &zt);
+	t.x = fmax(fmax(xt.x, yt.x), zt.x);
+	t.y = fmin(fmin(xt.y, yt.y), zt.y);
 
-// 	t.x = fmax(fmax(xt.x, yt.x), zt.x);
-// 	t.y = fmin(fmin(xt.y, yt.y), zt.y);
+	if (t.x > t.y)
+		return;
+	xs->arr[xs->count].object = cube;
+	xs->arr[xs->count++].t = t.x;
+	xs->arr[xs->count].object = cube;
+	xs->arr[xs->count++].t = t.y;
+}
 
-// 	if (t.x > t.y)
-// 		return;
-// 	xs->data[xs->count].object = cube;
-// 	xs->data[xs->count++].t = t.x;
-// 	xs->data[xs->count].object = cube;
-// 	xs->data[xs->count++].t = t.y;
-// }
+t_vec4s cube_normal_at(t_obj *cube, t_vec4s *world_point)
+{
+	t_vec4s	object_n_p[2];
+	t_vec4s	world_normal;
+	float		maxc;
 
-// t_double4 cube_normal_at(t_object *cube, t_double4 *world_point)
-// {
-// 	t_double4	object_n_p[2];
-// 	t_double4	world_normal;
-// 	t_mat4x4	inv_transform;
-// 	double		maxc;
+	object_n_p[1] = lag_mat4s_cross_vec4s(cube->inv_transform, *world_point);
 
-// 	inv_transform = mat4x4_inverse(&cube->transform);
-// 	object_n_p[1] = mat4x4_cross_vec(&inv_transform, world_point);
+	maxc = fmax(fmax(fabsf(object_n_p[1].x), fabsf(object_n_p[1].y)), fabsf(object_n_p[1].z));
 
-// 	maxc = fmax(fmax(fabs(object_n_p[1].x), fabs(object_n_p[1].y)), fabs(object_n_p[1].z));
-
-// 	if (maxc == fabs(object_n_p[1].x))
-// 		vector(&world_normal, object_n_p[1].x, 0, 0);
-// 	else if (maxc == fabs(object_n_p[1].y))
-// 		vector(&world_normal, 0, object_n_p[1].y, 0);
-// 	else
-// 		vector(&world_normal, 0, 0, object_n_p[1].z);
-// 	vnormalize(&world_normal);
-// 	return (world_normal);
-// }
+	if (maxc == fabsf(object_n_p[1].x))
+		lag_vec4sv_init(&world_normal, object_n_p[1].x, 0, 0);
+	else if (maxc == fabsf(object_n_p[1].y))
+		lag_vec4sv_init(&world_normal, 0, object_n_p[1].y, 0);
+	else
+		lag_vec4sv_init(&world_normal, 0, 0, object_n_p[1].z);
+	lag_vec4s_normalize(&world_normal);
+	return (world_normal);
+}
