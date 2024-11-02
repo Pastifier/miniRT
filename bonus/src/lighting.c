@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:36:57 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/31 17:02:44 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/02 21:35:26 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_color	lighting(t_material *material, t_light *light, t_vec4s *point, t_vec4s *
 	lag_vec4s_normalize(&light_v);
 	color_scaleby(&ambient, &effective_color, material->ambient);
 	normal->w = 0;
-	light_dot_normal = lag_vec4s_dot_ret(light_v, *normal);
+	light_dot_normal = lag_vec4s_dot_ret(&light_v, normal);
 
 	if (light_dot_normal < 0)
 	{
@@ -42,7 +42,7 @@ t_color	lighting(t_material *material, t_light *light, t_vec4s *point, t_vec4s *
 		color_scaleby(&diffuse, &effective_color, material->diffuse * light_dot_normal);
 	lag_vec4s_negate(&light_v);
 	reflect_v = reflect(&light_v, normal);
-	reflect_eye_dot = lag_vec4s_dot_ret(reflect_v, *eye_v);
+	reflect_eye_dot = lag_vec4s_dot_ret(&reflect_v, eye_v);
 	if (reflect_eye_dot <= 0)
 		color_init(&specular, 0.0, 0.0, 0.0);
 	else
@@ -103,7 +103,9 @@ t_color	shade_hit(t_world *world, t_itx_computation *comps, int depth)
 	// t_color		refraction_result;
 	t_color		return_color; (void)depth;
 	bool		in_shadow;
+	long long	start_time, test_time;
 
+	start_time = my_gettime();
 	color_init(&return_color, 0.f, 0.f, 0.f);
 	for (int i = 0; i < world->num_lights; i++)
 	{
@@ -126,5 +128,8 @@ t_color	shade_hit(t_world *world, t_itx_computation *comps, int depth)
 	// color_add(&return_color, &return_color, &reflection_result);
 	// color_add(&return_color, &return_color, &refraction_result);
 	color_clamp(&return_color);
+	test_time = my_gettime() - start_time;
+	if (test_time > 1)
+		printf("shade_hit: %lld\n", test_time);
 	return (return_color);
 }

@@ -18,11 +18,15 @@
 # include <pthread.h>
 # include <stdint.h> // for `uint32_t`
 # include "libft.h" // for `t_split`
+# include <stdio.h> //// TEMP
+# include <sys/time.h>
 
 # ifdef EPSILON
 #  undef EPSILON
 #  define EPSILON 0.0001
 # endif // !EPSILON
+
+long long	my_gettime(void);
 
 typedef struct s_canvas
 {

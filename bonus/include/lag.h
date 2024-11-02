@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 06:33:18 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/02 10:07:42 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/02 21:44:42 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,12 @@ t_vec4s	lag_vec4s_negate_ret(const t_vec4s in);
 /// @param out Pointer to the variable that stores the result.
 /// @param in1 Vector to calculate the dot product of
 /// @param in2 Vector to calculate the dot product of
-void	lag_vec4s_dot(float *out, const t_vec4s in1,
-						const t_vec4s in2);
+void	lag_vec4s_dot(float *out, const t_vec4s *in1,
+						const t_vec4s *in2);
 
 /// @brief Calculates the dot product of two `t_vec4s`.
-float	lag_vec4s_dot_ret(const t_vec4s in1,
-							const t_vec4s in2);
+float	lag_vec4s_dot_ret(const t_vec4s *in1,
+							const t_vec4s *in2);
 
 /// @brief Calculates the magnitude of a `t_vec4s` and stores the result
 ///        in the variable pointed-to by `out`.
@@ -189,8 +189,8 @@ t_mat4s	lag_mat4s_rotation_z(float rad);
 
 /// @brief Returns the cross product of a `t_mat4s` with a `t_vec4s`
 ///        (in that order).
-t_vec4s	lag_mat4s_cross_vec4s(const t_mat4s m,
-							const t_vec4s v);
+void	lag_mat4s_cross_vec4s(const t_mat4s *m,
+							const t_vec4s *v, t_vec4s *out);
 
 /// @brief computes the cross product of `in1` with `in2`
 ///        (in that order), and stores the result in the `t_mat4s`

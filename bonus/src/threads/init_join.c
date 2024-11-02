@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 04:47:50 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/02 20:01:32 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/02 21:13:53 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ bool	pool_init_join(t_program *context)
 	start_time = my_gettime();
 	y = -1;
 	new_pool = malloc(sizeof(t_thread) * _RT_NUM_THREADS);//context->pool;
-	
 	while (++y < _RT_NUM_THREADS)
 	{
 		new_pool[y].id = y;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fragment.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/31 16:59:18 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/02 21:55:43 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@
 static inline t_ray	ray_for_pixel(const t_camera *cam, int px, int py)
 {
 	t_ray		r;
+	t_vec4s		op;
 	t_vec4s		pixel;
 	t_vec4s		origin;
 	t_vec4s		direction;
 
-	lag_vec4sp_init(&pixel, (cam->half_width - (px + 0.5f) * cam->pixel_size),
+	lag_vec4sp_init(&op, (cam->half_width - (px + 0.5f) * cam->pixel_size),
 			(cam->half_height - (py + 0.5f) * cam->pixel_size), -1);
-	pixel = lag_mat4s_cross_vec4s(cam->inv_transform, pixel);
-	origin = lag_vec4sp_ret(0.f, 0.f, 0.f);
-	origin = lag_mat4s_cross_vec4s(cam->inv_transform, origin);
+	lag_mat4s_cross_vec4s(&cam->inv_transform, &op, &pixel);
+	lag_vec4sp_init(&op, 0.f, 0.f, 0.f);
+	lag_mat4s_cross_vec4s(&cam->inv_transform, &op, &origin);
 	lag_vec4s_sub(&direction, pixel, origin);
 	lag_vec4s_normalize(&direction);
 	ray_create(&r, &origin, &direction);
@@ -50,7 +51,7 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 		comps.normalv = cylinder_normal_at(itx->object, &comps.p);
 	else if (itx->object->type == CUBE)
 		comps.normalv = cube_normal_at(itx->object, &comps.p);
-	if (lag_vec4s_dot_ret(comps.normalv, comps.eyev) < 0.f)
+	if (lag_vec4s_dot_ret(&comps.normalv, &comps.eyev) < 0.f)
 	{
 		comps.inside = true;
 		lag_vec4s_negate(&comps.normalv);

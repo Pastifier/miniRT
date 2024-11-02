@@ -20,7 +20,7 @@ t_vec4s cylinder_normal_at(t_obj *cylinder, t_vec4s *world_point)
 	t_mat4s transposed_inv;
 	t_vec4s world_normal;
 
-	local_point = lag_mat4s_cross_vec4s(cylinder->inv_transform, *world_point);
+	lag_mat4s_cross_vec4s(&cylinder->inv_transform, world_point, &local_point);
 	if (fabsf(local_point.y - cylinder->specs.max) < EPSILON)
 		lag_vec4sv_init(&local_normal, 0, 1, 0);
 	else if (fabsf(local_point.y - cylinder->specs.min) < EPSILON)
@@ -28,7 +28,7 @@ t_vec4s cylinder_normal_at(t_obj *cylinder, t_vec4s *world_point)
 	else
 		lag_vec4sv_init(&local_normal, local_point.x, 0, local_point.z);
 	transposed_inv = lag_mat4s_transpose_ret(cylinder->inv_transform);
-	world_normal = lag_mat4s_cross_vec4s(transposed_inv, local_normal);
+	lag_mat4s_cross_vec4s(&transposed_inv, &local_normal, &world_normal);
 	world_normal.w = 0;
 	lag_vec4s_normalize(&world_normal);
 	return (world_normal);

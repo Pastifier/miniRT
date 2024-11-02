@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:05:59 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/23 11:30:05 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/02 21:52:14 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_vec4s cube_normal_at(t_obj *cube, t_vec4s *world_point)
 	t_vec4s	world_normal;
 	float		maxc;
 
-	object_n_p[1] = lag_mat4s_cross_vec4s(cube->inv_transform, *world_point);
+	lag_mat4s_cross_vec4s(&cube->inv_transform, world_point, &object_n_p[1]);
 
 	maxc = fmax(fmax(fabsf(object_n_p[1].x), fabsf(object_n_p[1].y)), fabsf(object_n_p[1].z));
 

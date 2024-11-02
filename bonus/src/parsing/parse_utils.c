@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:22:29 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/31 14:07:26 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/02 21:39:17 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ t_mat4s rt_extract_rot_vertical(const t_vec4s u)
 		return lag_mat4s_identity();
 	rot_axis = lag_vec4s_normalize_highp(rot_axis);
 
-	theta = acosf(fmaxf(-1.0f, fminf(1.0f, lag_vec4s_dot_ret(u, j_hat))));
+	theta = acosf(fmaxf(-1.0f, fminf(1.0f, lag_vec4s_dot_ret(&u, &j_hat))));
 	q = quat_from_axis_angle(rot_axis, theta);
 	return (mat4_from_quat(q));
 }
