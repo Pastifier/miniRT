@@ -15,7 +15,7 @@
 #include "libft.h"
 #include "colors.h"
 
-bool		parse_light_color(t_program *context, const t_split *fields, int curr_line, t_world *world);
+bool		parse_light_color(const t_split *fields, int curr_line, t_world *world);
 
 bool		parse_light(t_program *context, const t_split *fields, int curr_line)
 {
@@ -40,12 +40,12 @@ bool		parse_light(t_program *context, const t_split *fields, int curr_line)
 			str_arr_destroy(fields->array), false);
 	world->lights[world->num_lights].ratio = temp;
 	if (fields->wordcount == 4)
-		return (parse_light_color(context, fields, curr_line, world));
+		return (parse_light_color(fields, curr_line, world));
 	world->num_lights++;
 	return (str_arr_destroy(fields->array), true);
 }
 
-bool		parse_light_color(t_program *context, const t_split *fields, int curr_line, t_world *world)
+bool		parse_light_color(const t_split *fields, int curr_line, t_world *world)
 {
 	if (!parse_color(&world->lights[world->num_lights++].specs.point.intensity,
 			fields->array[3], curr_line))
