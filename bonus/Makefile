@@ -1,6 +1,6 @@
 # Necessities
 CC := cc
-CFLAGS = -Wextra -Wall -Werror -mavx -mavx2 -g #-O3 -march=native -funroll-loops -fno-signed-zeros -fsanitize=address,undefined -g
+CFLAGS = -Wextra -Wall -Werror -mavx -mavx2 -O3 -flto -march=native -funroll-loops -fno-signed-zeros #-fsanitize=address,undefined
 
 # OS-specification
 OS := $(shell uname)

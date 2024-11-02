@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:48:39 by melshafi          #+#    #+#             */
-/*   Updated: 2024/09/23 11:06:09 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/02 19:26:19 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	intersect_plane(t_ray *ray, t_obj *plane, t_itx_grp *xs)
 
 	//Ditch the plane_normal_at() function and just prep the normal during parsing and save it.
 	plane_normal = plane_normal_at(plane);
-	ray->xs.arr->object = plane;
+	ray->xs.arr[xs->count].object = plane;
 	trans_ray = *ray;
 	ray_transform(&trans_ray, &plane->inv_transform);
 	denom = lag_vec4s_dot_ret(plane_normal, trans_ray.dir);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_test.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 03:07:20 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/31 16:20:26 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/02 16:11:29 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs)
 	abc.x = lag_vec4s_dot_ret(trans_r.dir, trans_r.dir);
 	abc.y = 2.0 * lag_vec4s_dot_ret(sphere_to_ray, trans_r.dir);
 	abc.z = lag_vec4s_dot_ret(sphere_to_ray, sphere_to_ray)
-		- (sphere->specs.radius * sphere->specs.radius);
+		- 1; //(sphere->specs.radius * sphere->specs.radius);
 	d = abc.y * abc.y - 4.f * abc.x * abc.z;
 	if (d < 0)
 		return ;

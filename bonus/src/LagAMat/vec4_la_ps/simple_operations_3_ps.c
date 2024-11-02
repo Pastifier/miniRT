@@ -60,7 +60,7 @@ t_vec4s	lag_vec4s_normalize_ret(const t_vec4s in)
 	__m128			isrt;
 
 	if (_mm_cvtss_f32(msqr) == 0.0f)
-		return ((t_vec4s){0});
+		return ((t_vec4s){.simd = _mm_set1_ps(0.f)});
 	isrt = _mm_rsqrt_ps(msqr);
 	return ((t_vec4s)
 		{
