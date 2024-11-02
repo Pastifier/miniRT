@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:36:57 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/02 22:19:25 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:31:10 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_color	lighting(t_material *material, t_light *light, t_vec4s *point, t_vec4s *
 	double		factor;
 
 	color_blend(&effective_color, &material->color, &light->specs.point.intensity);
-	lag_vec4s_sub(&light_v, light->pos, *point);
+	lag_vec4s_sub(&light_v, &light->pos, point);
 	lag_vec4s_normalize(&light_v);
 	color_scaleby(&ambient, &effective_color, material->ambient);
 	normal->w = 0;
@@ -66,7 +66,7 @@ bool	is_shadowed(t_world *world, t_vec4s *point, t_light *light)
 	t_ray		r;
 	t_itx		*itx;
 
-	lag_vec4s_sub(&v, light->pos, *point);
+	lag_vec4s_sub(&v, &light->pos, point);
 	ray_create(&r, point, &v);
 	r.xs = intersect_world(world, &r);
 	itx = get_hit(&r.xs);

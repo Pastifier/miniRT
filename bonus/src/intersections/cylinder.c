@@ -27,7 +27,7 @@ t_vec4s cylinder_normal_at(t_obj *cylinder, t_vec4s *world_point)
 		lag_vec4sv_init(&local_normal, 0, -1, 0);
 	else
 		lag_vec4sv_init(&local_normal, local_point.x, 0, local_point.z);
-	transposed_inv = lag_mat4s_transpose_ret(cylinder->inv_transform);
+	lag_mat4s_transpose(&cylinder->inv_transform, &transposed_inv);
 	lag_mat4s_cross_vec4s(&transposed_inv, &local_normal, &world_normal);
 	world_normal.w = 0;
 	lag_vec4s_normalize(&world_normal);
@@ -76,7 +76,7 @@ static float	cy_discriminant(t_ray *ray, t_obj *cy, float *t_values, t_itx_grp *
 	float		y0;
 
 	oc = ray->origin;
-	lag_vec4s_sub(&oc, oc, cy->center);
+	lag_vec4s_sub(&oc, &oc, &cy->center);
 	a = ray->dir.x * ray->dir.x + ray->dir.z * ray->dir.z;
 	if (fabsf(a) < EPSILON && cy->specs.closed)
 		return (intersect_caps(ray, cy, xs), -1);

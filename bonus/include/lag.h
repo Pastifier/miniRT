@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 06:33:18 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/02 22:18:52 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:30:09 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ t_vec4s	lag_vec4s_add_ret(const t_vec4s in1, const t_vec4s in2);
 ///        in the vector pointed-to by `out`.
 /// @param in1, in2 operand
 /// @param out Pointer to the vector that stores the result.
-void	lag_vec4s_sub(t_vec4s *out, const t_vec4s in1,
-						const t_vec4s in2);
+void	lag_vec4s_sub(t_vec4s *out, const t_vec4s *in1,
+						const t_vec4s *in2);
 
 /// @brief Performs component-wise (vector) subtraction.
 t_vec4s	lag_vec4s_sub_ret(const t_vec4s in1, const t_vec4s in2);

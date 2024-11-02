@@ -166,7 +166,7 @@ t_vec4s		plane_normal_at(t_obj *plane);
 t_vec4s		sphere_normal_at(t_obj *sphere, t_vec4s *world_p);
 void		quick_sort_intersections(t_itx *arr, size_t size);
 t_itx		*get_hit(t_itx_grp *xs);
-t_mat4s		lag_mat4s_transpose_ret(const t_mat4s m);
+void		lag_mat4s_transpose(const t_mat4s *m, t_mat4s *out);
 
 /*--- LIGHTING ---*/
 

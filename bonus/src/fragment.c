@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/02 22:19:13 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:44:52 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static inline t_ray	ray_for_pixel(const t_camera *cam, int px, int py)
 	lag_mat4s_cross_vec4s(&cam->inv_transform, &op, &pixel);
 	lag_vec4sp_init(&op, 0.f, 0.f, 0.f);
 	lag_mat4s_cross_vec4s(&cam->inv_transform, &op, &origin);
-	lag_vec4s_sub(&direction, pixel, origin);
+	lag_vec4s_sub(&direction, &pixel, &origin);
 	lag_vec4s_normalize(&direction);
 	ray_create(&r, &origin, &direction);
 	return (r);
@@ -37,6 +37,7 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 {
 	t_itx_computation	comps;
 	t_vec4s			margin;
+	//float			dot;
 
 	comps.t = itx->t;
 	comps.obj = itx->object;
@@ -51,6 +52,7 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 		comps.normalv = cylinder_normal_at(itx->object, &comps.p);
 	else if (itx->object->type == CUBE)
 		comps.normalv = cube_normal_at(itx->object, &comps.p);
+	//lag_vec4s_dot(&dot, &comps.normalv, &comps.eyev);
 	if (lag_vec4s_dot_ret(&comps.normalv, &comps.eyev) < 0.f)
 	{
 		comps.inside = true;
@@ -60,7 +62,7 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 		comps.inside = false;
 	lag_vec4s_scaleby(&margin, comps.normalv, EPSILON);
 	lag_vec4s_add(&comps.over_point, &comps.p, &margin);
-	lag_vec4s_sub(&comps.under_point, comps.p, margin);
+	lag_vec4s_sub(&comps.under_point, &comps.p, &margin);
 	comps.reflectv = reflect(&r->dir, &comps.normalv);
 	if (comps.obj->material.refractive_index > 0.f)
 		prepare_refractions(itx, &comps, itxs);

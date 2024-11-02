@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:36:36 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/02 21:38:06 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:32:34 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_color	refracted_color(t_world *world, t_itx_computation *comps, int depth)
 		return (c);
 	lag_vec4s_scaleby(&r.dir, comps->normalv, n_ratio * cos_i - sqrtf(1 - sin2_t));
 	lag_vec4s_scaleby(&temp, comps->eyev, n_ratio);
-	lag_vec4s_sub(&r.dir, r.dir, temp);
+	lag_vec4s_sub(&r.dir, &r.dir, &temp);
 	r.origin = comps->under_point;
 	c = color_at(world, &r, depth - 1);
 	color_scaleby(&c, &c, comps->obj->material.transparency);

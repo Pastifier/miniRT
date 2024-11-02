@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 03:07:20 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/02 22:01:35 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:55:31 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ t_vec4s	sphere_normal_at(t_obj *sphere, t_vec4s *world_p)
 	t_mat4s	transposed_inv;
 
 	lag_mat4s_cross_vec4s(&sphere->inv_transform, world_p, &local_p);
-	lag_vec4s_sub(&local_n, local_p, sphere->trans);
-	transposed_inv = lag_mat4s_transpose_ret(sphere->inv_transform);
+	lag_vec4s_sub(&local_n, &local_p, &sphere->trans);
+	lag_mat4s_transpose(&sphere->inv_transform, &transposed_inv);
 	lag_mat4s_cross_vec4s(&transposed_inv, &local_n, &world_n);
 	world_n.w = 0.f;
 	lag_vec4s_normalize(&world_n);
@@ -42,7 +42,7 @@ void	intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs)
 	start_time = my_gettime();
 	trans_r = *r;
 	ray_transform(&trans_r, &sphere->inv_transform);
-	lag_vec4s_sub(&sphere_to_ray, trans_r.origin, sphere->trans);
+	lag_vec4s_sub(&sphere_to_ray, &trans_r.origin, &sphere->trans);
 	abc.x = lag_vec4s_dot_ret(&trans_r.dir, &trans_r.dir);
 	abc.y = 2.0f * lag_vec4s_dot_ret(&sphere_to_ray, &trans_r.dir);
 	abc.z = lag_vec4s_dot_ret(&sphere_to_ray, &sphere_to_ray)

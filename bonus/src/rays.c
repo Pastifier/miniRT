@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:05:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/02 21:46:18 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:32:09 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 t_vec4s	reflect(t_vec4s *in, t_vec4s *normal)
 {
+	t_vec4s	op;
 	t_vec4s	reflect;
 	float dot;
 
 	lag_vec4s_dot(&dot, in, normal);
-	reflect = lag_vec4s_scaleby_ret(*normal, 2.f * dot);
-	lag_vec4s_sub(&reflect, *in, reflect);
+	op = lag_vec4s_scaleby_ret(*normal, 2.f * dot);
+	lag_vec4s_sub(&reflect, in, &op);
 	lag_vec4s_normalize(&reflect);
 	return (reflect);
 }
