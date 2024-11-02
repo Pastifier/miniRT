@@ -83,7 +83,7 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 
 	//Get the up vector
 	if (forward.x < EPSILON && forward.z < EPSILON)
-		left = lag_vec4s_ret(0.0f, 0.0f, 1.0f, 0.0f);
+		left = lag_vec4s_ret(-1.0f, 0.0f, 0.0f, 0.0f);
 	else
 		left = lag_vec4s_cross_ret(forward, lag_vec4s_ret(0.0f, 1.0f, 0.0f, 0.0f));
 
