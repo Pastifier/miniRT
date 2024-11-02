@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:36:36 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/02 22:32:34 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/02 23:13:58 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,5 @@ double	schlick(t_itx_computation *comps)
 		cos = cos_t;
 	}
 	r0 = powf((comps->n1 - comps->n2) / (comps->n1 + comps->n2), 2);
-	return (r0 + (1 - r0) * pow(1 - cos, 5));
+	return (r0 + (1 - r0) * powf(1 - cos, 5));
 }
