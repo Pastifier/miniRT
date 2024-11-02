@@ -13,7 +13,7 @@
 #ifndef COMMON_H
 # define COMMON_H
 
-# include "../LagAMat/include/lag.h" // for t_vec4s, t_mat4s, and their funcs
+# include "lag.h" // for t_vec4s, t_mat4s, and their funcs
 # include <stdbool.h> // for `true`, `false`
 
 enum e_object_types

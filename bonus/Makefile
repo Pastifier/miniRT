@@ -37,15 +37,22 @@ SRC := main.c ft_atof.c rays.c fragment.c sort.c lighting.c refractions.c \
 SRC_DIR :=	src
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 
-INC := miniRT.h common.h colors.h canvas.h macros.h keys.h
+LAG_SRC := $(addprefix vec4_la_ps/, init_ps.c ps_extra.c simple_operations_1_ps.c simple_operations_2_ps.c simple_operations_3_ps.c \
+									linear_algebra_1_ps.c linear_algebra_2_ps.c) \
+			$(addprefix mat4_la_ps/, mat4s_init.c mat4s_init_rot.c \
+									mat4s_cross.c mat4s_transform_inverse.c)
+LAG_DIR := $(SRC_DIR)/LagAMat
+LAG_SRCS := $(addprefix $(LAG_DIR)/, $(LAG_SRC))
+
+INC := miniRT.h common.h colors.h canvas.h macros.h keys.h ltypes.h lag.h
 INC_DIR := include
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
 all: $(NAME)
 
-$(NAME): $(SRCS) $(INCLUDE)
+$(NAME): $(SRCS) $(LAG_SRCS) $(INCLUDE)
 	@make -C $(BUILD_DIR)
 	make -C libft
-	$(CC) -o $(NAME) -I$(INC_DIR) -ILagAMat/include $(SRCS) $(CFLAGS)
+	$(CC) -o $(NAME) -I$(INC_DIR) $(SRCS) $(LAG_SRCS) $(CFLAGS)
 
 clean:
 	@make -C $(BUILD_DIR) clean
