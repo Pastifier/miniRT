@@ -13,7 +13,7 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "../LagAMat/include/lag.h"
+# include "lag.h"
 # include "common.h"
 # include <pthread.h>
 # include <stdint.h> // for `uint32_t`
