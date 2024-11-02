@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:36:57 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/02 21:35:26 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:19:25 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_color	reflected_color(t_world *world, t_itx_computation *comps, int depth)
 		return (c);
 	reflectv = comps->reflectv;
 	lag_vec4s_scaleby(&offset, comps->normalv, EPSILON);
-	lag_vec4s_add(&reflect_origin, comps->over_point, offset);
+	lag_vec4s_add(&reflect_origin, &comps->over_point, &offset);
 	ray_create(&r, &reflect_origin, &reflectv);
 	reflected_color = color_at(world, &r, depth - 1);
 	color_scaleby(&reflected_color, &reflected_color, comps->obj->material.reflective);

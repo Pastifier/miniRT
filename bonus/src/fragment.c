@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/02 21:55:43 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:19:13 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 	else
 		comps.inside = false;
 	lag_vec4s_scaleby(&margin, comps.normalv, EPSILON);
-	lag_vec4s_add(&comps.over_point, comps.p, margin);
+	lag_vec4s_add(&comps.over_point, &comps.p, &margin);
 	lag_vec4s_sub(&comps.under_point, comps.p, margin);
 	comps.reflectv = reflect(&r->dir, &comps.normalv);
 	if (comps.obj->material.refractive_index > 0.f)
