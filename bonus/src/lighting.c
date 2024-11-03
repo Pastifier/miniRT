@@ -6,13 +6,27 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:36:57 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/03 09:23:02 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/03 15:37:13by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "colors.h"
 #include "macros.h"
+
+static inline void	plane_pattern_blend(t_color *ec,
+							const t_comps *comps, const t_color *intens)
+{
+	const t_material *mater = &comps->obj->material;
+	t_vec4s	local_p;
+	
+	lag_mat4s_cross_vec4s(&comps->obj->inv_transform, &comps->over_point, &local_p);
+	if ((int)(fabsf(floorf(local_p.x)) + fabsf(floorf(local_p.y)) + fabsf(floorf(local_p.z))) % 2)
+		color_blend(ec, &mater->color, intens);
+	else
+		color_blend(ec, &mater->xordc, intens);
+}
+
 
 t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_shadow)
 {
@@ -27,7 +41,10 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	double		light_dot_normal;
 	double		factor;
 
-	color_blend(&effective_color, &material->color, &light->specs.point.intensity);
+	if (comps->obj->type == PLANE)
+		plane_pattern_blend(&effective_color, comps, &light->specs.point.intensity);
+	else
+		color_blend(&effective_color, &material->color, &light->specs.point.intensity);
 	lag_vec4s_sub(&light_v, &light->pos, &comps->over_point);
 	lag_vec4s_normalize(&light_v);
 	color_scaleby(&ambient, &effective_color, material->ambient);
@@ -47,7 +64,7 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 		color_init(&specular, 0.0, 0.0, 0.0);
 	else
 	{
-		factor = pow(reflect_eye_dot, material->sheen);
+		factor = powf(reflect_eye_dot, material->sheen);
 		color_scaleby(&specular, &light->specs.point.intensity, material->specular * factor);
 	}
 	if (in_shadow)
