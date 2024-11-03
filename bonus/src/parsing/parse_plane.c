@@ -26,6 +26,7 @@ bool	parse_plane(t_program *context, const t_split *fields, int curr_line)
 		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_PL,
 			curr_line), str_arr_destroy(fields->array), false);
 	pl->type = PLANE;
+	pl->center.w = 1.f;
 	if (!parse_vec4(&pl->trans, fields->array[1], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
 	if (!parse_vec4(&pl->orientation, fields->array[2], context, curr_line))
