@@ -52,13 +52,13 @@ static void	intersect_caps(t_ray *ray, t_obj *cy, t_itx_grp *xs)
 
 	if (fabsf(ray->dir.y) < EPSILON)
 		return ;
-	t = (cy->specs.min - ray->origin.y) / ray->dir.y;
+	t = (-1.f - ray->origin.y) / ray->dir.y;
 	if (check_caps(ray, t, cy) && t > EPSILON)
 	{
 		xs->arr[xs->count].object = cy;
 		xs->arr[xs->count++].t = t;
 	}
-	t = (cy->specs.max - ray->origin.y) / ray->dir.y;
+	t = (1.f - ray->origin.y) / ray->dir.y;
 	if (check_caps(ray, t, cy) && t > EPSILON)
 	{
 		xs->arr[xs->count].object = cy;
@@ -75,6 +75,7 @@ static float	cy_discriminant(t_ray *ray, t_obj *cy, float *t_values, t_itx_grp *
 	float		y0;
 
 	oc = ray->origin;
+	cy->center.w = 1.f;
 	lag_vec4s_sub(&oc, &oc, &cy->center);
 	a = ray->dir.x * ray->dir.x + ray->dir.z * ray->dir.z;
 	if (fabsf(a) < EPSILON && cy->specs.closed)

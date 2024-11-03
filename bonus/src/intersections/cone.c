@@ -8,7 +8,8 @@ bool check_cap(t_ray *ray, float t, float radius)
 
 	x = ray->origin.x + t * ray->dir.x;
 	z = ray->origin.z + t * ray->dir.z;
-	return (x * x + z * z) <= (radius * radius);
+	(void)radius;
+	return (x * x + z * z) <= 1.f; // Use epsilon-
 }
 
 void intersect_cone_caps(t_ray *ray, t_obj *cone, t_itx_grp *xs)
@@ -18,10 +19,10 @@ void intersect_cone_caps(t_ray *ray, t_obj *cone, t_itx_grp *xs)
 	
 	if (!cone->specs.closed || fabsf(ray->dir.y) < EPSILON)
 		return;
-	t_cap = (cone->specs.min - ray->origin.y) / ray->dir.y;
+	t_cap = (-1.f - ray->origin.y) / ray->dir.y;
 	cap_point = lag_vec4s_add_ret(ray->origin, lag_vec4s_scaleby_ret(ray->dir, t_cap));
 	// Step 2: Check if intersection lies within the radius of the cap
-	if ((cap_point.x * cap_point.x + cap_point.z * cap_point.z) <= powf(cone->specs.radius, 2))
+	if ((cap_point.x * cap_point.x + cap_point.z * cap_point.z) <= 1.f)
 	{
 		// Add valid intersection to the intersection group
 		xs->arr[xs->count].t = t_cap;
@@ -41,7 +42,7 @@ t_vec4s	cone_normal_at(t_obj *cone, t_vec4s *world_point)
 	lag_mat4s_cross_vec4s(&cone->inv_transform, world_point, &local_point);
 	dist = local_point.x * local_point.x + local_point.z * local_point.z;
 
-	if (dist < cone->specs.radius * cone->specs.radius && local_point.y >= (cone->specs.max - EPSILON))
+	if (dist < 1.f * 1.f && local_point.y >= (1.f - EPSILON))
 		lag_vec4sv_init(&local_normal, 0, 1, 0); // Normal for the cap
 	else
 		lag_vec4sv_init(&local_normal, local_point.x, 0, local_point.z); // Side normal
@@ -89,13 +90,13 @@ void intersect_cone(t_ray *ray, t_obj *cone, t_itx_grp *xs)
 	if (!co_discriminant(transformed_ray, t_values))
 		return;
 	y_values[0] = transformed_ray.origin.y + t_values[0] * transformed_ray.dir.y;
-	if (y_values[0] > cone->specs.min && y_values[0] < cone->specs.max)
+	if (y_values[0] > -1.f && y_values[0] < 1.f)
 	{
 		xs->arr[xs->count].object = cone;
 		xs->arr[xs->count++].t = t_values[0];
 	}
 	y_values[1] = transformed_ray.origin.y + t_values[1] * transformed_ray.dir.y;
-	if (y_values[1] > cone->specs.min && y_values[1] < cone->specs.max)
+	if (y_values[1] > -1.f && y_values[1] < 1.f)
 	{
 		xs->arr[xs->count].object = cone;
 		xs->arr[xs->count++].t = t_values[1];
