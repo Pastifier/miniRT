@@ -101,7 +101,7 @@ void intersect_cylinder(t_ray *ray, t_obj *cy, t_itx_grp *xs)
 
 	//ray->xs.count = 0;
 	//ray->xs.arr->object = cy;
-	transformed_ray = *ray;
+	transformed_ray = *ray; // EVIL MEMCPY
 	ray_transform(&transformed_ray, &(cy->inv_transform));
 	disc = cy_discriminant(&transformed_ray, cy, t_values, xs);
 	if (disc < 0 || (t_values[0] < 0 && t_values[1] < 0))
