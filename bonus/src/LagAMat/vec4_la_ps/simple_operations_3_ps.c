@@ -33,8 +33,8 @@ bool	lag_vec4s_eq(const t_vec4s a, const t_vec4s b,
 
 //bool	lag_vec4s_exacteq(const t_vec4s a, const t_vec4s b)
 //{
-//	const int	mask = _mm_movemask_ps(\
-//					_mm_cmp_ps(a.simd, b.simd, _CMP_LT_OQ) \
+//	const int	mask = _mm_movemask_ps(
+//					_mm_cmp_ps(a.simd, b.simd, _CMP_LT_OQ) 
 //				);
 
 //	return (mask == 0xF);

@@ -26,7 +26,6 @@ void intersect_cone_caps(t_ray *ray, t_obj *cone, t_itx_grp *xs)
 		// Add valid intersection to the intersection group
 		xs->arr[xs->count].t = t_cap;
 		xs->arr[xs->count].object = cone;
-		lag_vec4sv_init(&xs->arr[xs->count].normalv, 0, 1, 0); // Normal pointing outwards
 		xs->count++;
 	}
 }
@@ -39,16 +38,15 @@ t_vec4s	cone_normal_at(t_obj *cone, t_vec4s *world_point)
 	t_vec4s world_normal;
 	float dist;
 
-	local_point = lag_mat4s_cross_vec4s(cone->inv_transform, *world_point);
+	lag_mat4s_cross_vec4s(&cone->inv_transform, world_point, &local_point);
 	dist = local_point.x * local_point.x + local_point.z * local_point.z;
 
 	if (dist < cone->specs.radius * cone->specs.radius && local_point.y >= (cone->specs.max - EPSILON))
 		lag_vec4sv_init(&local_normal, 0, 1, 0); // Normal for the cap
 	else
 		lag_vec4sv_init(&local_normal, local_point.x, 0, local_point.z); // Side normal
-
-	transposed_inv = lag_mat4s_transpose_ret(cone->inv_transform);
-	world_normal = lag_mat4s_cross_vec4s(transposed_inv, local_normal);
+	lag_mat4s_transpose(&cone->inv_transform, &transposed_inv);
+	lag_mat4s_cross_vec4s(&transposed_inv, &local_normal, &world_normal);
 	world_normal.w = 0;
 	lag_vec4s_normalize(&world_normal);
 
@@ -86,8 +84,6 @@ void intersect_cone(t_ray *ray, t_obj *cone, t_itx_grp *xs)
 	float	t_values[2];
 	float	y_values[2];
 
-	ray->xs.count = 0;
-	ray->xs.arr->object = cone;
 	transformed_ray = *ray;
 	ray_transform(&transformed_ray, &cone->inv_transform);
 	if (!co_discriminant(transformed_ray, t_values))

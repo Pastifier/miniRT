@@ -42,7 +42,7 @@ bool	parse_cone(t_program *context, const t_split *fields, int curr_line)
 				str_arr_destroy(fields->array), false);
 	co->specs.min = -height / 2.0f;
 	co->specs.max = height / 2.0f;
-	co->specs.closed = true;
+	co->specs.closed = false;
 	if (!parse_color(&co->material.color, fields->array[5], curr_line))
 		return (str_arr_destroy(fields->array), false);
 	material_init(&co->material);
