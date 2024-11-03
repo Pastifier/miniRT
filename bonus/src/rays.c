@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:05:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/31 12:34:31 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:32:09 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 t_vec4s	reflect(t_vec4s *in, t_vec4s *normal)
 {
+	t_vec4s	op;
 	t_vec4s	reflect;
 	float dot;
 
-	lag_vec4s_dot(&dot, *in, *normal);
-	reflect = lag_vec4s_scaleby_ret(*normal, 2.f * dot);
-	lag_vec4s_sub(&reflect, *in, reflect);
+	lag_vec4s_dot(&dot, in, normal);
+	op = lag_vec4s_scaleby_ret(*normal, 2.f * dot);
+	lag_vec4s_sub(&reflect, in, &op);
 	lag_vec4s_normalize(&reflect);
 	return (reflect);
 }
@@ -48,6 +49,6 @@ void	ray_transform(t_ray *ray, const t_mat4s *matrix)
 
 	//origin = ray->origin;
 	//dir = ray->dir;
-	ray->origin = lag_mat4s_cross_vec4s(*matrix, origin); //mat4x4_cross_vec(matrix, &origin);
-	ray->dir = lag_mat4s_cross_vec4s(*matrix, dir); //mat4x4_cross_vec(matrix, &dir);
+	lag_mat4s_cross_vec4s(matrix, &origin, &ray->origin); //mat4x4_cross_vec(matrix, &origin);
+	lag_mat4s_cross_vec4s(matrix, &dir, &ray->dir); //mat4x4_cross_vec(matrix, &dir);
 }

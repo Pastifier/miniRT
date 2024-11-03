@@ -20,15 +20,15 @@ t_vec4s cylinder_normal_at(t_obj *cylinder, t_vec4s *world_point)
 	t_mat4s transposed_inv;
 	t_vec4s world_normal;
 
-	local_point = lag_mat4s_cross_vec4s(cylinder->inv_transform, *world_point);
+	lag_mat4s_cross_vec4s(&cylinder->inv_transform, world_point, &local_point);
 	if (fabsf(local_point.y - cylinder->specs.max) < EPSILON)
 		lag_vec4sv_init(&local_normal, 0, 1, 0);
 	else if (fabsf(local_point.y - cylinder->specs.min) < EPSILON)
 		lag_vec4sv_init(&local_normal, 0, -1, 0);
 	else
 		lag_vec4sv_init(&local_normal, local_point.x, 0, local_point.z);
-	transposed_inv = lag_mat4s_transpose_ret(cylinder->inv_transform);
-	world_normal = lag_mat4s_cross_vec4s(transposed_inv, local_normal);
+	lag_mat4s_transpose(&cylinder->inv_transform, &transposed_inv);
+	lag_mat4s_cross_vec4s(&transposed_inv, &local_normal, &world_normal);
 	world_normal.w = 0;
 	lag_vec4s_normalize(&world_normal);
 	return (world_normal);
@@ -76,7 +76,7 @@ static float	cy_discriminant(t_ray *ray, t_obj *cy, float *t_values, t_itx_grp *
 	float		y0;
 
 	oc = ray->origin;
-	lag_vec4s_sub(&oc, oc, cy->center);
+	lag_vec4s_sub(&oc, &oc, &cy->center);
 	a = ray->dir.x * ray->dir.x + ray->dir.z * ray->dir.z;
 	if (fabsf(a) < EPSILON && cy->specs.closed)
 		return (intersect_caps(ray, cy, xs), -1);
@@ -99,9 +99,9 @@ void intersect_cylinder(t_ray *ray, t_obj *cy, t_itx_grp *xs)
 	float t_values[_RT_MAX_ITX];
 	t_ray transformed_ray;
 
-	ray->xs.count = 0;
-	ray->xs.arr->object = cy;
-	transformed_ray = *ray;
+	//ray->xs.count = 0;
+	//ray->xs.arr->object = cy;
+	transformed_ray = *ray; // EVIL MEMCPY
 	ray_transform(&transformed_ray, &(cy->inv_transform));
 	disc = cy_discriminant(&transformed_ray, cy, t_values, xs);
 	if (disc < 0 || (t_values[0] < 0 && t_values[1] < 0))

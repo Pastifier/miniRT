@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_sphere.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:14:10 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/31 13:50:38 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/03 08:17:38 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,12 @@ bool	parse_sphere(t_program *context, const t_split *fields, int curr_line)
 	if (!parse_color(&sp->material.color, fields->array[3], curr_line))
 		return (str_arr_destroy(fields->array), false);
 	material_init(&sp->material);
-	sp->scale = lag_vec4s_ret(1, 1, 1, 1);
+	sp->scale.simd = _mm_set1_ps(sp->specs.radius);
+	sp->scale.w = 1.f;
+	//sp->scale = lag_vec4s_ret(1, 1, 1, 1);
 	sp->rot = lag_mat4s_identity();
 	sp->inv_transform = lag_mat4s_get_transform_inverse(sp->rot, sp->scale.simd, sp->trans.simd);
+	lag_mat4s_transpose(&sp->inv_transform, &sp->transposed_inverse);
 	str_arr_destroy(fields->array);
 	return (true);
 }

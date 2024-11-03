@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refractions.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:36:36 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/31 16:56:52 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/02 23:13:58 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ t_color	refracted_color(t_world *world, t_itx_computation *comps, int depth)
 	if (depth <= 0 || comps->obj->material.transparency <= 0.0)
 		return (c);
 	n_ratio = comps->n1 / comps->n2;
-	cos_i = lag_vec4s_dot_ret(comps->eyev, comps->normalv);
+	cos_i = lag_vec4s_dot_ret(&comps->eyev, &comps->normalv);
 	sin2_t = n_ratio * n_ratio * (1 - cos_i * cos_i);
 	if (sin2_t > 1.0)
 		return (c);
 	lag_vec4s_scaleby(&r.dir, comps->normalv, n_ratio * cos_i - sqrtf(1 - sin2_t));
 	lag_vec4s_scaleby(&temp, comps->eyev, n_ratio);
-	lag_vec4s_sub(&r.dir, r.dir, temp);
+	lag_vec4s_sub(&r.dir, &r.dir, &temp);
 	r.origin = comps->under_point;
 	c = color_at(world, &r, depth - 1);
 	color_scaleby(&c, &c, comps->obj->material.transparency);
@@ -107,7 +107,7 @@ double	schlick(t_itx_computation *comps)
 	double	cos_t;
 	double	r0;
 
-	cos = lag_vec4s_dot_ret(comps->eyev, comps->normalv);
+	cos = lag_vec4s_dot_ret(&comps->eyev, &comps->normalv);
 	if (comps->n1 > comps->n2)
 	{
 		n_ratio = comps->n1 / comps->n2;
@@ -118,5 +118,5 @@ double	schlick(t_itx_computation *comps)
 		cos = cos_t;
 	}
 	r0 = powf((comps->n1 - comps->n2) / (comps->n1 + comps->n2), 2);
-	return (r0 + (1 - r0) * pow(1 - cos, 5));
+	return (r0 + (1 - r0) * powf(1 - cos, 5));
 }

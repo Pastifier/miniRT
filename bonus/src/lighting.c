@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:36:57 by melshafi          #+#    #+#             */
-/*   Updated: 2024/10/31 17:02:44 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/03 09:23:02 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "colors.h"
 #include "macros.h"
 
-t_color	lighting(t_material *material, t_light *light, t_vec4s *point, t_vec4s *eye_v, t_vec4s *normal, bool in_shadow)
+t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_shadow)
 {
 	t_vec4s	light_v;
 	t_vec4s	reflect_v;
@@ -28,11 +28,11 @@ t_color	lighting(t_material *material, t_light *light, t_vec4s *point, t_vec4s *
 	double		factor;
 
 	color_blend(&effective_color, &material->color, &light->specs.point.intensity);
-	lag_vec4s_sub(&light_v, light->pos, *point);
+	lag_vec4s_sub(&light_v, &light->pos, &comps->over_point);
 	lag_vec4s_normalize(&light_v);
 	color_scaleby(&ambient, &effective_color, material->ambient);
-	normal->w = 0;
-	light_dot_normal = lag_vec4s_dot_ret(light_v, *normal);
+	comps->normalv.w = 0;
+	light_dot_normal = lag_vec4s_dot_ret(&light_v, &comps->normalv);
 
 	if (light_dot_normal < 0)
 	{
@@ -41,8 +41,8 @@ t_color	lighting(t_material *material, t_light *light, t_vec4s *point, t_vec4s *
 	} else
 		color_scaleby(&diffuse, &effective_color, material->diffuse * light_dot_normal);
 	lag_vec4s_negate(&light_v);
-	reflect_v = reflect(&light_v, normal);
-	reflect_eye_dot = lag_vec4s_dot_ret(reflect_v, *eye_v);
+	reflect_v = reflect(&light_v, &comps->normalv);
+	reflect_eye_dot = lag_vec4s_dot_ret(&reflect_v, &comps->eyev);
 	if (reflect_eye_dot <= 0)
 		color_init(&specular, 0.0, 0.0, 0.0);
 	else
@@ -64,12 +64,13 @@ bool	is_shadowed(t_world *world, t_vec4s *point, t_light *light)
 {
 	t_vec4s		v;
 	t_ray		r;
+	t_itx_grp	xs;
 	t_itx		*itx;
 
-	lag_vec4s_sub(&v, light->pos, *point);
+	lag_vec4s_sub(&v, &light->pos, point);
 	ray_create(&r, point, &v);
-	r.xs = intersect_world(world, &r);
-	itx = get_hit(&r.xs);
+	xs = intersect_world(world, &r); //
+	itx = get_hit(&xs);
 	if (itx && itx->t < lag_vec4s_magnitude_ret(v))
 		return (true);
 	return (false);
@@ -89,14 +90,14 @@ t_color	reflected_color(t_world *world, t_itx_computation *comps, int depth)
 		return (c);
 	reflectv = comps->reflectv;
 	lag_vec4s_scaleby(&offset, comps->normalv, EPSILON);
-	lag_vec4s_add(&reflect_origin, comps->over_point, offset);
+	lag_vec4s_add(&reflect_origin, &comps->over_point, &offset);
 	ray_create(&r, &reflect_origin, &reflectv);
 	reflected_color = color_at(world, &r, depth - 1);
 	color_scaleby(&reflected_color, &reflected_color, comps->obj->material.reflective);
 	return (reflected_color);
 }
 
-t_color	shade_hit(t_world *world, t_itx_computation *comps, int depth)
+t_color	shade_hit(t_world *world, t_comps *comps, int depth)
 {
 	t_color		lighting_result;
 	// t_color		reflection_result;
@@ -108,7 +109,7 @@ t_color	shade_hit(t_world *world, t_itx_computation *comps, int depth)
 	for (int i = 0; i < world->num_lights; i++)
 	{
 		in_shadow = is_shadowed(world, &comps->over_point, &world->lights[i]);
-		lighting_result = lighting(&comps->obj->material, &world->lights[i], &comps->over_point, &comps->eyev, &comps->normalv, in_shadow);
+		lighting_result = lighting(comps, &comps->obj->material, &world->lights[i], in_shadow);
 		color_add(&return_color, &return_color, &lighting_result);
 	}
 	// reflection_result = reflected_color(world, comps, depth);

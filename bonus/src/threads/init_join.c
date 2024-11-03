@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 04:47:50 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/31 22:39:25 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/03 08:56:06 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,29 @@
 #include "macros.h"
 #include "mlx.h"
 #include <stdio.h>
+#include <sys/time.h>
 
 extern void	*render_row(void *param); //
 //extern void	*lerp_routine(void *param); //
 
+long long	my_gettime(void)
+{
+	struct timeval	timeofday;
+
+	if (gettimeofday(&timeofday, NULL) == -1)
+		return ((void)write(2, "Error.\n", 8), -1);
+	return ((timeofday.tv_sec * 1000) + (timeofday.tv_usec / 1000));
+}
+
 bool	pool_init_join(t_program *context)
 {
 	t_thread	*new_pool;
+	long long	start_time, frame_time;
 	int			y;
 
+	start_time = my_gettime();
 	y = -1;
+	context->pool = malloc(sizeof(t_thread) * _RT_NUM_THREADS);//context->pool;
 	new_pool = context->pool;
 	while (++y < _RT_NUM_THREADS && new_pool)
 	{
@@ -39,10 +52,11 @@ bool	pool_init_join(t_program *context)
 		pthread_join(new_pool[y].thread, NULL);
 	if (context->pool)
 	{
+		mlx_put_image_to_window(context->mlx, context->win, context->canvas.ptr, 0, 0);
 		free(context->pool);
 		context->pool = NULL;
 	}
-	mlx_put_image_to_window(context->mlx, context->win, context->canvas.ptr, 0, 0);
-	printf("Done rendering\n");
+	frame_time = my_gettime() - start_time;
+	printf("Frame took: %lld\n", frame_time);
 	return (true);
 }

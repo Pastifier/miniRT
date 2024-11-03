@@ -13,7 +13,7 @@
 #ifndef COMMON_H
 # define COMMON_H
 
-# include "../LagAMat/include/lag.h" // for t_vec4s, t_mat4s, and their funcs
+# include "lag.h" // for t_vec4s, t_mat4s, and their funcs
 # include <stdbool.h> // for `true`, `false`
 
 enum e_object_types
@@ -56,6 +56,7 @@ typedef struct s_obj
 	int			type;
 	t_vec4s		center;
 	t_mat4s		inv_transform;
+	t_mat4s		transposed_inverse;
 	t_mat4s		rot;
 	t_vec4s		trans;
 	t_vec4s		scale;
@@ -88,16 +89,16 @@ typedef struct s_intersection
 {
 	float	t;
 	t_obj	*object;
-	t_vec4s	itx_p;
-	// subject to be grouped somewhere else:
-	bool	shadowed;
-	t_vec4s	p;
-	t_vec4s	overp;
-	t_vec4s	underp;
-	t_vec4s	eyev;
-	t_vec4s	normalv;
-	t_vec4s	reflectv;
-	int		inside;
+	//t_vec4s	itx_p;
+	//// subject to be grouped somewhere else:
+	//bool	shadowed;
+	//t_vec4s	p;
+	//t_vec4s	overp;
+	//t_vec4s	underp;
+	//t_vec4s	eyev;
+	//t_vec4s	normalv;
+	//t_vec4s	reflectv;
+	//int		inside;
 	float	n1;
 	float	n2;
 }	t_itx;
@@ -112,7 +113,7 @@ typedef struct s_ray
 {
 	t_vec4s		origin;
 	t_vec4s		dir;
-	t_itx_grp	xs;
+	//t_itx_grp	xs;
 }	t_ray;
 
 typedef struct s_camera
