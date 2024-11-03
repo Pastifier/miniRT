@@ -88,16 +88,16 @@ typedef struct s_intersection
 {
 	float	t;
 	t_obj	*object;
-	t_vec4s	itx_p;
-	// subject to be grouped somewhere else:
-	bool	shadowed;
-	t_vec4s	p;
-	t_vec4s	overp;
-	t_vec4s	underp;
-	t_vec4s	eyev;
-	t_vec4s	normalv;
-	t_vec4s	reflectv;
-	int		inside;
+	//t_vec4s	itx_p;
+	//// subject to be grouped somewhere else:
+	//bool	shadowed;
+	//t_vec4s	p;
+	//t_vec4s	overp;
+	//t_vec4s	underp;
+	//t_vec4s	eyev;
+	//t_vec4s	normalv;
+	//t_vec4s	reflectv;
+	//int		inside;
 	float	n1;
 	float	n2;
 }	t_itx;
@@ -112,7 +112,7 @@ typedef struct s_ray
 {
 	t_vec4s		origin;
 	t_vec4s		dir;
-	t_itx_grp	xs;
+	//t_itx_grp	xs;
 }	t_ray;
 
 typedef struct s_camera
