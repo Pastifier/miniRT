@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:14:10 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/03 08:17:38 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/03 22:25:59 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ bool	parse_sphere(t_program *context, const t_split *fields, int curr_line)
 	sp->type = SPHERE;
 	if (!parse_vec4(&sp->trans, fields->array[1], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
-	sp->specs.radius = ft_atof(fields->array[2], context) / 2.0f;
+	sp->radius = ft_atof(fields->array[2], context) / 2.0f;
 	if (context->runtime_error == 2)
 		return (parse_err_msg(ERR_OBJ_VALUE, ERR_EXPECT_FLOAT, curr_line),
 			str_arr_destroy(fields->array), false);
 	if (!parse_color(&sp->material.color, fields->array[3], curr_line))
 		return (str_arr_destroy(fields->array), false);
 	material_init(&sp->material);
-	sp->scale.simd = _mm_set1_ps(sp->specs.radius);
+	sp->scale.simd = _mm_set1_ps(sp->radius);
 	sp->scale.w = 1.f;
 	//sp->scale = lag_vec4s_ret(1, 1, 1, 1);
 	sp->rot = lag_mat4s_identity();

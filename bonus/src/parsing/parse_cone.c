@@ -32,7 +32,7 @@ bool	parse_cone(t_program *context, const t_split *fields, int curr_line)
 	co->orientation.w = 0;
 	if (!is_normalised(co->orientation))
 		co->orientation = lag_vec4s_normalize_highp(co->orientation);
-	co->specs.radius = ft_atof(fields->array[3], context) / 2.0f;
+	co->radius = ft_atof(fields->array[3], context) / 2.0f;
 	if (context->runtime_error == 2)
 		return (parse_err_msg(ERR_OBJ_VALUE, ERR_EXPECT_FLOAT, curr_line),
 				str_arr_destroy(fields->array), false);
@@ -42,11 +42,11 @@ bool	parse_cone(t_program *context, const t_split *fields, int curr_line)
 				str_arr_destroy(fields->array), false);
 	co->specs.min = -height / 2.0f;
 	co->specs.max = height / 2.0f;
-	co->specs.closed = false;
+	co->specs.closed = true;//false;
 	if (!parse_color(&co->material.color, fields->array[5], curr_line))
 		return (str_arr_destroy(fields->array), false);
 	material_init(&co->material);
-	co->scale = lag_vec4s_ret(co->specs.radius, height, co->specs.radius, 1);
+	co->scale = lag_vec4s_ret(co->radius, height, co->radius, 1);
 	co->rot = rt_extract_rot_vertical(co->orientation);
 	co->inv_transform = lag_mat4s_get_transform_inverse(co->rot, co->scale.simd, co->trans.simd);
 	return (str_arr_destroy(fields->array), true);

@@ -33,7 +33,7 @@ bool parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 	cy->orientation.w = 0;
 	if (!is_normalised(cy->orientation))
 		cy->orientation = lag_vec4s_normalize_highp(cy->orientation);
-	cy->specs.radius = ft_atof(fields->array[3], context) / 2.0f;
+	cy->radius = ft_atof(fields->array[3], context) / 2.0f;
 	if (context->runtime_error == 2)
 		return (parse_err_msg(ERR_OBJ_VALUE, ERR_EXPECT_FLOAT, curr_line),
 				str_arr_destroy(fields->array), false);
@@ -43,11 +43,11 @@ bool parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 				str_arr_destroy(fields->array), false);
 	cy->specs.min = -height / 2.0f;
 	cy->specs.max = height / 2.0f;
-	cy->specs.closed = false;
+	cy->specs.closed = true;//false;
 	if (!parse_color(&cy->material.color, fields->array[5], curr_line))
 		return (str_arr_destroy(fields->array), false);
 	material_init(&cy->material);
-	cy->scale = lag_vec4s_ret(cy->specs.radius, height, cy->specs.radius, 1);
+	cy->scale = lag_vec4s_ret(cy->radius, height, cy->radius, 1);
 	cy->rot = rt_extract_rot_vertical(cy->orientation);
 	cy->inv_transform = lag_mat4s_get_transform_inverse(cy->rot, cy->scale.simd, cy->trans.simd);
 	lag_mat4s_transpose(&cy->inv_transform, &cy->transposed_inverse);
