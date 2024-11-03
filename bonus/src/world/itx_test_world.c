@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:34:00 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/02 21:15:35 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/03 08:05:01 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ t_itx_grp	intersect_world(t_world *w, t_ray *r)
 {
 	t_itx_grp	ret;
 	int			i;
-	long long	start_time, test_time;
 
-	start_time = my_gettime();
 	i = -1;
 	//ret = (t_itx_grp){0};
 	ret.count = 0;
@@ -36,9 +34,6 @@ t_itx_grp	intersect_world(t_world *w, t_ray *r)
 		else if (w->shapes[i].type == CUBE)
 			intersect_cube(r, &w->shapes[i], &ret);
 	}
-	test_time = my_gettime() - start_time;
-	if (test_time > 1)
-		printf("intersect_world: %lld\n", test_time);
 	//quick_sort_intersections(ret.arr, ret.count); //
 	return (ret);
 }
