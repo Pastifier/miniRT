@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/02 22:44:52 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/03 09:17:39 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_color	color_at(t_world *w, t_ray *r, int depth)
 	t_itx_grp		world_itxs;
 	t_itx			*hit;
 	t_color			result;
+	// Copy ray here, maybe.
 	t_comps			comps;
 
 	world_itxs = intersect_world(w, r);
@@ -93,7 +94,7 @@ t_color	rt_render_pixel(t_program *context, int x, int y)
 	t_ray		r;
 	t_color		c;
 
-	r = ray_for_pixel(&context->cam, x, y);
+	r = ray_for_pixel(&context->cam, x, y); //
 	c = color_at(&context->world, &r, REFLECTION_DEPTH);
 	put_pixel(&context->canvas, x, y, &c);
 	return (c);

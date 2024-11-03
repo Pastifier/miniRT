@@ -99,8 +99,8 @@ void intersect_cylinder(t_ray *ray, t_obj *cy, t_itx_grp *xs)
 	float t_values[_RT_MAX_ITX];
 	t_ray transformed_ray;
 
-	ray->xs.count = 0;
-	ray->xs.arr->object = cy;
+	//ray->xs.count = 0;
+	//ray->xs.arr->object = cy;
 	transformed_ray = *ray;
 	ray_transform(&transformed_ray, &(cy->inv_transform));
 	disc = cy_discriminant(&transformed_ray, cy, t_values, xs);

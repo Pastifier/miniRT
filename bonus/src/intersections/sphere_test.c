@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 03:07:20 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/03 08:18:46 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/03 09:13:29 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs)
 
 	if (xs->count + 2 >= _RT_MAX_ITX)
 		return ;
-	trans_r = *r;
+	trans_r = *r; // BAD MEMCPY
 	ray_transform(&trans_r, &sphere->inv_transform);
 	lag_vec4s_sub(&sphere_to_ray, &trans_r.origin, &sphere->trans);
 	abc.x = lag_vec4s_dot_ret(&trans_r.dir, &trans_r.dir);

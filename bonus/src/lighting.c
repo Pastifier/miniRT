@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 12:36:57 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/03 08:02:54 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/03 09:23:02 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,13 @@ bool	is_shadowed(t_world *world, t_vec4s *point, t_light *light)
 {
 	t_vec4s		v;
 	t_ray		r;
+	t_itx_grp	xs;
 	t_itx		*itx;
 
 	lag_vec4s_sub(&v, &light->pos, point);
 	ray_create(&r, point, &v);
-	r.xs = intersect_world(world, &r);
-	itx = get_hit(&r.xs);
+	xs = intersect_world(world, &r); //
+	itx = get_hit(&xs);
 	if (itx && itx->t < lag_vec4s_magnitude_ret(v))
 		return (true);
 	return (false);
