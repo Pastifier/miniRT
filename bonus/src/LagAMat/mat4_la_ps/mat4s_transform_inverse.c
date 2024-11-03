@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 13:34:23 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/02 21:42:27 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/03 10:19:49 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 /// @return The inverse of the decomposed matrix
 /// @warning The scale should NOT contain any zero components as that will
 t_mat4s	lag_mat4s_get_transform_inverse(const t_mat4s rot, const __m128 s,
-			const __m128 t)
+			const __m128 t) //// EVIL _mm_dp_ps
 {
 	t_mat4s ret0;
 	__m128 tmp[4];

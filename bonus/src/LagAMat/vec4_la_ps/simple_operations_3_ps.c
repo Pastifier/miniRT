@@ -31,18 +31,33 @@ bool	lag_vec4s_eq(const t_vec4s a, const t_vec4s b,
 	return (mask == 0xF);
 }
 
-bool	lag_vec4s_exacteq(const t_vec4s a, const t_vec4s b)
-{
-	const int	mask = _mm_movemask_ps(\
-					_mm_cmp_ps(a.simd, b.simd, _CMP_LT_OQ) \
-				);
+//bool	lag_vec4s_exacteq(const t_vec4s a, const t_vec4s b)
+//{
+//	const int	mask = _mm_movemask_ps(\
+//					_mm_cmp_ps(a.simd, b.simd, _CMP_LT_OQ) \
+//				);
 
-	return (mask == 0xF);
+//	return (mask == 0xF);
+//}
+
+static inline __m128	_mm_msqr_ps(const __m128 vec)
+{
+	__m128 mul;
+	__m128 shuf;
+	__m128 sums;
+
+
+	mul = _mm_mul_ps(vec, vec);
+	shuf = _mm_shuffle_ps(mul, mul, _MM_SHUFFLE(2, 3, 0, 1));
+	sums = _mm_add_ps(mul, shuf);
+	shuf = _mm_movehl_ps(shuf, sums);
+	sums = _mm_add_ss(sums, shuf);
+	return (_mm_shuffle_ps(sums, sums, _MM_SHUFFLE(0, 0, 0, 0)));
 }
 
 void	lag_vec4s_normalize(t_vec4s *target)
 {
-	const __m128	msqr = _mm_dp_ps(target->simd, target->simd, 0xFF);
+	const __m128	msqr = _mm_msqr_ps(target->simd);//_mm_dp_ps(target->simd, target->simd, 0xFF);
 	__m128	isrt;
 
 	if (_mm_cvtss_f32(msqr) == 0.0f)
