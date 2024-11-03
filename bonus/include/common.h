@@ -42,6 +42,7 @@ typedef union u_color
 typedef struct s_material
 {
 	t_color	color;
+	t_color	xordc;
 	float	ambient;
 	float	diffuse;
 	float	specular;
