@@ -63,12 +63,13 @@ typedef struct s_obj
 	t_vec4s		scale;
 	t_vec4s		orientation;
 	t_material	material;
+	float		radius;
 	union u_specs
 	{
-		struct
-		{
-			float	radius;
-		};
+		//struct
+		//{
+		//	float	radius;
+		//};
 		struct
 		{
 			t_vec4s	normal;
