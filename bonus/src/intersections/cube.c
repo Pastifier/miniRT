@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:05:59 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/02 21:52:14 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/03 08:01:24 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ t_vec4s cube_normal_at(t_obj *cube, t_vec4s *world_point)
 	else
 		lag_vec4sv_init(&world_normal, 0, 0, object_n_p[1].z);
 	lag_vec4s_normalize(&world_normal);
+	world_normal.w = 0.f;
 	return (world_normal);
 }

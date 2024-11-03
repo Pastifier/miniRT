@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 03:07:20 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/02 22:55:31 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/03 08:18:46 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,10 @@ t_vec4s	sphere_normal_at(t_obj *sphere, t_vec4s *world_p)
 	t_vec4s	local_p;
 	t_vec4s	local_n;
 	t_vec4s	world_n;
-	t_mat4s	transposed_inv;
 
 	lag_mat4s_cross_vec4s(&sphere->inv_transform, world_p, &local_p);
 	lag_vec4s_sub(&local_n, &local_p, &sphere->trans);
-	lag_mat4s_transpose(&sphere->inv_transform, &transposed_inv);
-	lag_mat4s_cross_vec4s(&transposed_inv, &local_n, &world_n);
+	lag_mat4s_cross_vec4s(&sphere->transposed_inverse, &local_n, &world_n);
 	world_n.w = 0.f;
 	lag_vec4s_normalize(&world_n);
 	return (world_n);
@@ -35,11 +33,9 @@ void	intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs)
 	t_ray	trans_r;
 	t_vec4s	sphere_to_ray;
 	t_vec4s	abc;
-	long long start_time, test_time;
 
 	if (xs->count + 2 >= _RT_MAX_ITX)
 		return ;
-	start_time = my_gettime();
 	trans_r = *r;
 	ray_transform(&trans_r, &sphere->inv_transform);
 	lag_vec4s_sub(&sphere_to_ray, &trans_r.origin, &sphere->trans);
@@ -55,7 +51,4 @@ void	intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs)
 	xs->arr[xs->count++].t = (-abc.y - d) / (2.f * abc.x);
 	xs->arr[xs->count].object = sphere;
 	xs->arr[xs->count++].t = (-abc.y + d) / (2.f * abc.x);
-	test_time = my_gettime() - start_time;
-	if (test_time > 1)
-		printf("intersect_sphere: %lld\n", test_time);
 }

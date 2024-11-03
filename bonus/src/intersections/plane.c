@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:48:39 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/02 22:55:31 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/03 08:19:50 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@
 t_vec4s	plane_normal_at(t_obj *plane)
 {
 	t_vec4s	normal;
-	t_mat4s	inv_transpose;
 
-	lag_mat4s_transpose(&plane->inv_transform, &inv_transpose);
-	lag_mat4s_cross_vec4s(&inv_transpose, &plane->orientation, &normal);
+	lag_mat4s_cross_vec4s(&plane->transposed_inverse, &plane->orientation, &normal);
 	normal.w = 0;
 	lag_vec4s_normalize(&normal);
 	return (normal);
