@@ -55,6 +55,7 @@ typedef struct s_obj
 	int			type;
 	t_vec4s		center;
 	t_mat4s		inv_transform;
+	t_mat4s		transposed_inverse;
 	t_mat4s		rot;
 	t_vec4s		trans;
 	t_vec4s		scale;
