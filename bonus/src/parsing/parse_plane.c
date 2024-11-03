@@ -5,6 +5,7 @@
 
 static void	material_init(t_material *material)
 {
+	const __m128	color_vec = material->color.v.simd;
 	material->ambient = 0.1;
 	material->diffuse = 0.9;
 	material->specular = 0.9;
@@ -12,6 +13,8 @@ static void	material_init(t_material *material)
 	material->reflective = 0.0;
 	material->transparency = 0.0;
 	material->refractive_index = 1.0;
+	material->xordc = \
+		(t_color){.v.simd = _mm_xor_ps(color_vec, color_vec)};
 }
 
 bool	parse_plane(t_program *context, const t_split *fields, int curr_line)
