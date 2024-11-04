@@ -28,7 +28,7 @@ SRC := main.c ft_atof.c rays.c fragment.c sort.c lighting.c refractions.c \
 			$(addprefix colors/, canvas.c paint.c color_op.c) \
 			$(addprefix parsing/, parse.c parse_ambient.c parse_light.c \
 				parse_camera.c parse_sphere.c parse_utils.c parse_errors.c \
-				parse_plane.c parse_cylinder.c parse_cube.c parse_cone.c) \
+				parse_plane.c parse_cylinder.c parse_cube.c parse_cone.c parse_extras.c) \
 			$(addprefix destroy/, destroy.c) \
 			$(addprefix threads/, init_join.c routines.c) \
 			$(addprefix world/, itx_test_world.c) \
