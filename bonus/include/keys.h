@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:00:13 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/10/31 22:10:42 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/05 17:31:58 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ enum e_keysyms
 	MSCROLL_DOWN,
 	KEY_ESC = 53,
 	KEY_A = 0,
+	KEY_S = 1,
 	KEY_D = 2,
+	KEY_W = 13,
 	KEY_R = 15,
 	AKEY_L = 123,
 	AKEY_R,

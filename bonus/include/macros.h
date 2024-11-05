@@ -13,8 +13,8 @@
 #ifndef MACROS_H
 # define MACROS_H
 
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1080
+# define WIN_WIDTH 1600
+# define WIN_HEIGHT  900
 
 # define _RT_OS_MACOS_ 0
 # define _RT_MAX_LIGHTS_ 100
