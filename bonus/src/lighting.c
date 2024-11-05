@@ -51,10 +51,11 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	comps->normalv.w = 0;
 	light_dot_normal = lag_vec4s_dot_ret(&light_v, &comps->normalv);
 
-	if (light_dot_normal < 0)
+	if (light_dot_normal < 0 || in_shadow)
 	{
-		color_init(&diffuse, 0.0, 0.0, 0.0);
-		color_init(&specular, 0.0, 0.0, 0.0);
+		//color_init(&diffuse, 0.0, 0.0, 0.0);
+		//color_init(&specular, 0.0, 0.0, 0.0);
+		return (ambient);
 	} else
 		color_scaleby(&diffuse, &effective_color, material->diffuse * light_dot_normal);
 	lag_vec4s_negate(&light_v);
@@ -66,11 +67,6 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	{
 		factor = powf(reflect_eye_dot, material->sheen);
 		color_scaleby(&specular, &light->specs.point.intensity, material->specular * factor);
-	}
-	if (in_shadow)
-	{
-		color_init(&diffuse, 0.0, 0.0, 0.0);
-		color_init(&specular, 0.0, 0.0, 0.0);
 	}
 	color_add(&return_color, &ambient, &diffuse);
 	color_add(&return_color, &return_color, &specular);
