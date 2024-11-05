@@ -19,7 +19,7 @@ t_mat4s rt_get_cam_inverse(const t_mat4s *view)
 {
 	t_mat4s ret;
 
-	// Transpose the rotational component (upper-left 3x3 matrix)
+	// Transpose the rotational component (upper-camera->left 3x3 matrix)
 	ret.a[0][0] = view->a[0][0];
 	ret.a[0][1] = view->a[1][0];
 	ret.a[0][2] = view->a[2][0];
@@ -50,9 +50,6 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 {
 	t_camera *camera;
 	float temp;
-	t_vec4s forward;
-	t_vec4s up;
-	t_vec4s left;
 
 	camera = &context->cam;
 
@@ -75,32 +72,32 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 		-If the orientation vector is the same as the J-hat or negative J-hat, then the up vector is the same as K-hat
 		and the left vector is the same as I-hat.
 	*/
-	if (!parse_vec4(&forward, fields->array[2], context, curr_line))
+	if (!parse_vec4(&camera->forward, fields->array[2], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
 
 	//Normalize the forward vector
-	forward = lag_vec4s_normalize_highp(forward);
+	camera->forward = lag_vec4s_normalize_highp(camera->forward);
 
 	//Get the up vector
-	if (forward.x < EPSILON && forward.z < EPSILON)
-		left = lag_vec4s_ret(-1.0f, 0.0f, 0.0f, 0.0f);
+	if (camera->forward.x < EPSILON && camera->forward.z < EPSILON)
+		camera->left = lag_vec4s_ret(-1.0f, 0.0f, 0.0f, 0.0f);
 	else
-		left = lag_vec4s_cross_ret(forward, lag_vec4s_ret(0.0f, 1.0f, 0.0f, 0.0f));
+		camera->left = lag_vec4s_cross_ret(camera->forward, lag_vec4s_ret(0.0f, 1.0f, 0.0f, 0.0f));
 
 	//Normalize the left vector
-	left = lag_vec4s_normalize_highp(left);
+	camera->left = lag_vec4s_normalize_highp(camera->left);
 
 	//Get the true up vector
-	up = lag_vec4s_cross_ret(left, forward);
+	camera->up = lag_vec4s_cross_ret(camera->left, camera->forward);
 
 	//Normalize the up vector
-	up = lag_vec4s_normalize_highp(up);
+	camera->up = lag_vec4s_normalize_highp(camera->up);
 
 	//Set the orientation matrix for the cam
 	camera->inv_transform = lag_mat4s_rows_ret(
-		lag_vec4s_ret(left.x, left.y, left.z, 0.0f),
-		lag_vec4s_ret(up.x, up.y, up.z, 0.0f),
-		lag_vec4s_ret(-forward.x, -forward.y, -forward.z, 0.0f),
+		lag_vec4s_ret(camera->left.x, camera->left.y, camera->left.z, 0.0f),
+		lag_vec4s_ret(camera->up.x, camera->up.y, camera->up.z, 0.0f),
+		lag_vec4s_ret(-camera->forward.x, -camera->forward.y, -camera->forward.z, 0.0f),
 		lag_vec4s_ret(0.0f, 0.0f, 0.0f, 1.0f)
 	);
 
