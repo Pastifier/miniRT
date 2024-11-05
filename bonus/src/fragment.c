@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/03 09:17:39 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/05 16:09:51 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 	comps.obj = itx->object;
 	ray_position(&comps.p, r, comps.t);
 	comps.eyev = r->dir;
-	lag_vec4s_negate(&comps.eyev);
+	lag_vec4s_negate_new(&comps.eyev, r->dir);
 	if (itx->object->type == SPHERE)
 		comps.normalv = sphere_normal_at(itx->object, &comps.p);
 	else if (itx->object->type == PLANE)
-		comps.normalv = plane_normal_at(itx->object);
+		comps.normalv = itx->object->orientation;//plane_normal_at(itx->object);
 	else if (itx->object->type == CYLINDER)
 		comps.normalv = cylinder_normal_at(itx->object, &comps.p);
 	else if (itx->object->type == CUBE)
@@ -76,7 +76,6 @@ t_color	color_at(t_world *w, t_ray *r, int depth)
 	t_itx_grp		world_itxs;
 	t_itx			*hit;
 	t_color			result;
-	// Copy ray here, maybe.
 	t_comps			comps;
 
 	world_itxs = intersect_world(w, r);
