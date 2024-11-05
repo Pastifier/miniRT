@@ -41,7 +41,7 @@ static bool check_caps(t_ray *ray, float t, t_obj *cy)
 	ray_position(&point, ray, t);
 	x = point.x;
 	z = point.z;
-	if (x * x + z * z > 1.f)
+	if (x * x + z * z > 1.f + EPSILON)
 		return (false);
 	return (true);
 }
@@ -106,12 +106,12 @@ void intersect_cylinder(t_ray *ray, t_obj *cy, t_itx_grp *xs)
 	disc = cy_discriminant(&transformed_ray, cy, t_values, xs);
 	if (disc < 0.f || (t_values[0] < 0.f && t_values[1] < 0.f))
 		return ;
-	if (t_values[0] >= 0.f)
+	if (t_values[0] >= EPSILON)
 	{
 		xs->arr[xs->count].object = cy;
 		xs->arr[xs->count++].t = t_values[0];
 	}
-	if (t_values[1] >= 0.f)
+	if (t_values[1] >= EPSILON)
 	{
 		xs->arr[xs->count].object = cy;
 		xs->arr[xs->count++].t = t_values[1];
