@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:22:17 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/06 23:48:59 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/07 02:38:20ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "keys.h"
 #include "macros.h"
 
-#define MOVE_SPEED 4.5f
-#define PITCH_SPEED 0.08f
-#define YAW_SPEED 0.06f
+#define MOVE_SPEED 5.f
+#define PITCH_SPEED 0.3f
+#define YAW_SPEED 0.3f
 
 t_mat4s rotation_matrix_from_axis_angle(const t_vec4s *axis, float angle)
 {
@@ -99,10 +99,8 @@ void	camera_controls(t_program *state)
 
 	if (state->movement.a)
 		lag_vec4s_add(&state->cam.trans, &scaled_left, &state->cam.trans);
-		//state->cam.trans.x -= (MOVE_SPEED * state->delta_time);
 	if (state->movement.d)
 		lag_vec4s_sub(&state->cam.trans, &state->cam.trans, &scaled_left);
-		//state->cam.trans.x += (MOVE_SPEED * state->delta_time);
 	if (state->movement.w)
 		lag_vec4s_add(&state->cam.trans, &scaled_forward, &state->cam.trans);
 	if (state->movement.s)
@@ -111,7 +109,34 @@ void	camera_controls(t_program *state)
 		state->cam.trans.y += (MOVE_SPEED * state->delta_time);
 	if (state->movement.lctrl)
 		state->cam.trans.y -= (MOVE_SPEED * state->delta_time);
+	update_camera_state(&state->cam);
+}
 
+void	camera_rotations(t_program *state)
+{
+	t_mat4s	rot;
+
+	if (state->movement.left == true)
+	{
+		rot = rotation_matrix_from_axis_angle(&state->cam.up, -(PITCH_SPEED + MOVE_SPEED / 10.f) * state->delta_time);
+		lag_mat4s_cross_vec4s(&rot, &state->cam.forward, &state->cam.forward);
+	}
+	if (state->movement.right == true)
+	{
+		rot = rotation_matrix_from_axis_angle(&state->cam.up, (PITCH_SPEED + MOVE_SPEED / 10.f) * state->delta_time);
+		lag_mat4s_cross_vec4s(&rot, &state->cam.forward, &state->cam.forward);
+	}
+	if (state->movement.up == true)
+	{
+		rot = rotation_matrix_from_axis_angle(&state->cam.left, (YAW_SPEED + MOVE_SPEED / 10.f) * state->delta_time);
+		lag_mat4s_cross_vec4s(&rot, &state->cam.forward, &state->cam.forward);
+	}
+	if (state->movement.down == true)
+	{
+		rot = rotation_matrix_from_axis_angle(&state->cam.left, -(YAW_SPEED + MOVE_SPEED / 10.f) * state->delta_time);
+		lag_mat4s_cross_vec4s(&rot, &state->cam.forward, &state->cam.forward);
+	}
+	lag_vec4s_normalize(&state->cam.forward);
 	update_camera_state(&state->cam);
 }
 
@@ -158,6 +183,7 @@ int	check_state(void *context)
 	if (state->selected.is_cam)
 	{
 		camera_controls(state);
+		camera_rotations(state);
 		state_changed = true;
 	}
 	else
@@ -190,7 +216,14 @@ int	check_key_presses(int keysym, void *context)
 		state->movement.space = true;
 	if (keysym == KEY_LCTRL)
 		state->movement.lctrl = true;
-	printf("Keysym: %d\n", keysym);
+	if (keysym == AKEY_U)
+		state->movement.up = true;
+	if (keysym == AKEY_D)
+		state->movement.down = true;
+	if (keysym == AKEY_L)
+		state->movement.left = true;
+	if (keysym == AKEY_R)
+		state->movement.right = true;
 	return (keysym);
 }
 
@@ -210,5 +243,13 @@ int	check_key_releases(int keysym, void *param)
 		state->movement.space = false;
 	if (keysym == KEY_LCTRL)
 		state->movement.lctrl = false;
+	if (keysym == AKEY_U)
+		state->movement.up = false;
+	if (keysym == AKEY_D)
+		state->movement.down = false;
+	if (keysym == AKEY_L)
+		state->movement.left = false;
+	if (keysym == AKEY_R)
+		state->movement.right = false;
 	return (keysym);
 }

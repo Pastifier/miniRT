@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 22:35:58 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/06 23:35:33 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/07 00:03:46 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,9 @@ int	check_mouse_clicks(int button, int x, int y, void *param)
 		{
 			((t_program *)param)->selected.is_cam = false;
 			((t_program *)param)->selected.object = hit->object;
-			lag_vec4s_normalize(&r.dir);
-			((t_program *)param)->selected.ray_dir = r.dir;
+			//lag_vec4s_normalize(&r.dir);
+			//((t_program *)param)->selected.ray_dir = r.dir;
 		}
 	}
-	printf("Mouse: %d\n", button);
 	return (button);
 }
