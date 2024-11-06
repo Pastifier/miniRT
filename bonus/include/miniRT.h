@@ -68,6 +68,8 @@ typedef struct s_program
 		bool		down;
 		bool		left;
 		bool		right;
+		bool		space;
+		bool		lctrl;
 	}	movement;
 }	t_program;
 
