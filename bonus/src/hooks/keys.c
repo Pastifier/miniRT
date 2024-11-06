@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:22:17 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/06 23:38:34 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/06 23:48:59 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,117 +89,6 @@ static inline void	update_object_cache(t_obj *object)
 	);
 }
 
-//int	check_state(void *context)
-//{
-//	t_program	*state;
-//	t_obj		*selected_object;
-//	bool		state_changed;
-//	bool		obj_state_changed;
-//	t_vec4s		scaled_forward;
-//	t_vec4s		scaled_left;
-
-//	state = (t_program *)context;
-//	selected_object = state->selected.object;
-
-//	state_changed = false; // make it so everything only gets updated when it needs to be. Including in the camera update function.
-//	obj_state_changed = false;
-//	lag_vec4s_scaleby(&scaled_forward, state->cam.forward, ((MOVE_SPEED + (MOVE_SPEED / 2.f)) * state->delta_time));
-//	lag_vec4s_scaleby(&scaled_forward, state->cam.left, ((MOVE_SPEED + (MOVE_SPEED / 2.f)) * state->delta_time));
-//	if (state->stop == true && state->selected.is_cam == false)
-//	{
-//		state->selected.is_cam = true;
-//		state->selected.object = NULL;
-//		state->stop = false;
-//	}
-//	else if (state->stop == true)
-//		return (destroy_program(context), 0);
-//	if (state->movement.a == true)
-//	{
-//		if (state->selected.is_cam)
-//		{
-//			state->cam.trans.x -= (MOVE_SPEED * state->delta_time);
-//			state_changed = true;
-//		}
-//		else
-//		{
-//			//selected_object->trans.x -= (MOVE_SPEED * state->delta_time);
-//			lag_vec4s_sub(&selected_object->trans, &selected_object->trans, &scaled_left);
-//			obj_state_changed = true;
-//		}
-//	}
-//	if (state->movement.d == true)
-//	{
-//		if (state->selected.is_cam)
-//		{
-//			state->cam.trans.x += (MOVE_SPEED * state->delta_time);
-//			state_changed = true;
-//		}
-//		else
-//		{
-//			//selected_object->trans.x += (MOVE_SPEED * state->delta_time);
-//			lag_vec4s_add(&selected_object->trans, &scaled_left, &selected_object->trans);
-//			obj_state_changed = true;
-//		}
-//	}
-//	if (state->movement.w == true)
-//	{
-//		if (state->selected.is_cam)
-//		{
-//			lag_vec4s_add(&state->cam.trans, &scaled_forward, &state->cam.trans);
-//			state_changed = true;
-//		}
-//		else
-//		{
-//			lag_vec4s_add(&selected_object->trans, &scaled_forward, &selected_object->trans);
-//			obj_state_changed = true;
-//		}
-//	}
-//	if (state->movement.s == true)
-//	{
-//		if (state->selected.is_cam)
-//		{
-//			lag_vec4s_sub(&state->cam.trans, &state->cam.trans, &scaled_forward);
-//			state_changed = true;
-//		}
-//		else
-//		{
-//			lag_vec4s_sub(&selected_object->trans, &selected_object->trans, &scaled_forward);
-//			obj_state_changed = true;
-//		}
-//	}
-//	if (state->movement.space == true)
-//	{
-//		if (state->selected.is_cam)
-//		{
-//			state->cam.trans.y += (MOVE_SPEED * state->delta_time);
-//			state_changed = true;
-//		}
-//		else
-//		{
-//			selected_object->trans.y += (MOVE_SPEED * state->delta_time);
-//			obj_state_changed = true;
-//		}
-//	}
-//	if (state->movement.lctrl == true)
-//	{
-//		if (state->selected.is_cam)
-//		{
-//			state->cam.trans.y -= (MOVE_SPEED * state->delta_time);
-//			state_changed = true;
-//		}
-//		else
-//		{
-//			selected_object->trans.y -= (MOVE_SPEED * state->delta_time);
-//			obj_state_changed = true;
-//		}
-//	}
-//	if (state_changed)
-//		update_camera_state(&state->cam);
-//	if (obj_state_changed)
-//		update_object_cache(state->selected.object);
-//	update(context);
-//	return (0);
-//}
 // Function to handle camera movement controls
 void	camera_controls(t_program *state)
 {
