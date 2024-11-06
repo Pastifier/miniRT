@@ -23,7 +23,7 @@
 
 # ifdef EPSILON
 #  undef EPSILON
-#  define EPSILON 0.0001
+#  define EPSILON 0.0001f
 # endif // !EPSILON
 
 long long	my_gettime(void);
