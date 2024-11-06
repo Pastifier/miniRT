@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:48:39 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/03 22:21:51 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/06 13:55:22 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,28 @@
 
 t_vec4s	plane_normal_at(t_obj *plane)
 {
-	t_vec4s	normal;
+	t_vec4s	local_normal;
 
-	lag_mat4s_cross_vec4s(&plane->transposed_inverse, &plane->orientation, &normal);
-	normal.w = 0;
-	lag_vec4s_normalize(&normal);
-	return (normal);
+	lag_mat4s_cross_vec4s(&plane->transposed_inverse, &plane->orientation, &local_normal);
+	local_normal.w = 0;
+	lag_vec4s_normalize(&local_normal);
+	return (local_normal);
 }
 
 void	intersect_plane(t_ray *ray, t_obj *plane, t_itx_grp *xs)
 {
-	t_vec4s		plane_to_ray;
 	t_vec4s		plane_normal;
 	t_ray		trans_ray;
 	float		denom;
 	float		t;
 
-	//Ditch the plane_normal_at() function and just prep the normal during parsing and save it.
 	plane_normal = plane_normal_at(plane);
-	//ray->xs.arr[xs->count].object = plane;
 	trans_ray = *ray; // BAD_MEMCPY
 	ray_transform(&trans_ray, &plane->inv_transform);
-	denom = lag_vec4s_dot_ret(&plane_normal, &trans_ray.dir);
-	//Using fabs to get the floating point absolute number so that if denom is a small negative number,
-	//it will still be considered 0 and avoid intersecting with rays parallel to the plane
-	if (fabsf(denom) <= EPSILON)
+	if (fabsf(trans_ray.dir.y) < EPSILON)
 		return ;
-	lag_vec4s_sub(&plane_to_ray, &plane->center, &trans_ray.origin);
-	t = lag_vec4s_dot_ret(&plane_to_ray, &plane_normal) / denom;
+	denom = trans_ray.dir.y;
+	t = -trans_ray.origin.y / denom;
 	if (t > EPSILON)
 	{
 		xs->arr[xs->count].object = plane;
