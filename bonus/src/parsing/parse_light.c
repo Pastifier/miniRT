@@ -47,8 +47,14 @@ bool		parse_light(t_program *context, const t_split *fields, int curr_line)
 
 bool		parse_light_color(const t_split *fields, int curr_line, t_world *world)
 {
-	if (!parse_color(&world->lights[world->num_lights++].specs.point.intensity,
+	t_light	*curr_light;
+	t_color	parsed_color;
+
+	curr_light = &world->lights[world->num_lights++];
+	if (!parse_color(&parsed_color,
 			fields->array[3], curr_line))
 		return (str_arr_destroy(fields->array), false);
+	color_scaleby(&curr_light->specs.point.intensity, \
+		&parsed_color, curr_light->ratio);
 	return (str_arr_destroy(fields->array), true);
 }
