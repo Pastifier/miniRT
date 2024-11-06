@@ -58,6 +58,17 @@ typedef struct s_program
 		float	ratio;
 	}	ambiance;
 	bool		stop;
+	struct
+	{
+		bool		w;
+		bool		a;
+		bool		s;
+		bool		d;
+		bool		up;
+		bool		down;
+		bool		left;
+		bool		right;
+	}	movement;
 }	t_program;
 
 struct s_thread_data
@@ -114,6 +125,7 @@ bool		parse_color(t_color *color, char *str, int curr_line);
 bool		parse_vec4(t_vec4s *vec, char *str, t_program *context, int curr_line);
 bool		parse_single_f(float *f, char *str, t_program *context, int curr_line);
 t_mat4s		rt_extract_rot_vertical(const t_vec4s u);
+t_mat4s		rt_get_cam_inverse(const t_mat4s *view);
 
 void		parse_fatal_msg(char *msg, int curr_line);
 void		parse_warn_msg(char *msg, int curr_line);
@@ -136,9 +148,11 @@ t_color		lerp_colors(const t_color *a, const t_color *b, float t);
 
 /*--- STATE ---*/
 
+//void		update_camera_state(t_camera *camera);
 int			update(void *context);
 int			check_state(void *context);
-int			check_keys(int keysym, void *context);
+int			check_key_presses(int keysym, void *context);
+int			check_key_releases(int keysym, void *param);
 
 /*--- DESTROY ---*/
 

@@ -126,6 +126,9 @@ typedef struct s_camera
 	int			vsize;
 	float		fov;
 	t_mat4s		inv_transform;
+	t_vec4s		forward;
+	t_vec4s		up;
+	t_vec4s		left;
 	t_mat4s		rot;
 	t_vec4s		trans;
 	t_vec4s		scale; // (1, 1, 1, 1)

@@ -21,7 +21,7 @@ bool	init_obj_arr(t_program *context);
 //extern int	update(void *param);
 //extern int	destroy_program(t_program *context);
 //extern int	check_state(void *context);
-//extern int	check_keys(int keysym, void *context);
+//extern int	check_key_presses(int keysym, void *context);
 
 int	main(int argc, char *argv[])
 {
@@ -74,7 +74,8 @@ void	_rt_start(t_program *context)
 		exit(2);
 	}
 	update(context);
-	mlx_hook(context->win, ON_KEYDOWN, 1L, &check_keys, context);
+	mlx_hook(context->win, ON_KEYDOWN, 1L, &check_key_presses, context);
+	mlx_hook(context->win, ON_KEYUP, 1L, &check_key_releases, context);
 	mlx_hook(context->win, ON_DESTROY, 1L >> 2, &destroy_program, context);
 	mlx_loop_hook(context->mlx, &check_state, context);
 	mlx_loop(context->mlx);
