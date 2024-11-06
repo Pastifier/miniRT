@@ -19,7 +19,7 @@ static inline void	plane_pattern_blend(t_color *ec,
 {
 	const t_material *mater = &comps->obj->material;
 	t_vec4s	local_p;
-	
+
 	lag_mat4s_cross_vec4s(&comps->obj->inv_transform, &comps->over_point, &local_p);
 	if ((int)(fabsf(floorf(local_p.x)) + fabsf(floorf(local_p.y)) + fabsf(floorf(local_p.z))) % 2)
 		color_blend(ec, &mater->color, intens);
@@ -37,9 +37,9 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	t_color		diffuse;
 	t_color		specular;
 	t_color		return_color;
-	double		reflect_eye_dot;
-	double		light_dot_normal;
-	double		factor;
+	float		reflect_eye_dot;
+	float		light_dot_normal;
+	float		factor;
 
 	if (comps->obj->type == PLANE)
 		plane_pattern_blend(&effective_color, comps, &light->specs.point.intensity);
@@ -49,14 +49,14 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	lag_vec4s_normalize(&light_v);
 	color_scaleby(&ambient, &effective_color, material->ambient);
 	comps->normalv.w = 0;
-	light_dot_normal = lag_vec4s_dot_ret(&light_v, &comps->normalv);
-
-	if (light_dot_normal < 0 || in_shadow)
+	lag_vec4s_dot(&light_dot_normal, &light_v, &comps->normalv);
+	if (light_dot_normal < EPSILON || in_shadow)
 	{
 		//color_init(&diffuse, 0.0, 0.0, 0.0);
 		//color_init(&specular, 0.0, 0.0, 0.0);
 		return (ambient);
-	} else
+	}
+	else
 		color_scaleby(&diffuse, &effective_color, material->diffuse * light_dot_normal);
 	lag_vec4s_negate(&light_v);
 	reflect_v = reflect(&light_v, &comps->normalv);
@@ -79,12 +79,18 @@ bool	is_shadowed(t_world *world, t_vec4s *point, t_light *light)
 	t_ray		r;
 	t_itx_grp	xs;
 	t_itx		*itx;
+	t_vec4s		hit_pos;
+	t_vec4s		hit_v;
 
 	lag_vec4s_sub(&v, &light->pos, point);
 	ray_create(&r, point, &v);
 	xs = intersect_world(world, &r); //
 	itx = get_hit(&xs);
-	if (itx && itx->t < lag_vec4s_magnitude_ret(v))
+	if (!itx)
+		return (false);
+	ray_position(&hit_pos, &r, itx->t);
+	lag_vec4s_sub(&hit_v, &hit_pos, point);
+	if (lag_vec4s_magnitude_ret(hit_v) < lag_vec4s_magnitude_ret(v))
 		return (true);
 	return (false);
 }
