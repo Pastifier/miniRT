@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:00:13 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/06 17:02:05 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/06 22:44:16 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ enum e_keysyms
 	AKEY_R,
 	AKEY_D,
 	AKEY_U
+};
+
+enum e_mouse
+{
+	MOUSE_LMB = 1
 };
 
 # endif // !__MACH__
