@@ -71,6 +71,7 @@ typedef struct s_program
 		bool		space;
 		bool		lctrl;
 	}	movement;
+	float	delta_time;
 }	t_program;
 
 struct s_thread_data
