@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:22:17 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/06 17:03:32 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/06 17:31:23 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "keys.h"
 #include "macros.h"
 
-#define MOVE_SPEED 0.4f
+#define MOVE_SPEED 4.5f
 #define PITCH_SPEED 0.08f
 #define YAW_SPEED 0.06f
 
@@ -84,39 +84,41 @@ int	check_state(void *context)
 {
 	t_program	*state;
 	bool		state_changed;
+	t_vec4s		scaled_forward;
 
 	state = (t_program *)context;
 	state_changed = false; // make it so everything only gets updated when it needs to be. Including in the camera update function.
+	lag_vec4s_scaleby(&scaled_forward, state->cam.forward, ((MOVE_SPEED + (MOVE_SPEED / 2.f)) * state->delta_time));
 	if (state->stop == true)
 		destroy_program(context);
 	if (state->movement.a == true)
 	{
-		state->cam.trans.x -= MOVE_SPEED;
+		state->cam.trans.x -= (MOVE_SPEED * state->delta_time);
 		state_changed = true;
 	}
 	if (state->movement.d == true)
 	{
-		state->cam.trans.x += MOVE_SPEED;
+		state->cam.trans.x += (MOVE_SPEED * state->delta_time);
 		state_changed = true;
 	}
 	if (state->movement.w == true)
 	{
-		lag_vec4s_add(&state->cam.trans, &state->cam.forward, &state->cam.trans);
+		lag_vec4s_add(&state->cam.trans, &scaled_forward, &state->cam.trans);
 		state_changed = true;
 	}
 	if (state->movement.s == true)
 	{
-		lag_vec4s_sub(&state->cam.trans, &state->cam.trans, &state->cam.forward);
+		lag_vec4s_sub(&state->cam.trans, &state->cam.trans, &scaled_forward);
 		state_changed = true;
 	}
 	if (state->movement.space == true)
 	{
-		state->cam.trans.y += MOVE_SPEED;
+		state->cam.trans.y += (MOVE_SPEED * state->delta_time);
 		state_changed = true;
 	}
 	if (state->movement.lctrl == true)
 	{
-		state->cam.trans.y -= MOVE_SPEED;
+		state->cam.trans.y -= (MOVE_SPEED * state->delta_time);
 		state_changed = true;
 	}
 	if (state_changed)
