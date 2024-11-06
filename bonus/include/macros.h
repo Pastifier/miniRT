@@ -62,10 +62,14 @@
 # define ERR_COLOR_FORMAT "Invalid format for Color"
 # define ERR_COLOR_VALUE "Invalid value for Color"
 
+# define ERR_FLOAT_VALUE "Invalid value for floating-point number"
+
 # define ERR_EXPECT_FLOAT "Expected: valid floating-point number."
+# define ERR_EXPECT_INT "Expected: valid integer number."
 # define ERR_EXPECT_TUPLE "Expected: Tuple in the format <x>,<y>,<z>"
 # define ERR_EXPECT_FLOAT_RANGE "Expected: floating-point value in range [0.0, 1.0]"
 # define ERR_EXPECT_COLOR_RANGE "Expected: integer value in range [0, 255]"
+# define ERR_EXPECT_COLOR_FORMAT "Expected: Color in the format <R>,<G>,<B>"
 # define ERR_EXPECT_FOV_RANGE "Expected: floating-point value in range [0.0, 180.0]"
 # define ERR_EXPECT_TYPE_A "Expected:\n\tA <ratio> <R>,<G>,<B>"
 # define ERR_EXPECT_TYPE_C "Expected:\n\tC <x>,<y>,<z> <ox>,<oy>,<oz> <FOV>"
