@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fragment.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/06 13:52:20 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/06 22:45:38 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "colors.h"
 #include "macros.h"
 
-static inline t_ray	ray_for_pixel(const t_camera *cam, int px, int py)
+t_ray	ray_for_pixel(const t_camera *cam, int px, int py)
 {
 	t_ray		r;
 	t_vec4s		op;
