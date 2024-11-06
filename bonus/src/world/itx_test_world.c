@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   itx_test_world.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:34:00 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/03 08:05:01 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/06 12:52:28 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_itx	*get_hit(t_itx_grp *xs) ////
 	i = -1;
 	while (++i < xs->count)
 	{
-		if (xs->arr[i].t < min && xs->arr[i].t >= 0.f)
+		if (xs->arr[i].t < min && xs->arr[i].t >= EPSILON)
 		{
 			min = xs->arr[i].t;
 			addr = &xs->arr[i];
