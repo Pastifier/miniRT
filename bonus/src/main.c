@@ -25,7 +25,6 @@ bool	init_obj_arr(t_program *context);
 
 int	main(int argc, char *argv[])
 {
-	(void)argc; (void)argv;
 	t_program	context;
 
 	if (argc != 2)
@@ -73,10 +72,12 @@ void	_rt_start(t_program *context)
 		free(context->mlx);
 		exit(2);
 	}
-	update(context);
+	//update(context);
+	context->selected = (struct s_select){.is_cam = true, .object = NULL};
 	mlx_hook(context->win, ON_KEYDOWN, 1L, &check_key_presses, context);
 	mlx_hook(context->win, ON_KEYUP, 1L, &check_key_releases, context);
 	mlx_hook(context->win, ON_DESTROY, 1L >> 2, &destroy_program, context);
+	mlx_mouse_hook(context->win, &check_mouse_clicks, context);
 	mlx_loop_hook(context->mlx, &check_state, context);
 	mlx_loop(context->mlx);
 }
