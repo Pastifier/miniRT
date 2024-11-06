@@ -50,6 +50,12 @@ typedef struct s_program
 	t_world		world;
 	t_camera	cam;
 	t_thread	*pool;
+	struct s_select
+	{
+		bool	is_cam;
+		t_obj	*object;
+		t_vec4s	ray_dir;
+	}	selected;
 	struct s_ambient
 	{
 		bool	is_set;
@@ -71,6 +77,10 @@ typedef struct s_program
 		bool		space;
 		bool		lctrl;
 	}	movement;
+	struct
+	{
+		bool		left_click;
+	}	mouse;
 	float	delta_time;
 }	t_program;
 
@@ -137,6 +147,7 @@ void		parse_err_msg(char *msg, char *expected, int curr_line);
 /*--- RENDERING ---*/
 
 t_color		rt_render_pixel(t_program *context, int x, int y);
+t_ray		ray_for_pixel(const t_camera *cam, int px, int py);
 bool		create_canvas(t_program *context, int width, int height);
 void		put_pixel(t_canvas *canvas, int x, int y, const t_color *color);
 void		render_frame(t_program *current_context);
@@ -156,6 +167,7 @@ int			update(void *context);
 int			check_state(void *context);
 int			check_key_presses(int keysym, void *context);
 int			check_key_releases(int keysym, void *param);
+int			check_mouse_clicks(int button, int x, int y, void *param);
 
 /*--- DESTROY ---*/
 
