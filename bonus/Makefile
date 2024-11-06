@@ -32,7 +32,7 @@ SRC := main.c ft_atof.c rays.c fragment.c sort.c lighting.c refractions.c \
 			$(addprefix destroy/, destroy.c) \
 			$(addprefix threads/, init_join.c routines.c) \
 			$(addprefix world/, itx_test_world.c) \
-			$(addprefix hooks/, update.c keys.c) \
+			$(addprefix hooks/, update.c keys.c mouse.c) \
 			$(addprefix intersections/, sphere_test.c plane.c shape_utils.c cylinder.c cube.c cone.c)
 SRC_DIR :=	src
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
