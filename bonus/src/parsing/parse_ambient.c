@@ -41,5 +41,7 @@ bool	get_ambient_color(t_program *context, t_split *fields, int curr_line)
 		return (str_arr_destroy(fields->array), false);
 	context->ambiance.is_set = true;
 	context->ambiance.line_set = curr_line;
+	color_scaleby(&context->world.ambiance, &context->ambiance.color,
+		context->ambiance.ratio);
 	return (str_arr_destroy(fields->array), true);
 }

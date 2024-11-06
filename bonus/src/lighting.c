@@ -145,6 +145,7 @@ t_color	shade_hit(t_world *world, t_comps *comps, int depth)
 	// }
 	// color_add(&return_color, &return_color, &reflection_result);
 	// color_add(&return_color, &return_color, &refraction_result);
+	color_add(&return_color, &return_color, &world->ambiance);
 	color_clamp(&return_color);
 	return (return_color);
 }
