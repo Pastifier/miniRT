@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:22:17 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/05 20:21:44 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/06 17:03:32 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,16 @@ int	check_state(void *context)
 		lag_vec4s_sub(&state->cam.trans, &state->cam.trans, &state->cam.forward);
 		state_changed = true;
 	}
+	if (state->movement.space == true)
+	{
+		state->cam.trans.y += MOVE_SPEED;
+		state_changed = true;
+	}
+	if (state->movement.lctrl == true)
+	{
+		state->cam.trans.y -= MOVE_SPEED;
+		state_changed = true;
+	}
 	if (state_changed)
 		update_camera_state(&state->cam);
 	update(context);
@@ -130,6 +140,11 @@ int	check_key_presses(int keysym, void *context)
 		state->movement.s = true;
 	if (keysym == KEY_W)
 		state->movement.w = true;
+	if (keysym == KEY_SPACE)
+		state->movement.space = true;
+	if (keysym == KEY_LCTRL)
+		state->movement.lctrl = true;
+	printf("Keysym: %d\n", keysym);
 	return (keysym);
 }
 
@@ -145,5 +160,9 @@ int	check_key_releases(int keysym, void *param)
 		state->movement.s = false;
 	if (keysym == KEY_W)
 		state->movement.w = false;
+	if (keysym == KEY_SPACE)
+		state->movement.space = false;
+	if (keysym == KEY_LCTRL)
+		state->movement.lctrl = false;
 	return (keysym);
 }
