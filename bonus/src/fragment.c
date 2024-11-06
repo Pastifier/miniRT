@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fragment.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/05 16:09:51 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/06 13:52:20 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,14 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 	if (itx->object->type == SPHERE)
 		comps.normalv = sphere_normal_at(itx->object, &comps.p);
 	else if (itx->object->type == PLANE)
-		comps.normalv = itx->object->orientation;//plane_normal_at(itx->object);
+		comps.normalv = itx->object->orientation;
 	else if (itx->object->type == CYLINDER)
 		comps.normalv = cylinder_normal_at(itx->object, &comps.p);
 	else if (itx->object->type == CUBE)
 		comps.normalv = cube_normal_at(itx->object, &comps.p);
 	else if (itx->object->type == CONE)
 		comps.normalv = cone_normal_at(itx->object, &comps.p);
-	//lag_vec4s_dot(&dot, &comps.normalv, &comps.eyev);
-	if (lag_vec4s_dot_ret(&comps.normalv, &comps.eyev) < 0.f)
+	if (lag_vec4s_dot_ret(&comps.normalv, &comps.eyev) < EPSILON)
 	{
 		comps.inside = true;
 		lag_vec4s_negate(&comps.normalv);
