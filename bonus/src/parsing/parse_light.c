@@ -24,7 +24,7 @@ bool		parse_light(t_program *context, const t_split *fields, int curr_line)
 
 	world = &context->world;
 	if (world->num_lights >= _RT_MAX_LIGHTS_)
-		return (parse_warn_msg(ERR_MAX_LIGHTS, curr_line),
+		return (parse_warn_msg(ERR_MAX_LIGHTS, curr_line, true),
 			str_arr_destroy(fields->array), true);
 	if (fields->wordcount < 3)
 		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_L,

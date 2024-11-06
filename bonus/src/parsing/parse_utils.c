@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:22:29 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/04 13:51:55 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:39:14 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ bool	parse_vec4(t_vec4s *vec, char *str, t_program *context, int curr_line)
 			false);
 	vec->x = ft_atof(split.array[0], context);
 	if (context->runtime_error == 2)
-		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
+		return (parse_err_msg(ERR_FLOAT_VALUE, ERR_EXPECT_FLOAT, curr_line), false);
 	vec->y = ft_atof(split.array[1], context);
 	if (context->runtime_error == 2)
-		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
+		return (parse_err_msg(ERR_FLOAT_VALUE, ERR_EXPECT_FLOAT, curr_line), false);
 	vec->z = ft_atof(split.array[2], context);
 	if (context->runtime_error == 2)
-		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
+		return (parse_err_msg(ERR_FLOAT_VALUE, ERR_EXPECT_FLOAT, curr_line), false);
 	vec->w = 1.0f;
 	return (str_arr_destroy(split.array), true);
 }
@@ -44,19 +44,19 @@ bool	parse_color(t_color *color, char *str, int curr_line)
 	color_int = (t_eint){0};
 	split = ft_split(str, ",\n\r");
 	if (split.wordcount != 3)
-		return (parse_err_msg(ERR_COLOR_FORMAT, ERR_EXPECT_TYPE_C, curr_line),
+		return (parse_err_msg(ERR_COLOR_FORMAT, ERR_EXPECT_COLOR_FORMAT, curr_line),
 			false);
 	color_int = ft_atoi(split.array[0]);
 	if (color_int.error)
-		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
+		return (parse_err_msg(ERR_COLOR_VALUE, ERR_EXPECT_INT, curr_line), false);
 	color->r = color_int.value / 255.999;
 	color_int = ft_atoi(split.array[1]);
 	if (color_int.error)
-		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
+		return (parse_err_msg(ERR_COLOR_VALUE, ERR_EXPECT_INT, curr_line), false);
 	color->g = color_int.value / 255.999;
 	color_int = ft_atoi(split.array[2]);
 	if (color_int.error)
-		return (parse_fatal_msg(ERR_EXPECT_FLOAT, curr_line), false);
+		return (parse_err_msg(ERR_COLOR_VALUE, ERR_EXPECT_INT, curr_line), false);
 	color->b = color_int.value / 255.999;
 	if (color->r < 0.0f || color->g < 0.0f || color->b < 0.0f
 		|| color->r > 1.0f || color->g > 1.0f || color->b > 1.0f)

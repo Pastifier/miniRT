@@ -54,7 +54,7 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 	camera = &context->cam;
 
 	if (camera->is_set)
-		return (parse_warn_msg(ERR_CAM_DEFINED, curr_line),
+		return (parse_fatal_msg(ERR_CAM_DEFINED, curr_line),
 			str_arr_destroy(fields->array), false);
 	if (fields->wordcount != 4)
 		return (parse_err_msg(ERR_CAM_FORMAT, ERR_EXPECT_TYPE_C, curr_line),
@@ -109,9 +109,11 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 
 	//get FOV
 	temp = ft_atof(fields->array[3], context);
-	if (temp < 0.0f || temp > 180.0f)
+	if (temp < -0.f || temp > 180.f)//fabsf(temp + 180.f) > EPSILON)
 		return (parse_err_msg(ERR_CAM_FOV, ERR_EXPECT_FOV_RANGE, curr_line),
 			str_arr_destroy(fields->array), false);
+	else if (temp == 0.f || temp == -0.f)
+		parse_warn_msg("Viewport will be an infinitely small line", curr_line, false);
 	camera->fov = temp;
 
 	camera->is_set = true;

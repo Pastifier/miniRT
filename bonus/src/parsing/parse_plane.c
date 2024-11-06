@@ -21,6 +21,8 @@ bool	parse_plane(t_program *context, const t_split *fields, int curr_line)
 {
 	t_obj	*pl;
 
+	if (context->world.num_shapes == _RT_MAX_SHAPES_)
+		return (parse_warn_msg(ERR_MAX_SHAPES, curr_line, true), true);
 	pl = &context->world.shapes[context->world.num_shapes++];
 	if (fields->wordcount != 4)
 		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_PL,

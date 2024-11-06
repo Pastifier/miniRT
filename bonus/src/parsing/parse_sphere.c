@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_sphere.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:14:10 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/03 22:25:59 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/06 15:59:04 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ bool	parse_sphere(t_program *context, const t_split *fields, int curr_line)
 {
 	t_obj	*sp;
 
+	if (context->world.num_shapes == _RT_MAX_SHAPES_)
+		return (parse_warn_msg(ERR_MAX_SHAPES, curr_line, true), true);
 	sp = &context->world.shapes[context->world.num_shapes++];
 	if (fields->wordcount != 4)
 		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_SP,
