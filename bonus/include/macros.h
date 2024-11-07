@@ -27,7 +27,7 @@
 #  define REFLECTION_DEPTH 4
 # endif // !REFLECTION_DEPTH
 
-# define _RT_NUM_THREADS 1
+# define _RT_NUM_THREADS 16
 
 # define _RT_MAX_ITX 200
 
