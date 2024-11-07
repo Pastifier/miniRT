@@ -149,6 +149,7 @@ void	object_controls(t_program *state)
 	t_vec4s op = lag_vec4s_ret(selected_object->trans.x, state->cam.trans.y, selected_object->trans.z, 1);
 	t_vec4s	viewport_forward;
 	lag_vec4s_sub(&viewport_forward, &op, &state->cam.trans);
+	viewport_forward.w = 0.f;
 	lag_vec4s_normalize(&viewport_forward);
 
 	lag_vec4s_scaleby(&scaled_forward, viewport_forward, (MOVE_SPEED + (MOVE_SPEED / 2.f)) * state->delta_time);
