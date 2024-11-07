@@ -61,13 +61,13 @@ t_mat4s rotation_matrix_from_axis_angle(const t_vec4s *axis, float angle)
 
 static inline void	update_camera_state(t_camera *camera)
 {
-	if (camera->forward.x < EPSILON && camera->forward.z < EPSILON)
-		camera->left = lag_vec4s_ret(-1.0f, 0.0f, 0.0f, 0.0f);
-	else
-		camera->left = lag_vec4s_cross_ret(camera->forward, lag_vec4s_ret(0.0f, 1.0f, 0.0f, 0.0f));
-	lag_vec4s_normalize(&camera->left);
-	camera->up = lag_vec4s_cross_ret(camera->left, camera->forward);
-	lag_vec4s_normalize(&camera->up);
+	//if ((camera->forward.x) < EPSILON && (camera->forward.z) < EPSILON)
+	//	camera->left = lag_vec4s_ret(-1.0f /*- 2.0f * (camera->forward.x < 0.f)*/, 0.0f, 0.0f, 0.0f);
+	//else
+	//	camera->left = lag_vec4s_cross_ret(camera->forward, lag_vec4s_ret(0.0f, 1.0f, 0.0f, 0.0f));
+	//lag_vec4s_normalize(&camera->left);
+	////camera->up = lag_vec4s_cross_ret(camera->left, camera->forward);
+	//lag_vec4s_normalize(&camera->up);
 	camera->inv_transform = lag_mat4s_rows_ret(
 		lag_vec4s_ret(camera->left.x, camera->left.y, camera->left.z, 0.0f),
 		lag_vec4s_ret(camera->up.x, camera->up.y, camera->up.z, 0.0f),
@@ -108,7 +108,7 @@ void	camera_controls(t_program *state)
 		lag_vec4s_sub(&state->cam.trans, &state->cam.trans, &scaled_forward);
 	if (state->movement.space)
 		state->cam.trans.y += (MOVE_SPEED * state->delta_time);
-	if (state->movement.lctrl)
+	if (state->movement.lshift)
 		state->cam.trans.y -= (MOVE_SPEED * state->delta_time);
 	update_camera_state(&state->cam);
 }
@@ -116,26 +116,43 @@ void	camera_controls(t_program *state)
 void	camera_rotations(t_program *state)
 {
 	t_mat4s	rot;
+	const t_vec4s	j_hat = lag_vec4sv_ret(0.f, 1.f, 0.f);
 
 	if (state->movement.left == true)
 	{
-		rot = rotation_matrix_from_axis_angle(&state->cam.up, -(PITCH_SPEED + MOVE_SPEED / 10.f) * state->delta_time);
+		rot = rotation_matrix_from_axis_angle(&j_hat, -(PITCH_SPEED + MOVE_SPEED / 10.f) * state->delta_time);
 		lag_mat4s_cross_vec4s(&rot, &state->cam.forward, &state->cam.forward);
+		lag_mat4s_cross_vec4s(&rot, &state->cam.left, &state->cam.left);
+		lag_mat4s_cross_vec4s(&rot, &state->cam.up, &state->cam.up);
+		lag_vec4s_normalize(&state->cam.up);
+		lag_vec4s_normalize(&state->cam.left);
 	}
 	if (state->movement.right == true)
 	{
-		rot = rotation_matrix_from_axis_angle(&state->cam.up, (PITCH_SPEED + MOVE_SPEED / 10.f) * state->delta_time);
+		rot = rotation_matrix_from_axis_angle(&j_hat, (PITCH_SPEED + MOVE_SPEED / 10.f) * state->delta_time);
 		lag_mat4s_cross_vec4s(&rot, &state->cam.forward, &state->cam.forward);
+		lag_mat4s_cross_vec4s(&rot, &state->cam.left, &state->cam.left);
+		lag_mat4s_cross_vec4s(&rot, &state->cam.up, &state->cam.up);
+		lag_vec4s_normalize(&state->cam.up);
+		lag_vec4s_normalize(&state->cam.left);
 	}
 	if (state->movement.up == true)
 	{
 		rot = rotation_matrix_from_axis_angle(&state->cam.left, (YAW_SPEED + MOVE_SPEED / 10.f) * state->delta_time);
 		lag_mat4s_cross_vec4s(&rot, &state->cam.forward, &state->cam.forward);
+		lag_mat4s_cross_vec4s(&rot, &state->cam.left, &state->cam.left);
+		lag_mat4s_cross_vec4s(&rot, &state->cam.up, &state->cam.up);
+		lag_vec4s_normalize(&state->cam.up);
+		lag_vec4s_normalize(&state->cam.left);
 	}
 	if (state->movement.down == true)
 	{
 		rot = rotation_matrix_from_axis_angle(&state->cam.left, -(YAW_SPEED + MOVE_SPEED / 10.f) * state->delta_time);
 		lag_mat4s_cross_vec4s(&rot, &state->cam.forward, &state->cam.forward);
+		lag_mat4s_cross_vec4s(&rot, &state->cam.left, &state->cam.left);
+		lag_mat4s_cross_vec4s(&rot, &state->cam.up, &state->cam.up);
+		lag_vec4s_normalize(&state->cam.up);
+		lag_vec4s_normalize(&state->cam.left);
 	}
 	lag_vec4s_normalize(&state->cam.forward);
 	update_camera_state(&state->cam);
@@ -165,7 +182,7 @@ void	object_controls(t_program *state)
 		lag_vec4s_sub(&selected_object->trans, &selected_object->trans, &scaled_forward);
 	if (state->movement.space)
 		selected_object->trans.y += (MOVE_SPEED * state->delta_time);
-	if (state->movement.lctrl)
+	if (state->movement.lshift)
 		selected_object->trans.y -= (MOVE_SPEED * state->delta_time);
 	update_object_cache(selected_object);
 }
@@ -220,8 +237,8 @@ int	check_key_presses(int keysym, void *context)
 		state->movement.w = true;
 	if (keysym == KEY_SPACE)
 		state->movement.space = true;
-	if (keysym == KEY_LCTRL)
-		state->movement.lctrl = true;
+	if (keysym == KEY_LSHIFT)
+		state->movement.lshift = true;
 	if (keysym == AKEY_U)
 		state->movement.up = true;
 	if (keysym == AKEY_D)
@@ -247,8 +264,8 @@ int	check_key_releases(int keysym, void *param)
 		state->movement.w = false;
 	if (keysym == KEY_SPACE)
 		state->movement.space = false;
-	if (keysym == KEY_LCTRL)
-		state->movement.lctrl = false;
+	if (keysym == KEY_LSHIFT)
+		state->movement.lshift = false;
 	if (keysym == AKEY_U)
 		state->movement.up = false;
 	if (keysym == AKEY_D)
