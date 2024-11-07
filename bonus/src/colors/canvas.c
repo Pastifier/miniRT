@@ -38,6 +38,19 @@ void	put_pixel(t_canvas *canvas, int x, int y, const t_color *color)
 	*(uint32_t *)dst = get_color32(color);
 }
 
+t_color	lerp_colors(const t_color *a, const t_color *b, float t)
+{
+	t_color	ret;
+
+	ret.r = (b->r * t) + (a->r * (1.f - t));
+	ret.g = (b->g * t) + (a->g * (1.f - t));
+	ret.b = (b->b * t) + (a->b * (1.f - t));
+	ret.a = 1;
+	if (_RT_OS_MACOS_)
+		ret.a = 0;
+	return (ret);
+}
+
 t_color	fetch_pixel_color(const t_canvas *canvas, int x, int y)
 {
 	char		*src;

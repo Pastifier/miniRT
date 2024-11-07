@@ -20,11 +20,14 @@
 # define _RT_MAX_LIGHTS_ 100
 # define _RT_MAX_SHAPES_ 100
 
+# define _RT_SKIP_STEP 3
+# define _RT_LERP_THRESH 25
+
 # ifndef REFLECTION_DEPTH
 #  define REFLECTION_DEPTH 4
-# endif // !THRESHOLD
+# endif // !REFLECTION_DEPTH
 
-# define _RT_NUM_THREADS 16
+# define _RT_NUM_THREADS 1
 
 # define _RT_MAX_ITX 200
 

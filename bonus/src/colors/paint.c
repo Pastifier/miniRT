@@ -19,6 +19,18 @@ void	color_init(t_color *target, float r, float g, float b)
 	target->v = lag_vec4s_ret((_RT_OS_MACOS_ == 0), r, g, b);
 }
 
+int	cdiff(t_color a, t_color b)
+{
+	int				r_diff;
+	int				g_diff;
+	int				b_diff;
+
+	r_diff = fabs((a.r * 255.999) - (b.r * 255.999));
+	g_diff = fabs((a.g * 255.999) - (b.g * 255.999));
+	b_diff = fabs((a.b * 255.999) - (b.b * 255.999));
+	return (r_diff + g_diff + b_diff);
+}
+
 void	color_clamp(t_color *color)
 {
 	if (color->r > 1)

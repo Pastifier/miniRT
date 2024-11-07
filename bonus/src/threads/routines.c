@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routines.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:31:02 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/07 04:08:56 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:25:37 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ void	*render_row(void *arg)
 		while(x < cam->hsize)
 		{
 			rt_render_pixel(context, x, y);
-			x+=3;
+			x+=_RT_SKIP_STEP;
 		}
-		y++;
+		y+=_RT_SKIP_STEP;
 	}
+	interpolate_horizontal(data);
+	interpolate_vertical(data);
 	return (NULL);
 }

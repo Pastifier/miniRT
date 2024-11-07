@@ -159,7 +159,9 @@ t_color		color_at(t_world *w, t_ray *r, int depth);
 bool		pool_init_join(t_program *context);
 void		interpolate_horizontal(t_thread const *data);
 void		interpolate_vertical(t_thread const *data);
+int			cdiff(t_color a, t_color b);
 t_color		lerp_colors(const t_color *a, const t_color *b, float t);
+t_color		fetch_pixel_color(const t_canvas *canvas, int x, int y);
 
 /*--- STATE ---*/
 
