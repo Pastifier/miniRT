@@ -15,7 +15,7 @@
 #include "libft.h"
 #include "colors.h"
 
-static bool	parse_optional_trails(char *field, char *value, t_material *obj_material, t_program *context)
+static bool	parse_traits_extension(char *field, char *value, t_material *obj_material, t_program *context)
 {
 	float temp;
 
@@ -33,7 +33,7 @@ static bool	parse_optional_trails(char *field, char *value, t_material *obj_mate
 	return (true);
 }
 
-static bool	parse_mandatory_traits(char *field, char *value, t_material *obj_material, t_program *context)
+static bool	parse_traits(char *field, char *value, t_material *obj_material, t_program *context)
 {
 	float temp;
 
@@ -47,7 +47,7 @@ static bool	parse_mandatory_traits(char *field, char *value, t_material *obj_mat
 	else if (!ft_strncmp(field, "sheen", ft_strlen(field)) && temp >= 0.f && temp <= 200.f)
 		obj_material->sheen = temp;
 	else
-		return (false);
+		return (parse_traits_extension(field, value, obj_material, context));
 	if (context->runtime_error == 2 || context->flt_operations == 0)
 		return (false);
 	return (true);
@@ -61,16 +61,11 @@ static bool	check_material_fields(t_material *obj_material, char *material_field
 	split = ft_split(material_field, "=");
 	if (split.wordcount != 2)
 		return (parse_err_msg(ERR_M_FORMAT, ERR_EXPECT_M, line), false);
-	ret = parse_mandatory_traits(split.array[0], split.array[1], obj_material, context);
-	if (!ret && context->runtime_error == 2)
+	ret = parse_traits(split.array[0], split.array[1], obj_material, context);
+	if (!ret && (context->runtime_error == 2 || context->flt_operations == 0))
 		return (parse_err_msg(ERR_M_VALUE, ERR_EXPECT_FLOAT, line), false);
 	else if (!ret)
 		return (parse_err_msg(ERR_M_FORMAT, ERR_EXPECT_M_TRAIT, line), false);
-	ret = parse_optional_trails(split.array[0], split.array[1], obj_material, context);
-	if (!ret && context->runtime_error == 2)
-		return (parse_err_msg(ERR_M_VALUE, ERR_EXPECT_FLOAT, line), false);
-	else if (!ret)
-		return (parse_err_msg(ERR_M_FORMAT, ERR_EXPECT_M_OPTIONAL_TRAIT, line), false);
 	return (true);
 }
 
