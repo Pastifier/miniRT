@@ -76,6 +76,7 @@ typedef struct s_program
 		bool		right;
 		bool		space;
 		bool		lctrl;
+		bool		lshift;
 	}	movement;
 	struct
 	{

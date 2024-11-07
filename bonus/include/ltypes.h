@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:13:25 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/03 07:44:58 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:07:59 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef union u_vec4s
 {
 	float		a[4];
 	__m128		simd;
+	uint32_t	raw[4];
 	struct
 	{
 		float	x;

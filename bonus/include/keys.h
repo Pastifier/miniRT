@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:00:13 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/06 22:44:16 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:32:34 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ enum e_keysyms
 	KEY_R = 15,
 	KEY_SPACE = 49,
 	KEY_LCTRL = 256,
+	KEY_LSHIFT = 257,
 	AKEY_L = 123,
 	AKEY_R,
 	AKEY_D,
