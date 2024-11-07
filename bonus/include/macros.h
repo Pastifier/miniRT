@@ -64,6 +64,12 @@
 
 # define ERR_FLOAT_VALUE "Invalid value for floating-point number"
 
+# define ERR_M_FORMAT "Invalid format for Material"
+# define ERR_M_VALUE "Invalid value for Material Attribute"
+
+# define ERR_EXPECT_M "Expected: Material in the format: M <material.trait>=<float>,<material.trait>=<float>,<etc>\n\tUsing default values...\n"
+# define ERR_EXPECT_M_TRAIT "Expected: Valid Material Trait: [ambient, diffuse, specular, sheen]\n\tUsing default values...\n"
+# define ERR_EXPECT_M_OPTIONAL_TRAIT "Expected: Valid Material Trait: [reflective, transparency, refractive_index]\n\tUsing default values...\n"
 # define ERR_EXPECT_FLOAT "Expected: valid floating-point number."
 # define ERR_EXPECT_INT "Expected: valid integer number."
 # define ERR_EXPECT_TUPLE "Expected: Tuple in the format <x>,<y>,<z>"
@@ -74,10 +80,10 @@
 # define ERR_EXPECT_TYPE_A "Expected:\n\tA <ratio> <R>,<G>,<B>"
 # define ERR_EXPECT_TYPE_C "Expected:\n\tC <x>,<y>,<z> <ox>,<oy>,<oz> <FOV>"
 # define ERR_EXPECT_TYPE_L "Expected:\n\tL <x>,<y>,<z> <ratio> [<R>,<G>,<B>]"
-# define ERR_EXPECT_TYPE_SP "Expected:\n\tSP <x>,<y>,<z> <diameter> [<R>,<G>,<B>]"
-# define ERR_EXPECT_TYPE_PL "Expected:\n\tPL <x>,<y>,<z> <ox>,<oy>,<oz> [<R>,<G>,<B>]"
-# define ERR_EXPECT_TYPE_SQ "Expected:\n\tSQ <x>,<y>,<z> <ox>,<oy>,<oz> <side> [<R>,<G>,<B>]"
-# define ERR_EXPECT_TYPE_CY "Expected:\n\tCY <x>,<y>,<z> <ox>,<oy>,<oz> <diameter> <height> [<R>,<G>,<B>]"
-# define ERR_EXPECT_TYPE_CU "Expected:\n\tCU <x>,<y>,<z> <ox>,<oy>,<oz> <side> [<R>,<G>,<B>]"
+# define ERR_EXPECT_TYPE_SP "Expected:\n\tsp <x>,<y>,<z> <diameter> [<R>,<G>,<B>]"
+# define ERR_EXPECT_TYPE_PL "Expected:\n\tsl <x>,<y>,<z> <ox>,<oy>,<oz> [<R>,<G>,<B>]"
+# define ERR_EXPECT_TYPE_CY "Expected:\n\tcy <x>,<y>,<z> <ox>,<oy>,<oz> <diameter> <height> [<R>,<G>,<B>]"
+# define ERR_EXPECT_TYPE_CU "Expected:\n\tcu <x>,<y>,<z> <ox>,<oy>,<oz> <side> [<R>,<G>,<B>]"
+# define ERR_EXPECT_TYPE_CO "Expected:\n\tco <x>,<y>,<z> <ox>,<oy>,<oz> <diameter> <height> [<R>,<G>,<B>]"
 
 #endif // !MACROS_H
