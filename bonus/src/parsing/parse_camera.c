@@ -79,7 +79,9 @@ bool parse_camera(t_program *context, const t_split *fields, int curr_line)
 	camera->forward = lag_vec4s_normalize_highp(camera->forward);
 
 	//Get the up vector
-	if (camera->forward.x < EPSILON && camera->forward.z < EPSILON)
+	//if ((camera->forward.x) < EPSILON && (camera->forward.z) < EPSILON)
+	//	camera->left = lag_vec4s_ret(-1.0f, 0.0f, 0.0f, 0.0f);
+	if (fabsf(camera->forward.x) < EPSILON && fabsf(camera->forward.z) < EPSILON)
 		camera->left = lag_vec4s_ret(-1.0f, 0.0f, 0.0f, 0.0f);
 	else
 		camera->left = lag_vec4s_cross_ret(camera->forward, lag_vec4s_ret(0.0f, 1.0f, 0.0f, 0.0f));
