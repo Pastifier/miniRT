@@ -4,8 +4,12 @@
 #include "colors.h"
 #include <assert.h>
 
-static void	material_init(t_material *material)
+static void	material_init(t_material *material, const t_split *fields, t_program *context, int curr_line)
 {
+	const __m128	color_vec = material->color.v.simd;
+
+	material->xordc = \
+		(t_color){.v.simd = _mm_xor_ps(color_vec, color_vec)};
 	material->ambient = 0.1;
 	material->diffuse = 0.9;
 	material->specular = 0.9;
@@ -13,6 +17,8 @@ static void	material_init(t_material *material)
 	material->reflective = 0.0;
 	material->transparency = 0.0;
 	material->refractive_index = 1.0;
+	if (fields->wordcount == 8 && parse_material(material, &fields->array[6], context, curr_line))
+		return ;
 }
 
 //Radius does not affect the cylinder (Investigate)
@@ -24,7 +30,7 @@ bool parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 	if (context->world.num_shapes == _RT_MAX_SHAPES_)
 		return (parse_warn_msg(ERR_MAX_SHAPES, curr_line, true), true);
 	cy = &context->world.shapes[context->world.num_shapes++];
-	if (fields->wordcount != 6)
+	if (fields->wordcount < 6 || fields->wordcount > 8)
 		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_CY, curr_line),
 				str_arr_destroy(fields->array), false);
 	cy->type = CYLINDER;
@@ -48,7 +54,7 @@ bool parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 	cy->specs.closed = true;
 	if (!parse_color(&cy->material.color, fields->array[5], curr_line))
 		return (str_arr_destroy(fields->array), false);
-	material_init(&cy->material);
+	material_init(&cy->material, fields, context, curr_line);
 	cy->scale = lag_vec4s_ret(cy->radius, height / 2.f, cy->radius, 1);
 	cy->rot = rt_extract_rot_vertical(cy->orientation);
 	cy->inv_transform = lag_mat4s_get_transform_inverse(cy->rot, cy->scale.simd, cy->trans.simd);
