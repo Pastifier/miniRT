@@ -59,14 +59,14 @@ t_color	fetch_pixel_color(const t_canvas *canvas, int x, int y)
 
 	src = canvas->addr + (y * canvas->line_length + x * canvas->bpp_8);
 	color_value = *(uint32_t *)src;
-	ret.v.x = (color_value >> 16) & 0xFF;
-	ret.v.y = (color_value >> 8) & 0xFF;
-	ret.v.z = color_value & 0xFF;
+	ret.r = (color_value >> 16) & 0xFF;
+	ret.g = (color_value >> 8) & 0xFF;
+	ret.b = color_value & 0xFF;
 	ret.a = 1;
 	if (_RT_OS_MACOS_)
 		ret.a = 0;
-	ret.r = ret.v.x / 255.999;
-	ret.g = ret.v.y / 255.999;
-	ret.b = ret.v.z / 255.999;
+	ret.r = ret.r / 255.999;
+	ret.g = ret.g / 255.999;
+	ret.b = ret.b / 255.999;
 	return (ret);
 }
