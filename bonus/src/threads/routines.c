@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:31:02 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/03 14:14:50 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/07 04:08:56 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	*render_row(void *arg)
 		while(x < cam->hsize)
 		{
 			rt_render_pixel(context, x, y);
-			x++;
+			x+=3;
 		}
 		y++;
 	}
