@@ -24,7 +24,7 @@ static bool	parse_traits_extension(char *field, char *value, t_material *obj_mat
 		obj_material->reflective = temp;
 	else if (!ft_strncmp(field, "transparency", ft_strlen(field)) && temp >= 0.f && temp <= 1.f)
 		obj_material->transparency = temp;
-	else if (!ft_strncmp(field, "refractive_index", ft_strlen(field)) && temp >= 0.f && temp <= 1.f)
+	else if (!ft_strncmp(field, "refractive_index", ft_strlen(field)) && temp >= 0.f && temp <= 2.f)
 		obj_material->refractive_index = temp;
 	else
 		return (false);

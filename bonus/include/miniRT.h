@@ -210,6 +210,6 @@ t_color	shade_hit(t_world *world, t_itx_computation *comps, int depth);
 void	prepare_refractions(t_itx *hit, t_itx_computation *comps, t_itx_grp *itxs);
 t_color	refracted_color(t_world *world, t_itx_computation *comps, int depth);
 t_color	reflected_color(t_world *world, t_itx_computation *comps, int depth);
-double	schlick(t_itx_computation *comps);
+float	schlick(t_itx_computation *comps);
 
 #endif // !MINIRT_H

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refractions.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:36:36 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/02 23:13:58 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/08 15:45:16 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ t_color	refracted_color(t_world *world, t_itx_computation *comps, int depth)
 	t_color		c;
 	t_ray		r;
 	t_vec4s	temp;
-	double		n_ratio;
-	double		cos_i;
-	double		sin2_t;
+	float		n_ratio;
+	float		cos_i;
+	float		sin2_t;
 
 	color_init(&c, 0.0, 0.0, 0.0);
 	if (depth <= 0 || comps->obj->material.transparency <= 0.0)
@@ -99,13 +99,13 @@ t_color	refracted_color(t_world *world, t_itx_computation *comps, int depth)
 //Replicates the fresnal effect by Augustin-Jean Fresnel with an accurate approximation
 //in order to be faster than the original formula, and not incorporate the extras of true Fresnel
 //effects like light polarization.
-double	schlick(t_itx_computation *comps)
+float	schlick(t_itx_computation *comps)
 {
-	double	cos;
-	double	n_ratio;
-	double	sin2_t;
-	double	cos_t;
-	double	r0;
+	float	cos;
+	float	n_ratio;
+	float	sin2_t;
+	float	cos_t;
+	float	r0;
 
 	cos = lag_vec4s_dot_ret(&comps->eyev, &comps->normalv);
 	if (comps->n1 > comps->n2)
