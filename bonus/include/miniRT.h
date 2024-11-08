@@ -94,6 +94,9 @@ struct s_thread_data
 	int			y_f;
 	int			x;
 	int			x_f;
+	bool		work_ready;
+	pthread_mutex_t	mutex;
+	pthread_cond_t	cond;
 };
 
 typedef struct	itx_computation
@@ -157,6 +160,7 @@ t_color		color_at(t_world *w, t_ray *r, int depth);
 
 /*---- THREADS ----*/
 
+bool		pool_init(t_program *context);
 bool		pool_init_join(t_program *context);
 void		interpolate_horizontal(t_thread const *data);
 void		interpolate_vertical(t_thread const *data);
