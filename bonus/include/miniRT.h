@@ -66,6 +66,7 @@ typedef struct s_program
 	bool		stop;
 	struct
 	{
+		bool		r;
 		bool		w;
 		bool		a;
 		bool		s;
