@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 03:07:20 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/03 09:13:29 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/08 18:37:29 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_vec4s	sphere_normal_at(t_obj *sphere, t_vec4s *world_p)
 	return (world_n);
 }
 
-void	intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs)
+bool	intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs)
 {
 	float	d;
 	t_ray	trans_r;
@@ -35,7 +35,7 @@ void	intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs)
 	t_vec4s	abc;
 
 	if (xs->count + 2 >= _RT_MAX_ITX)
-		return ;
+		return (false);
 	trans_r = *r; // BAD MEMCPY
 	ray_transform(&trans_r, &sphere->inv_transform);
 	lag_vec4s_sub(&sphere_to_ray, &trans_r.origin, &sphere->trans);
@@ -45,10 +45,11 @@ void	intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs)
 		- 1; //(sphere->specs.radius * sphere->specs.radius);
 	d = abc.y * abc.y - 4.f * abc.x * abc.z;
 	if (d < 0)
-		return ;
+		return (false);
 	d = sqrtf(d);
 	xs->arr[xs->count].object = sphere;
 	xs->arr[xs->count++].t = (-abc.y - d) / (2.f * abc.x);
 	xs->arr[xs->count].object = sphere;
 	xs->arr[xs->count++].t = (-abc.y + d) / (2.f * abc.x);
+	return (true);
 }
