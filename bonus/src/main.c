@@ -72,7 +72,6 @@ void	_rt_start(t_program *context)
 		free(context->mlx);
 		exit(2);
 	}
-	//update(context);
 	context->selected = (struct s_select){.is_cam = true, .object = NULL};
 	mlx_hook(context->win, ON_KEYDOWN, 1L, &check_key_presses, context);
 	mlx_hook(context->win, ON_KEYUP, 1L, &check_key_releases, context);
