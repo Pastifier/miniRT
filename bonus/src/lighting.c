@@ -79,7 +79,7 @@ void	cast_shadow_ray(t_world *w, t_ray *r, t_itx_grp *xs)
 	itx_occured = 0;
 	while (++i < w->num_shapes)
 	{
-		if (xs->count >= _RT_MAX_ITX)
+		if (xs->count >= _RT_MAX_ITX || itx_occured > 1)
 			break ;
 		if (w->shapes[i].type == SPHERE)
 			itx_occured += intersect_sphere(r, &w->shapes[i], xs);
@@ -91,8 +91,6 @@ void	cast_shadow_ray(t_world *w, t_ray *r, t_itx_grp *xs)
 			itx_occured += intersect_cube(r, &w->shapes[i], xs);
 		else if (w->shapes[i].type == CONE)
 			itx_occured += intersect_cone(r, &w->shapes[i], xs);
-		if (itx_occured > 2)
-			return ;
 	}
 }
 
