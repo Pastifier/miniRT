@@ -9,7 +9,8 @@ static void	material_init(t_material *material, const t_split *fields, t_program
 	const __m128	color_vec = material->color.v.simd;
 
 	material->xordc = \
-		(t_color){.v.simd = _mm_xor_ps(color_vec, color_vec)};
+		(t_color){.v.simd = _mm_xor_ps(color_vec, \
+			_mm_set_ps(1.f, 1.f, 1.f, (_RT_OS_MACOS_ == 0)))};
 	material->ambient = 0.1;
 	material->diffuse = 0.9;
 	material->specular = 0.9;
