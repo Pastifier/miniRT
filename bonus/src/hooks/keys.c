@@ -61,13 +61,9 @@ t_mat4s rotation_matrix_from_axis_angle(const t_vec4s *axis, float angle)
 
 static inline void	update_camera_state(t_camera *camera)
 {
-	//if ((camera->forward.x) < EPSILON && (camera->forward.z) < EPSILON)
-	//	camera->left = lag_vec4s_ret(-1.0f /*- 2.0f * (camera->forward.x < 0.f)*/, 0.0f, 0.0f, 0.0f);
-	//else
-	//	camera->left = lag_vec4s_cross_ret(camera->forward, lag_vec4s_ret(0.0f, 1.0f, 0.0f, 0.0f));
-	//lag_vec4s_normalize(&camera->left);
-	////camera->up = lag_vec4s_cross_ret(camera->left, camera->forward);
-	//lag_vec4s_normalize(&camera->up);
+	lag_vec4s_normalize(&camera->up);
+	lag_vec4s_normalize(&camera->left);
+	lag_vec4s_normalize(&camera->forward);
 	camera->inv_transform = lag_mat4s_rows_ret(
 		lag_vec4s_ret(camera->left.x, camera->left.y, camera->left.z, 0.0f),
 		lag_vec4s_ret(camera->up.x, camera->up.y, camera->up.z, 0.0f),
@@ -98,25 +94,29 @@ void	camera_controls(t_program *state)
 	lag_vec4s_scaleby(&scaled_forward, state->cam.forward, (MOVE_SPEED + (MOVE_SPEED / 2.f)) * state->delta_time);
 	lag_vec4s_scaleby(&scaled_left, state->cam.left, (MOVE_SPEED + (MOVE_SPEED / 2.f)) * state->delta_time);
 
-	if (state->movement.a)
-		lag_vec4s_add(&state->cam.trans, &scaled_left, &state->cam.trans);
-	if (state->movement.d)
-		lag_vec4s_sub(&state->cam.trans, &state->cam.trans, &scaled_left);
-	if (state->movement.w)
-		lag_vec4s_add(&state->cam.trans, &scaled_forward, &state->cam.trans);
-	if (state->movement.s)
-		lag_vec4s_sub(&state->cam.trans, &state->cam.trans, &scaled_forward);
-	if (state->movement.space)
-		state->cam.trans.y += (MOVE_SPEED * state->delta_time);
-	if (state->movement.lshift)
-		state->cam.trans.y -= (MOVE_SPEED * state->delta_time);
-	update_camera_state(&state->cam);
+	if (state->movement.a || state->movement.d || state->movement.s
+		|| state->movement.w || state->movement.space || state->movement.lshift)
+	{
+		if (state->movement.a)
+			lag_vec4s_add(&state->cam.trans, &scaled_left, &state->cam.trans);
+		if (state->movement.d)
+			lag_vec4s_sub(&state->cam.trans, &state->cam.trans, &scaled_left);
+		if (state->movement.w)
+			lag_vec4s_add(&state->cam.trans, &scaled_forward, &state->cam.trans);
+		if (state->movement.s)
+			lag_vec4s_sub(&state->cam.trans, &state->cam.trans, &scaled_forward);
+		if (state->movement.space)
+			state->cam.trans.y += (MOVE_SPEED * state->delta_time);
+		if (state->movement.lshift)
+			state->cam.trans.y -= (MOVE_SPEED * state->delta_time);
+		update_camera_state(&state->cam);
+	}
 }
 
 void	camera_rotations(t_program *state)
 {
-	t_mat4s	rot;
 	const t_vec4s	j_hat = lag_vec4sv_ret(0.f, 1.f, 0.f);
+	t_mat4s	rot;
 
 	if (state->movement.left == true)
 	{
@@ -124,8 +124,6 @@ void	camera_rotations(t_program *state)
 		lag_mat4s_cross_vec4s(&rot, &state->cam.forward, &state->cam.forward);
 		lag_mat4s_cross_vec4s(&rot, &state->cam.left, &state->cam.left);
 		lag_mat4s_cross_vec4s(&rot, &state->cam.up, &state->cam.up);
-		lag_vec4s_normalize(&state->cam.up);
-		lag_vec4s_normalize(&state->cam.left);
 	}
 	if (state->movement.right == true)
 	{
@@ -133,8 +131,6 @@ void	camera_rotations(t_program *state)
 		lag_mat4s_cross_vec4s(&rot, &state->cam.forward, &state->cam.forward);
 		lag_mat4s_cross_vec4s(&rot, &state->cam.left, &state->cam.left);
 		lag_mat4s_cross_vec4s(&rot, &state->cam.up, &state->cam.up);
-		lag_vec4s_normalize(&state->cam.up);
-		lag_vec4s_normalize(&state->cam.left);
 	}
 	if (state->movement.up == true)
 	{
@@ -142,8 +138,6 @@ void	camera_rotations(t_program *state)
 		lag_mat4s_cross_vec4s(&rot, &state->cam.forward, &state->cam.forward);
 		lag_mat4s_cross_vec4s(&rot, &state->cam.left, &state->cam.left);
 		lag_mat4s_cross_vec4s(&rot, &state->cam.up, &state->cam.up);
-		lag_vec4s_normalize(&state->cam.up);
-		lag_vec4s_normalize(&state->cam.left);
 	}
 	if (state->movement.down == true)
 	{
@@ -151,10 +145,7 @@ void	camera_rotations(t_program *state)
 		lag_mat4s_cross_vec4s(&rot, &state->cam.forward, &state->cam.forward);
 		lag_mat4s_cross_vec4s(&rot, &state->cam.left, &state->cam.left);
 		lag_mat4s_cross_vec4s(&rot, &state->cam.up, &state->cam.up);
-		lag_vec4s_normalize(&state->cam.up);
-		lag_vec4s_normalize(&state->cam.left);
 	}
-	lag_vec4s_normalize(&state->cam.forward);
 	update_camera_state(&state->cam);
 }
 
@@ -190,7 +181,6 @@ void	object_controls(t_program *state)
 int	check_state(void *context)
 {
 	t_program	*state = (t_program *)context;
-	bool		state_changed = false;
 
 	if (state->stop)
 	{
@@ -206,17 +196,14 @@ int	check_state(void *context)
 	if (state->selected.is_cam)
 	{
 		camera_controls(state);
-		camera_rotations(state);
-		state_changed = true;
+		if (state->movement.left || state->movement.right
+			|| state->movement.up || state->movement.down)
+			camera_rotations(state);
 	}
-	else
-	{
+	else if (state->movement.a || state->movement.d || state->movement.s
+		|| state->movement.w || state->movement.space || state->movement.lshift)
 		object_controls(state);
-		state_changed = true;
-	}
-	if (state_changed)
-		update(context);
-	return (0);
+	return (update(context), 0);
 }
 
 
@@ -247,10 +234,8 @@ int	check_key_presses(int keysym, void *context)
 		state->movement.left = true;
 	if (keysym == AKEY_R)
 		state->movement.right = true;
-	if (keysym == KEY_R && !state->world.refract_reflect)
-		state->world.refract_reflect = true;
-	else if (keysym == KEY_R && state->world.refract_reflect)
-		state->world.refract_reflect = false;
+	if (keysym == KEY_R)
+		state->world.refract_reflect ^= true;
 	return (keysym);
 }
 
