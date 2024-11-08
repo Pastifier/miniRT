@@ -247,8 +247,10 @@ int	check_key_presses(int keysym, void *context)
 		state->movement.left = true;
 	if (keysym == AKEY_R)
 		state->movement.right = true;
-	if (keysym == KEY_R)
-		state->movement.r = true;
+	if (keysym == KEY_R && !state->world.refract_reflect)
+		state->world.refract_reflect = true;
+	else if (keysym == KEY_R && state->world.refract_reflect)
+		state->world.refract_reflect = false;
 	return (keysym);
 }
 
@@ -276,7 +278,5 @@ int	check_key_releases(int keysym, void *param)
 		state->movement.left = false;
 	if (keysym == AKEY_R)
 		state->movement.right = false;
-	if (keysym == KEY_R && state->movement.r)
-		state->movement.r = false;
 	return (keysym);
 }

@@ -160,6 +160,7 @@ typedef struct s_light
 
 typedef struct s_world
 {
+	bool	refract_reflect;
 	t_color	ambiance;
 	int		num_shapes;
 	int		num_lights;

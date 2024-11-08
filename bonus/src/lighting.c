@@ -51,11 +51,7 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	comps->normalv.w = 0;
 	lag_vec4s_dot(&light_dot_normal, &light_v, &comps->normalv);
 	if (light_dot_normal < EPSILON || in_shadow)
-	{
-		//color_init(&diffuse, 0.0, 0.0, 0.0);
-		//color_init(&specular, 0.0, 0.0, 0.0);
 		return (ambient);
-	}
 	else
 		color_scaleby(&diffuse, &effective_color, material->diffuse * light_dot_normal);
 	lag_vec4s_negate(&light_v);
@@ -95,33 +91,38 @@ bool	is_shadowed(t_world *world, t_vec4s *point, t_light *light)
 	return (false);
 }
 
-t_color	reflected_color(t_world *world, t_itx_computation *comps, int depth)
+t_color	check_for_refref(t_world *world, t_comps *comps, int depth)
 {
-	t_color		c;
-	t_ray		r;
-	t_color		reflected_color;
-	t_vec4s	reflectv;
-	t_vec4s	reflect_origin;
-	t_vec4s	offset;
+	double		schlick_value;
+	t_color		reflection_result;
+	t_color		refraction_result;
+	t_color		return_color;
 
-	color_init(&c, 0.0, 0.0, 0.0);
-	if (depth <= 0 || comps->obj->material.reflective <= 0.0)
-		return (c);
-	reflectv = comps->reflectv;
-	lag_vec4s_scaleby(&offset, comps->normalv, EPSILON);
-	lag_vec4s_add(&reflect_origin, &comps->over_point, &offset);
-	ray_create(&r, &reflect_origin, &reflectv);
-	reflected_color = color_at(world, &r, depth - 1);
-	color_scaleby(&reflected_color, &reflected_color, comps->obj->material.reflective);
-	return (reflected_color);
+	reflection_result = reflected_color(world, comps, depth);
+	refraction_result = refracted_color(world, comps, depth);
+	color_init(&return_color, 0.0, 0.0, 0.0);
+	if (comps->obj->material.reflective > 0.0f)
+		color_scaleby(&return_color, &return_color, 1.0f - comps->obj->material.reflective);
+	if (comps->obj->material.transparency > 0.0f)
+		color_scaleby(&return_color, &return_color, 1.0f - comps->obj->material.transparency);
+	if (comps->obj->material.reflective > 0.0f && comps->obj->material.transparency > 0.0f)
+	{
+		schlick_value = schlick(comps);
+		color_scaleby(&reflection_result, &reflection_result, 1.0f - schlick_value);
+		color_scaleby(&reflection_result, &reflection_result, schlick_value);
+	}
+	if (comps->obj->material.reflective > 0.0f)
+		color_add(&return_color, &return_color, &reflection_result);
+	if (comps->obj->material.transparency > 0.0f)
+		color_add(&return_color, &return_color, &refraction_result);
+	return (return_color);
 }
 
 t_color	shade_hit(t_world *world, t_comps *comps, int depth)
 {
 	t_color		lighting_result;
-	// t_color		reflection_result;
-	// t_color		refraction_result;
-	t_color		return_color; (void)depth;
+	t_color		refract_reflect;
+	t_color		return_color;
 	bool		in_shadow;
 
 	color_init(&return_color, 0.f, 0.f, 0.f);
@@ -131,20 +132,11 @@ t_color	shade_hit(t_world *world, t_comps *comps, int depth)
 		lighting_result = lighting(comps, &comps->obj->material, &world->lights[i], in_shadow);
 		color_add(&return_color, &return_color, &lighting_result);
 	}
-	// reflection_result = reflected_color(world, comps, depth);
-	// refraction_result = refracted_color(world, comps, depth);
-	// if (comps->obj->material.reflective > 0.0f)
-	// 	color_scaleby(&return_color, &return_color, 1.0f - comps->obj->material.reflective);
-	// if (comps->obj->material.transparency > 0.0f)
-	// 	color_scaleby(&return_color, &return_color, 1.0f - comps->obj->material.transparency);
-	// double schlick_value = schlick(comps);
-	// if (comps->obj->material.reflective > 0.0f && comps->obj->material.transparency > 0.0f)
-	// {
-	// 	color_scaleby(&reflection_result, &reflection_result, 1.0f - schlick_value);
-	// 	color_scaleby(&reflection_result, &reflection_result, schlick_value);
-	// }
-	// color_add(&return_color, &return_color, &reflection_result);
-	// color_add(&return_color, &return_color, &refraction_result);
+	if (world->refract_reflect)
+	{
+		refract_reflect = check_for_refref(world, comps, depth);
+		color_add(&return_color, &return_color, &refract_reflect);
+	}
 	color_add(&return_color, &return_color, &world->ambiance);
 	color_clamp(&return_color);
 	return (return_color);
