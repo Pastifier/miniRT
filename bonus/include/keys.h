@@ -17,11 +17,17 @@
 
 enum e_keysyms
 {
+	MOUSE_LMB = 1,
 	MSCROLL_UP = 4,
 	MSCROLL_DOWN,
+	KEY_W = 119,
 	KEY_A = 97,
+	KEY_S = 115,
 	KEY_D = 100,
 	KEY_R = 114,
+	KEY_LCTRL = 65507,
+	KEY_LSHIFT = 65505,
+	KEY_SPACE = 32,
 	AKEY_L = 65361,
 	AKEY_U,
 	AKEY_R,
