@@ -25,12 +25,10 @@ t_vec4s	plane_normal_at(t_obj *plane)
 
 void	intersect_plane(t_ray *ray, t_obj *plane, t_itx_grp *xs)
 {
-	t_vec4s		plane_normal;
 	t_ray		trans_ray;
 	float		denom;
 	float		t;
 
-	plane_normal = plane_normal_at(plane);
 	trans_ray = *ray; // BAD_MEMCPY
 	ray_transform(&trans_ray, &plane->inv_transform);
 	if (fabsf(trans_ray.dir.y) < EPSILON)
