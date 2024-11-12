@@ -153,7 +153,9 @@ typedef struct s_light
 		}	point;
 		struct s_spot
 		{
-			float	intensity;
+			t_color	intensity;
+			t_vec4s	orientation;
+			float	spot_angle;
 		}	spot;
 	}	specs;
 }	t_light;
