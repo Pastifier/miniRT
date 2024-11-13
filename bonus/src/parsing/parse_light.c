@@ -26,8 +26,8 @@ bool		parse_spot_light(t_program *context, const t_split *fields, int curr_line)
 	if (world->num_lights >= _RT_MAX_LIGHTS_)
 		return (parse_warn_msg(ERR_MAX_LIGHTS, curr_line, true),
 			str_arr_destroy(fields->array), true);
-	if (fields->wordcount != 5)
-		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_L,
+	if (fields->wordcount != 6)
+		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_SL,
 			curr_line), str_arr_destroy(fields->array), false);
 	if (!parse_vec4(&world->lights[world->num_lights].pos, fields->array[1], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
@@ -40,11 +40,15 @@ bool		parse_spot_light(t_program *context, const t_split *fields, int curr_line)
 			str_arr_destroy(fields->array), false);
 	if (!parse_single_f(&world->lights[world->num_lights].specs.spot.spot_angle, fields->array[4], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
-	if (world->lights[world->num_lights].specs.spot.spot_angle < -0.f || world->lights[world->num_lights].specs.spot.spot_angle > 1.f)
+	if (world->lights[world->num_lights].specs.spot.spot_angle < -0.f || world->lights[world->num_lights].specs.spot.spot_angle > 90.f)
 		return (parse_err_msg(ERR_LIGHT_VALUE, ERR_EXPECT_FLOAT_RANGE, curr_line),
 			str_arr_destroy(fields->array), false);
-	if (fields->wordcount == 4)
-		return (parse_spot_light_color(fields, curr_line, world));
+	world->lights[world->num_lights].specs.spot.spot_angle *= M_PI / 180.f;
+	if (!parse_spot_light_color(fields, curr_line, world))
+		return (str_arr_destroy(fields->array), false);
+	if (!is_normalised(world->lights[world->num_lights].specs.spot.orientation))
+		world->lights[world->num_lights].specs.spot.orientation = lag_vec4s_normalize_highp(world->lights[world->num_lights].specs.spot.orientation);
+	world->lights[world->num_lights].type = SPOT_LIGHT;
 	world->num_lights++;
 	return (str_arr_destroy(fields->array), true);
 }
@@ -58,7 +62,7 @@ bool		parse_light(t_program *context, const t_split *fields, int curr_line)
 	if (world->num_lights >= _RT_MAX_LIGHTS_)
 		return (parse_warn_msg(ERR_MAX_LIGHTS, curr_line, true),
 			str_arr_destroy(fields->array), true);
-	if (fields->wordcount < 3)
+	if (fields->wordcount != 4)
 		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_L,
 			curr_line), str_arr_destroy(fields->array), false);
 	if (!parse_vec4(&world->lights[world->num_lights].pos, fields->array[1], context, curr_line))
@@ -71,8 +75,9 @@ bool		parse_light(t_program *context, const t_split *fields, int curr_line)
 		return (parse_err_msg(ERR_LIGHT_VALUE, ERR_EXPECT_FLOAT_RANGE, curr_line),
 			str_arr_destroy(fields->array), false);
 	world->lights[world->num_lights].ratio = temp;
-	if (fields->wordcount == 4)
-		return (parse_point_light_color(fields, curr_line, world));
+	if (!parse_point_light_color(fields, curr_line, world))
+		return (str_arr_destroy(fields->array), false);
+	world->lights[world->num_lights].type = POINT_LIGHT;
 	world->num_lights++;
 	return (str_arr_destroy(fields->array), true);
 }
@@ -88,7 +93,7 @@ bool		parse_point_light_color(const t_split *fields, int curr_line, t_world *wor
 		return (str_arr_destroy(fields->array), false);
 	color_scaleby(&curr_light->specs.point.intensity, \
 		&parsed_color, curr_light->ratio);
-	return (str_arr_destroy(fields->array), true);
+	return (true);
 }
 
 bool		parse_spot_light_color(const t_split *fields, int curr_line, t_world *world)
@@ -98,9 +103,9 @@ bool		parse_spot_light_color(const t_split *fields, int curr_line, t_world *worl
 
 	curr_light = &world->lights[world->num_lights++];
 	if (!parse_color(&parsed_color,
-			fields->array[3], curr_line))
+			fields->array[5], curr_line))
 		return (str_arr_destroy(fields->array), false);
 	color_scaleby(&curr_light->specs.spot.intensity, \
 		&parsed_color, curr_light->ratio);
-	return (str_arr_destroy(fields->array), true);
+	return (true);
 }

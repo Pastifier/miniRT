@@ -143,7 +143,6 @@ typedef struct s_light
 {
 	int		type;
 	t_vec4s	pos;
-	t_color	color;
 	float	ratio;
 	union u_light_type
 	{

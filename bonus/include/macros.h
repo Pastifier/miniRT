@@ -27,7 +27,11 @@
 #  define REFLECTION_DEPTH 4
 # endif // !REFLECTION_DEPTH
 
-# define _RT_NUM_THREADS 16
+# ifndef SPOTLIGHT_FALLOFF
+#  define SPOTLIGHT_FALLOFF 2.0f
+# endif // !SPOTLIGHT_FALLOFF
+
+# define _RT_NUM_THREADS 1
 
 # define _RT_MAX_ITX 200
 
@@ -83,6 +87,7 @@
 # define ERR_EXPECT_TYPE_A "Expected:\n\tA <ratio> <R>,<G>,<B>"
 # define ERR_EXPECT_TYPE_C "Expected:\n\tC <x>,<y>,<z> <ox>,<oy>,<oz> <FOV>"
 # define ERR_EXPECT_TYPE_L "Expected:\n\tL <x>,<y>,<z> <ratio> [<R>,<G>,<B>]"
+# define ERR_EXPECT_TYPE_SL "Expected:\n\tSL <x>,<y>,<z> <ox>,<oy>,<oz> <ratio> <spot_angle> [<R>,<G>,<B>]"
 # define ERR_EXPECT_TYPE_SP "Expected:\n\tsp <x>,<y>,<z> <diameter> [<R>,<G>,<B>]"
 # define ERR_EXPECT_TYPE_PL "Expected:\n\tsl <x>,<y>,<z> <ox>,<oy>,<oz> [<R>,<G>,<B>]"
 # define ERR_EXPECT_TYPE_CY "Expected:\n\tcy <x>,<y>,<z> <ox>,<oy>,<oz> <diameter> <height> [<R>,<G>,<B>]"

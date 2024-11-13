@@ -143,6 +143,8 @@ bool	check_object_validity_and_add(t_program *context, const char *info,
 		return (parse_cube(context, &fields, curr_line));
 	else if (*info == 'c' && *(info + 1) == 'o')
 		return (parse_cone(context, &fields, curr_line));
+	else if (*info == 'S' && *(info + 1) == 'L')
+		return (parse_spot_light(context, &fields, curr_line));
 	else
 	{
 		ft_putstr_fd("Error: couldn't recognize object in line ", 2);

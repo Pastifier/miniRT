@@ -129,6 +129,7 @@ float		ft_atof(char *rep, t_program *context);
 bool		parse_file(const char *filename, t_program *context);
 bool		parse_ambient(t_program *context, t_split *fields, int curr_line);
 bool		parse_light(t_program *context, const t_split *fields, int curr_line);
+bool		parse_spot_light(t_program *context, const t_split *fields, int curr_line);
 bool		parse_camera(t_program *context, const t_split *fields, int curr_line);
 bool		parse_sphere(t_program *context, const t_split *fields, int curr_line);
 bool		parse_plane(t_program *context, const t_split *fields, int curr_line);

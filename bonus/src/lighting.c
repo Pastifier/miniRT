@@ -27,11 +27,26 @@ static inline void	plane_pattern_blend(t_color *ec,
 		color_blend(ec, &mater->xordc, intens);
 }
 
+float	get_spot_light_intensity(t_light *light, t_vec4s light_v)
+{
+	float	cos_theta;
+	float	cos_spot_angle;
+
+	lag_vec4s_normalize(&light_v);
+	cos_theta = lag_vec4s_dot_ret(&light_v, &light->specs.spot.orientation);
+	cos_spot_angle = cosf(light->specs.spot.spot_angle);
+	printf("cos_theta: %f\n", cos_theta);
+	printf("cos_spot_angle: %f\n", cos_spot_angle);
+	if (cos_theta >= cos_spot_angle)
+		return (printf("Within spotlights range\n"), powf(cos_theta, SPOTLIGHT_FALLOFF));
+	return (0.0f);
+}
 
 t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_shadow)
 {
-	t_vec4s	light_v;
-	t_vec4s	reflect_v;
+	t_vec4s		light_v;
+	t_vec4s		reflect_v;
+	t_color		intensity;
 	t_color		effective_color;
 	t_color		ambient;
 	t_color		diffuse;
@@ -40,14 +55,24 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	float		reflect_eye_dot;
 	float		light_dot_normal;
 	float		factor;
+	float		spot_intensity;
 
-	if (comps->obj->type == PLANE)
-		plane_pattern_blend(&effective_color, comps, &light->specs.point.intensity);
+	if (light->type == SPOT_LIGHT)
+		intensity = light->specs.spot.intensity;
 	else
-		color_blend(&effective_color, &material->color, &light->specs.point.intensity);
+		intensity = light->specs.point.intensity;
+	if (comps->obj->type == PLANE)
+		plane_pattern_blend(&effective_color, comps, &intensity);
+	else
+		color_blend(&effective_color, &material->color, &intensity);
 	lag_vec4s_sub(&light_v, &light->pos, &comps->over_point);
 	lag_vec4s_normalize(&light_v);
 	color_scaleby(&ambient, &effective_color, material->ambient);
+	if (light->type == SPOT_LIGHT)
+		spot_intensity = get_spot_light_intensity(light, light_v);
+	else
+		spot_intensity = 1.0f;
+	color_scaleby(&effective_color, &effective_color, spot_intensity);
 	comps->normalv.w = 0;
 	lag_vec4s_dot(&light_dot_normal, &light_v, &comps->normalv);
 	if (light_dot_normal < EPSILON || in_shadow)
@@ -62,7 +87,7 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	else
 	{
 		factor = powf(reflect_eye_dot, material->sheen);
-		color_scaleby(&specular, &light->specs.point.intensity, material->specular * factor);
+		color_scaleby(&specular, &intensity, material->specular * factor);
 	}
 	color_add(&return_color, &ambient, &diffuse);
 	color_add(&return_color, &return_color, &specular);
@@ -77,8 +102,15 @@ bool	is_shadowed(t_world *world, t_vec4s *point, t_light *light)
 	t_itx		*itx;
 	t_vec4s		hit_pos;
 	t_vec4s		hit_v;
+	float		cos_theta;
 
 	lag_vec4s_sub(&v, &light->pos, point);
+	 if (light->type == SPOT_LIGHT) {
+		lag_vec4s_normalize(&v);
+		cos_theta = lag_vec4s_dot_ret(&v, &light->specs.spot.orientation);
+		if (cos_theta < cosf(light->specs.spot.spot_angle))
+			return (false);
+	}
 	ray_create(&r, point, &v);
 	xs = intersect_world(world, &r); //
 	itx = get_hit(&xs);
