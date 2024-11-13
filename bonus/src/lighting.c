@@ -35,10 +35,8 @@ float	get_spot_light_intensity(t_light *light, t_vec4s light_v)
 	lag_vec4s_normalize(&light_v);
 	cos_theta = lag_vec4s_dot_ret(&light_v, &light->specs.spot.orientation);
 	cos_spot_angle = cosf(light->specs.spot.spot_angle);
-	printf("cos_theta: %f\n", cos_theta);
-	printf("cos_spot_angle: %f\n", cos_spot_angle);
 	if (cos_theta >= cos_spot_angle)
-		return (printf("Within spotlights range\n"), powf(cos_theta, SPOTLIGHT_FALLOFF));
+		return (powf(cos_theta, SPOTLIGHT_FALLOFF));
 	return (0.0f);
 }
 
