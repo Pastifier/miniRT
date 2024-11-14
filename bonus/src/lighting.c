@@ -29,14 +29,17 @@ static inline void	plane_pattern_blend(t_color *ec,
 
 float	get_spot_light_intensity(t_light *light, t_vec4s light_v)
 {
-	float	cos_theta;
-	float	cos_spot_angle;
-
-	lag_vec4s_normalize(&light_v);
-	cos_theta = lag_vec4s_dot_ret(&light_v, &light->specs.spot.orientation);
-	cos_spot_angle = cosf(light->specs.spot.spot_angle);
-	if (cos_theta >= cos_spot_angle + EPSILON)
-		return (powf(cos_theta, SPOTLIGHT_FALLOFF));
+	if (light->type == SPOT_LIGHT)
+	{
+		float cos_align = lag_vec4s_dot_ret(&light_v, &light->specs.spot.orientation);
+		if (cos_align < 0.f)
+			return (powf(cos_align, SPOTLIGHT_FALLOFF));
+		if (cos_align <= 1.f)
+		{
+			if (acosf(cos_align) > (light->specs.spot.spot_angle / 4.f))
+				return (powf(cos_align, SPOTLIGHT_FALLOFF));
+		}
+	}
 	return (0.0f);
 }
 
@@ -66,17 +69,17 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	lag_vec4s_sub(&light_v, &light->pos, &comps->over_point);
 	lag_vec4s_normalize(&light_v);
 	color_scaleby(&ambient, &effective_color, material->ambient);
-	if (light->type == SPOT_LIGHT)
+	if (light->type == SPOT_LIGHT && !in_shadow)
 		spot_intensity = get_spot_light_intensity(light, light_v);
 	else
 		spot_intensity = 1.0f;
 	color_scaleby(&effective_color, &effective_color, spot_intensity);
 	comps->normalv.w = 0;
 	lag_vec4s_dot(&light_dot_normal, &light_v, &comps->normalv);
-	if (light_dot_normal < EPSILON || in_shadow || spot_intensity == 0.0f)
+	if (light_dot_normal < EPSILON || in_shadow)
 		return (ambient);
 	else
-		color_scaleby(&diffuse, &effective_color, material->diffuse * light_dot_normal);
+		color_scaleby(&diffuse, &effective_color, material->diffuse * light_dot_normal * spot_intensity);
 	lag_vec4s_negate(&light_v);
 	reflect_v = reflect(&light_v, &comps->normalv);
 	reflect_eye_dot = lag_vec4s_dot_ret(&reflect_v, &comps->eyev);
@@ -104,9 +107,15 @@ bool	is_shadowed(t_world *world, t_vec4s *point, t_light *light)
 	lag_vec4s_sub(&v, &light->pos, point);
 	if (light->type == SPOT_LIGHT)
 	{
-		lag_vec4s_normalize(&v);
-		if (lag_vec4s_dot_ret(&v, &light->specs.spot.orientation) < cosf(light->specs.spot.spot_angle) + EPSILON)
-			return (false);
+		float cos_align = lag_vec4s_dot_ret(&v, &light->specs.spot.orientation);
+		if (cos_align < 0.f)
+			return (true);
+		if (cos_align <= 1.f)
+		{
+			if (acosf(cos_align) > (light->specs.spot.spot_angle / 4.f))
+				return (true);
+		}
+		return (false);
 	}
 	ray_create(&r, point, &v);
 	xs = intersect_world(world, &r); //
