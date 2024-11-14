@@ -43,7 +43,7 @@ bool		parse_spot_light(t_program *context, const t_split *fields, int curr_line)
 	if (light->specs.spot.spot_angle < -0.f || light->specs.spot.spot_angle > 90.f)
 		return (parse_err_msg(ERR_LIGHT_VALUE, ERR_EXPECT_FLOAT, curr_line),
 			str_arr_destroy(fields->array), false);
-	light->specs.spot.spot_angle *= (M_PI / 180.f);
+	light->specs.spot.spot_angle *= ((float)M_PI / 180.f);
 	if (!parse_spot_light_color(fields, curr_line, &context->world))
 		return (str_arr_destroy(fields->array), false);
 	if (!is_normalised(light->specs.spot.orientation))
