@@ -32,16 +32,19 @@ static inline void	plane_pattern_blend(t_color *ec,
 
 float get_spot_light_intensity(t_light *light, t_vec4s light_v)
 {
+	float SPOT_INNER_CONE = SPOTLIGHT_INNER_CONE * light->specs.spot.spot_angle;
+	float SPOT_OUTER_CONE = SPOTLIGHT_OUTER_CONE * light->specs.spot.spot_angle;
+
 	if (light->type == SPOT_LIGHT)
 	{
 		float cos_align = lag_vec4s_dot_ret(&light_v, &light->specs.spot.orientation);
-		if (cos_align < SPOTLIGHT_OUTER_CONE)
+		if (cos_align < SPOT_OUTER_CONE)
 			return 0.0f;
 		float angle_attenuation = 1.0f;
-		if (cos_align < SPOTLIGHT_INNER_CONE)
+		if (cos_align < SPOT_INNER_CONE)
 		{
-			float delta_cos = SPOTLIGHT_INNER_CONE - SPOTLIGHT_OUTER_CONE;
-			angle_attenuation = powf((cos_align - SPOTLIGHT_OUTER_CONE) / delta_cos, SPOTLIGHT_FALLOFF);
+			float delta_cos = SPOT_INNER_CONE - SPOT_OUTER_CONE;
+			angle_attenuation = powf((cos_align - SPOT_OUTER_CONE) / delta_cos, SPOTLIGHT_FALLOFF);
 		}
 		
 		return (angle_attenuation);
@@ -99,37 +102,59 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	return (return_color);
 }
 
-bool	is_shadowed(t_world *world, t_vec4s *point, t_light *light)
+bool is_shadowed(t_world *world, t_vec4s *point, t_light *light)
 {
-	t_vec4s		v;
-	t_ray		r;
-	t_itx_grp	xs;
-	t_itx		*itx;
-	t_vec4s		hit_pos;
-	t_vec4s		hit_v;
+	t_vec4s v;
+	t_ray r;
+	t_itx_grp xs;
+	t_itx *itx;
+	t_vec4s hit_pos;
+	t_vec4s hit_v;
 
+	// Calculate vector from point to the light
 	lag_vec4s_sub(&v, &light->pos, point);
+
+	// Spotlight cone check
 	if (light->type == SPOT_LIGHT)
 	{
+		float SPOT_INNER_CONE = SPOTLIGHT_INNER_CONE * light->specs.spot.spot_angle;
+		float SPOT_OUTER_CONE = SPOTLIGHT_OUTER_CONE * light->specs.spot.spot_angle;
 		float cos_align = lag_vec4s_dot_ret(&v, &light->specs.spot.orientation);
-		if (cos_align < 0.f)
-			return (true);
-		if (cos_align <= 1.f)
+		
+		// If outside the spotlight's outer cone, it's fully shadowed
+		if (cos_align < SPOT_OUTER_CONE)
+			return true;
+
+		// Smooth transition from outer to inner cone
+		if (cos_align < SPOT_INNER_CONE)
 		{
-			if (acosf(cos_align) > (light->specs.spot.spot_angle / 4.f))
-				return (true);
+			float delta_cos = SPOT_INNER_CONE - SPOT_OUTER_CONE;
+			float angle_attenuation = (cos_align - SPOT_OUTER_CONE) / delta_cos;
+
+			// If point is dimly lit by spotlight, it may still be considered shadowed
+			if (angle_attenuation < 0.1f)  // 0.1 as threshold for very low light
+				return true;
 		}
 	}
+
+	// Cast ray to see if any object is blocking the light
 	ray_create(&r, point, &v);
-	xs = intersect_world(world, &r); //
+	xs = intersect_world(world, &r);
 	itx = get_hit(&xs);
+
+	// If there's no intersection, point is not shadowed
 	if (!itx)
-		return (false);
+		return false;
+
+	// Calculate hit position and distance
 	ray_position(&hit_pos, &r, itx->t);
 	lag_vec4s_sub(&hit_v, &hit_pos, point);
+
+	// Check if object blocking light is closer than the light source
 	if (lag_vec4s_magnitude_ret(hit_v) < lag_vec4s_magnitude_ret(v))
-		return (true);
-	return (false);
+		return true;
+
+	return false;
 }
 
 t_color	check_for_refref(t_world *world, t_comps *comps, int depth)
