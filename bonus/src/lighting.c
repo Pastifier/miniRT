@@ -29,6 +29,7 @@ static inline void	plane_pattern_blend(t_color *ec,
 
 #define SPOTLIGHT_INNER_CONE 0.7f
 #define SPOTLIGHT_OUTER_CONE 0.5f
+#define MIN_INTENSITY 0.05f   // Minimum intensity for small angles to avoid disappearance
 
 float get_spot_light_intensity(t_light *light, t_vec4s light_v)
 {
@@ -50,9 +51,15 @@ float get_spot_light_intensity(t_light *light, t_vec4s light_v)
 
 		// In the falloff region between inner and outer cones
 		float delta_cos = inner_cone_cos - outer_cone_cos;
+
+		// Avoid division by zero or very small numbers
+		if (delta_cos < 0.001f)
+			return MIN_INTENSITY; // Return a minimum intensity if the cone is very small
+
 		float angle_attenuation = powf((cos_align - outer_cone_cos) / delta_cos, SPOTLIGHT_FALLOFF);
 		
-		return angle_attenuation; // Returns a smoothly attenuated intensity
+		// Ensure a minimum intensity threshold
+		return fmax(angle_attenuation, MIN_INTENSITY); // Avoid intensity dropping too low
 	}
 
 	return 0.0f; // If not a spotlight, return 0 intensity
