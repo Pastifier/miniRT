@@ -33,6 +33,7 @@ bool		parse_spot_light(t_program *context, const t_split *fields, int curr_line)
 		return (str_arr_destroy(fields->array), false);
 	if (!parse_vec4(&light->specs.spot.orientation, fields->array[2], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
+	light->specs.spot.orientation.w = 0.0f;
 	if (!parse_single_f(&light->ratio, fields->array[3], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
 	if (light->ratio < -0.f || light->ratio > 1.f)
