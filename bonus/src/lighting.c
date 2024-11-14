@@ -68,18 +68,16 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 		color_blend(&effective_color, &material->color, &intensity);
 	lag_vec4s_sub(&light_v, &light->pos, &comps->over_point);
 	lag_vec4s_normalize(&light_v);
-	color_scaleby(&ambient, &effective_color, material->ambient);
-	if (light->type == SPOT_LIGHT && !in_shadow)
-		spot_intensity = get_spot_light_intensity(light, light_v);
-	else
-		spot_intensity = 1.0f;
-	color_scaleby(&effective_color, &effective_color, spot_intensity);
-	comps->normalv.w = 0;
 	lag_vec4s_dot(&light_dot_normal, &light_v, &comps->normalv);
+	color_scaleby(&ambient, &effective_color, material->ambient);
 	if (light_dot_normal < EPSILON || in_shadow)
 		return (ambient);
-	else
-		color_scaleby(&diffuse, &effective_color, material->diffuse * light_dot_normal * spot_intensity);
+	if (light->type == SPOT_LIGHT && !in_shadow)
+	{
+		spot_intensity = get_spot_light_intensity(light, light_v);
+		color_scaleby(&effective_color, &effective_color, spot_intensity);
+	}
+	color_scaleby(&diffuse, &effective_color, material->diffuse * light_dot_normal);
 	lag_vec4s_negate(&light_v);
 	reflect_v = reflect(&light_v, &comps->normalv);
 	reflect_eye_dot = lag_vec4s_dot_ret(&reflect_v, &comps->eyev);
@@ -115,7 +113,6 @@ bool	is_shadowed(t_world *world, t_vec4s *point, t_light *light)
 			if (acosf(cos_align) > (light->specs.spot.spot_angle / 4.f))
 				return (true);
 		}
-		return (false);
 	}
 	ray_create(&r, point, &v);
 	xs = intersect_world(world, &r); //
