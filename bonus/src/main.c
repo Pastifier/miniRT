@@ -40,8 +40,8 @@ int	main(int argc, char *argv[])
 	}
 	if (!parse_file(argv[1], &context))
 		return (destroy_world(&context), 2);
-	context.pool = ft_calloc(_RT_NUM_THREADS, sizeof(t_thread));
-	if (!context.pool)
+	//context.pool = ft_calloc(_RT_NUM_THREADS, sizeof(t_thread));
+	if (!pool_init(&context)/*!context.pool*/)
 	{
 		destroy_world(&context);
 		destroy_mlx(&context);

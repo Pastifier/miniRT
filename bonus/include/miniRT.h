@@ -94,6 +94,9 @@ struct s_thread_data
 	int			y_f;
 	int			x;
 	int			x_f;
+	bool		work_ready;
+	pthread_mutex_t	mutex;
+	pthread_cond_t	cond;
 };
 
 typedef struct	itx_computation
@@ -158,6 +161,7 @@ t_color		color_at(t_world *w, t_ray *r, int depth);
 
 /*---- THREADS ----*/
 
+bool		pool_init(t_program *context);
 bool		pool_init_join(t_program *context);
 void		interpolate_horizontal(t_thread const *data);
 void		interpolate_vertical(t_thread const *data);
@@ -191,11 +195,11 @@ t_vec4s		reflect(t_vec4s *in, t_vec4s *normal);
 /*--- FRAGMENT CALCULATION ---*/
 
 t_itx_grp	intersect_world(t_world *w, t_ray *r);
-void		intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs);
-void		intersect_plane(t_ray *ray, t_obj *plane, t_itx_grp *xs);
-void 		intersect_cylinder(t_ray *ray, t_obj *cy, t_itx_grp *xs);
-void		intersect_cube(t_ray *ray, t_obj *cube, t_itx_grp *xs);
-void		intersect_cone(t_ray *ray, t_obj *cone, t_itx_grp *xs);
+bool		intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs);
+bool		intersect_plane(t_ray *ray, t_obj *plane, t_itx_grp *xs);
+bool		intersect_cylinder(t_ray *ray, t_obj *cy, t_itx_grp *xs);
+bool		intersect_cube(t_ray *ray, t_obj *cube, t_itx_grp *xs);
+bool		intersect_cone(t_ray *ray, t_obj *cone, t_itx_grp *xs);
 t_vec4s		cone_normal_at(t_obj *cone, t_vec4s *world_point);
 t_vec4s		cube_normal_at(t_obj *cube, t_vec4s *world_point);
 t_vec4s 	cylinder_normal_at(t_obj *cylinder, t_vec4s *world_point);

@@ -29,10 +29,24 @@ void	destroy_world(t_program *context)
 
 int	destroy_program(t_program *context)
 {
+	//if (context->pool)
+	//{
+	//	for (int i = 0; i < _RT_NUM_THREADS; i++)
+	//		pthread_cancel(context->pool[i].thread);
+	//	free(context->pool);
+	//	context->pool = NULL;
+	//}
 	if (context->pool)
 	{
+		context->stop = true;
 		for (int i = 0; i < _RT_NUM_THREADS; i++)
-			pthread_cancel(context->pool[i].thread);
+		{
+			pthread_mutex_lock(&context->pool[i].mutex);
+			pthread_cond_signal(&context->pool[i].cond);
+			pthread_mutex_unlock(&context->pool[i].mutex);
+		}
+		for (int i = 0; i < _RT_NUM_THREADS; i++)
+			pthread_join(context->pool[i].thread, NULL);
 		free(context->pool);
 		context->pool = NULL;
 	}

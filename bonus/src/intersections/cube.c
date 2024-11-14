@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 11:05:59 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/03 08:01:24 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/08 17:20:40 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void check_axis(float origin, float dir, float side_length, t_vec4s *t)
 	}
 }
 
-void intersect_cube(t_ray *ray, t_obj *cube, t_itx_grp *xs)
+bool	intersect_cube(t_ray *ray, t_obj *cube, t_itx_grp *xs)
 {
 	t_ray transformed_ray;
 	t_vec4s xt;
@@ -60,11 +60,12 @@ void intersect_cube(t_ray *ray, t_obj *cube, t_itx_grp *xs)
 	t.y = fmin(fmin(xt.y, yt.y), zt.y);
 
 	if (t.x > t.y)
-		return;
+		return (false);
 	xs->arr[xs->count].object = cube;
 	xs->arr[xs->count++].t = t.x;
 	xs->arr[xs->count].object = cube;
 	xs->arr[xs->count++].t = t.y;
+	return (true);
 }
 
 t_vec4s cube_normal_at(t_obj *cube, t_vec4s *world_point)

@@ -115,7 +115,32 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	return (return_color);
 }
 
-bool is_shadowed(t_world *world, t_vec4s *point, t_light *light)
+void	cast_shadow_ray(t_world *w, t_ray *r, t_itx_grp *xs)
+{
+	int			i;
+	int			itx_occured;
+
+	i = -1;
+	xs->count = 0;
+	itx_occured = 0;
+	while (++i < w->num_shapes)
+	{
+		if (xs->count >= _RT_MAX_ITX || itx_occured > 2)
+			break ;
+		if (w->shapes[i].type == SPHERE)
+			itx_occured += intersect_sphere(r, &w->shapes[i], xs);
+		else if (w->shapes[i].type == PLANE)
+			itx_occured += intersect_plane(r, &w->shapes[i], xs);
+		else if (w->shapes[i].type == CYLINDER)
+			itx_occured += intersect_cylinder(r, &w->shapes[i], xs);
+		else if (w->shapes[i].type == CUBE)
+			itx_occured += intersect_cube(r, &w->shapes[i], xs);
+		else if (w->shapes[i].type == CONE)
+			itx_occured += intersect_cone(r, &w->shapes[i], xs);
+	}
+}
+
+bool	is_shadowed(t_world *world, t_vec4s *point, t_light *light)
 {
 	t_vec4s v;
 	t_ray r;
@@ -153,7 +178,9 @@ bool is_shadowed(t_world *world, t_vec4s *point, t_light *light)
 
 	// Cast ray to check for any blocking objects
 	ray_create(&r, point, &v);
-	xs = intersect_world(world, &r);
+	//xs = intersect_world(world, &r); //
+	cast_shadow_ray(world, &r, &xs);
+	//quick_sort_intersections(xs.arr, xs.count);
 	itx = get_hit(&xs);
 
 	// No intersection means the point is not shadowed

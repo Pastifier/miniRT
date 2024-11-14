@@ -32,39 +32,39 @@ t_vec4s cylinder_normal_at(t_obj *cy, t_vec4s *world_point)
 	return (world_normal);
 }
 
-static bool check_caps(t_ray *ray, float t, t_obj *cy)
-{
-	t_vec4s point;
-	(void)cy;
-	float x, z;
+//static bool check_caps(t_ray *ray, float t, t_obj *cy)
+//{
+//	t_vec4s point;
+//	(void)cy;
+//	float x, z;
 
-	ray_position(&point, ray, t);
-	x = point.x;
-	z = point.z;
-	if (x * x + z * z > 1.f + EPSILON)
-		return (false);
-	return (true);
-}
+//	ray_position(&point, ray, t);
+//	x = point.x;
+//	z = point.z;
+//	if (x * x + z * z > 1.f + EPSILON)
+//		return (false);
+//	return (true);
+//}
 
-static void	intersect_caps(t_ray *ray, t_obj *cy, t_itx_grp *xs)
-{
-	float	t;
+//static void	intersect_caps(t_ray *ray, t_obj *cy, t_itx_grp *xs)
+//{
+//	float	t;
 
-	if (fabsf(ray->dir.y) < EPSILON)
-		return ;
-	t = (-1.f - ray->origin.y) / ray->dir.y;
-	if (check_caps(ray, t, cy) && t > EPSILON)
-	{
-		xs->arr[xs->count].object = cy;
-		xs->arr[xs->count++].t = t;
-	}
-	t = (1.f - ray->origin.y) / ray->dir.y;
-	if (check_caps(ray, t, cy) && t > EPSILON)
-	{
-		xs->arr[xs->count].object = cy;
-		xs->arr[xs->count++].t = t;
-	}
-}
+//	if (fabsf(ray->dir.y) < EPSILON)
+//		return ;
+//	t = (-1.f - ray->origin.y) / ray->dir.y;
+//	if (check_caps(ray, t, cy) && t > EPSILON)
+//	{
+//		xs->arr[xs->count].object = cy;
+//		xs->arr[xs->count++].t = t;
+//	}
+//	t = (1.f - ray->origin.y) / ray->dir.y;
+//	if (check_caps(ray, t, cy) && t > EPSILON)
+//	{
+//		xs->arr[xs->count].object = cy;
+//		xs->arr[xs->count++].t = t;
+//	}
+//}
 
 static float	cy_discriminant(t_ray *ray, t_obj *cy, float *t_values, t_itx_grp *xs)
 {
@@ -76,10 +76,11 @@ static float	cy_discriminant(t_ray *ray, t_obj *cy, float *t_values, t_itx_grp *
 
 	oc = ray->origin;
 	cy->center.w = 1.f;
+	(void)xs;
 	lag_vec4s_sub(&oc, &oc, &cy->center);
 	a = ray->dir.x * ray->dir.x + ray->dir.z * ray->dir.z;
 	if (fabsf(a) < EPSILON && cy->specs.closed)
-		return (intersect_caps(ray, cy, xs), -1);
+		return (/*intersect_caps(ray, cy, xs), */-1);
 	b = 2 * (oc.x * ray->dir.x + oc.z * ray->dir.z);
 	c = oc.x * oc.x + oc.z * oc.z - 1.f;
 	t_values[0] = (-b - sqrt(b * b - 4.f * a * c)) / (2.f * a);
@@ -93,27 +94,30 @@ static float	cy_discriminant(t_ray *ray, t_obj *cy, float *t_values, t_itx_grp *
 	return (b * b - 4.f * a * c);
 }
 
-void intersect_cylinder(t_ray *ray, t_obj *cy, t_itx_grp *xs)
+bool	intersect_cylinder(t_ray *ray, t_obj *cy, t_itx_grp *xs)
 {
-	float disc;
-	float t_values[_RT_MAX_ITX];
-	t_ray transformed_ray;
+	float	disc;
+	float	t_values[_RT_MAX_ITX]; // bro, No.
+	t_ray	transformed_ray;
+	bool	itx_occured;
 
 	transformed_ray = *ray; // EVIL MEMCPY
 	ray_transform(&transformed_ray, &(cy->inv_transform));
 	disc = cy_discriminant(&transformed_ray, cy, t_values, xs);
+	itx_occured = false;
 	if (disc < EPSILON || (t_values[0] < EPSILON && t_values[1] < EPSILON))
-		return ;
+		return (false);
 	if (t_values[0] >= EPSILON)
 	{
 		xs->arr[xs->count].object = cy;
 		xs->arr[xs->count++].t = t_values[0];
+		itx_occured = true;
 	}
 	if (t_values[1] >= EPSILON)
 	{
 		xs->arr[xs->count].object = cy;
 		xs->arr[xs->count++].t = t_values[1];
+		itx_occured = true;
 	}
-	if (cy->specs.closed)
-		intersect_caps(&transformed_ray, cy, xs);
+	return (itx_occured);
 }

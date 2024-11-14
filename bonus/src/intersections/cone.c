@@ -12,24 +12,24 @@ bool check_cap(t_ray *ray, float t, float radius)
 	return (x * x + z * z) <= 1.f; // Use epsilon-
 }
 
-void intersect_cone_caps(t_ray *ray, t_obj *cone, t_itx_grp *xs)
-{
-	float	t_cap;
-	t_vec4s	cap_point;
+//void intersect_cone_caps(t_ray *ray, t_obj *cone, t_itx_grp *xs)
+//{
+//	float	t_cap;
+//	t_vec4s	cap_point;
 	
-	if (!cone->specs.closed || fabsf(ray->dir.y) < EPSILON)
-		return;
-	t_cap = (-1.f - ray->origin.y) / ray->dir.y;
-	cap_point = lag_vec4s_add_ret(ray->origin, lag_vec4s_scaleby_ret(ray->dir, t_cap));
-	// Step 2: Check if intersection lies within the radius of the cap
-	if ((cap_point.x * cap_point.x + cap_point.z * cap_point.z) <= 1.f)
-	{
-		// Add valid intersection to the intersection group
-		xs->arr[xs->count].t = t_cap;
-		xs->arr[xs->count].object = cone;
-		xs->count++;
-	}
-}
+//	if (!cone->specs.closed || fabsf(ray->dir.y) < EPSILON)
+//		return;
+//	t_cap = (-1.f - ray->origin.y) / ray->dir.y;
+//	cap_point = lag_vec4s_add_ret(ray->origin, lag_vec4s_scaleby_ret(ray->dir, t_cap));
+//	// Step 2: Check if intersection lies within the radius of the cap
+//	if ((cap_point.x * cap_point.x + cap_point.z * cap_point.z) <= 1.f)
+//	{
+//		// Add valid intersection to the intersection group
+//		xs->arr[xs->count].t = t_cap;
+//		xs->arr[xs->count].object = cone;
+//		xs->count++;
+//	}
+//}
 
 t_vec4s	cone_normal_at(t_obj *cone, t_vec4s *world_point)
 {
@@ -79,27 +79,31 @@ float	co_discriminant(t_ray transformed_ray, float *t_values)
 	}
 	return (true);
 }
-void intersect_cone(t_ray *ray, t_obj *cone, t_itx_grp *xs)
+bool	intersect_cone(t_ray *ray, t_obj *cone, t_itx_grp *xs)
 {
 	t_ray	transformed_ray;
 	float	t_values[2];
 	float	y_values[2];
+	bool	itx_occured;
 
 	transformed_ray = *ray;
 	ray_transform(&transformed_ray, &cone->inv_transform);
 	if (!co_discriminant(transformed_ray, t_values))
-		return;
+		return (false);
+	itx_occured = false;
 	y_values[0] = transformed_ray.origin.y + t_values[0] * transformed_ray.dir.y;
 	if (y_values[0] > -1.f && y_values[0] < 1.f)
 	{
 		xs->arr[xs->count].object = cone;
 		xs->arr[xs->count++].t = t_values[0];
+		itx_occured = true;
 	}
 	y_values[1] = transformed_ray.origin.y + t_values[1] * transformed_ray.dir.y;
 	if (y_values[1] > -1.f && y_values[1] < 1.f)
 	{
 		xs->arr[xs->count].object = cone;
 		xs->arr[xs->count++].t = t_values[1];
+		itx_occured = true;
 	}
-	intersect_cone_caps(&transformed_ray, cone, xs);
+	return (itx_occured);
 }

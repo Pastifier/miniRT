@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:48:39 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/06 13:55:22 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/08 17:16:11 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_vec4s	plane_normal_at(t_obj *plane)
 	return (local_normal);
 }
 
-void	intersect_plane(t_ray *ray, t_obj *plane, t_itx_grp *xs)
+bool	intersect_plane(t_ray *ray, t_obj *plane, t_itx_grp *xs)
 {
 	t_ray		trans_ray;
 	float		denom;
@@ -32,12 +32,14 @@ void	intersect_plane(t_ray *ray, t_obj *plane, t_itx_grp *xs)
 	trans_ray = *ray; // BAD_MEMCPY
 	ray_transform(&trans_ray, &plane->inv_transform);
 	if (fabsf(trans_ray.dir.y) < EPSILON)
-		return ;
+		return (false);
 	denom = trans_ray.dir.y;
 	t = -trans_ray.origin.y / denom;
 	if (t > EPSILON)
 	{
 		xs->arr[xs->count].object = plane;
 		xs->arr[xs->count++].t = t;
+		return (true);
 	}
+	return (false);
 }
