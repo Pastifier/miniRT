@@ -27,18 +27,24 @@ static inline void	plane_pattern_blend(t_color *ec,
 		color_blend(ec, &mater->xordc, intens);
 }
 
-float	get_spot_light_intensity(t_light *light, t_vec4s light_v)
+#define SPOTLIGHT_INNER_CONE 0.7f
+#define SPOTLIGHT_OUTER_CONE 0.5f
+
+float get_spot_light_intensity(t_light *light, t_vec4s light_v)
 {
 	if (light->type == SPOT_LIGHT)
 	{
 		float cos_align = lag_vec4s_dot_ret(&light_v, &light->specs.spot.orientation);
-		if (cos_align < 0.f)
-			return (powf(cos_align, SPOTLIGHT_FALLOFF));
-		if (cos_align <= 1.f)
+		if (cos_align < SPOTLIGHT_OUTER_CONE)
+			return 0.0f;
+		float angle_attenuation = 1.0f;
+		if (cos_align < SPOTLIGHT_INNER_CONE)
 		{
-			if (acosf(cos_align) > (light->specs.spot.spot_angle / 4.f))
-				return (powf(cos_align, SPOTLIGHT_FALLOFF));
+			float delta_cos = SPOTLIGHT_INNER_CONE - SPOTLIGHT_OUTER_CONE;
+			angle_attenuation = powf((cos_align - SPOTLIGHT_OUTER_CONE) / delta_cos, SPOTLIGHT_FALLOFF);
 		}
+		
+		return (angle_attenuation);
 	}
 	return (0.0f);
 }

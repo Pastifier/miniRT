@@ -28,7 +28,7 @@
 # endif // !REFLECTION_DEPTH
 
 # ifndef SPOTLIGHT_FALLOFF
-#  define SPOTLIGHT_FALLOFF 2.0f
+#  define SPOTLIGHT_FALLOFF 5.0f
 # endif // !SPOTLIGHT_FALLOFF
 
 # define _RT_NUM_THREADS 1
