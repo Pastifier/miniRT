@@ -38,14 +38,6 @@ typedef struct s_canvas
 	int		endian;
 }	t_canvas;
 
-typedef struct s_p3ppm
-{
-	int		width;
-	int		height;
-	int		max_value;
-	uint8_t	raw;
-}	t_p3ppm;
-
 typedef struct s_thread_data	t_thread;
 
 typedef struct s_program
