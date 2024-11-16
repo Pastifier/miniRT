@@ -1,6 +1,6 @@
 # Necessities
 CC := cc
-CFLAGS = -Wextra -Wall -Werror -Wno-unused-result -mavx -mavx2 -O3 -flto -funroll-loops -fno-signed-zeros#-g -fsanitize=address,undefined
+CFLAGS = -Wextra -Wall -Werror -lz -Wno-unused-result -mavx -mavx2 -O3 -flto -funroll-loops -fno-signed-zeros#-g -fsanitize=address,undefined
 
 # OS-specification
 OS := $(shell uname)
@@ -29,7 +29,7 @@ SRC := main.c ft_atof.c rays.c fragment.c sort.c lighting.c refractions.c reflec
 			$(addprefix parsing/, parse.c parse_ambient.c parse_light.c \
 				parse_camera.c parse_sphere.c parse_utils.c parse_errors.c \
 				parse_plane.c parse_cylinder.c parse_cube.c parse_cone.c \
-				parse_extras.c parse_material.c) \
+				parse_extras.c parse_material.c parse_texture.c) \
 			$(addprefix destroy/, destroy.c) \
 			$(addprefix threads/, init_join.c routines.c) \
 			$(addprefix world/, itx_test_world.c) \
