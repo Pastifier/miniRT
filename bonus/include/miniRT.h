@@ -36,6 +36,8 @@ typedef struct s_canvas
 	int		bpp_8;
 	int		line_length;
 	int		endian;
+	int		tex_width;
+	int		tex_height;
 }	t_canvas;
 
 typedef struct s_thread_data	t_thread;
