@@ -1,6 +1,6 @@
 # Necessities
 CC := cc
-CFLAGS = -Wextra -Wall -Werror -lz -Wno-unused-result -mavx -mavx2 -O3 -flto -funroll-loops -fno-signed-zeros#-g -fsanitize=address,undefined
+CFLAGS = -g3 -Wextra -Wall -Werror -lz -Wno-unused-result -mavx -mavx2 -O3 -flto -funroll-loops -fno-signed-zeros#-g -fsanitize=address,undefined
 
 # OS-specification
 OS := $(shell uname)
@@ -24,7 +24,7 @@ endif
 # PROJECT
 NAME := miniRT
 
-SRC := main.c ft_atof.c rays.c fragment.c sort.c lighting.c refractions.c reflections.c lerp.c \
+SRC := main.c ft_atof.c rays.c fragment.c sort.c lighting.c refractions.c reflections.c lerp.c textures.c \
 			$(addprefix colors/, canvas.c paint.c color_op.c) \
 			$(addprefix parsing/, parse.c parse_ambient.c parse_light.c \
 				parse_camera.c parse_sphere.c parse_utils.c parse_errors.c \

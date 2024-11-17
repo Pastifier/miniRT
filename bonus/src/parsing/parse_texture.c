@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 19:39:29 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/16 20:01:14 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/16 20:07:46 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 /// to adhere to MiniLibX. The argument however might as well be const).
 /// @param context mlx pointer.
 /// @return Pointer to the address storing the canvas data.
+/// @warning Returns `NULL` on failure or upon not being used in MacOS.
 t_canvas	*rt_png_file_to_canvas(char *filepath, void *mlx)
 {
 	t_canvas	*retval;
@@ -42,6 +43,13 @@ t_canvas	*rt_png_file_to_canvas(char *filepath, void *mlx)
 	return (retval);
 }
 
+/// @brief Loads a xpm file onto memory as a `t_canvas`. Ownership of the
+/// block thereof is given to the caller.
+/// @param filepath the path to the xpm file to load (No const qualifier
+/// to adhere to MiniLibX. The argument however might as well be const).
+/// @param context mlx pointer.
+/// @return Pointer to the address storing the canvas data.
+/// @warning Returns `NULL` on failure.
 t_canvas	*rt_xpm_file_to_canvas(char *filepath, void *mlx)
 {
 	t_canvas	*retval;

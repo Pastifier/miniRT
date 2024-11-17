@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_sphere.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 12:14:10 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/07 14:26:56 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/17 06:06:53 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ bool	parse_sphere(t_program *context, const t_split *fields, int curr_line)
 	sp->rot = lag_mat4s_identity();
 	sp->inv_transform = lag_mat4s_get_transform_inverse(sp->rot, sp->scale.simd, sp->trans.simd);
 	lag_mat4s_transpose(&sp->inv_transform, &sp->transposed_inverse);
+	sp->tex = rt_xpm_file_to_canvas("gravel_normal.xpm", context->mlx);
 	return (str_arr_destroy(fields->array), true);
 }
