@@ -20,7 +20,10 @@ t_vec4s	sphere_normal_at(t_obj *sphere, t_vec4s *world_p)
 	t_vec4s	world_n;
 
 	lag_mat4s_cross_vec4s(&sphere->inv_transform, world_p, &local_p);
-	lag_vec4s_sub(&local_n, &local_p, &sphere->trans);
+	local_n = local_p;
+	local_n.w = 0.f;
+	lag_vec4s_normalize(&local_n);
+	//lag_vec4s_sub(&local_n, &local_p, &sphere->trans);
 	//// IGNORE THIS PART'S INEFFICIENCY FOR NOW
 	if (!sphere->tex)
 	{
@@ -30,12 +33,13 @@ t_vec4s	sphere_normal_at(t_obj *sphere, t_vec4s *world_p)
 		return (world_n);
 	}
 	//// FEATURE
+	lag_vec4s_sub(&local_p, &local_p, &sphere->trans);
 	t_vec2s uv = rt_get_sphere_uv_local(&local_p);
 	t_vec4s tangent = rt_get_sphere_tangent(&local_n);
 	lag_mat4s_cross_vec4s(&sphere->transposed_inverse, &local_n, &local_n);
 	lag_mat4s_cross_vec4s(&sphere->transposed_inverse, &tangent, &tangent);
 	world_n = rt_apply_normal_map(sphere, &uv, &local_n, &tangent);
-	//lag_mat4s_cross_vec4s(&sphere->transposed_inverse, &world_n, &world_n);
+	lag_mat4s_cross_vec4s(&sphere->transposed_inverse, &world_n, &world_n);
 	world_n.w = 0.f;
 	lag_vec4s_normalize(&world_n);
 	return (world_n);

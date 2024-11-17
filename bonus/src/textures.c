@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 20:09:35 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/17 06:33:57 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/17 07:57:47 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@ t_vec2s	rt_get_sphere_uv_local(t_vec4s *hitp)
 	t_vec2s		uv;
 	float		phi;
 	float		theta;
+	t_vec4s		op_hitp;
+	
 
 	// Normalize hitp... Will do this after I understand the implications and whether or not I can skip this step.
-
+	op_hitp = *hitp;
 	phi = atan2f(hitp->z, hitp->x);
-	theta = acosf(hitp->y);
-	if (phi < -0.f)
-		phi += two_pi;
-	uv.x = phi / two_pi;
-	uv.y = theta / (float)M_PI;
+	theta = acosf(hitp->y / lag_vec4s_magnitude_ret(op_hitp));
+	//if (phi < -0.f)
+	//	phi += two_pi;
+	uv.x = 1.5f - ((phi / two_pi));//phi / two_pi;
+	uv.y = 1.f - theta / (float)M_PI;//theta / (float)M_PI;
 	return (uv);
 }
 
