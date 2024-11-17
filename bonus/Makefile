@@ -1,6 +1,6 @@
 # Necessities
 CC := cc
-CFLAGS = -g3 -Wextra -Wall -Werror -lz -Wno-unused-result -mavx -mavx2 -O3 -flto -funroll-loops -fno-signed-zeros#-g -fsanitize=address,undefined
+CFLAGS = -Wextra -Wall -Werror -lz -Wno-unused-result -mavx -mavx2 -O3 -flto -funroll-loops -fno-signed-zeros#-g -fsanitize=address,undefined
 
 # OS-specification
 OS := $(shell uname)
@@ -24,7 +24,7 @@ endif
 # PROJECT
 NAME := miniRT
 
-SRC := main.c ft_atof.c rays.c fragment.c sort.c lighting.c refractions.c reflections.c lerp.c textures.c \
+SRC := main.c ft_atof.c rays.c fragment.c sort.c lighting.c refractions.c reflections.c lerp.c \
 			$(addprefix colors/, canvas.c paint.c color_op.c) \
 			$(addprefix parsing/, parse.c parse_ambient.c parse_light.c \
 				parse_camera.c parse_sphere.c parse_utils.c parse_errors.c \
@@ -34,7 +34,8 @@ SRC := main.c ft_atof.c rays.c fragment.c sort.c lighting.c refractions.c reflec
 			$(addprefix threads/, init_join.c routines.c) \
 			$(addprefix world/, itx_test_world.c) \
 			$(addprefix hooks/, update.c keys.c mouse.c) \
-			$(addprefix intersections/, sphere_test.c plane.c shape_utils.c cylinder.c cube.c cone.c)
+			$(addprefix intersections/, sphere_test.c plane.c shape_utils.c cylinder.c cube.c cone.c) \
+			$(addprefix textures/, textures.c parametrizations.c tangents.c)
 SRC_DIR :=	src
 SRCS := $(addprefix $(SRC_DIR)/, $(SRC))
 

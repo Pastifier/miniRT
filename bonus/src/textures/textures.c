@@ -6,46 +6,12 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 20:09:35 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/17 07:57:47 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/17 20:57:00 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "macros.h"
-
-t_vec2s	rt_get_sphere_uv_local(t_vec4s *hitp)
-{
-	const float	two_pi = 2.f * (float)M_PI;
-	t_vec2s		uv;
-	float		phi;
-	float		theta;
-	t_vec4s		op_hitp;
-	
-
-	// Normalize hitp... Will do this after I understand the implications and whether or not I can skip this step.
-	op_hitp = *hitp;
-	phi = atan2f(hitp->z, hitp->x);
-	theta = acosf(hitp->y / lag_vec4s_magnitude_ret(op_hitp));
-	//if (phi < -0.f)
-	//	phi += two_pi;
-	uv.x = 1.5f - ((phi / two_pi));//phi / two_pi;
-	uv.y = 1.f - theta / (float)M_PI;//theta / (float)M_PI;
-	return (uv);
-}
-
-t_vec4s	rt_get_sphere_tangent(t_vec4s *local_normal)
-{
-	t_vec4s			reference;
-	t_vec4s			retval;
-
-	if (fabsf(lag_vec4s_magnitude_ret(*local_normal)) < 0.999f)
-		reference = lag_vec4sv_ret(0, 1, 0);
-	else
-		reference = lag_vec4sv_ret(1, 0, 0);
-	lag_vec4s_cross(&retval, reference, *local_normal);
-	lag_vec4s_normalize(&retval);
-	return (retval);
-}
 
 t_color	rt_sample_texture(const t_canvas *tex, const t_vec2s *uv)
 {
@@ -55,9 +21,14 @@ t_color	rt_sample_texture(const t_canvas *tex, const t_vec2s *uv)
 	uint32_t	color_value;
 	t_color		retval;
 
-	tex_x = (int)(uv->x * tex->tex_width) % tex->tex_width;
-	tex_y = (int)(uv->y * tex->tex_height) % tex->tex_height;
-	src = tex->addr + (tex_y * tex->line_length + tex_x * tex->bpp_8);
+	//tex_x = (int)floorf(uv->x * tex->tex_width);// % tex->tex_width;
+	//tex_y = (int)floorf(uv->y * tex->tex_height);// % tex->tex_height;
+	tex_x = floorf((int)(uv->x * tex->tex_width) % tex->tex_width);
+	tex_y = floorf((int)(uv->y * tex->tex_height) % tex->tex_height);
+	//if (tex_y * tex->line_length && tex_x * tex->bpp_8)
+		src = tex->addr + (tex_y * tex->line_length + tex_x * tex->bpp_8);
+	//else
+	//	src = tex->addr;
 	color_value = *(uint32_t *)src;
 	retval.r = (color_value >> 16) & 0xFF;
 	retval.g = (color_value >> 8) & 0xFF;
@@ -101,9 +72,9 @@ t_vec4s	rt_apply_normal_map(const t_obj *obj, const t_vec2s *uv,
 
 	lag_vec4s_cross(&bitangent, *local_normal, *tangent);
 	tangent_normal = _from_sample_to_tangent_normal(&sample);
+	lag_vec4s_negate(&bitangent);
 	lag_vec4s_normalize(&bitangent);
 	tbn_matrix = _construct_tbn_matrix(local_normal, tangent, &bitangent);
-	lag_mat4s_cross_mat4s(tbn_matrix, obj->inv_transform, &tbn_matrix);
 	lag_mat4s_cross_vec4s(&tbn_matrix, &tangent_normal, &perturbed_normal);
 	lag_vec4s_normalize(&perturbed_normal);
 	return (perturbed_normal);

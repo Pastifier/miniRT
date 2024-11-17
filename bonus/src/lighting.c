@@ -54,13 +54,9 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	{
 		if (comps->obj->tex)
 		{
-			t_vec4s	scaled_normal = lag_vec4s_scaleby_ret(comps->normalv, material->ambient);
-			lag_vec4s_add(&ambient.v, &ambient.v, &scaled_normal);//&comps->normalv);
-			//lag_vec4s_scaleby(&ambient.v, ambient.v, material->ambient);
-			//color_add(&ambient, &ambient, &ambient);
-			//lag_vec4s_scaleby(&ambient.v, ambient.v, material->diffuse + material->specular);
+			t_vec4s	scaled_normal = lag_vec4s_scaleby_ret(comps->normalv, material->ambient * material->ambient);
+			lag_vec4s_add(&ambient.v, &ambient.v, &scaled_normal);
 			color_clamp(&ambient);
-
 		}
 		return (ambient);
 	}
