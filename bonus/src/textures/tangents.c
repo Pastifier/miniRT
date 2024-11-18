@@ -6,13 +6,13 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:16:37 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/17 19:26:08 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:47:19 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-t_vec4s rt_get_cylinder_tangent(t_vec4s *local_normal, t_obj *cylinder)
+t_vec4s	rt_get_cylinder_tangent(t_vec4s *local_normal, t_obj *cylinder)
 {
 	const t_vec4s	j_hat = lag_vec4sv_ret(0, 1, 0);
 	t_vec4s			tangent;
@@ -27,7 +27,7 @@ t_vec4s rt_get_cylinder_tangent(t_vec4s *local_normal, t_obj *cylinder)
 		tangent = lag_vec4sv_ret(1, 0, 0);
 	}
 	lag_vec4s_normalize(&tangent);
-	return tangent;
+	return (tangent);
 }
 
 t_vec4s	rt_get_sphere_tangent(t_vec4s *local_normal)
