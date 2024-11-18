@@ -42,12 +42,19 @@ typedef struct s_canvas
 
 typedef struct s_thread_data	t_thread;
 
+typedef struct s_tex_node
+{
+	char		*name;
+	t_canvas	*tex;
+}	t_texture;
+
 typedef struct s_program
 {
 	int			runtime_error;
 	int			flt_operations;
 	void		*mlx;
 	void		*win;
+	t_list		*textures; // list of where the actual textures will be stored to be used.
 	t_canvas	canvas;
 	t_world		world;
 	t_camera	cam;

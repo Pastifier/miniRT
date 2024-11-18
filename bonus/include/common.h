@@ -66,7 +66,7 @@ typedef struct s_obj
 	t_vec4s		orientation;
 	t_material	material;
 	float		radius;
-	t_canvas	*tex;
+	t_canvas	*tex; // this is a shallow copy of the texture data.
 	union u_specs
 	{
 		//struct
