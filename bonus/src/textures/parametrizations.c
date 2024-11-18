@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:00:42 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/17 21:15:30 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:46:42 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_vec2s	rt_get_sphere_uv_local(t_vec4s *hitp)
 	float		phi;
 	float		theta;
 	t_vec4s		op_hitp;
-	
 
 	op_hitp = *hitp;
 	phi = atan2f(hitp->z, hitp->x);
