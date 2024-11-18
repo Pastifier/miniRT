@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 03:07:20 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/17 06:11:27by ebinjama         ###   ########.fr       */
+/*   Created: 2024/11/18 14:39:49 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/11/18 14:40:29 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,12 @@ bool	intersect_sphere(t_ray *r, t_obj *sphere, t_itx_grp *xs)
 
 	if (xs->count + 2 >= _RT_MAX_ITX)
 		return (false);
-	trans_r = *r; // BAD MEMCPY
+	trans_r = *r;
 	ray_transform(&trans_r, &sphere->inv_transform);
 	lag_vec4s_sub(&sphere_to_ray, &trans_r.origin, &sphere->trans);
 	abc.x = lag_vec4s_dot_ret(&trans_r.dir, &trans_r.dir);
 	abc.y = 2.0f * lag_vec4s_dot_ret(&sphere_to_ray, &trans_r.dir);
-	abc.z = lag_vec4s_dot_ret(&sphere_to_ray, &sphere_to_ray)
-		- 1; //(sphere->specs.radius * sphere->specs.radius);
+	abc.z = lag_vec4s_dot_ret(&sphere_to_ray, &sphere_to_ray) - 1.f;
 	d = abc.y * abc.y - 4.f * abc.x * abc.z;
 	if (d < 0)
 		return (false);
