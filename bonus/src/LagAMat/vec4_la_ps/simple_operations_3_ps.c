@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec4s_linear_algebra.h                             :+:      :+:    :+:   */
+/*   simple_operations_3_ps.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/18 22:43:03 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/09/19 08:47:27y ebinjama         ###   ########.fr       */
+/*   Created: 2024/11/18 10:47:28 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/11/18 10:49:13 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	lag_vec4s_eq(const t_vec4s a, const t_vec4s b,
 						load_tol, \
 						_CMP_LT_OQ \
 					);
-	const int	mask = _mm_movemask_ps(cmp);
+	const int		mask = _mm_movemask_ps(cmp);
 
 	return (mask == 0xF);
 }
@@ -42,10 +42,9 @@ bool	lag_vec4s_eq(const t_vec4s a, const t_vec4s b,
 
 static inline __m128	_mm_msqr_ps(const __m128 vec)
 {
-	__m128 mul;
-	__m128 shuf;
-	__m128 sums;
-
+	__m128	mul;
+	__m128	shuf;
+	__m128	sums;
 
 	mul = _mm_mul_ps(vec, vec);
 	shuf = _mm_shuffle_ps(mul, mul, _MM_SHUFFLE(2, 3, 0, 1));
@@ -57,8 +56,8 @@ static inline __m128	_mm_msqr_ps(const __m128 vec)
 
 void	lag_vec4s_normalize(t_vec4s *target)
 {
-	const __m128	msqr = _mm_msqr_ps(target->simd);//_mm_dp_ps(target->simd, target->simd, 0xFF);
-	__m128	isrt;
+	const __m128	msqr = _mm_msqr_ps(target->simd);
+	__m128			isrt;
 
 	if (_mm_cvtss_f32(msqr) == 0.0f)
 	{
@@ -86,7 +85,7 @@ t_vec4s	lag_vec4s_normalize_ret(const t_vec4s in)
 void	lag_vec4s_normalize_new(t_vec4s *out, const t_vec4s in)
 {
 	const __m128	msqr = _mm_dp_ps(in.simd, in.simd, 0xFF);
-	__m128	isrt;
+	__m128			isrt;
 
 	if (_mm_cvtss_f32(msqr) == 0.0f)
 	{
