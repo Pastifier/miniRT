@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fragment.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/17 06:07:58 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:07:43 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_color	rt_render_pixel(t_program *context, int x, int y)
 	t_color		c;
 
 	r = ray_for_pixel(&context->cam, x, y); //
-	c = color_at(&context->world, &r, REFLECTION_DEPTH);
+	c = color_at(&context->world, &r, _RT_REFLECTION_DEPTH);
 	put_pixel(&context->canvas, x, y, &c);
 	return (c);
 }
