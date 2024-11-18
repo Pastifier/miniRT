@@ -6,14 +6,12 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 09:44:27 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/18 10:11:53 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/18 10:12:59 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ltypes.h"
 
-/// @brief Returns the cross product of a `t_mat4s` with a `t_vec4s`
-///        (in that order).
 void	lag_mat4s_cross_vec4s(const t_mat4s *m,
 							const t_vec4s *v, t_vec4s *out)
 {
