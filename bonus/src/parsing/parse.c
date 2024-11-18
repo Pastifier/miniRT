@@ -15,7 +15,7 @@
 
 static bool	read_file(int fd, t_program *context, const char *filename);
 static bool	check_object_validity_and_add(t_program *context, const char *info,
-			int curr_line, size_t line_len);
+				int curr_line, size_t line_len);
 
 bool	parse_file(const char *filename, t_program *context)
 {
@@ -35,6 +35,34 @@ bool	parse_file(const char *filename, t_program *context)
 	return (read_file(fd, context, filename));
 }
 
+bool	read_file_ext(t_gnl *line, t_program *context, int curr_line,
+		const char *filename)
+{
+	if (line->error)
+		return (parse_fatal_msg("Allocation failure", curr_line), false);
+	if ((line->eof && curr_line == 1)
+		|| (context->world.num_lights == 0 || context->world.num_shapes == 0)
+		|| (!context->ambiance.is_set || !context->cam.is_set))
+	{
+		if (line->line)
+			free(line->line);
+		ft_putstr_fd("Error: file `", STDERR_FILENO);
+		ft_putstr_fd((char *)filename, STDERR_FILENO);
+		ft_putendl_fd("` appears to be incomplete. Need:", STDERR_FILENO);
+		if (!context->world.num_lights)
+			ft_putendl_fd("\tAt least one light.", 2);
+		if (!context->world.num_shapes)
+			ft_putendl_fd("\tAt least one shape.", 2);
+		if (!context->ambiance.is_set)
+			ft_putendl_fd("\tExactly one value for global Ambiance lighting.",
+				2);
+		if (!context->cam.is_set)
+			ft_putendl_fd("\tExactly one camera.", 2);
+		return (false);
+	}
+	return (true);
+}
+
 bool	read_file(int fd, t_program *context, const char *filename)
 {
 	t_gnl		line;
@@ -50,7 +78,8 @@ bool	read_file(int fd, t_program *context, const char *filename)
 			line = get_next_line(fd);
 			continue ;
 		}
-		if (!check_object_validity_and_add(context, line.line, curr_line++, line.len))
+		if (!check_object_validity_and_add(context, line.line, curr_line++,
+				line.len))
 		{
 			ft_putstr_fd((char *)filename, 2);
 			ft_putstr_fd(":\n\t", 2);
@@ -60,29 +89,7 @@ bool	read_file(int fd, t_program *context, const char *filename)
 		free(line.line);
 		line = get_next_line(fd);
 	}
-	close(fd);
-	if (line.error)
-		return (parse_fatal_msg("Allocation failure", curr_line), false);
-	if ((line.eof && curr_line == 1)
-		|| (context->world.num_lights == 0 || context->world.num_shapes == 0)
-		|| (!context->ambiance.is_set || !context->cam.is_set))
-	{
-		if (line.line)
-			free(line.line);
-		ft_putstr_fd("Error: file `", STDERR_FILENO);
-		ft_putstr_fd((char *)filename, STDERR_FILENO);
-		ft_putendl_fd("` appears to be incomplete. Need:", STDERR_FILENO);
-		if (!context->world.num_lights)
-			ft_putendl_fd("\tAt least one light.", 2);
-		if (!context->world.num_shapes)
-			ft_putendl_fd("\tAt least one shape.", 2);
-		if (!context->ambiance.is_set)
-			ft_putendl_fd("\tExactly one value for global Ambiance lighting.", 2);
-		if (!context->cam.is_set)
-			ft_putendl_fd("\tExactly one camera.", 2);
-		return (false);
-	}
-	return (true);
+	return (close(fd), read_file_ext(&line, context, curr_line, filename));
 }
 
 bool	parse_uppercase_object(t_program *context, const char *info,
@@ -112,25 +119,11 @@ bool	check_object_validity_and_add(t_program *context, const char *info,
 	const t_split	fields = ft_split(info, " ");
 
 	if (!ft_isalpha(*info))
-	{
-		ft_putstr_fd("Syntax error near unexpected token: `", STDERR_FILENO);
-		ft_putchar_fd(*info, STDERR_FILENO);
-		ft_putstr_fd("` in line: ", STDERR_FILENO);
-		ft_putnbr_fd(curr_line, STDERR_FILENO);
-		ft_putendl_fd(".", STDERR_FILENO);
-		return (false);
-	}
+		return (parse_syn_err_msg((char *)info, curr_line), false);
 	if (*info == 'A' || *info == 'C' || *info == 'L')
 	{
 		if (line_len > 1 && *(info + 1) != ' ')
-		{
-			ft_putstr_fd("Syntax error near unexpected token: `", STDERR_FILENO);
-			ft_putchar_fd(*info, STDERR_FILENO);
-			ft_putstr_fd("` in line: ", STDERR_FILENO);
-			ft_putnbr_fd(curr_line, STDERR_FILENO);
-			ft_putendl_fd(".", STDERR_FILENO);
-			return (false);
-		}
+			return (parse_syn_err_msg((char *)info, curr_line), false);
 		return (parse_uppercase_object(context, info, curr_line));
 	}
 	if (*info == 's' && *(info + 1) == 'p')
@@ -145,12 +138,6 @@ bool	check_object_validity_and_add(t_program *context, const char *info,
 		return (parse_cone(context, &fields, curr_line));
 	else if (*info == 'S' && *(info + 1) == 'L')
 		return (parse_spot_light(context, &fields, curr_line));
-	else
-	{
-		ft_putstr_fd("Error: couldn't recognize object in line ", 2);
-		ft_putnbr_fd(curr_line, 2);
-		ft_putendl_fd(":", 2);
-	}
+	ft_fprintf(2, "Error: couldn't recognize object in line %d:\n", curr_line);
 	return (false);
 }
-

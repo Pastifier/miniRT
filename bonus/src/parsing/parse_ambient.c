@@ -17,6 +17,7 @@
 
 static bool	get_ambient_color(t_program *context, t_split *fields,
 				int curr_line);
+
 bool	parse_ambient(t_program *context, t_split *fields, int curr_line)
 {
 	if (context->ambiance.is_set)
@@ -24,14 +25,14 @@ bool	parse_ambient(t_program *context, t_split *fields, int curr_line)
 			str_arr_destroy(fields->array), false);
 	if (fields->wordcount != 3)
 		return (parse_err_msg(ERR_AMBIENT_FORMAT, ERR_EXPECT_TYPE_A,
-			curr_line), str_arr_destroy(fields->array), false);
+				curr_line), str_arr_destroy(fields->array), false);
 	context->ambiance.ratio = ft_atof(fields->array[1], context);
 	if (context->runtime_error == 2)
 		return (parse_err_msg(ERR_AMBIENT_FORMAT, ERR_EXPECT_TYPE_A,
-			curr_line), str_arr_destroy(fields->array), false);
+				curr_line), str_arr_destroy(fields->array), false);
 	if (context->ambiance.ratio < -0.f || context->ambiance.ratio > 1.f)
 		return (parse_err_msg(ERR_AMBIENT_VALUE, ERR_EXPECT_FLOAT_RANGE,
-			curr_line), str_arr_destroy(fields->array), false);
+				curr_line), str_arr_destroy(fields->array), false);
 	return (get_ambient_color(context, fields, curr_line));
 }
 
