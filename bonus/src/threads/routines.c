@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 05:31:02 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/18 15:56:54 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:12:33 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,29 @@ void	*render_row(void *arg)
 	}
 	interpolate_horizontal(data);
 	interpolate_vertical(data);
+	return (NULL);
+}
+
+void	*thread_arbiter(void *arg)
+{
+	t_thread	*data;
+
+	data = (t_thread *)arg;
+	while (true)
+	{
+		pthread_mutex_lock(&data->mutex);
+		while (!data->context->stop && !data->work_ready)
+			pthread_cond_wait(&data->cond, &data->mutex);
+		if (data->context->stop)
+		{
+			pthread_mutex_unlock(&data->mutex);
+			break ;
+		}
+		pthread_mutex_unlock(&data->mutex);
+		render_row(data);
+		pthread_mutex_lock(&data->mutex);
+		data->work_ready = false;
+		pthread_mutex_unlock(&data->mutex);
+	}
 	return (NULL);
 }
