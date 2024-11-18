@@ -22,9 +22,7 @@ t_vec4s	sphere_normal_at(t_obj *sphere, t_vec4s *world_p)
 	t_vec4s	tangent;
 
 	lag_mat4s_cross_vec4s(&sphere->inv_transform, world_p, &local_p);
-	local_n = local_p;
-	local_n.w = 0.f;
-	lag_vec4s_normalize(&local_n);
+	lag_vec4s_sub(&local_n, &local_p, &sphere->trans);
 	if (sphere->tex)
 	{
 		lag_vec4s_sub(&local_p, &local_p, &sphere->trans);
