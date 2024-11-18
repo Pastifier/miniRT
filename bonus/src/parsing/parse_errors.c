@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 12:36:32 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/07 12:00:11 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:35:13 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 #include "macros.h"
 #include "libft.h"
 #include "colors.h"
+
+void	parse_syn_err_msg(char *msg, int curr_line)
+{
+	ft_putstr_fd("Syntax error near unexpected token: `", STDERR_FILENO);
+	ft_putchar_fd(*msg, STDERR_FILENO);
+	ft_putstr_fd("` in line: ", STDERR_FILENO);
+	ft_putnbr_fd(curr_line, STDERR_FILENO);
+	ft_putendl_fd(".", STDERR_FILENO);
+}
 
 void	parse_err_msg(char *msg, char *expected, int curr_line)
 {

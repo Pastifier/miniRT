@@ -142,7 +142,8 @@ bool		parse_cube(t_program *context, const t_split *fields, int curr_line);
 bool		parse_cylinder(t_program *context, const t_split *fields, int curr_line);
 bool		parse_cone(t_program *context, const t_split *fields, int curr_line);
 bool		parse_color(t_color *color, char *str, int curr_line);
-bool		parse_vec4(t_vec4s *vec, char *str, t_program *context, int curr_line);
+bool		parse_vec4v(t_vec4s *vec, char *str, t_program *context, int curr_line);
+bool		parse_vec4p(t_vec4s *vec, char *str, t_program *context, int curr_line);
 bool		parse_single_f(float *f, char *str, t_program *context, int curr_line);
 bool		parse_material(t_material *obj_material, char **material_fields, t_program *context, int curr_line);
 t_mat4s		rt_extract_rot_vertical(const t_vec4s u);
@@ -151,6 +152,7 @@ t_mat4s		rt_get_cam_inverse(const t_mat4s *view);
 void		parse_fatal_msg(char *msg, int curr_line);
 void		parse_warn_msg(char *msg, int curr_line, bool ign);
 void		parse_err_msg(char *msg, char *expected, int curr_line);
+void		parse_syn_err_msg(char *msg, int curr_line);
 
 /*--- RENDERING ---*/
 

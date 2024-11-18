@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_texture.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 19:39:29 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/16 20:07:46 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/18 14:26:53 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ t_canvas	*rt_png_file_to_canvas(char *filepath, void *mlx)
 	if (!retval)
 		return (NULL);
 	retval->ptr = mlx_png_file_to_image(mlx, filepath,
-				&retval->tex_width, &retval->tex_height);
+			&retval->tex_width, &retval->tex_height);
 	if (!retval->ptr)
 	{
 		free(retval);
 		return (NULL);
 	}
 	retval->addr = mlx_get_data_addr(retval->ptr, &retval->bpp,
-					&retval->line_length, &retval->endian);
+			&retval->line_length, &retval->endian);
 	retval->bpp_8 = retval->bpp / 8;
 	return (retval);
 }
@@ -58,14 +58,14 @@ t_canvas	*rt_xpm_file_to_canvas(char *filepath, void *mlx)
 	if (!retval)
 		return (NULL);
 	retval->ptr = mlx_xpm_file_to_image(mlx, filepath,
-				&retval->tex_width, &retval->tex_height);
+			&retval->tex_width, &retval->tex_height);
 	if (!retval->ptr)
 	{
 		free(retval);
 		return (NULL);
 	}
 	retval->addr = mlx_get_data_addr(retval->ptr, &retval->bpp,
-					&retval->line_length, &retval->endian);
+			&retval->line_length, &retval->endian);
 	retval->bpp_8 = retval->bpp / 8;
 	return (retval);
 }
