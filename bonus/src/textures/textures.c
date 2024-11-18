@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 20:09:35 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/17 20:57:00 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:26:44 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static inline t_mat4s	_construct_tbn_matrix(const t_vec4s *local_normal,
 t_vec4s	rt_apply_normal_map(const t_obj *obj, const t_vec2s *uv,
 			const t_vec4s *local_normal, const t_vec4s *tangent)
 {
-	const t_color	sample = rt_sample_texture(obj->tex, uv);
+	const t_color	sample = rt_sample_texture(obj->material.tex, uv);
 	t_vec4s			tangent_normal;
 	t_vec4s			bitangent;
 	t_mat4s			tbn_matrix;

@@ -39,6 +39,8 @@ typedef union u_color
 	};
 }	t_color;
 
+typedef struct s_canvas t_canvas;
+
 typedef struct s_material
 {
 	t_color	color;
@@ -50,9 +52,8 @@ typedef struct s_material
 	float	reflective;
 	float	transparency;
 	float	refractive_index;
+	t_canvas	*tex; // this is a shallow copy of the texture data.
 }	t_material;
-
-typedef struct s_canvas t_canvas;
 
 typedef struct s_obj
 {
@@ -66,7 +67,6 @@ typedef struct s_obj
 	t_vec4s		orientation;
 	t_material	material;
 	float		radius;
-	t_canvas	*tex; // this is a shallow copy of the texture data.
 	union u_specs
 	{
 		//struct

@@ -51,7 +51,7 @@ bool	parse_spot_light(t_program *context, const t_split *fields,
 
 	light = &context->world.lights[context->world.num_lights];
 	if (context->world.num_lights >= _RT_MAX_LIGHTS_)
-		return (parse_warn_msg(ERR_MAX_LIGHTS, curr_line, true),
+		return (parse_warn_msg(ERR_MAX_LIGHTS, NULL, curr_line, true),
 			str_arr_destroy(fields->array), true);
 	if (fields->wordcount != 6)
 		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_SL,
@@ -94,7 +94,7 @@ bool	parse_light(t_program *context, const t_split *fields, int curr_line)
 
 	light = &context->world.lights[context->world.num_lights];
 	if (context->world.num_lights >= _RT_MAX_LIGHTS_)
-		return (parse_warn_msg(ERR_MAX_LIGHTS, curr_line, true),
+		return (parse_warn_msg(ERR_MAX_LIGHTS, NULL, curr_line, true),
 			str_arr_destroy(fields->array), true);
 	if (fields->wordcount != 4)
 		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_L,

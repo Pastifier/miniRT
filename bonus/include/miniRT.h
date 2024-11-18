@@ -157,7 +157,7 @@ t_mat4s		rt_extract_rot_vertical(const t_vec4s u);
 t_mat4s		rt_get_cam_inverse(const t_mat4s *view);
 
 void		parse_fatal_msg(char *msg, int curr_line);
-void		parse_warn_msg(char *msg, int curr_line, bool ign);
+void		parse_warn_msg(char *msg, char *expected, int curr_line, bool ign);
 void		parse_err_msg(char *msg, char *expected, int curr_line);
 void		parse_syn_err_msg(char *msg, int curr_line);
 

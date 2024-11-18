@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere_test.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 14:39:49 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/18 14:40:29 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:26:08 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_vec4s	sphere_normal_at(t_obj *sphere, t_vec4s *world_p)
 
 	lag_mat4s_cross_vec4s(&sphere->inv_transform, world_p, &local_p);
 	lag_vec4s_sub(&local_n, &local_p, &sphere->trans);
-	if (sphere->tex)
+	if (sphere->material.tex)
 	{
 		lag_vec4s_sub(&local_p, &local_p, &sphere->trans);
 		uv = rt_get_sphere_uv_local(&local_p);
