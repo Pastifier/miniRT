@@ -205,6 +205,7 @@ bool		intersect_cone(t_ray *ray, t_obj *cone, t_itx_grp *xs);
 t_vec4s		cone_normal_at(t_obj *cone, t_vec4s *world_point);
 t_vec4s		cube_normal_at(t_obj *cube, t_vec4s *world_point);
 t_vec4s 	cylinder_normal_at(t_obj *cylinder, t_vec4s *world_point);
+void		cast_shadow_ray(t_world *w, t_ray *r, t_itx_grp *xs);
 t_vec4s		plane_normal_at(t_obj *plane);
 t_vec4s		sphere_normal_at(t_obj *sphere, t_vec4s *world_p);
 void		quick_sort_intersections(t_itx *arr, size_t size);
