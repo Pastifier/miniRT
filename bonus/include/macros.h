@@ -74,6 +74,9 @@
 # define ERR_M_FORMAT "Invalid format for Material"
 # define ERR_M_VALUE "Invalid value for Material Attribute"
 
+# define ERR_M_BUMP_FORMAT "Invalid format for Bump Map"
+
+# define ERR_EXPECT_XPM "Expected: XPM file"
 # define ERR_EXPECT_M "Expected: Material in the format: M <material.trait>=<float>,<material.trait>=<float>,<etc>\n\tUsing default values...\n"
 # define ERR_EXPECT_M_TRAIT "Expected: Valid Material Trait: [ambient, diffuse, specular, sheen]\n\tUsing default values...\n"
 # define ERR_EXPECT_M_OPTIONAL_TRAIT "Expected: Valid Material Trait: [reflective, transparency, refractive_index]\n\tUsing default values...\n"

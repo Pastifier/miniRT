@@ -42,12 +42,19 @@ typedef struct s_canvas
 
 typedef struct s_thread_data	t_thread;
 
+typedef struct s_tex_node
+{
+	char		*name;
+	t_canvas	*tex;
+}	t_texture;
+
 typedef struct s_program
 {
 	int			runtime_error;
 	int			flt_operations;
 	void		*mlx;
 	void		*win;
+	t_list		*textures; // list of where the actual textures will be stored to be used.
 	t_canvas	canvas;
 	t_world		world;
 	t_camera	cam;
@@ -150,7 +157,7 @@ t_mat4s		rt_extract_rot_vertical(const t_vec4s u);
 t_mat4s		rt_get_cam_inverse(const t_mat4s *view);
 
 void		parse_fatal_msg(char *msg, int curr_line);
-void		parse_warn_msg(char *msg, int curr_line, bool ign);
+void		parse_warn_msg(char *msg, char *expected, int curr_line, bool ign);
 void		parse_err_msg(char *msg, char *expected, int curr_line);
 void		parse_syn_err_msg(char *msg, int curr_line);
 

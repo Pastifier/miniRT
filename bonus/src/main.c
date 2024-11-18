@@ -95,7 +95,9 @@ bool	init_obj_arr(t_program *context)
 	if (!context->world.shapes)
 	{
 		free(context->world.lights);
+		free(context->world.shapes);
 		return (false);
 	}
+	context->textures = ft_calloc(1, sizeof(t_list));
 	return (true);
 }

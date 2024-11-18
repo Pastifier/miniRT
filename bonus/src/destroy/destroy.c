@@ -27,6 +27,18 @@ void	destroy_world(t_program *context)
 	free(context->world.shapes);
 }
 
+void	destroy_textures(t_program *context)
+{
+	while (context->textures)
+	{
+		free(((t_texture *)context->textures->content)->name);
+		mlx_destroy_image(context->mlx, ((t_texture *)context->textures->content)->tex->ptr);
+		free(context->textures->content);
+		context->textures = context->textures->next;
+	}
+	free(context->textures);
+}
+
 int	destroy_program(t_program *context)
 {
 	int	i;
@@ -48,6 +60,7 @@ int	destroy_program(t_program *context)
 		context->pool = NULL;
 	}
 	destroy_world(context);
+	destroy_textures(context);
 	destroy_mlx(context);
 	return (exit(0), 0);
 }

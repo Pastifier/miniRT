@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:38:59 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/18 13:20:13 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:44:49 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 	t_obj	*cy;
 
 	if (context->world.num_shapes == _RT_MAX_SHAPES_)
-		return (parse_warn_msg(ERR_MAX_SHAPES, curr_line, true), true);
+		return (parse_warn_msg(ERR_MAX_SHAPES, NULL, curr_line, true), true);
 	cy = &context->world.shapes[context->world.num_shapes++];
 	if (fields->wordcount < 6 || fields->wordcount > 8)
 		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_CY, curr_line),

@@ -94,7 +94,7 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	color_scaleby(&ambient, &effective_color, material->ambient);
 	if (light_dot_normal < EPSILON || in_shadow)
 	{
-		if (comps->obj->tex)
+		if (comps->obj->material.tex)
 		{
 			t_vec4s	scaled_normal = lag_vec4s_scaleby_ret(comps->normalv, material->ambient * material->ambient);
 			lag_vec4s_add(&ambient.v, &ambient.v, &scaled_normal);
