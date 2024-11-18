@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 20:09:35 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/17 20:57:00 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/18 15:48:01 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,9 @@ t_color	rt_sample_texture(const t_canvas *tex, const t_vec2s *uv)
 	uint32_t	color_value;
 	t_color		retval;
 
-	//tex_x = (int)floorf(uv->x * tex->tex_width);// % tex->tex_width;
-	//tex_y = (int)floorf(uv->y * tex->tex_height);// % tex->tex_height;
 	tex_x = floorf((int)(uv->x * tex->tex_width) % tex->tex_width);
 	tex_y = floorf((int)(uv->y * tex->tex_height) % tex->tex_height);
-	//if (tex_y * tex->line_length && tex_x * tex->bpp_8)
-		src = tex->addr + (tex_y * tex->line_length + tex_x * tex->bpp_8);
-	//else
-	//	src = tex->addr;
+	src = tex->addr + (tex_y * tex->line_length + tex_x * tex->bpp_8);
 	color_value = *(uint32_t *)src;
 	retval.r = (color_value >> 16) & 0xFF;
 	retval.g = (color_value >> 8) & 0xFF;
