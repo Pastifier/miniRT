@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   itx_test_world.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:34:00 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/06 12:52:28 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:19:37 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_itx_grp	intersect_world(t_world *w, t_ray *r)
 	int			i;
 
 	i = -1;
-	//ret = (t_itx_grp){0};
 	ret.count = 0;
 	while (++i < w->num_shapes)
 	{
@@ -36,17 +35,18 @@ t_itx_grp	intersect_world(t_world *w, t_ray *r)
 		else if (w->shapes[i].type == CONE)
 			intersect_cone(r, &w->shapes[i], &ret);
 	}
-	//quick_sort_intersections(ret.arr, ret.count); //
 	return (ret);
 }
 
-t_itx	*get_hit(t_itx_grp *xs) ////
+t_itx	*get_hit(t_itx_grp *xs)
 {
 	int		i;
-	float	min = INFINITY;
-	t_itx	*addr = NULL;
+	float	min;
+	t_itx	*addr;
 
 	i = -1;
+	min = INFINITY;
+	addr = NULL;
 	while (++i < xs->count)
 	{
 		if (xs->arr[i].t < min && xs->arr[i].t >= EPSILON)
@@ -55,7 +55,5 @@ t_itx	*get_hit(t_itx_grp *xs) ////
 			addr = &xs->arr[i];
 		}
 	}
-		//if (xs->arr[i].t >= 0.f)
-		//	return (&xs->arr[i]);
 	return (addr);
 }
