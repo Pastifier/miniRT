@@ -33,6 +33,12 @@ int	main(int argc, char *argv[])
 		return (2);
 	}
 	context = (t_program){0};
+	context.mlx = mlx_init();
+	if (!context.mlx)
+	{
+		write(2, "FATAL: error initialising minilibx.", 36);
+		exit(2);
+	}
 	if (!init_obj_arr(&context))
 	{
 		ft_putendl_fd("FATAL: Couldn't allocate for necessary objects.", 2);
@@ -40,8 +46,7 @@ int	main(int argc, char *argv[])
 	}
 	if (!parse_file(argv[1], &context))
 		return (destroy_world(&context), 2);
-	//context.pool = ft_calloc(_RT_NUM_THREADS, sizeof(t_thread));
-	if (!pool_init(&context)/*!context.pool*/)
+	if (!pool_init(&context))
 	{
 		destroy_world(&context);
 		destroy_mlx(&context);
@@ -54,12 +59,12 @@ int	main(int argc, char *argv[])
 
 void	_rt_start(t_program *context)
 {
-	context->mlx = mlx_init();
-	if (!context->mlx)
-	{
-		write(2, "FATAL: error initialising minilibx.", 36);
-		exit(2);
-	}
+	//context->mlx = mlx_init();
+	//if (!context->mlx)
+	//{
+	//	write(2, "FATAL: error initialising minilibx.", 36);
+	//	exit(2);
+	//}
 	context->win = mlx_new_window(\
 		context->mlx, \
 		WIN_WIDTH, \

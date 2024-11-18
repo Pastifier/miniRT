@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 20:13:25 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/07 16:07:59 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/16 20:22:37 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef union u_vec3d
 	};
 }__attribute((aligned(32)))	t_vec3d;
 
-typedef union u_vec2d
+typedef union u_vec2s
 {
 	float	a[2];
 	__m128d	simd;
@@ -72,7 +72,7 @@ typedef union u_vec2d
 		float	x;
 		float	y;
 	};
-}__attribute((aligned(16)))	t_vec2d;
+}__attribute((aligned(16)))	t_vec2s;
 
 /*--- MATRIX ---*/
 
@@ -85,8 +85,8 @@ typedef union u_mat2d
 	__m128d	simd[2];
 	struct
 	{
-		t_vec2d	r1;
-		t_vec2d	r2;
+		t_vec2s	r1;
+		t_vec2s	r2;
 	};
 }__attribute((aligned(16)))	t_mat2d;
 

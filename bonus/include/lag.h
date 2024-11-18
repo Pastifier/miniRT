@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 06:33:18 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/02 22:30:09 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/18 10:52:31 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ t_vec4s	lag_vec4s_ret(float x, float y, float z, float w);
 
 /// @brief Initialises a `t_vec4s` in homogenous coordinates with a w of `1`
 void	lag_vec4sp_init(t_vec4s *target, float x, float y,
-						float z);
+			float z);
 
 /// @brief Returns a `t_vec4s` in homogenous coordinates with a w of `1`
 t_vec4s	lag_vec4sp_ret(float x, float y, float z);
 
 /// @brief Initialises a `t_vec4s` in homogenous coordinates with a w of `0`
 void	lag_vec4sv_init(t_vec4s *target, float x, float y,
-						float z);
+			float z);
 
 /// @brief Returns a `t_vec4s` in homogenous coordinates with a w of `0`
 t_vec4s	lag_vec4sv_ret(float x, float y, float z);
@@ -42,7 +42,7 @@ t_vec4s	lag_vec4sv_ret(float x, float y, float z);
 /// @param in1, in2 operand
 /// @param out Pointer to the vector that stores the result.
 void	lag_vec4s_add(t_vec4s *out, const t_vec4s *in1,
-						const t_vec4s *in2);
+			const t_vec4s *in2);
 
 /// @brief Performs component-wise (vector) addition.
 t_vec4s	lag_vec4s_add_ret(const t_vec4s in1, const t_vec4s in2);
@@ -52,7 +52,7 @@ t_vec4s	lag_vec4s_add_ret(const t_vec4s in1, const t_vec4s in2);
 /// @param in1, in2 operand
 /// @param out Pointer to the vector that stores the result.
 void	lag_vec4s_sub(t_vec4s *out, const t_vec4s *in1,
-						const t_vec4s *in2);
+			const t_vec4s *in2);
 
 /// @brief Performs component-wise (vector) subtraction.
 t_vec4s	lag_vec4s_sub_ret(const t_vec4s in1, const t_vec4s in2);
@@ -62,7 +62,7 @@ t_vec4s	lag_vec4s_sub_ret(const t_vec4s in1, const t_vec4s in2);
 /// @param in Vector to be scaled
 /// @param scalar Scalar to scale the vector by
 void	lag_vec4s_scaleby(t_vec4s *out, const t_vec4s in,
-						float scalar);
+			float scalar);
 
 /// @brief Scales a vector by a scalar.
 ///        This is to be used when performance is not a concern
@@ -92,11 +92,11 @@ t_vec4s	lag_vec4s_negate_ret(const t_vec4s in);
 /// @param in1 Vector to calculate the dot product of
 /// @param in2 Vector to calculate the dot product of
 void	lag_vec4s_dot(float *out, const t_vec4s *in1,
-						const t_vec4s *in2);
+			const t_vec4s *in2);
 
 /// @brief Calculates the dot product of two `t_vec4s`.
 float	lag_vec4s_dot_ret(const t_vec4s *in1,
-							const t_vec4s *in2);
+			const t_vec4s *in2);
 
 /// @brief Calculates the magnitude of a `t_vec4s` and stores the result
 ///        in the variable pointed-to by `out`.
@@ -113,12 +113,12 @@ float	lag_vec4s_magnitude_ret(const t_vec4s in);
 /// @param in1, in2 operand
 /// @param out Pointer to the vector that stores the result.
 void	lag_vec4s_cross(t_vec4s *out, const t_vec4s in1,
-						const t_vec4s in2);
+			const t_vec4s in2);
 
 /// @brief Calculates the cross product of two `t_vec4s`
 ///        (ignoring the w component).
 t_vec4s	lag_vec4s_cross_ret(const t_vec4s in1,
-						const t_vec4s in2);
+			const t_vec4s in2);
 
 /// @brief Checks equality of `a` and `b` within a set `tolerance`.
 ///        `__FLT_EPSILON__` or a value slightly higher works.
@@ -128,7 +128,7 @@ t_vec4s	lag_vec4s_cross_ret(const t_vec4s in1,
 /// @warning If either of the values entered contain `NaN`, the result
 ///          will be `false (0)`.
 bool	lag_vec4s_eq(const t_vec4s a, const t_vec4s b,
-						float tolerance);
+			float tolerance);
 
 /// @brief Checks EXACT equality of `a` and `b`. Use wisely.
 /// @param a, b `t_vec4s` vector
@@ -162,7 +162,7 @@ void	lag_vec4s_normalize_new(t_vec4s *out, const t_vec4s in);
 
 /// @brief Returns a `t_mat4s` using the parameters as its rows.
 t_mat4s	lag_mat4s_rows_ret(const t_vec4s r1, const t_vec4s r2,
-						const t_vec4s r3, const t_vec4s r4);
+			const t_vec4s r3, const t_vec4s r4);
 
 /// @brief Returns a `t_mat4s` identity matrix.
 t_mat4s	lag_mat4s_identity(void);
@@ -190,13 +190,13 @@ t_mat4s	lag_mat4s_rotation_z(float rad);
 /// @brief Returns the cross product of a `t_mat4s` with a `t_vec4s`
 ///        (in that order).
 void	lag_mat4s_cross_vec4s(const t_mat4s *m,
-							const t_vec4s *v, t_vec4s *out);
+			const t_vec4s *v, t_vec4s *out);
 
 /// @brief computes the cross product of `in1` with `in2`
 ///        (in that order), and stores the result in the `t_mat4s`
 ///        pointed-to by `out`.
 void	lag_mat4s_cross_mat4s(const t_mat4s in1,
-						const t_mat4s in2, t_mat4s *out);
+			const t_mat4s in2, t_mat4s *out);
 
 /// @brief Calculates the inverse of a decomposed matrix
 /// (rotation, scale, translation)
@@ -206,9 +206,8 @@ void	lag_mat4s_cross_mat4s(const t_mat4s in1,
 /// @return The inverse of the decomposed matrix
 /// @warning The scale should NOT contain any zero components as that will
 /// cause a floating-point exception.
-t_mat4s lag_mat4s_get_transform_inverse(const t_mat4s rot, const __m128 s,
+t_mat4s	lag_mat4s_get_transform_inverse(const t_mat4s rot, const __m128 s,
 			const __m128 t);
-
 
 /*--- PS_EXTRA ---*/
 

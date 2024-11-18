@@ -36,6 +36,8 @@ typedef struct s_canvas
 	int		bpp_8;
 	int		line_length;
 	int		endian;
+	int		tex_width;
+	int		tex_height;
 }	t_canvas;
 
 typedef struct s_thread_data	t_thread;
@@ -208,6 +210,17 @@ t_vec4s		sphere_normal_at(t_obj *sphere, t_vec4s *world_p);
 void		quick_sort_intersections(t_itx *arr, size_t size);
 t_itx		*get_hit(t_itx_grp *xs);
 void		lag_mat4s_transpose(const t_mat4s *m, t_mat4s *out);
+
+/*--- TEXTURES ---*/
+
+t_canvas	*rt_xpm_file_to_canvas(char *filepath, void *mlx);
+t_vec2s		rt_get_sphere_uv_local(t_vec4s *hitp);
+t_vec4s		rt_get_sphere_tangent(t_vec4s *local_normal);
+t_vec2s		rt_get_cylinder_uv_local(t_vec4s *hitp);
+t_vec4s		rt_get_cylinder_tangent(t_vec4s *local_normal, t_obj *cylinder);
+t_color		rt_sample_texture(const t_canvas *tex, const t_vec2s *uv);
+t_vec4s		rt_apply_normal_map(const t_obj *obj, const t_vec2s *uv,
+			const t_vec4s *local_normal, const t_vec4s *tangent);
 
 /*--- LIGHTING ---*/
 

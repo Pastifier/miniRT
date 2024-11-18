@@ -36,7 +36,7 @@ float get_spot_light_intensity(t_light *light, t_vec4s light_v)
 	if (light->type == SPOT_LIGHT)
 	{
 		float cos_align = lag_vec4s_dot_ret(&light_v, &light->specs.spot.orientation);
-		
+
 		// Calculate cosine values for inner and outer cones based on spot angle
 		float outer_cone_cos = cosf(light->specs.spot.spot_angle);
 		float inner_cone_cos = cosf(light->specs.spot.spot_angle * 0.75f); // Inner cone as 75% of spot angle
@@ -57,7 +57,7 @@ float get_spot_light_intensity(t_light *light, t_vec4s light_v)
 			return MIN_INTENSITY; // Return a minimum intensity if the cone is very small
 
 		float angle_attenuation = powf((cos_align - outer_cone_cos) / delta_cos, SPOTLIGHT_FALLOFF);
-		
+
 		// Ensure a minimum intensity threshold
 		return fmax(angle_attenuation, MIN_INTENSITY); // Avoid intensity dropping too low
 	}
@@ -93,7 +93,15 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light, bool in_s
 	lag_vec4s_dot(&light_dot_normal, &light_v, &comps->normalv);
 	color_scaleby(&ambient, &effective_color, material->ambient);
 	if (light_dot_normal < EPSILON || in_shadow)
+	{
+		if (comps->obj->tex)
+		{
+			t_vec4s	scaled_normal = lag_vec4s_scaleby_ret(comps->normalv, material->ambient * material->ambient);
+			lag_vec4s_add(&ambient.v, &ambient.v, &scaled_normal);
+			color_clamp(&ambient);
+		}
 		return (ambient);
+	}
 	if (light->type == SPOT_LIGHT && !in_shadow)
 	{
 		spot_intensity = get_spot_light_intensity(light, light_v);
