@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "miniRT.h"
-# include "colors.h"
-# include "mlx.h"
-# include "macros.h"
+#include "miniRT.h"
+#include "colors.h"
+#include "mlx.h"
+#include "macros.h"
 
 bool	create_canvas(t_program *context, int width, int height)
 {

@@ -63,4 +63,3 @@ uint32_t	get_color32(const t_color *_color)
 	color_value = 0xFF000000 * (_RT_OS_MACOS_ == 0);
 	return (color_value | r << 16 | g << 8 | b);
 }
-
