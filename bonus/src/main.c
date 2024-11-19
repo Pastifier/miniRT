@@ -17,11 +17,7 @@
 
 void	_rt_start(t_program *context);
 bool	init_obj_arr(t_program *context);
-
-//extern int	update(void *param);
-//extern int	destroy_program(t_program *context);
-//extern int	check_state(void *context);
-//extern int	check_key_presses(int keysym, void *context);
+void	_rt_init_state(t_program *context);
 
 int	main(int argc, char *argv[])
 {
@@ -33,12 +29,7 @@ int	main(int argc, char *argv[])
 		return (2);
 	}
 	context = (t_program){0};
-	context.mlx = mlx_init();
-	if (!context.mlx)
-	{
-		write(2, "FATAL: error initialising minilibx.", 36);
-		exit(2);
-	}
+	_rt_init_state(&context);
 	if (!init_obj_arr(&context))
 	{
 		ft_putendl_fd("FATAL: Couldn't allocate for necessary objects.", 2);
@@ -57,14 +48,14 @@ int	main(int argc, char *argv[])
 	return (0);
 }
 
-void	_rt_start(t_program *context)
+void	_rt_init_state(t_program *context)
 {
-	//context->mlx = mlx_init();
-	//if (!context->mlx)
-	//{
-	//	write(2, "FATAL: error initialising minilibx.", 36);
-	//	exit(2);
-	//}
+	context->mlx = mlx_init();
+	if (!context->mlx)
+	{
+		write(2, "FATAL: error initialising minilibx.", 36);
+		exit(2);
+	}
 	context->win = mlx_new_window(\
 		context->mlx, \
 		WIN_WIDTH, \
@@ -77,6 +68,10 @@ void	_rt_start(t_program *context)
 		free(context->mlx);
 		exit(2);
 	}
+}
+
+void	_rt_start(t_program *context)
+{
 	context->selected = (struct s_select){.is_cam = true, .object = NULL};
 	mlx_hook(context->win, ON_KEYDOWN, 1L, &check_key_presses, context);
 	mlx_hook(context->win, ON_KEYUP, 1L << 1, &check_key_releases, context);

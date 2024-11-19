@@ -24,7 +24,8 @@ endif
 # PROJECT
 NAME := miniRT
 
-SRC := main.c ft_atof.c rays.c fragment.c sort.c lighting.c refractions.c reflections.c lerp.c lighting_utils.c\
+SRC := main.c ft_atof.c rays.c fragment.c lighting.c refractions.c \
+			reflections.c lerp_vertical.c lerp_horizontal.c lighting_utils.c\
 			$(addprefix colors/, canvas.c paint.c color_op.c) \
 			$(addprefix parsing/, parse.c parse_ambient.c parse_light.c \
 				parse_camera.c parse_sphere.c parse_utils.c parse_errors.c \
