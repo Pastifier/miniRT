@@ -231,14 +231,25 @@ t_vec2s		rt_get_cylinder_uv_local(t_vec4s *hitp);
 t_vec4s		rt_get_cylinder_tangent(t_vec4s *local_normal, t_obj *cylinder);
 t_color		rt_sample_texture(const t_canvas *tex, const t_vec2s *uv);
 t_vec4s		rt_apply_normal_map(const t_obj *obj, const t_vec2s *uv,
-			const t_vec4s *local_normal, const t_vec4s *tangent);
+				const t_vec4s *local_normal, const t_vec4s *tangent);
 
 /*--- LIGHTING ---*/
 
-t_color	shade_hit(t_world *world, t_itx_computation *comps, int depth);
-void	prepare_refractions(t_itx *hit, t_itx_computation *comps, t_itx_grp *itxs);
-t_color	refracted_color(t_world *world, t_itx_computation *comps, int depth);
-t_color	reflected_color(t_world *world, t_itx_computation *comps, int depth);
-float	schlick(t_itx_computation *comps);
+t_color		shade_hit(t_world *world, t_itx_computation *comps, int depth);
+t_color		check_for_refref(t_world *world, t_comps *comps, int depth);
+bool		is_shadowed(t_world *world, t_vec4s *point, t_light *light);
+void		prepare_refractions(t_itx *hit, t_itx_computation *comps,
+				t_itx_grp *itxs);
+t_color		refracted_color(t_world *world, t_itx_computation *comps,
+				int depth);
+t_color		reflected_color(t_world *world, t_itx_computation *comps,
+				int depth);
+float		schlick(t_itx_computation *comps);
+t_color		lighting(t_comps *comps, t_material *material, t_light *light,
+				bool in_shadow);
+float		get_spot_light_intensity(t_light *light, t_vec4s light_v);
+bool		is_spot_light_shadowed(t_light *light, t_vec4s *v);
+void		check_for_texture(t_comps *comps, t_material *material,
+				t_material_colors *mat_colors);
 
 #endif // !MINIRT_H

@@ -55,6 +55,16 @@ typedef struct s_material
 	t_canvas	*tex; // this is a shallow copy of the texture data.
 }	t_material;
 
+typedef struct s_material_colors
+{
+	t_color	intensity;
+	t_color	effective_color;
+	t_color	ambient;
+	t_color	diffuse;
+	t_color	specular;
+	t_color	return_color;
+}	t_material_colors;
+
 typedef struct s_obj
 {
 	int			type;

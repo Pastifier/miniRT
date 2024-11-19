@@ -34,6 +34,7 @@
 # define _RT_NUM_THREADS 16
 
 # define _RT_MAX_ITX 200
+# define _RT_MIN_INTENSITY 0.05f // Minimum intensity for small angles to avoid disappearance
 
 # ifdef __MACH__
 #  undef _RT_OS_MACOS_
