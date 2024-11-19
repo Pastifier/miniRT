@@ -74,22 +74,23 @@ static bool	check_material_fields(t_material *obj_material,
 
 	split = ft_split(material_field, "=\n\r");
 	if (split.wordcount != 2)
-		return (parse_warn_msg(ERR_M_FORMAT, ERR_EXPECT_M, line, false), false);
+		return (parse_warn_msg(ERR_M_FORMAT, ERR_EXPECT_M, line, false),
+			str_arr_destroy(split.array), false);
 	ret = parse_traits(split.array[0], split.array[1], obj_material, context);
 	if (!ret && context->runtime_error == 3)
 		return (parse_warn_msg(ERR_M_BUMP_FORMAT, ERR_EXPECT_XPM, line, true),
-			true);
+			str_arr_destroy(split.array), true);
 	else if (!ret && (context->runtime_error == 2 || context->flt_operations
 			== 0))
 		return (parse_warn_msg(ERR_M_VALUE, ERR_EXPECT_FLOAT, line, true),
-			true);
+			str_arr_destroy(split.array), true);
 	else if (!ret && context->runtime_error == 4)
 		return (parse_warn_msg(ERR_M_CHECKER, ERR_EXPECT_CHECKER, line, true),
-			true);
+			str_arr_destroy(split.array), true);
 	else if (!ret)
 		return (parse_warn_msg(ERR_M_FORMAT, ERR_EXPECT_M_TRAIT, line, true),
-			true);
-	return (true);
+			str_arr_destroy(split.array), true);
+	return (str_arr_destroy(split.array), true);
 }
 
 bool	parse_material(t_material *obj_material, char **material_fields,
@@ -106,13 +107,14 @@ bool	parse_material(t_material *obj_material, char **material_fields,
 	if (split.wordcount > 7)
 		return (parse_err_msg(ERR_M_FORMAT, ERR_EXPECT_M, line), false);
 	i = 0;
+	str_arr_destroy(split.array);
 	traits = ft_split(material_fields[1], ",");
 	while (i < traits.wordcount)
 	{
 		if (!check_material_fields(obj_material, traits.array[i], context,
 				line))
-			return (false);
+			return (str_arr_destroy(traits.array), false);
 		i++;
 	}
-	return (true);
+	return (str_arr_destroy(traits.array), true);
 }

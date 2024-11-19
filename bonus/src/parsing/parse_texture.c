@@ -30,7 +30,7 @@ t_canvas	*rt_png_file_to_canvas(char *filepath, void *mlx)
 	retval = malloc(sizeof(t_canvas));
 	if (!retval)
 		return (NULL);
-	retval->ptr = mlx_png_file_to_image(mlx, filepath,
+	retval->ptr = mlx_xpm_file_to_image(mlx, filepath,
 			&retval->tex_width, &retval->tex_height);
 	if (!retval->ptr)
 	{
