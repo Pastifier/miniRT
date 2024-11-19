@@ -36,7 +36,7 @@ int	main(int argc, char *argv[])
 		return (2);
 	}
 	if (!parse_file(argv[1], &context))
-		return (destroy_world(&context), 2);
+		return (destroy_world(&context), destroy_textures(&context), 2);
 	if (!pool_init(&context))
 	{
 		destroy_world(&context);
@@ -93,6 +93,6 @@ bool	init_obj_arr(t_program *context)
 		free(context->world.shapes);
 		return (false);
 	}
-	context->textures = ft_lstnew(NULL);
+	context->textures = NULL;
 	return (true);
 }

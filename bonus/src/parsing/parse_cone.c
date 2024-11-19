@@ -68,7 +68,7 @@ bool	parse_cone(t_program *context, const t_split *fields, int curr_line)
 	t_obj	*co;
 
 	if (context->world.num_shapes == _RT_MAX_SHAPES_)
-		return (parse_warn_msg(ERR_MAX_SHAPES, NULL, curr_line, true), true);
+		return (str_arr_destroy(fields->array), parse_warn_msg(ERR_MAX_SHAPES, NULL, curr_line, true), true);
 	co = &context->world.shapes[context->world.num_shapes++];
 	if (fields->wordcount < 6 || fields->wordcount > 8)
 		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_CO, curr_line),

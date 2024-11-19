@@ -206,6 +206,7 @@ t_mat4s		rt_rotation_matrix_from_axis_angle(const t_vec4s *axis,
 void		destroy_mlx(t_program *context);
 void		destroy_world(t_program *context);
 int			destroy_program(t_program *context);
+void		destroy_textures(t_program *context);
 void		str_arr_destroy(char **arr);
 
 /*--- RAY - MANIPULATION ---*/

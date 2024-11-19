@@ -23,15 +23,16 @@ static bool	parse_new_bump_xpm(t_material *obj_mat, t_program *context,
 	new = ft_lstnew(NULL);
 	new->content = malloc(sizeof(t_texture));
 	if (!new->content)
-		return (context->runtime_error = 3, false);
+		return (free(new), context->runtime_error = 3, false);
 	((t_texture *)new->content)->name = ft_strdup(filename);
 	if (!((t_texture *)new->content)->name)
-		return (context->runtime_error = 3, false);
+		return (ft_lstdelone(new, free), context->runtime_error = 3, false);
 	((t_texture *)new->content)->tex = rt_xpm_file_to_canvas(
 			filename, context->mlx);
 	obj_mat->tex = ((t_texture *)new->content)->tex;
 	if (!obj_mat->tex)
-		return (context->runtime_error = 3, false);
+		return (free(((t_texture *)new->content)->name), ft_lstdelone(new,
+			free), context->runtime_error = 3, false);
 	ft_lstadd_back(&context->textures, new);
 	return (true);
 }
@@ -45,8 +46,9 @@ bool	parse_bump_xpm(t_material *obj_mat, t_program *context,
 			- 4, ".xpm", 4))
 		return (context->runtime_error = 3, false);
 	temp = context->textures;
-	while (temp && temp->content)
+	while (temp)
 	{
+		ft_fprintf(2, "Comparing %s to %s\n", ((t_texture *)temp->content)->name, filename);
 		if (!ft_strncmp(((t_texture *)temp->content)->name,
 				filename, ft_strlen(filename)))
 			return (obj_mat->tex = ((t_texture *)temp->content)->tex, true);
@@ -54,5 +56,6 @@ bool	parse_bump_xpm(t_material *obj_mat, t_program *context,
 			break ;
 		temp = temp->next;
 	}
+	ft_fprintf(2, "Parsing new bump map %s\n", filename);
 	return (parse_new_bump_xpm(obj_mat, context, filename));
 }
