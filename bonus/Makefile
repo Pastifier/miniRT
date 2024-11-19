@@ -1,7 +1,6 @@
 # Necessities
 CC := cc
-CFLAGS = -Wextra -Wall -Werror -lz -Wno-unused-result -mavx -mavx2 -O3 -flto -funroll-loops -fno-signed-zeros#-g -fsanitize=address,undefined
-
+CFLAGS = -Wextra -Wall -Werror -lz -Wno-unused-result -mavx -mavx2 -O3 -flto -funroll-loops -fno-signed-zeros #-g -fsanitize=address
 # OS-specification
 OS := $(shell uname)
 

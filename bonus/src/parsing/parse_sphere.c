@@ -49,7 +49,8 @@ bool	parse_sphere(t_program *context, const t_split *fields, int curr_line)
 	t_obj	*sp;
 
 	if (context->world.num_shapes == _RT_MAX_SHAPES_)
-		return (str_arr_destroy(fields->array), parse_warn_msg(ERR_MAX_SHAPES, NULL, curr_line, true), true);
+		return (str_arr_destroy(fields->array),
+			parse_warn_msg(ERR_MAX_SHAPES, NULL, curr_line, true), true);
 	sp = &context->world.shapes[context->world.num_shapes++];
 	if (fields->wordcount < 4 || fields->wordcount > 6)
 		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_SP,

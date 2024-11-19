@@ -32,7 +32,7 @@ static bool	parse_new_bump_xpm(t_material *obj_mat, t_program *context,
 	obj_mat->tex = ((t_texture *)new->content)->tex;
 	if (!obj_mat->tex)
 		return (free(((t_texture *)new->content)->name), ft_lstdelone(new,
-			free), context->runtime_error = 3, false);
+				free), context->runtime_error = 3, false);
 	ft_lstadd_back(&context->textures, new);
 	return (true);
 }
@@ -48,7 +48,6 @@ bool	parse_bump_xpm(t_material *obj_mat, t_program *context,
 	temp = context->textures;
 	while (temp)
 	{
-		ft_fprintf(2, "Comparing %s to %s\n", ((t_texture *)temp->content)->name, filename);
 		if (!ft_strncmp(((t_texture *)temp->content)->name,
 				filename, ft_strlen(filename)))
 			return (obj_mat->tex = ((t_texture *)temp->content)->tex, true);
@@ -56,6 +55,5 @@ bool	parse_bump_xpm(t_material *obj_mat, t_program *context,
 			break ;
 		temp = temp->next;
 	}
-	ft_fprintf(2, "Parsing new bump map %s\n", filename);
 	return (parse_new_bump_xpm(obj_mat, context, filename));
 }

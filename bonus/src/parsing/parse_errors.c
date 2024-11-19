@@ -61,3 +61,22 @@ void	parse_warn_msg(char *msg, char *expected, int curr_line, bool ign)
 		ft_putendl_fd("Ignoring line...", 2);
 	}
 }
+
+bool	check_object_validity_init(t_program *context, const char *info,
+			int curr_line, const t_split fields)
+{
+	if (*info == 's' && *(info + 1) == 'p')
+		return (parse_sphere(context, &fields, curr_line));
+	else if (*info == 'c' && *(info + 1) == 'y')
+		return (parse_cylinder(context, &fields, curr_line));
+	else if (*info == 'p' && *(info + 1) == 'l')
+		return (parse_plane(context, &fields, curr_line));
+	else if (*info == 'c' && *(info + 1) == 'u')
+		return (parse_cube(context, &fields, curr_line));
+	else if (*info == 'c' && *(info + 1) == 'o')
+		return (parse_cone(context, &fields, curr_line));
+	else if (*info == 'S' && *(info + 1) == 'L')
+		return (parse_spot_light(context, &fields, curr_line));
+	ft_fprintf(2, "Error: couldn't recognize object in line %d:\n", curr_line);
+	return (str_arr_destroy(fields.array), false);
+}

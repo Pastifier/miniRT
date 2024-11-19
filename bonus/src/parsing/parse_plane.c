@@ -55,13 +55,13 @@ bool	parse_plane(t_program *context, const t_split *fields, int curr_line)
 	t_obj	*pl;
 
 	if (context->world.num_shapes == _RT_MAX_SHAPES_)
-		return (str_arr_destroy(fields->array), parse_warn_msg(ERR_MAX_SHAPES, NULL, curr_line, true), true);
+		return (str_arr_destroy(fields->array),
+			parse_warn_msg(ERR_MAX_SHAPES, NULL, curr_line, true), true);
 	pl = &context->world.shapes[context->world.num_shapes++];
 	if (fields->wordcount < 4 || fields->wordcount > 6)
 		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_PL,
 				curr_line), str_arr_destroy(fields->array), false);
 	pl->type = PLANE;
-	pl->center.w = 1.f;
 	if (!parse_vec4p(&pl->trans, fields->array[1], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
 	if (!parse_vec4v(&pl->orientation, fields->array[2], context, curr_line))
@@ -76,5 +76,5 @@ bool	parse_plane(t_program *context, const t_split *fields, int curr_line)
 	pl->inv_transform = lag_mat4s_get_transform_inverse(pl->rot,
 			pl->scale.simd, pl->trans.simd);
 	lag_mat4s_transpose(&pl->inv_transform, &pl->transposed_inverse);
-	return (str_arr_destroy(fields->array), true);
+	return (pl->center.w = 1.f, str_arr_destroy(fields->array), true);
 }

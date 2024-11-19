@@ -119,25 +119,15 @@ bool	check_object_validity_and_add(t_program *context, const char *info,
 	const t_split	fields = ft_split(info, " ");
 
 	if (!ft_isalpha(*info))
-		return (str_arr_destroy(fields.array), parse_syn_err_msg((char *)info, curr_line), false);
+		return (str_arr_destroy(fields.array),
+			parse_syn_err_msg((char *)info, curr_line), false);
 	if (*info == 'A' || *info == 'C' || *info == 'L')
 	{
 		if (line_len > 1 && *(info + 1) != ' ')
-			return (str_arr_destroy(fields.array), parse_syn_err_msg((char *)info, curr_line), false);
-		return (str_arr_destroy(fields.array), parse_uppercase_object(context, info, curr_line));
+			return (str_arr_destroy(fields.array),
+				parse_syn_err_msg((char *)info, curr_line), false);
+		return (str_arr_destroy(fields.array),
+			parse_uppercase_object(context, info, curr_line));
 	}
-	if (*info == 's' && *(info + 1) == 'p')
-		return (parse_sphere(context, &fields, curr_line));
-	else if (*info == 'c' && *(info + 1) == 'y')
-		return (parse_cylinder(context, &fields, curr_line));
-	else if (*info == 'p' && *(info + 1) == 'l')
-		return (parse_plane(context, &fields, curr_line));
-	else if (*info == 'c' && *(info + 1) == 'u')
-		return (parse_cube(context, &fields, curr_line));
-	else if (*info == 'c' && *(info + 1) == 'o')
-		return (parse_cone(context, &fields, curr_line));
-	else if (*info == 'S' && *(info + 1) == 'L')
-		return (parse_spot_light(context, &fields, curr_line)); 
-	ft_fprintf(2, "Error: couldn't recognize object in line %d:\n", curr_line);
-	return (str_arr_destroy(fields.array), false);
+	return (check_object_validity_init(context, info, curr_line, fields));
 }
