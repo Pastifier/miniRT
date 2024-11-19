@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tangents.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:16:37 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/18 15:47:19 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/19 14:17:49 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,16 @@ t_vec4s	rt_get_sphere_tangent(t_vec4s *local_normal)
 	lag_vec4s_cross(&retval, reference, *local_normal);
 	lag_vec4s_normalize(&retval);
 	return (retval);
+}
+
+t_vec4s rt_get_plane_tangent(t_vec4s *local_normal)
+{
+	t_vec4s	tangent;
+
+	if (fabsf(local_normal->y) < 0.999f)
+		lag_vec4s_cross(&tangent, lag_vec4sv_ret(0, 1, 0), *local_normal);
+	else
+		lag_vec4s_cross(&tangent, lag_vec4sv_ret(1, 0, 0), *local_normal);
+	lag_vec4s_normalize(&tangent);
+	return (tangent);
 }

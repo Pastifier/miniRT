@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/18 15:07:43 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/19 14:34:36 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_itx_computation prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 	if (itx->object->type == SPHERE)
 		comps.normalv = sphere_normal_at(itx->object, &comps.p);
 	else if (itx->object->type == PLANE)
-		comps.normalv = itx->object->orientation;//plane_normal_at(itx->object);
+		comps.normalv = plane_normal_at(itx->object, &comps.p);
 	else if (itx->object->type == CYLINDER)
 		comps.normalv = cylinder_normal_at(itx->object, &comps.p);
 	else if (itx->object->type == CUBE)

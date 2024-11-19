@@ -216,7 +216,7 @@ t_vec4s		cone_normal_at(t_obj *cone, t_vec4s *world_point);
 t_vec4s		cube_normal_at(t_obj *cube, t_vec4s *world_point);
 t_vec4s 	cylinder_normal_at(t_obj *cylinder, t_vec4s *world_point);
 void		cast_shadow_ray(t_world *w, t_ray *r, t_itx_grp *xs);
-t_vec4s		plane_normal_at(t_obj *plane);
+t_vec4s		plane_normal_at(t_obj *plane, t_vec4s *world_p);
 t_vec4s		sphere_normal_at(t_obj *sphere, t_vec4s *world_p);
 void		quick_sort_intersections(t_itx *arr, size_t size);
 t_itx		*get_hit(t_itx_grp *xs);
@@ -226,7 +226,10 @@ void		lag_mat4s_transpose(const t_mat4s *m, t_mat4s *out);
 
 t_canvas	*rt_xpm_file_to_canvas(char *filepath, void *mlx);
 t_vec2s		rt_get_sphere_uv_local(t_vec4s *hitp);
+t_vec2s		rt_get_plane_uv_local(t_vec4s *hitp, t_vec4s tangent,
+				t_vec4s *normal);
 t_vec4s		rt_get_sphere_tangent(t_vec4s *local_normal);
+t_vec4s 	rt_get_plane_tangent(t_vec4s *local_normal);
 t_vec2s		rt_get_cylinder_uv_local(t_vec4s *hitp);
 t_vec4s		rt_get_cylinder_tangent(t_vec4s *local_normal, t_obj *cylinder);
 t_color		rt_sample_texture(const t_canvas *tex, const t_vec2s *uv);
