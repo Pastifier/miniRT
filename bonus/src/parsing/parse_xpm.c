@@ -32,7 +32,7 @@ static bool	parse_new_bump_xpm(t_material *obj_mat, t_program *context,
 	obj_mat->tex = ((t_texture *)new->content)->tex;
 	if (!obj_mat->tex)
 		return (context->runtime_error = 3, false);
-	ft_lstadd_front(&context->textures, new);
+	ft_lstadd_back(&context->textures, new);
 	return (true);
 }
 

@@ -119,12 +119,12 @@ bool	check_object_validity_and_add(t_program *context, const char *info,
 	const t_split	fields = ft_split(info, " ");
 
 	if (!ft_isalpha(*info))
-		return (parse_syn_err_msg((char *)info, curr_line), false);
+		return (str_arr_destroy(fields.array), parse_syn_err_msg((char *)info, curr_line), false);
 	if (*info == 'A' || *info == 'C' || *info == 'L')
 	{
 		if (line_len > 1 && *(info + 1) != ' ')
-			return (parse_syn_err_msg((char *)info, curr_line), false);
-		return (parse_uppercase_object(context, info, curr_line));
+			return (str_arr_destroy(fields.array), parse_syn_err_msg((char *)info, curr_line), false);
+		return (str_arr_destroy(fields.array), parse_uppercase_object(context, info, curr_line));
 	}
 	if (*info == 's' && *(info + 1) == 'p')
 		return (parse_sphere(context, &fields, curr_line));
@@ -139,5 +139,5 @@ bool	check_object_validity_and_add(t_program *context, const char *info,
 	else if (*info == 'S' && *(info + 1) == 'L')
 		return (parse_spot_light(context, &fields, curr_line));
 	ft_fprintf(2, "Error: couldn't recognize object in line %d:\n", curr_line);
-	return (false);
+	return (str_arr_destroy(fields.array), false);
 }
