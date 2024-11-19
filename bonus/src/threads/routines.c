@@ -13,7 +13,7 @@
 #include "miniRT.h"
 #include "macros.h"
 
-void	*render_row(void *arg)
+void	*render_chunk(void *arg)
 {
 	const t_thread		*data = (t_thread *)arg;
 	t_camera			*cam;
@@ -39,7 +39,7 @@ void	*render_row(void *arg)
 	return (NULL);
 }
 
-void	*thread_arbiter(void *arg)
+void	*await_task(void *arg)
 {
 	t_thread	*data;
 
@@ -55,7 +55,7 @@ void	*thread_arbiter(void *arg)
 			break ;
 		}
 		pthread_mutex_unlock(&data->mutex);
-		render_row(data);
+		render_chunk(data);
 		pthread_mutex_lock(&data->mutex);
 		data->work_ready = false;
 		pthread_mutex_unlock(&data->mutex);

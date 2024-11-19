@@ -178,8 +178,8 @@ t_color		color_at(t_world *w, t_ray *r, int depth);
 /*---- THREADS ----*/
 
 bool		pool_init(t_program *context);
-bool		pool_init_join(t_program *context);
-void		*thread_arbiter(void *arg);
+bool		thread_arbiter(t_program *context);
+void		*await_task(void *arg);
 void		interpolate_horizontal(t_thread const *data);
 void		interpolate_vertical(t_thread const *data);
 int			cdiff(t_color a, t_color b);

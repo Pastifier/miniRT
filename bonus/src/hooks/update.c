@@ -33,7 +33,7 @@ int	update(void *context)
 		state->delta_time = get_delta_time(&last_time, &curr_time);
 	}
 	last_time = curr_time;
-	if (!pool_init_join(context))
+	if (!thread_arbiter(context))
 		return (1);
 	return (0);
 }

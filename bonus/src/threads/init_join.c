@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-extern void	*render_row(void *param);
+extern void	*render_chunk(void *param);
 
 long long	my_gettime(void)
 {
@@ -46,7 +46,7 @@ bool	pool_init(t_program *context)
 		pthread_mutex_init(&thread->mutex, NULL);
 		pthread_cond_init(&thread->cond, NULL);
 		thread->work_ready = false;
-		pthread_create(&thread->thread, NULL, thread_arbiter, thread);
+		pthread_create(&thread->thread, NULL, await_task, thread);
 	}
 	return (true);
 }
@@ -86,7 +86,7 @@ void	pool_wait_for_frame(t_program *context)
 	}
 }
 
-bool	pool_init_join(t_program *context)
+bool	thread_arbiter(t_program *context)
 {
 	long long	start_time;
 	long long	frame_time;
