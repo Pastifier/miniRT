@@ -23,7 +23,7 @@ endif
 # PROJECT
 NAME := miniRT
 
-SRC := main.c ft_atof.c  lerp_vertical.c lerp_horizontal.c \
+SRC := main.c ft_atof.c \
 			$(addprefix fragments/, lighting_utils.c rays.c fragment.c lighting.c \
 				reflections.c refractions.c) \
 			$(addprefix colors/, canvas.c paint.c color_op.c) \
@@ -32,7 +32,7 @@ SRC := main.c ft_atof.c  lerp_vertical.c lerp_horizontal.c \
 				parse_plane.c parse_cylinder.c parse_cube.c parse_cone.c \
 				parse_extras.c parse_material.c parse_texture.c parse_xpm.c) \
 			$(addprefix destroy/, destroy.c) \
-			$(addprefix threads/, init_join.c routines.c) \
+			$(addprefix threads/, init_join.c routines.c lerp_vertical.c lerp_horizontal.c) \
 			$(addprefix world/, itx_test_world.c) \
 			$(addprefix hooks/, update.c keys.c mouse.c object.c camera_movement.c camera_rotations.c rodrigues.c) \
 			$(addprefix intersections/, sphere_test.c plane.c shape_utils.c cylinder.c cube.c cone.c) \
