@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 22:22:17 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/07 02:38:20ma         ###   ########.fr       */
+/*   Created: 2024/11/19 20:11:55 by ebinjama          #+#    #+#             */
+/*   Updated: 2024/11/19 20:20:15 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 
 int	check_state(void *context)
 {
-	t_program	*state = (t_program *)context;
+	t_program	*state;
 
+	state = (t_program *)context;
 	if (state->stop)
 	{
 		if (!state->selected.is_cam)
@@ -42,14 +43,8 @@ int	check_state(void *context)
 	return (update(context), 0);
 }
 
-
-int	check_key_presses(int keysym, void *context)
+static inline void	_check_movement_controls(t_program *state, int keysym)
 {
-	t_program	*state;
-
-	state = (t_program *)context;
-	if (keysym == KEY_ESC)
-		return (state->stop = true, 0);
 	if (keysym == KEY_A)
 		state->movement.a = true;
 	if (keysym == KEY_D)
@@ -70,15 +65,34 @@ int	check_key_presses(int keysym, void *context)
 		state->movement.left = true;
 	if (keysym == AKEY_R)
 		state->movement.right = true;
+}
+
+static inline void	_check_config_controls(t_program *state, int keysym)
+{
 	if (keysym == KEY_R)
 		state->world.refract_reflect ^= true;
+}
+
+int	check_key_presses(int keysym, void *context)
+{
+	t_program	*state;
+
+	state = (t_program *)context;
+	if (keysym == KEY_ESC)
+	{
+		state->stop = true;
+		return (0);
+	}
+	_check_config_controls(state, keysym);
+	_check_movement_controls(state, keysym);
 	return (keysym);
 }
 
 int	check_key_releases(int keysym, void *param)
 {
-	t_program	*state = (t_program *)param;
+	t_program	*state;
 
+	state = (t_program *)param;
 	if (keysym == KEY_A)
 		state->movement.a = false;
 	if (keysym == KEY_D)
