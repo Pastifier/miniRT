@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:55:36 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/19 15:59:10 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/19 16:11:38 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 static bool	parse_new_bump_xpm(t_material *obj_mat, t_program *context,
 		char *filename)
 {
-	t_list *new;
+	t_list	*new;
 
 	new = ft_lstnew(NULL);
 	new->content = malloc(sizeof(t_texture));
