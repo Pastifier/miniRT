@@ -32,7 +32,8 @@ void	destroy_textures(t_program *context)
 	while (context->textures)
 	{
 		free(((t_texture *)context->textures->content)->name);
-		mlx_destroy_image(context->mlx, ((t_texture *)context->textures->content)->tex->ptr);
+		mlx_destroy_image(context->mlx,
+			((t_texture *)context->textures->content)->tex->ptr);
 		free(context->textures->content);
 		context->textures = context->textures->next;
 	}
