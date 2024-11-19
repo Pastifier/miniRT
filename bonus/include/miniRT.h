@@ -153,6 +153,8 @@ bool		parse_vec4v(t_vec4s *vec, char *str, t_program *context, int curr_line);
 bool		parse_vec4p(t_vec4s *vec, char *str, t_program *context, int curr_line);
 bool		parse_single_f(float *f, char *str, t_program *context, int curr_line);
 bool		parse_material(t_material *obj_material, char **material_fields, t_program *context, int curr_line);
+bool	parse_plane_checker(t_material *obj_mat, t_program *context,
+		char *is_checker);
 t_mat4s		rt_extract_rot_vertical(const t_vec4s u);
 t_mat4s		rt_get_cam_inverse(const t_mat4s *view);
 

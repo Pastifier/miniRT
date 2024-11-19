@@ -43,15 +43,16 @@ typedef struct s_canvas t_canvas;
 
 typedef struct s_material
 {
-	t_color	color;
-	t_color	xordc;
-	float	ambient;
-	float	diffuse;
-	float	specular;
-	float	sheen;
-	float	reflective;
-	float	transparency;
-	float	refractive_index;
+	t_color		color;
+	t_color		xordc;
+	float		ambient;
+	float		diffuse;
+	float		specular;
+	float		sheen;
+	float		reflective;
+	float		transparency;
+	float		refractive_index;
+	bool		checkered;
 	t_canvas	*tex; // this is a shallow copy of the texture data.
 }	t_material;
 

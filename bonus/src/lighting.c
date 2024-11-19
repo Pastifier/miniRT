@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:18:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/19 12:20:39 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:01:55 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	lighting_init(t_material_colors *mat_colors, t_light *light,
 		mat_colors->intensity = light->specs.spot.intensity;
 	else
 		mat_colors->intensity = light->specs.point.intensity;
-	if (comps->obj->type == PLANE)
+	if (comps->obj->type == PLANE && material->checkered)
 		plane_pattern_blend(&mat_colors->effective_color, comps,
 			&mat_colors->intensity);
 	else

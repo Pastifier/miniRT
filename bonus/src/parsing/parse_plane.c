@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:08:31 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/18 15:45:51 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:07:35 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,21 @@ static void	material_init(t_material *material, const t_split *fields,
 	if (fields->wordcount == 6 && parse_material(material, &fields->array[4],
 			context, curr_line))
 		return ;
+}
+
+bool	parse_plane_checker(t_material *obj_mat, t_program *context,
+		char *is_checker)
+{
+	if (ft_strncmp(is_checker, "yes", ft_strlen(is_checker))
+		&& ft_strncmp(is_checker, "no", ft_strlen(is_checker)))
+		return (context->runtime_error = 4, false);
+	if (!ft_strncmp(is_checker, "yes", ft_strlen(is_checker)))
+		obj_mat->checkered = true;
+	else
+		obj_mat->checkered = false;
+	context->runtime_error = 0;
+	context->flt_operations = 1;
+	return (true);
 }
 
 bool	parse_plane(t_program *context, const t_split *fields, int curr_line)

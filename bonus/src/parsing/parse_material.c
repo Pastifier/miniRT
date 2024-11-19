@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:02:53 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/18 16:40:35 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:00:23 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static bool	parse_traits_extension(char *field, char *value,
 		obj_material->refractive_index = temp;
 	else if (!ft_strncmp(field, "bump_xpm", ft_strlen(field)))
 		return (parse_bump_xpm(obj_material, context, value));
+	else if (!ft_strncmp(field, "checker", ft_strlen(field)))
+		return (parse_plane_checker(obj_material, context, value));
 	else
 		return (false);
 	if (context->runtime_error == 2 || context->flt_operations == 0)
@@ -110,6 +112,9 @@ static bool	check_material_fields(t_material *obj_material,
 	else if (!ret && (context->runtime_error == 2 || context->flt_operations
 			== 0))
 		return (parse_warn_msg(ERR_M_VALUE, ERR_EXPECT_FLOAT, line, true),
+			true);
+	else if (!ret && context->runtime_error == 4)
+		return (parse_warn_msg(ERR_M_CHECKER, ERR_EXPECT_CHECKER, line, true),
 			true);
 	else if (!ret)
 		return (parse_warn_msg(ERR_M_FORMAT, ERR_EXPECT_M_TRAIT, line, true),
