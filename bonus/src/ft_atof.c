@@ -12,9 +12,9 @@
 
 #include "miniRT.h"
 
-static void	init_atof(char **rep, float *sign, t_program *f);
-static void	validate_rep(char *rep, t_program *context);
-static void	validate_float(float num, t_program *f);
+static void		init_atof(char **rep, float *sign, t_program *f);
+static void		validate_rep(char *rep, t_program *context);
+static float	validate_float(float num, t_program *f);
 
 float	ft_atof(char *rep, t_program *context)
 {
@@ -27,7 +27,6 @@ float	ft_atof(char *rep, t_program *context)
 	mantissa = 0.0;
 	dividend = 1.0;
 	found_point = false;
-	sign = 1.0;
 	init_atof(&rep, &sign, context);
 	while (*rep && ++context->flt_operations)
 	{
@@ -43,17 +42,14 @@ float	ft_atof(char *rep, t_program *context)
 			break ;
 		++rep;
 	}
-	validate_float((mantissa / dividend) * sign, context);
-	return ((mantissa / dividend) * sign);
+	return (validate_float((mantissa / dividend) * sign, context));
 }
 
 static void	init_atof(char **rep, float *sign, t_program *f)
 {
-	f->flt_operations = 0;
-	f->runtime_error = 0;
+	*sign = 1.0;
 	while (**rep && (**rep == ' ' || **rep == '\t'))
 		(*rep)++;
-	*sign = 1.0;
 	if (**rep == '-' || **rep == '+')
 	{
 		if (**rep == '-')
@@ -70,7 +66,8 @@ static void	init_atof(char **rep, float *sign, t_program *f)
 			if (!ft_isdigit(*(*rep + 2)))
 				return (f->runtime_error = 2, (void)free(NULL));
 		}
-		else if (!ft_isdigit(*(*rep + 1)) && (*(*rep + 1) && *(*rep + 1) != ',' && *(*rep + 1) != ' '))
+		else if (!ft_isdigit(*(*rep + 1)) && (*(*rep + 1) && *(*rep + 1)
+				!= ',' && *(*rep + 1) != ' '))
 			return (f->runtime_error = 2, (void)free(NULL));
 	}
 	else
@@ -97,15 +94,18 @@ static void	validate_rep(char *rep, t_program *context)
 		else if (ft_isalpha(*rep))
 			utils.found_alpha = true;
 		else
-			break;
+			break ;
 		++rep;
 	}
 	if (!utils.digit_count || utils.sign_count > 1 || utils.found_alpha)
 		return (context->runtime_error = 2, (void)free(NULL));
+	context->runtime_error = 0;
+	context->flt_operations = 0;
 }
 
-static void	validate_float(float num, t_program *f)
+static float	validate_float(float num, t_program *f)
 {
 	if (isnan(num) || isinf(num))
-		return (f->runtime_error = 2, (void)free(NULL));
+		f->runtime_error = 2;
+	return (num);
 }
