@@ -29,7 +29,7 @@ void	destroy_world(t_program *context)
 
 void	destroy_textures(t_program *context)
 {
-	while (context->textures)
+	while (context->textures && context->textures->content)
 	{
 		free(((t_texture *)context->textures->content)->name);
 		mlx_destroy_image(context->mlx,
