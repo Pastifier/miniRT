@@ -34,10 +34,9 @@ void	destroy_textures(t_program *context)
 		free(((t_texture *)context->textures->content)->name);
 		mlx_destroy_image(context->mlx,
 			((t_texture *)context->textures->content)->tex->ptr);
-		free(context->textures->content);
 		context->textures = context->textures->next;
 	}
-	free(context->textures);
+	ft_lstclear(&context->textures, free);
 }
 
 int	destroy_program(t_program *context)

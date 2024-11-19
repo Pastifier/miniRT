@@ -98,6 +98,6 @@ bool	init_obj_arr(t_program *context)
 		free(context->world.shapes);
 		return (false);
 	}
-	context->textures = ft_calloc(1, sizeof(t_list));
+	context->textures = ft_lstnew(NULL);
 	return (true);
 }
