@@ -194,6 +194,8 @@ int			check_mouse_clicks(int button, int x, int y, void *param);
 void		object_controls(t_program *state);
 void		camera_controls(t_program *state);
 void		camera_rotations(t_program *state);
+t_mat4s		rt_rotation_matrix_from_axis_angle(const t_vec4s *axis,
+				float angle);
 
 /*--- DESTROY ---*/
 
