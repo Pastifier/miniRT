@@ -14,10 +14,6 @@
 #include "keys.h"
 #include "macros.h"
 
-#define MOVE_SPEED 5.f
-#define PITCH_SPEED 0.3f
-#define YAW_SPEED 0.3f
-
 t_mat4s rotation_matrix_from_axis_angle(const t_vec4s *axis, float angle)
 {
 	t_mat4s rot;
@@ -76,15 +72,6 @@ static inline void	update_camera_state(t_camera *camera)
 	camera->inv_transform = rt_get_cam_inverse(&camera->inv_transform);
 }
 
-static inline void	update_object_cache(t_obj *object)
-{
-	object->inv_transform = lag_mat4s_get_transform_inverse(\
-		object->rot, \
-		object->scale.simd, \
-		object->trans.simd
-	);
-	lag_mat4s_transpose(&object->inv_transform, &object->transposed_inverse);
-}
 
 // Function to handle camera movement controls
 void	camera_controls(t_program *state)
@@ -147,35 +134,6 @@ void	camera_rotations(t_program *state)
 		lag_mat4s_cross_vec4s(&rot, &state->cam.up, &state->cam.up);
 	}
 	update_camera_state(&state->cam);
-}
-
-// Function to handle object movement controls
-void	object_controls(t_program *state)
-{
-	t_obj	*selected_object = state->selected.object;
-	t_vec4s	scaled_forward, scaled_left;
-	t_vec4s op = lag_vec4s_ret(selected_object->trans.x, state->cam.trans.y, selected_object->trans.z, 1);
-	t_vec4s	viewport_forward;
-	lag_vec4s_sub(&viewport_forward, &op, &state->cam.trans);
-	viewport_forward.w = 0.f;
-	lag_vec4s_normalize(&viewport_forward);
-
-	lag_vec4s_scaleby(&scaled_forward, viewport_forward, (MOVE_SPEED + (MOVE_SPEED / 2.f)) * state->delta_time);
-	lag_vec4s_scaleby(&scaled_left, state->cam.left, (MOVE_SPEED + (MOVE_SPEED / 2.f)) * state->delta_time);
-
-	if (state->movement.a)
-		lag_vec4s_add(&selected_object->trans, &selected_object->trans, &scaled_left);
-	if (state->movement.d)
-		lag_vec4s_sub(&selected_object->trans, &selected_object->trans, &scaled_left);
-	if (state->movement.w)
-		lag_vec4s_add(&selected_object->trans, &scaled_forward, &selected_object->trans);
-	if (state->movement.s)
-		lag_vec4s_sub(&selected_object->trans, &selected_object->trans, &scaled_forward);
-	if (state->movement.space)
-		selected_object->trans.y += (MOVE_SPEED * state->delta_time);
-	if (state->movement.lshift)
-		selected_object->trans.y -= (MOVE_SPEED * state->delta_time);
-	update_object_cache(selected_object);
 }
 
 int	check_state(void *context)
