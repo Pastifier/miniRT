@@ -192,6 +192,8 @@ int			check_mouse_clicks(int button, int x, int y, void *param);
 
 /*--- EVENTS ---*/
 void		object_controls(t_program *state);
+void		camera_controls(t_program *state);
+void		camera_rotations(t_program *state);
 
 /*--- DESTROY ---*/
 
