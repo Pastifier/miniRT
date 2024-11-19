@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 16:38:22 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/19 20:04:39 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/19 20:09:02 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,19 @@ static inline void	update_camera_state(t_camera *camera)
 	lag_vec4s_normalize(&camera->up);
 	lag_vec4s_normalize(&camera->left);
 	lag_vec4s_normalize(&camera->forward);
-	camera->inv_transform = lag_mat4s_rows_ret(
-		lag_vec4s_ret(camera->left.x, camera->left.y, camera->left.z, 0.0f),
-		lag_vec4s_ret(camera->up.x, camera->up.y, camera->up.z, 0.0f),
-		lag_vec4s_ret(-camera->forward.x, -camera->forward.y, -camera->forward.z, 0.0f),
-		lag_vec4s_ret(0.0f, 0.0f, 0.0f, 1.0f)
+	camera->inv_transform = lag_mat4s_rows_ret(\
+		lag_vec4s_ret(camera->left.x, camera->left.y, camera->left.z, 0.0f), \
+		lag_vec4s_ret(camera->up.x, camera->up.y, camera->up.z, 0.0f), \
+		lag_vec4s_ret(-camera->forward.x, -camera->forward.y, \
+			-camera->forward.z, 0.0f), \
+		lag_vec4s_ret(0.0f, 0.0f, 0.0f, 1.0f) \
 	);
 	lag_mat4s_cross_mat4s(camera->inv_transform, \
-		lag_mat4s_translation(-camera->trans.x, -camera->trans.y, -camera->trans.z), \
-		&camera->inv_transform);
+		lag_mat4s_translation(\
+			-camera->trans.x, -camera->trans.y, -camera->trans.z \
+		), \
+			&camera->inv_transform \
+		);
 	camera->inv_transform = rt_get_cam_inverse(&camera->inv_transform);
 }
 
