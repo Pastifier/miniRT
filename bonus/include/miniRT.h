@@ -190,6 +190,9 @@ int			check_key_presses(int keysym, void *context);
 int			check_key_releases(int keysym, void *param);
 int			check_mouse_clicks(int button, int x, int y, void *param);
 
+/*--- EVENTS ---*/
+void		object_controls(t_program *state);
+
 /*--- DESTROY ---*/
 
 void		destroy_mlx(t_program *context);

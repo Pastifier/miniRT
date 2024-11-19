@@ -36,6 +36,10 @@
 # define _RT_MAX_ITX 200
 # define _RT_MIN_INTENSITY 0.05f // Minimum intensity for small angles to avoid disappearance
 
+# define MOVE_SPEED 5.f
+# define PITCH_SPEED 0.3f
+# define YAW_SPEED 0.3f
+
 # ifdef __MACH__
 #  undef _RT_OS_MACOS_
 #  define _RT_OS_MACOS_ 1
