@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 19:16:37 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/19 14:17:49 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/19 14:46:34 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_vec4s	rt_get_sphere_tangent(t_vec4s *local_normal)
 	return (retval);
 }
 
-t_vec4s rt_get_plane_tangent(t_vec4s *local_normal)
+t_vec4s	rt_get_plane_tangent(t_vec4s *local_normal)
 {
 	t_vec4s	tangent;
 

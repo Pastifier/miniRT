@@ -6,14 +6,14 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:48:39 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/19 14:43:26 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/19 14:46:21 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "macros.h"
 
-t_vec4s plane_normal_at(t_obj *plane, t_vec4s *world_p)
+t_vec4s	plane_normal_at(t_obj *plane, t_vec4s *world_p)
 {
 	t_vec4s	world_n;
 	t_vec2s	uv;
@@ -23,7 +23,8 @@ t_vec4s plane_normal_at(t_obj *plane, t_vec4s *world_p)
 	{
 		tangent = rt_get_plane_tangent(&plane->orientation);
 		uv = rt_get_plane_uv_local(world_p, tangent, &plane->orientation);
-		world_n = rt_apply_normal_map(plane, &uv, &plane->orientation, &tangent);
+		world_n = rt_apply_normal_map(plane, &uv, &plane->orientation,
+				&tangent);
 		return (world_n);
 	}
 	return (plane->orientation);
