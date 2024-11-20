@@ -47,7 +47,7 @@ LAG_SRC := $(addprefix vec4_la_ps/, init_ps.c ps_extra.c simple_operations_1_ps.
 LAG_DIR := $(SRC_DIR)/LagAMat
 LAG_SRCS := $(addprefix $(LAG_DIR)/, $(LAG_SRC))
 
-INC := miniRT.h common.h colors.h canvas.h macros.h keys.h ltypes.h lag.h
+INC := miniRT.h common.h colors.h macros.h keys.h ltypes.h lag.h
 INC_DIR := include
 INCLUDE := $(addprefix $(INC_DIR)/, $(INC))
 all: $(NAME)
