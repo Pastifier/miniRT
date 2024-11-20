@@ -136,7 +136,7 @@ typedef struct s_validate_atof
 	bool	found_alpha;
 }	t_vatof;
 
-bool		is_normalised(t_vec4s vec);
+bool		is_normalised(t_vec4s vec, int curr_line);
 float		ft_atof(char *rep, t_program *context);
 bool		parse_file(const char *filename, t_program *context);
 bool		parse_ambient(t_program *context, t_split *fields, int curr_line);
