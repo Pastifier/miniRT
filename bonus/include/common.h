@@ -39,7 +39,7 @@ typedef union u_color
 	};
 }	t_color;
 
-typedef struct s_canvas t_canvas;
+typedef struct s_canvas	t_canvas;
 
 typedef struct s_material
 {
@@ -53,7 +53,7 @@ typedef struct s_material
 	float		transparency;
 	float		refractive_index;
 	bool		checkered;
-	t_canvas	*tex; // this is a shallow copy of the texture data.
+	t_canvas	*tex;
 }	t_material;
 
 typedef struct s_material_colors
@@ -80,10 +80,6 @@ typedef struct s_obj
 	float		radius;
 	union u_specs
 	{
-		//struct
-		//{
-		//	float	radius;
-		//};
 		struct
 		{
 			t_vec4s	normal;
@@ -105,16 +101,6 @@ typedef struct s_intersection
 {
 	float	t;
 	t_obj	*object;
-	//t_vec4s	itx_p;
-	//// subject to be grouped somewhere else:
-	//bool	shadowed;
-	//t_vec4s	p;
-	//t_vec4s	overp;
-	//t_vec4s	underp;
-	//t_vec4s	eyev;
-	//t_vec4s	normalv;
-	//t_vec4s	reflectv;
-	//int		inside;
 	float	n1;
 	float	n2;
 }	t_itx;
@@ -129,7 +115,6 @@ typedef struct s_ray
 {
 	t_vec4s		origin;
 	t_vec4s		dir;
-	//t_itx_grp	xs;
 }	t_ray;
 
 typedef struct s_camera
@@ -145,7 +130,7 @@ typedef struct s_camera
 	t_vec4s		left;
 	t_mat4s		rot;
 	t_vec4s		trans;
-	t_vec4s		scale; // (1, 1, 1, 1)
+	t_vec4s		scale;
 	float		half_width;
 	float		half_height;
 	float		half_view;

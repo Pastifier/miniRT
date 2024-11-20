@@ -6,11 +6,11 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:00:13 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/07 15:32:34 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/20 10:16:29 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	KEYS_H
+#ifndef KEYS_H
 # define KEYS_H
 
 # ifdef __linux__

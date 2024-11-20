@@ -34,7 +34,7 @@
 # define _RT_NUM_THREADS 16
 
 # define _RT_MAX_ITX 200
-# define _RT_MIN_INTENSITY 0.05f // Minimum intensity for small angles to avoid disappearance
+# define _RT_MIN_INTENSITY 0.05f
 
 # define MOVE_SPEED 5.f
 # define PITCH_SPEED 0.3f
@@ -82,9 +82,9 @@
 # define ERR_M_BUMP_FORMAT "Invalid format for Bump Map"
 # define ERR_M_CHECKER "Invalid format for Checker Map"
 
-# define ERR_EXPECT_CHECKER "Expected: Checker option in the format: checker=<yes/no>"
+# define ERR_EXPECT_CHECKER "Expected: checker=<yes/no>"
 # define ERR_EXPECT_XPM "Expected: XPM file"
-# define ERR_EXPECT_M "Expected: Material in the format: M <material.trait>=<float>,<material.trait>=<float>,<etc>\n\tUsing default values...\n"
+# define ERR_EXPECT_M "Expected: M <material.trait>=<float>,<material.trait>=<float>,<etc>\n\tUsing default values...\n"
 # define ERR_EXPECT_M_TRAIT "Expected: Valid Material Trait: [ambient, diffuse, specular, sheen]\n\tUsing default values...\n"
 # define ERR_EXPECT_M_OPTIONAL_TRAIT "Expected: Valid Material Trait: [reflective, transparency, refractive_index]\n\tUsing default values...\n"
 # define ERR_EXPECT_FLOAT "Expected: valid floating-point number."

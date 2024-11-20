@@ -54,11 +54,13 @@ typedef struct s_program
 	int			flt_operations;
 	void		*mlx;
 	void		*win;
-	t_list		*textures; // list of where the actual textures will be stored to be used.
+	t_list		*textures;
 	t_canvas	canvas;
 	t_world		world;
 	t_camera	cam;
 	t_thread	*pool;
+	bool		stop;
+	float		delta_time;
 	struct s_select
 	{
 		bool	is_cam;
@@ -72,8 +74,7 @@ typedef struct s_program
 		t_color	color;
 		float	ratio;
 	}	ambiance;
-	bool		stop;
-	struct
+	struct s_movement
 	{
 		bool		w;
 		bool		a;
@@ -87,28 +88,27 @@ typedef struct s_program
 		bool		lctrl;
 		bool		lshift;
 	}	movement;
-	struct
+	struct s_mouse
 	{
 		bool		left_click;
 	}	mouse;
-	float	delta_time;
 }	t_program;
 
 struct s_thread_data
 {
-	int			id;
-	pthread_t	thread;
-	t_program	*context;
-	int			y;
-	int			y_f;
-	int			x;
-	int			x_f;
-	bool		work_ready;
+	int				id;
+	pthread_t		thread;
+	t_program		*context;
+	int				y;
+	int				y_f;
+	int				x;
+	int				x_f;
+	bool			work_ready;
 	pthread_mutex_t	mutex;
 	pthread_cond_t	cond;
 };
 
-typedef struct	itx_computation
+typedef struct itx_computation
 {
 	bool		shadowed;
 	double		t;
@@ -122,9 +122,7 @@ typedef struct	itx_computation
 	int			inside;
 	double		n1;
 	double		n2;
-}	t_itx_computation;
-
-typedef t_itx_computation t_comps;
+}	t_comps;
 
 /*--- PARSING ---*/
 
@@ -140,27 +138,39 @@ bool		is_normalised(t_vec4s vec, int curr_line);
 float		ft_atof(char *rep, t_program *context);
 bool		parse_file(const char *filename, t_program *context);
 bool		parse_ambient(t_program *context, t_split *fields, int curr_line);
-bool		parse_light(t_program *context, const t_split *fields, int curr_line);
-bool		parse_spot_light(t_program *context, const t_split *fields, int curr_line);
-bool		parse_camera(t_program *context, const t_split *fields, int curr_line);
-bool		parse_sphere(t_program *context, const t_split *fields, int curr_line);
-bool		parse_plane(t_program *context, const t_split *fields, int curr_line);
-bool		parse_cube(t_program *context, const t_split *fields, int curr_line);
-bool		parse_cylinder(t_program *context, const t_split *fields, int curr_line);
-bool		parse_cone(t_program *context, const t_split *fields, int curr_line);
+bool		parse_light(t_program *context, const t_split *fields,
+				int curr_line);
+bool		parse_spot_light(t_program *context, const t_split *fields,
+				int curr_line);
+bool		parse_camera(t_program *context, const t_split *fields,
+				int curr_line);
+bool		parse_sphere(t_program *context, const t_split *fields,
+				int curr_line);
+bool		parse_plane(t_program *context, const t_split *fields,
+				int curr_line);
+bool		parse_cube(t_program *context, const t_split *fields,
+				int curr_line);
+bool		parse_cylinder(t_program *context, const t_split *fields,
+				int curr_line);
+bool		parse_cone(t_program *context, const t_split *fields,
+				int curr_line);
 bool		parse_color(t_color *color, char *str, int curr_line);
-bool		parse_vec4v(t_vec4s *vec, char *str, t_program *context, int curr_line);
-bool		parse_vec4p(t_vec4s *vec, char *str, t_program *context, int curr_line);
-bool		parse_single_f(float *f, char *str, t_program *context, int curr_line);
-bool		parse_material(t_material *obj_material, char **material_fields, t_program *context, int curr_line);
-bool	parse_plane_checker(t_material *obj_mat, t_program *context,
-		char *is_checker);
-bool	parse_bump_xpm(t_material *obj_mat, t_program *context,
-		char *filename);
+bool		parse_vec4v(t_vec4s *vec, char *str, t_program *context,
+				int curr_line);
+bool		parse_vec4p(t_vec4s *vec, char *str, t_program *context,
+				int curr_line);
+bool		parse_single_f(float *f, char *str, t_program *context,
+				int curr_line);
+bool		parse_material(t_material *obj_material, char **material_fields,
+				t_program *context, int curr_line);
+bool		parse_plane_checker(t_material *obj_mat, t_program *context,
+				char *is_checker);
+bool		parse_bump_xpm(t_material *obj_mat, t_program *context,
+				char *filename);
 t_mat4s		rt_extract_rot_vertical(const t_vec4s u);
 t_mat4s		rt_get_cam_inverse(const t_mat4s *view);
-bool	check_object_validity_init(t_program *context, const char *info,
-			int curr_line, const t_split fields);
+bool		check_object_validity_init(t_program *context, const char *info,
+				int curr_line, const t_split fields);
 void		parse_fatal_msg(char *msg, int curr_line);
 void		parse_warn_msg(char *msg, char *expected, int curr_line, bool ign);
 void		parse_err_msg(char *msg, char *expected, int curr_line);
@@ -227,7 +237,7 @@ bool		intersect_cube(t_ray *ray, t_obj *cube, t_itx_grp *xs);
 bool		intersect_cone(t_ray *ray, t_obj *cone, t_itx_grp *xs);
 t_vec4s		cone_normal_at(t_obj *cone, t_vec4s *world_point);
 t_vec4s		cube_normal_at(t_obj *cube, t_vec4s *world_point);
-t_vec4s 	cylinder_normal_at(t_obj *cylinder, t_vec4s *world_point);
+t_vec4s		cylinder_normal_at(t_obj *cylinder, t_vec4s *world_point);
 void		cast_shadow_ray(t_world *w, t_ray *r, t_itx_grp *xs);
 t_vec4s		plane_normal_at(t_obj *plane, t_vec4s *world_p);
 t_vec4s		sphere_normal_at(t_obj *sphere, t_vec4s *world_p);
@@ -242,7 +252,7 @@ t_vec2s		rt_get_sphere_uv_local(t_vec4s *hitp);
 t_vec2s		rt_get_plane_uv_local(t_vec4s *hitp, t_vec4s tangent,
 				t_vec4s *normal);
 t_vec4s		rt_get_sphere_tangent(t_vec4s *local_normal);
-t_vec4s 	rt_get_plane_tangent(t_vec4s *local_normal);
+t_vec4s		rt_get_plane_tangent(t_vec4s *local_normal);
 t_vec2s		rt_get_cylinder_uv_local(t_vec4s *hitp);
 t_vec4s		rt_get_cylinder_tangent(t_vec4s *local_normal, t_obj *cylinder);
 t_color		rt_sample_texture(const t_canvas *tex, const t_vec2s *uv);
@@ -251,16 +261,16 @@ t_vec4s		rt_apply_normal_map(const t_obj *obj, const t_vec2s *uv,
 
 /*--- LIGHTING ---*/
 
-t_color		shade_hit(t_world *world, t_itx_computation *comps, int depth);
+t_color		shade_hit(t_world *world, t_comps *comps, int depth);
 t_color		check_for_refref(t_world *world, t_comps *comps, int depth);
 bool		is_shadowed(t_world *world, t_vec4s *point, t_light *light);
-void		prepare_refractions(t_itx *hit, t_itx_computation *comps,
+void		prepare_refractions(t_itx *hit, t_comps *comps,
 				t_itx_grp *itxs);
-t_color		refracted_color(t_world *world, t_itx_computation *comps,
+t_color		refracted_color(t_world *world, t_comps *comps,
 				int depth);
-t_color		reflected_color(t_world *world, t_itx_computation *comps,
+t_color		reflected_color(t_world *world, t_comps *comps,
 				int depth);
-float		schlick(t_itx_computation *comps);
+float		schlick(t_comps *comps);
 t_color		lighting(t_comps *comps, t_material *material, t_light *light,
 				bool in_shadow);
 float		get_spot_light_intensity(t_light *light, t_vec4s light_v);
