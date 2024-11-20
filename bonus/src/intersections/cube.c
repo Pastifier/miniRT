@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:57:02 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/20 11:39:44 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 13:19:13 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ t_vec4s	cube_normal_at(t_obj *cube, t_vec4s *world_point)
 		lag_vec4sv_init(&world_normal, 0, object_n_p[1].y, 0);
 	else
 		lag_vec4sv_init(&world_normal, 0, 0, object_n_p[1].z);
-	lag_mat4s_cross_vec4s(&cube->transposed_inverse, &world_normal, &world_normal);
+	lag_mat4s_cross_vec4s(&cube->transposed_inverse, &world_normal, \
+		&world_normal);
 	lag_vec4s_normalize(&world_normal);
 	world_normal.w = 0.f;
 	return (world_normal);
