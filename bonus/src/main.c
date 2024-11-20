@@ -33,7 +33,7 @@ int	main(int argc, char *argv[])
 	if (!init_obj_arr(&context))
 	{
 		ft_putendl_fd("FATAL: Couldn't allocate for necessary objects.", 2);
-		return (2);
+		return (destroy_world(&context), 2);
 	}
 	if (!parse_file(argv[1], &context))
 		return (destroy_world(&context), destroy_textures(&context), 2);
@@ -42,7 +42,7 @@ int	main(int argc, char *argv[])
 		destroy_world(&context);
 		destroy_mlx(&context);
 		ft_putendl_fd("FATAL: Couldn't allocate for threads.", 2);
-		return (2);
+		return (destroy_textures(&context), 2);
 	}
 	_rt_start(&context);
 	return (0);
