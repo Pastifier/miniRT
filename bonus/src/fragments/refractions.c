@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   refractions.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:36:36 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/19 13:09:52 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 10:25:45 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static bool	within_container(t_obj **container, int count, int i,
 	return (false);
 }
 
-void	prepare_refractions(t_itx *hit, t_itx_computation *comps,
+void	prepare_refractions(t_itx *hit, t_comps *comps,
 			t_itx_grp *itxs)
 {
 	int		count;
@@ -81,7 +81,7 @@ void	prepare_refractions(t_itx *hit, t_itx_computation *comps,
 	free(container);
 }
 
-t_color	refracted_color(t_world *world, t_itx_computation *comps, int depth)
+t_color	refracted_color(t_world *world, t_comps *comps, int depth)
 {
 	t_color		c;
 	t_ray		r;
@@ -111,7 +111,7 @@ t_color	refracted_color(t_world *world, t_itx_computation *comps, int depth)
 //approximation. The formula is simplified to be used in ray tracing in
 //order to be faster than the original formula, and not incorporate the extras
 //of true Fresnel effects like light polarization.
-float	schlick(t_itx_computation *comps)
+float	schlick(t_comps *comps)
 {
 	float	cos;
 	float	n_ratio;

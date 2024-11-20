@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reflections.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 10:47:21 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/19 13:02:55 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 10:25:45 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "colors.h"
 #include "macros.h"
 
-t_color	reflected_color(t_world *world, t_itx_computation *comps, int depth)
+t_color	reflected_color(t_world *world, t_comps *comps, int depth)
 {
 	t_ray		r;
 	t_color		reflected_color;

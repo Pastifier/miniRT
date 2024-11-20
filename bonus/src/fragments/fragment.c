@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fragment.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/19 16:28:21 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 10:25:45 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_ray	ray_for_pixel(const t_camera *cam, int px, int py)
 	return (r);
 }
 
-static void	prepare_comps_normal(t_itx *itx, t_itx_computation *comps)
+static void	prepare_comps_normal(t_itx *itx, t_comps *comps)
 {
 	if (itx->object->type == SPHERE)
 		comps->normalv = sphere_normal_at(itx->object, &comps->p);
@@ -54,9 +54,9 @@ static void	prepare_comps_normal(t_itx *itx, t_itx_computation *comps)
 		comps->inside = false;
 }
 
-t_itx_computation	prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
+t_comps	prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 {
-	t_itx_computation	comps;
+	t_comps	comps;
 	t_vec4s				margin;
 
 	comps.t = itx->t;
