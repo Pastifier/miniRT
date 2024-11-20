@@ -6,7 +6,7 @@
 /*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 07:07:39 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/20 10:25:45 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/20 10:35:52 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	prepare_comps_normal(t_itx *itx, t_comps *comps)
 t_comps	prepare_computations(t_itx *itx, t_ray *r, t_itx_grp *itxs)
 {
 	t_comps	comps;
-	t_vec4s				margin;
+	t_vec4s	margin;
 
 	comps.t = itx->t;
 	comps.obj = itx->object;
