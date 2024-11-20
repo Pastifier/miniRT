@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:18:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/19 15:01:55 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 12:01:06 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,14 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light,
 	lag_vec4s_normalize(&light_v);
 	lag_vec4s_dot(&light_dot_normal, &light_v, &comps->normalv);
 	if (light_dot_normal < EPSILON || in_shadow)
-	{
-		check_for_texture(comps, material, &mat_colors);
-		return (mat_colors.ambient);
-	}
+		return (check_for_texture(comps, material, &mat_colors),
+			mat_colors.ambient);
 	if (light->type == SPOT_LIGHT && !in_shadow)
 	{
 		spot_intensity = get_spot_light_intensity(light, light_v);
 		color_scaleby(&mat_colors.effective_color, &mat_colors.effective_color,
 			spot_intensity);
+		material->specular = spot_intensity;
 	}
 	color_scaleby(&mat_colors.diffuse, &mat_colors.effective_color,
 		material->diffuse * light_dot_normal);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:57:02 by ebinjama          #+#    #+#             */
-/*   Updated: 2024/11/20 11:07:08 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/20 11:39:44 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ t_vec4s	cube_normal_at(t_obj *cube, t_vec4s *world_point)
 	float		maxc;
 
 	lag_mat4s_cross_vec4s(&cube->inv_transform, world_point, &object_n_p[1]);
-	abslocal_n.x = fabsf(object_n_p[1].x);
-	abslocal_n.y = fabsf(object_n_p[1].y);
-	abslocal_n.z = fabsf(object_n_p[1].z);
+	abslocal_n.x = fmaxf(fabsf(object_n_p[1].x), EPSILON);
+	abslocal_n.y = fmaxf(fabsf(object_n_p[1].y), EPSILON);
+	abslocal_n.z = fmaxf(fabsf(object_n_p[1].z), EPSILON);
 	maxc = fmax(fmax(abslocal_n.x, abslocal_n.y), abslocal_n.z);
-	if (maxc == fabsf(object_n_p[1].x))
+	if (fabsf(maxc - fabsf(object_n_p[1].x)) < EPSILON)
 		lag_vec4sv_init(&world_normal, object_n_p[1].x, 0, 0);
-	else if (maxc == fabsf(object_n_p[1].y))
+	else if (fabsf(maxc - fabsf(object_n_p[1].y)) < EPSILON)
 		lag_vec4sv_init(&world_normal, 0, object_n_p[1].y, 0);
 	else
 		lag_vec4sv_init(&world_normal, 0, 0, object_n_p[1].z);
