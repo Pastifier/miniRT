@@ -26,12 +26,11 @@ bool	parse_spot_light_color(const t_split *fields, int curr_line,
 		return (str_arr_destroy(fields->array), false);
 	if (light->ratio < -0.f || light->ratio > 1.f)
 		return (parse_err_msg(ERR_LIGHT_VALUE, ERR_EXPECT_FLOAT_RANGE,
-				curr_line),
-			str_arr_destroy(fields->array), false);
+				curr_line), str_arr_destroy(fields->array), false);
 	if (!parse_single_f(&light->specs.spot.spot_angle, fields->array[4],
 			context, curr_line))
 		return (str_arr_destroy(fields->array), false);
-	if (light->specs.spot.spot_angle < -0.f || light->specs.spot.spot_angle
+	if (light->specs.spot.spot_angle < 10.f || light->specs.spot.spot_angle
 		> 90.f)
 		return (parse_err_msg(ERR_LIGHT_VALUE, ERR_EXPECT_FLOAT, curr_line),
 			str_arr_destroy(fields->array), false);
@@ -62,8 +61,8 @@ bool	parse_spot_light(t_program *context, const t_split *fields,
 			context, curr_line))
 		return (str_arr_destroy(fields->array), false);
 	if (!parse_spot_light_color(fields, curr_line, &context->world, context))
-		return (str_arr_destroy(fields->array), false);
-	light->specs.spot.orientation.y *= -1;
+		return (false);
+	lag_vec4s_negate(&light->specs.spot.orientation);
 	is_normalised(&light->specs.spot.orientation, curr_line);
 	light->type = SPOT_LIGHT;
 	context->world.num_lights++;
@@ -110,7 +109,7 @@ bool	parse_light(t_program *context, const t_split *fields, int curr_line)
 			str_arr_destroy(fields->array), false);
 	light->ratio = temp;
 	if (!parse_point_light_color(fields, curr_line, &context->world))
-		return (str_arr_destroy(fields->array), false);
+		return (false);
 	light->type = POINT_LIGHT;
 	return (str_arr_destroy(fields->array), true);
 }

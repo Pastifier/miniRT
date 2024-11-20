@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:18:23 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/20 12:01:06 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 12:56:44 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,6 @@ static inline void	plane_pattern_blend(t_color *ec,
 		color_blend(ec, &mater->xordc, intens);
 }
 
-static void	lighting_extension(t_material_colors *mc, t_material *material,
-			t_vec4s *light_v, t_comps *comps)
-{
-	float	reflect_eye_dot;
-	float	factor;
-	t_vec4s	reflect_v;
-
-	lag_vec4s_negate(light_v);
-	reflect_v = reflect(light_v, &comps->normalv);
-	reflect_eye_dot = lag_vec4s_dot_ret(&reflect_v, &comps->eyev);
-	if (reflect_eye_dot <= 0)
-		color_init(&mc->specular, 0.0, 0.0, 0.0);
-	else
-	{
-		factor = powf(reflect_eye_dot, material->sheen);
-		color_scaleby(&mc->specular, &mc->intensity,
-			material->specular * factor);
-	}
-	color_add(&mc->return_color, &mc->ambient, &mc->diffuse);
-	color_add(&mc->return_color, &mc->return_color, &mc->specular);
-}
-
 static void	lighting_init(t_material_colors *mat_colors, t_light *light,
 			t_comps *comps, t_material *material)
 {
@@ -68,6 +46,33 @@ static void	lighting_init(t_material_colors *mat_colors, t_light *light,
 		material->ambient);
 }
 
+static void	lighting_extension(t_material_colors *mc, t_material *material,
+			t_vec4s *light_v, t_comps *comps)
+{
+	float	reflect_eye_dot;
+	float	factor;
+	t_vec4s	reflect_v;
+	float	hidden_spotlight_intensity;
+
+	hidden_spotlight_intensity = light_v->w;
+	light_v->w = 0.f;
+	lag_vec4s_negate(light_v);
+	reflect_v = reflect(light_v, &comps->normalv);
+	reflect_eye_dot = lag_vec4s_dot_ret(&reflect_v, &comps->eyev);
+	if (reflect_eye_dot <= 0)
+		color_init(&mc->specular, 0.0, 0.0, 0.0);
+	else
+	{
+		factor = powf(reflect_eye_dot, material->sheen);
+		if (mc->light_type == SPOT_LIGHT)
+			factor *= hidden_spotlight_intensity;
+		color_scaleby(&mc->specular, &mc->intensity,
+			material->specular * factor);
+	}
+	color_add(&mc->return_color, &mc->ambient, &mc->diffuse);
+	color_add(&mc->return_color, &mc->return_color, &mc->specular);
+}
+
 t_color	lighting(t_comps *comps, t_material *material, t_light *light,
 			bool in_shadow)
 {
@@ -83,12 +88,13 @@ t_color	lighting(t_comps *comps, t_material *material, t_light *light,
 	if (light_dot_normal < EPSILON || in_shadow)
 		return (check_for_texture(comps, material, &mat_colors),
 			mat_colors.ambient);
+	mat_colors.light_type = light->type;
 	if (light->type == SPOT_LIGHT && !in_shadow)
 	{
 		spot_intensity = get_spot_light_intensity(light, light_v);
 		color_scaleby(&mat_colors.effective_color, &mat_colors.effective_color,
 			spot_intensity);
-		material->specular = spot_intensity;
+		light_v.w = spot_intensity;
 	}
 	color_scaleby(&mat_colors.diffuse, &mat_colors.effective_color,
 		material->diffuse * light_dot_normal);

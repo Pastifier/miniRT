@@ -58,6 +58,7 @@ typedef struct s_material
 
 typedef struct s_material_colors
 {
+	int		light_type;
 	t_color	intensity;
 	t_color	effective_color;
 	t_color	ambient;
