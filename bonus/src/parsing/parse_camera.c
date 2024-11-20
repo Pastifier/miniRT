@@ -43,7 +43,7 @@ t_mat4s	rt_get_cam_inverse(const t_mat4s *view)
 
 void	get_camera_orient(t_camera *cam)
 {
-	cam->forward = lag_vec4s_normalize_highp(cam->forward);
+	is_normalised(&cam->forward, cam->line_set);
 	if (fabsf(cam->forward.x) < EPSILON && fabsf(cam->forward.z) < EPSILON)
 		cam->left = lag_vec4s_ret(-1.0f, 0.0f, 0.0f, 0.0f);
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cylinder.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:38:59 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/20 09:52:36 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/20 11:16:01 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ bool	parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 		return (str_arr_destroy(fields->array), false);
 	if (!parse_vec4v(&cy->orientation, fields->array[2], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
-	if (!is_normalised(cy->orientation, curr_line))
-		cy->orientation = lag_vec4s_normalize_highp(cy->orientation);
+	is_normalised(&cy->orientation, curr_line);
 	if (!get_cylinder_extras(cy, context, fields, curr_line))
 		return (false);
 	return (str_arr_destroy(fields->array), true);

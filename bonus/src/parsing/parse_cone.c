@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cone.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:34:49 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/20 09:52:28 by ebinjama         ###   ########.fr       */
+/*   Updated: 2024/11/20 11:14:29 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ bool	parse_cone(t_program *context, const t_split *fields, int curr_line)
 		return (str_arr_destroy(fields->array), false);
 	if (!parse_vec4v(&co->orientation, fields->array[2], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
-	if (!is_normalised(co->orientation, curr_line))
-		co->orientation = lag_vec4s_normalize_highp(co->orientation);
+	is_normalised(&co->orientation, curr_line);
 	if (!get_cone_extras(co, context, fields, curr_line))
 		return (false);
 	return (str_arr_destroy(fields->array), true);

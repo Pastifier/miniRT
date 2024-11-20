@@ -6,7 +6,7 @@
 /*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:38:04 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/18 15:44:45 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 11:15:58 by melshafi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ bool	parse_cube(t_program *context, const t_split *fields, int curr_line)
 		return (str_arr_destroy(fields->array), false);
 	if (!parse_vec4v(&cu->orientation, fields->array[2], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
+	is_normalised(&cu->orientation, curr_line);
 	cu->specs.side_length = ft_atof(fields->array[3], context);
 	if (!parse_color(&cu->material.color, fields->array[4], curr_line))
 		return (str_arr_destroy(fields->array), false);
