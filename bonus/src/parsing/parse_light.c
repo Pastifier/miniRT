@@ -63,7 +63,7 @@ bool	parse_spot_light(t_program *context, const t_split *fields,
 		return (str_arr_destroy(fields->array), false);
 	if (!parse_spot_light_color(fields, curr_line, &context->world, context))
 		return (str_arr_destroy(fields->array), false);
-	if (!is_normalised(light->specs.spot.orientation))
+	if (!is_normalised(light->specs.spot.orientation, curr_line))
 		light->specs.spot.orientation = lag_vec4s_normalize_highp(
 				light->specs.spot.orientation);
 	light->type = SPOT_LIGHT;

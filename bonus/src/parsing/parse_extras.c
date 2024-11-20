@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_extras.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:51:45 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/18 12:54:01 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 09:58:10 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lag.h"
+#include "libft.h"
 
 static inline t_vec4s	quat_from_axis_angle(const t_vec4s axis, float theta)
 {
@@ -75,12 +76,16 @@ t_mat4s	rt_extract_rot_vertical(const t_vec4s u)
 	return (mat4_from_quat(q));
 }
 
-bool	is_normalised(t_vec4s vec)
+bool	is_normalised(t_vec4s vec, int curr_line)
 {
 	float	mag;
 
 	lag_vec4s_magnitude(&mag, vec);
 	if (fabsf(mag - 1.0f) > EPSILON)
+	{
+		ft_fprintf(2, "Warning on line %d: orientation vector not normalised. \
+		\n\tWe'll normalise it for you.\n", curr_line);
 		return (false);
+	}
 	return (true);
 }
