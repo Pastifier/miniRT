@@ -20,7 +20,7 @@ static bool	check_object_validity_and_add(t_program *context, const char *info,
 bool	parse_file(const char *filename, t_program *context)
 {
 	int			fd;
-	const char	*extension = ft_strchr(filename, '.');
+	const char	*extension = ft_strrchr(filename, '.');
 
 	if (!extension || (extension && ft_strncmp(extension, ".rt", 4)))
 		return ((void)write(2, "FATAL: Need file of type '*.rt'\n", 33), false);
