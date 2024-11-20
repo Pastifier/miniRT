@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_plane.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:08:31 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/20 11:15:54 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 13:48:56 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ bool	parse_plane(t_program *context, const t_split *fields, int curr_line)
 			parse_warn_msg(ERR_MAX_SHAPES, NULL, curr_line, true), true);
 	pl = &context->world.shapes[context->world.num_shapes++];
 	if (fields->wordcount < 4 || fields->wordcount > 6)
-		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_PL,
+		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_E_T_PL,
 				curr_line), str_arr_destroy(fields->array), false);
 	pl->type = PLANE;
 	if (!parse_vec4p(&pl->trans, fields->array[1], context, curr_line))

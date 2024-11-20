@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cone.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:34:49 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/20 11:14:29 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:06:43 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ bool	parse_cone(t_program *context, const t_split *fields, int curr_line)
 			parse_warn_msg(ERR_MAX_SHAPES, NULL, curr_line, true), true);
 	co = &context->world.shapes[context->world.num_shapes++];
 	if (fields->wordcount < 6 || fields->wordcount > 8)
-		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_CO, curr_line),
-			str_arr_destroy(fields->array), false);
+		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_CO ERR_ECO,
+				curr_line), str_arr_destroy(fields->array), false);
 	co->type = CONE;
 	if (!parse_vec4p(&co->trans, fields->array[1], context, curr_line))
 		return (str_arr_destroy(fields->array), false);

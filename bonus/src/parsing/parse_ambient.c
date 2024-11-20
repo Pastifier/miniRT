@@ -31,7 +31,7 @@ bool	parse_ambient(t_program *context, t_split *fields, int curr_line)
 		return (parse_err_msg(ERR_AMBIENT_FORMAT, ERR_EXPECT_TYPE_A,
 				curr_line), str_arr_destroy(fields->array), false);
 	if (context->ambiance.ratio < -0.f || context->ambiance.ratio > 1.f)
-		return (parse_err_msg(ERR_AMBIENT_VALUE, ERR_EXPECT_FLOAT_RANGE,
+		return (parse_err_msg(ERR_AMBIENT_VALUE, ERR_EXPECT_F_RANGE,
 				curr_line), str_arr_destroy(fields->array), false);
 	return (get_ambient_color(context, fields, curr_line));
 }

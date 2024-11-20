@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cylinder.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:38:59 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/20 11:16:01 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:06:47 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ bool	parse_cylinder(t_program *context, const t_split *fields, int curr_line)
 			parse_warn_msg(ERR_MAX_SHAPES, NULL, curr_line, true), true);
 	cy = &context->world.shapes[context->world.num_shapes++];
 	if (fields->wordcount < 6 || fields->wordcount > 8)
-		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_CY, curr_line),
-			str_arr_destroy(fields->array), false);
+		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_CY ERR_ECY,
+				curr_line), str_arr_destroy(fields->array), false);
 	cy->type = CYLINDER;
 	if (!parse_vec4p(&cy->trans, fields->array[1], context, curr_line))
 		return (str_arr_destroy(fields->array), false);

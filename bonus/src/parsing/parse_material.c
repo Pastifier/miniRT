@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_material.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 13:02:53 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/19 15:55:30 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:07:10 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static bool	check_material_fields(t_material *obj_material,
 
 	split = ft_split(material_field, "=\n\r");
 	if (split.wordcount != 2)
-		return (parse_warn_msg(ERR_M_FORMAT, ERR_EXPECT_M, line, false),
+		return (parse_warn_msg(ERR_M_FORMAT, ERR_EXPECT_M ERR_EM2, line, false),
 			str_arr_destroy(split.array), false);
 	ret = parse_traits(split.array[0], split.array[1], obj_material, context);
 	if (!ret && context->runtime_error == 3)
@@ -88,8 +88,8 @@ static bool	check_material_fields(t_material *obj_material,
 		return (parse_warn_msg(ERR_M_CHECKER, ERR_EXPECT_CHECKER, line, true),
 			str_arr_destroy(split.array), true);
 	else if (!ret)
-		return (parse_warn_msg(ERR_M_FORMAT, ERR_EXPECT_M_TRAIT, line, true),
-			str_arr_destroy(split.array), true);
+		return (parse_warn_msg(ERR_M_FORMAT, ERR_EXPECT_M_TRAIT ERR_EMT2,
+				line, true), str_arr_destroy(split.array), true);
 	return (str_arr_destroy(split.array), true);
 }
 
@@ -105,7 +105,7 @@ bool	parse_material(t_material *obj_material, char **material_fields,
 		return (false);
 	split = ft_split(material_fields[1], ",\n\r");
 	if (split.wordcount > 7)
-		return (parse_err_msg(ERR_M_FORMAT, ERR_EXPECT_M, line), false);
+		return (parse_err_msg(ERR_M_FORMAT, ERR_EXPECT_M ERR_EM2, line), false);
 	i = 0;
 	str_arr_destroy(split.array);
 	traits = ft_split(material_fields[1], ",");

@@ -106,7 +106,7 @@ bool	parse_camera(t_program *context, const t_split *fields, int curr_line)
 	get_camera_orient(camera);
 	temp = ft_atof(fields->array[3], context);
 	if (temp < -0.f || temp > 180.f)
-		return (parse_err_msg(ERR_CAM_FOV, ERR_EXPECT_FOV_RANGE, curr_line),
+		return (parse_err_msg(ERR_CAM_FOV, ERR_E_FOV_RANGE, curr_line),
 			str_arr_destroy(fields->array), false);
 	else if (temp == 0.f || temp == -0.f)
 		parse_warn_msg("Viewport will be an infinitely small line", NULL,

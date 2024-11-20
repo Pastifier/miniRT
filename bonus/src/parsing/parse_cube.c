@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cube.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melshafi <melshafi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebinjama <ebinjama@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:38:04 by melshafi          #+#    #+#             */
-/*   Updated: 2024/11/20 11:15:58 by melshafi         ###   ########.fr       */
+/*   Updated: 2024/11/20 13:47:22 by ebinjama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	parse_cube(t_program *context, const t_split *fields, int curr_line)
 			parse_warn_msg(ERR_MAX_SHAPES, NULL, curr_line, true), true);
 	cu = &context->world.shapes[context->world.num_shapes++];
 	if (fields->wordcount < 5 || fields->wordcount > 7)
-		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_CU,
+		return (parse_err_msg(ERR_OBJ_FORMAT, ERR_EXPECT_TYPE_CU ERR_ECU,
 				curr_line), str_arr_destroy(fields->array), false);
 	cu->type = CUBE;
 	if (!parse_vec4p(&cu->trans, fields->array[1], context, curr_line))

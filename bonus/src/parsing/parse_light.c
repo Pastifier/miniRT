@@ -25,7 +25,7 @@ bool	parse_spot_light_color(const t_split *fields, int curr_line,
 	if (!parse_single_f(&light->ratio, fields->array[3], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
 	if (light->ratio < -0.f || light->ratio > 1.f)
-		return (parse_err_msg(ERR_LIGHT_VALUE, ERR_EXPECT_FLOAT_RANGE,
+		return (parse_err_msg(ERR_LIGHT_VALUE, ERR_EXPECT_F_RANGE,
 				curr_line), str_arr_destroy(fields->array), false);
 	if (!parse_single_f(&light->specs.spot.spot_angle, fields->array[4],
 			context, curr_line))
@@ -53,7 +53,7 @@ bool	parse_spot_light(t_program *context, const t_split *fields,
 		return (parse_warn_msg(ERR_MAX_LIGHTS, NULL, curr_line, true),
 			str_arr_destroy(fields->array), true);
 	if (fields->wordcount != 6)
-		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_SL,
+		return (parse_err_msg(ERR_LIGHT_FORMAT, ERR_EXPECT_TYPE_SL ERR_ESL,
 				curr_line), str_arr_destroy(fields->array), false);
 	if (!parse_vec4p(&light->pos, fields->array[1], context, curr_line))
 		return (str_arr_destroy(fields->array), false);
@@ -104,7 +104,7 @@ bool	parse_light(t_program *context, const t_split *fields, int curr_line)
 		return (parse_err_msg(ERR_LIGHT_VALUE, ERR_EXPECT_FLOAT, curr_line),
 			str_arr_destroy(fields->array), false);
 	if (temp < -0.f || temp > 1.f)
-		return (parse_err_msg(ERR_LIGHT_VALUE, ERR_EXPECT_FLOAT_RANGE,
+		return (parse_err_msg(ERR_LIGHT_VALUE, ERR_EXPECT_F_RANGE,
 				curr_line),
 			str_arr_destroy(fields->array), false);
 	light->ratio = temp;
