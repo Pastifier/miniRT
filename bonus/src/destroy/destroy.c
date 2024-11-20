@@ -56,6 +56,8 @@ int	destroy_program(t_program *context)
 			pthread_mutex_lock(&context->pool[i].mutex);
 			pthread_cond_signal(&context->pool[i].cond);
 			pthread_mutex_unlock(&context->pool[i].mutex);
+			pthread_mutex_destroy(&context->pool[i].mutex);
+			pthread_cond_destroy(&context->pool[i].cond);
 		}
 		i = -1;
 		while (++i < _RT_NUM_THREADS)
