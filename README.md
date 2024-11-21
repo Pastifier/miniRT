@@ -141,6 +141,9 @@ L 5,10,-5 1.0 255,255,255
 
 ## 📜 **Acknowledgments**
 This project is part of the **42 School** curriculum, blending mathematical elegance and computational performance to bring scenes to life.  
+A huge thanks to our fellow 42-students for their support and encouragements, and especially this miniRT:
+![h-sarhan's miniRT](https://github.com/h-sarhan/miniRT)
+Which was a huge inspiration and showed us what this project is capable of!
 
 --- 
 
