@@ -2,7 +2,7 @@
 _A stunning real-time raytracer built from scratch!_
 
 ![miniRT Render](assets/banner.png)  
-<small>*(Will add a GIF or image of our project rendering a scene here.)*</small>
+<small>*Simple vaporwave scene rendered using miniRT*</small>
 
 ---
 
@@ -123,18 +123,20 @@ _A stunning real-time raytracer built from scratch!_
 Write your own `.rt` scene files to populate your world with:
 - Custom shapes, textures, and bump maps.
 - Dynamic lighting and shadows.
+- Ambient Global Colour
 
 Example `.rt` file:
 ```plaintext
 C 0,0,-10 0,1,0 90
 sp 0,0,0 1.0 255,0,0
 L 5,10,-5 1.0 255,255,255
+A 0 0,0,0
 ```
 
 ---
 
 ## 🖼️ **Gallery**
-<small>*Will add sample images or GIFs of scenes rendered by miniRT here.*</small>  
+<small>*Some of the cool stuff you can do in miniRT*</small>  
 ![Normal Maps and Refractive Blob (complex.rt)](assets/garrys_mod.gif)  
 ![Mirror Room (mirror_room.rt)](assets/mirror_room.gif)
 
