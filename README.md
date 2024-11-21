@@ -1,7 +1,7 @@
 # 🌌 **miniRT** 🌌  
 _A stunning real-time raytracer built from scratch!_
 
-![miniRT Render](https://via.placeholder.com/800x300)  
+![miniRT Render](assets/banner.png)  
 <small>*(Will add a GIF or image of our project rendering a scene here.)*</small>
 
 ---
@@ -135,8 +135,8 @@ L 5,10,-5 1.0 255,255,255
 
 ## 🖼️ **Gallery**
 <small>*Will add sample images or GIFs of scenes rendered by miniRT here.*</small>  
-![Sample Scene](https://via.placeholder.com/800x300)  
-![Interactive Render](https://via.placeholder.com/800x300)
+![Normal Maps and Refractive Blob (complex.rt)](assets/garrys_mod.gif)  
+![Mirror Room (mirror_room.rt)](assets/mirror_room.gif)
 
 ---
 
