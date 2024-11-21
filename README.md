@@ -53,7 +53,7 @@ _A stunning real-time raytracer built from scratch!_
       - WASD: move around.
       - Space/Shift: Elevate/Descend.
       - ESC in Select-Mode goes back to Camera-Mode.
-      - TODO:
+      - **TODO**:
         - Add dynamic rotation to objects.
         - Add dynamic pattern-change to objects.
         - Add dynamic axis-based scaling to objects
@@ -61,7 +61,7 @@ _A stunning real-time raytracer built from scratch!_
 ### 🎨 **Textures and Bump Mapping**
 - Bump mapping for intricate surface detail using normal maps.
 - Support for **XPM textures** to bring your scenes to life.
-- TODO:
+- **TODO**:
   - Universal UV mapping for spheres, cones, and cylinders.
   - Support for image textures (not jump normal maps).
 
@@ -79,6 +79,9 @@ _A stunning real-time raytracer built from scratch!_
    - Optimized 4x4 matrix operations for raytracing.
    - Features the `lag_mat4s_get_transform_inverse()` function for lightning-fast decomposed matrix inversions.
    - _Innovative yet highly efficient mathematical design_.
+- **TODO**:
+   - Render at a lower-resolution and then upscale.
+   - Implement Bounding Volume Hierarchies (BVH)
 
 ### 🔍 **Benchmarks**
 - **Simple scenes**: ~(12-36)ms per frame.
@@ -94,7 +97,7 @@ _A stunning real-time raytracer built from scratch!_
   - Axis rotation using **Rodrigues' formula**.
 - **Custom Parsing**:
   - Read `.rt` scene files to define objects, lights, and camera configurations.
-  - TODO:
+  - **TODO**:
     - Save scenes in the same configuration after the user modified them in real-time.
 - **Thread Pool**:
   - Reuses threads for every frame to minimize initialization overhead.
@@ -109,7 +112,9 @@ _A stunning real-time raytracer built from scratch!_
 - A dedicated linear algebra library optimized for simplicity and performance.
 - Innovative, efficient mathematical solutions built exclusively for this project.
 - A perfect blend of creativity and technical rigor to make ray tracing interactive.
-- We're still working on making it better!
+- **TODO**:
+   - We're still working on making it better!
+   - Be on the lookout for an unexpected surprise-feature ;3
 
 ---
 
@@ -141,9 +146,9 @@ This project is part of the **42 School** curriculum, blending mathematical eleg
 
 ## 🛠️ **How to Contribute**
 1. Fork the repo.
-2. Create a feature branch: \```git checkout -b my-feature\```.
-3. Commit your changes: \```git commit -m 'Add cool feature'\```.
-4. Push to the branch: \```git push origin my-feature\```.
+2. Create a feature branch: ```git checkout -b my-feature```.
+3. Commit your changes: ```git commit -m 'Add cool feature'```.
+4. Push to the branch: ```git push origin my-feature```.
 5. Open a Pull Request!
 
 --- 
