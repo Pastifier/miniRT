@@ -33,6 +33,8 @@ _A stunning real-time raytracer built from scratch!_
 ### 🖼️ **Ray Tracing**
 - Handles intersections with multiple shapes:
   - **Spheres**, **planes**, **cylinders**, **cones**, and **cubes**.
+  - **TODO**:
+      - Add triangles for meshes.
 - Full support for:
   - Ambient, diffuse, and specular lighting.
   - Reflections/Refractions
@@ -60,10 +62,10 @@ _A stunning real-time raytracer built from scratch!_
         - Add UI to make the program easier to navigate.
 
 ### 🎨 **Textures and Bump Mapping**
-- Bump mapping for intricate surface detail using normal maps.
+- Bump mapping for intricate surface detail using normal maps on spheres and planes.
 - Support for **XPM textures** to bring your scenes to life.
 - **TODO**:
-  - Universal UV mapping for spheres, cones, and cylinders.
+  - Universal UV mapping for cones and cylinders.
   - Support for image textures (not jump normal maps).
 
 ### 💡 **Spotlights**
