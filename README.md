@@ -36,12 +36,27 @@ _A stunning real-time raytracer built from scratch!_
 - Full support for:
   - Ambient, diffuse, and specular lighting.
   - Reflections/Refractions
-  - Shadows and customizable **spotlights** with dynamic light falloff.
+  - Shadows and customizable **spotlights** with light falloff.
 
-### 🎥 **Interactive Camera**
-- Real-time camera movement with smooth rotations and translations.
-- **Quaternion-based rotation** system for precision.
-- Deltatime integration for fluid motion.
+### 🎥 **Interactive Camera and Translatable-Objects**
+- Camera Mode:
+   - Real-time camera movement with smooth rotations and translations.
+   - **Quaternion-based rotation** system for precision.
+   - Deltatime integration for fluid motion.
+   - Camera-controls:
+      - WASD: move around.
+      - Space/Shift: Elevate/Descend (respectively).
+      - Arrow-keys: Rotate
+      - ESC in Camera-Mode exits the program.
+   - Object-controls:
+      - R: toggle reflections/refractions.
+      - WASD: move around.
+      - Space/Shift: Elevate/Descend.
+      - ESC in Select-Mode goes back to Camera-Mode.
+      - TODO:
+        - Add dynamic rotation to objects.
+        - Add dynamic pattern-change to objects.
+        - Add dynamic axis-based scaling to objects
 
 ### 🎨 **Textures and Bump Mapping**
 - Bump mapping for intricate surface detail using normal maps.
@@ -57,11 +72,13 @@ _A stunning real-time raytracer built from scratch!_
 
 ## 🏎️ **Performance Optimizations**
 - **Multithreading**: Efficient thread distribution for high-speed rendering.
-- **Bounding Volume Hierarchies (BVH)**: Accelerates intersection tests for complex scenes.
-- **SIMD Linear Algebra Library**:
-  - Optimized 4x4 matrix operations for raytracing.
-  - Features the `lag_mat4s_get_transform_inverse()` function for lightning-fast decomposed matrix inversions.
-  - _Innovative yet highly efficient mathematical design_.
+- **LERP'ing**:
+   - Skip pixels and compare the colours of the pixels they're sandwitched between.
+   - If the difference is below a certain threshold, interpolate the colours, otherwise, shoot the rays.
+- **Our Very Own SIMD Linear Algebra Library**:
+   - Optimized 4x4 matrix operations for raytracing.
+   - Features the `lag_mat4s_get_transform_inverse()` function for lightning-fast decomposed matrix inversions.
+   - _Innovative yet highly efficient mathematical design_.
 
 ### 🔍 **Benchmarks**
 - **Simple scenes**: ~(12-36)ms per frame.
