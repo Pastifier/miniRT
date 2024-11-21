@@ -10,7 +10,7 @@ _A stunning real-time raytracer built from scratch!_
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/miniRT.git
+   git clone https://github.com/Pastifier/miniRT.git
    cd miniRT
    ```
 
