@@ -56,7 +56,8 @@ _A stunning real-time raytracer built from scratch!_
       - **TODO**:
         - Add dynamic rotation to objects.
         - Add dynamic pattern-change to objects.
-        - Add dynamic axis-based scaling to objects
+        - Add dynamic axis-based scaling to objects.
+        - Add UI to make the program easier to navigate.
 
 ### 🎨 **Textures and Bump Mapping**
 - Bump mapping for intricate surface detail using normal maps.
