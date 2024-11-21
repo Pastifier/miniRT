@@ -77,6 +77,8 @@ _A stunning real-time raytracer built from scratch!_
   - Axis rotation using **Rodrigues' formula**.
 - **Custom Parsing**:
   - Read `.rt` scene files to define objects, lights, and camera configurations.
+  - TODO:
+    - Save scenes in the same configuration after the user modified them in real-time.
 - **Thread Pool**:
   - Reuses threads for every frame to minimize initialization overhead.
 - **Math Library: LagAMat**
