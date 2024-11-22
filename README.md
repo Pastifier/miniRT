@@ -55,8 +55,6 @@ A 0 0,0,0
 ### 🖼️ **Ray Tracing**
 - Handles intersections with multiple shapes:
   - **Spheres**, **planes**, **cylinders**, **cones**, and **cubes**.
-  - **TODO**:
-      - Add triangles for meshes.
 - Full support for:
   - Ambient, diffuse, and specular lighting.
   - Reflections/Refractions
@@ -77,18 +75,10 @@ A 0 0,0,0
       - WASD: move around.
       - Space/Shift: Elevate/Descend.
       - ESC in Select-Mode goes back to Camera-Mode.
-      - **TODO**:
-        - Add dynamic rotation to objects.
-        - Add dynamic pattern-change to objects.
-        - Add dynamic axis-based scaling to objects.
-        - Add UI to make the program easier to navigate.
 
 ### 🎨 **Textures and Bump Mapping**
 - Bump mapping for intricate surface detail using normal maps on spheres and planes.
 - Support for **XPM textures** to bring your scenes to life.
-- **TODO**:
-  - Universal UV mapping for cones and cylinders.
-  - Support for image textures (not jump normal maps).
 
 ### 💡 **Spotlights**
 - Customizable cone angles based on the spotlight's spot angle for realistic light falloff.
@@ -104,9 +94,6 @@ A 0 0,0,0
    - Optimized 4x4 matrix operations for raytracing.
    - Features the `lag_mat4s_get_transform_inverse()` function for lightning-fast decomposed matrix inversions.
    - _Innovative yet highly efficient mathematical design_.
-- **TODO**:
-   - Render at a lower-resolution and then upscale.
-   - Implement Bounding Volume Hierarchies (BVH)
 
 ### 🔍 **Benchmarks**
 - **Simple scenes**: ~(12-36)ms per frame.
@@ -122,8 +109,6 @@ A 0 0,0,0
   - Axis rotation using **Rodrigues' formula**.
 - **Custom Parsing**:
   - Read `.rt` scene files to define objects, lights, and camera configurations.
-  - **TODO**:
-    - Save scenes in the same configuration after the user modified them in real-time.
 - **Thread Pool**:
   - Reuses threads for every frame to minimize initialization overhead.
 - **Math Library: LagAMat**
@@ -137,9 +122,6 @@ A 0 0,0,0
 - A dedicated linear algebra library optimized for simplicity and performance.
 - Innovative, efficient mathematical solutions built exclusively for this project.
 - A perfect blend of creativity and technical rigor to make ray tracing interactive.
-- **TODO**:
-   - We're still working on making it better!
-   - Be on the lookout for an unexpected surprise-feature ;3
 
 ---
 
