@@ -6,6 +6,28 @@ _A stunning real-time raytracer built from scratch!_
 
 ---
 
+## 🖼️ **Gallery**
+<small>*Some of the cool stuff you can do in miniRT*</small>  
+![Normal Maps and Refractive Blob (complex.rt)](assets/garrys_mod.gif)  
+![Mirror Room (mirror_room.rt)](assets/mirror_room.gif)
+
+---
+
+## 🌍 **Create Your World**
+Write your own `.rt` scene files to populate your world with:
+- Custom shapes, textures, and bump maps.
+- Dynamic lighting and shadows.
+- Ambient Global Colour
+
+Example `.rt` file:
+```plaintext
+C 0,0,-10 0,1,0 90
+sp 0,0,0 1.0 255,0,0
+L 5,10,-5 1.0 255,255,255
+A 0 0,0,0
+```
+---
+
 ## 🚀 **Getting Started**
 
 1. Clone the repository:
@@ -121,31 +143,8 @@ _A stunning real-time raytracer built from scratch!_
 
 ---
 
-## 🌍 **Create Your World**
-Write your own `.rt` scene files to populate your world with:
-- Custom shapes, textures, and bump maps.
-- Dynamic lighting and shadows.
-- Ambient Global Colour
-
-Example `.rt` file:
-```plaintext
-C 0,0,-10 0,1,0 90
-sp 0,0,0 1.0 255,0,0
-L 5,10,-5 1.0 255,255,255
-A 0 0,0,0
-```
-
----
-
-## 🖼️ **Gallery**
-<small>*Some of the cool stuff you can do in miniRT*</small>  
-![Normal Maps and Refractive Blob (complex.rt)](assets/garrys_mod.gif)  
-![Mirror Room (mirror_room.rt)](assets/mirror_room.gif)
-
----
-
 ## 📜 **Acknowledgments**
-- This project is part of the **42 School** curriculum, blending mathematical elegance and computational performance to bring scenes to life.  
+- This project is part of the **42 School** curriculum, using the homebrewed MiniLibX Graphics Library to blend mathematical elegance and computational performance to bring scenes to life.  
 - A huge thanks to our fellow 42-students for their support and encouragements, and especially
 ![h-sarhan's miniRT](https://github.com/h-sarhan/miniRT). Which was a huge inspiration, and showed us what this project is capable of!
 - The Ray Tracer Challenge book for its simple, yet highly effective test-driven approach to raytracing.
