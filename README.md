@@ -63,13 +63,13 @@ A 0 0,0,0
 ### 🎥 **Interactive Camera and Translatable-Objects**
 - Camera Mode:
    - Real-time camera movement with smooth rotations and translations.
-   - **Quaternion-based rotation** system for precision.
-   - Deltatime integration for fluid motion.
    - Camera-controls:
       - WASD: move around.
       - Space/Shift: Elevate/Descend (respectively).
       - Arrow-keys: Rotate
       - ESC in Camera-Mode exits the program.
+- Select Mode:
+   - Left-click objects to select them.
    - Object-controls:
       - R: toggle reflections/refractions.
       - WASD: move around.
@@ -85,10 +85,10 @@ A 0 0,0,0
 
 ---
 
-## 🏎️ **Performance Optimizations**
+## 📈 **Performance Optimizations**
 - **Multithreading**: Efficient thread distribution for high-speed rendering.
 - **LERP'ing**:
-   - Skip pixels and compare the colours of the pixels they're sandwitched between.
+   - Skip pixels and compare the colours of the surrounding pixels.
    - If the difference is below a certain threshold, interpolate the colours, otherwise, shoot the rays.
 - **Our Very Own SIMD Linear Algebra Library**:
    - Optimized 4x4 matrix operations for raytracing.
@@ -96,8 +96,8 @@ A 0 0,0,0
    - _Innovative yet highly efficient mathematical design_.
 
 ### 🔍 **Benchmarks**
-- **Simple scenes**: ~(12-36)ms per frame.
-- **Complex scenes with multiple normal map textures**: Under 200ms per frame.
+- **Simple scenes**: ~(12-36)ms per frame (~25-83 Frames Per Second).
+- **Complex scenes with multiple normal map textures**: Under 200ms per frame (~5-10 Frames Per Second).
 
 <small>*Benchmarked on typical scenes including multiple objects and light sources.*</small>
 
@@ -107,6 +107,7 @@ A 0 0,0,0
 - **Rotations**:
   - Quaternion extraction for seamless orientation.
   - Axis rotation using **Rodrigues' formula**.
+- **Deltatime** integration for fluid motion.
 - **Custom Parsing**:
   - Read `.rt` scene files to define objects, lights, and camera configurations.
 - **Thread Pool**:
@@ -130,6 +131,7 @@ A 0 0,0,0
 - A huge thanks to our fellow 42-students for their support and encouragements, and especially
 ![h-sarhan's miniRT](https://github.com/h-sarhan/miniRT). Which was a huge inspiration, and showed us what this project is capable of!
 - The Ray Tracer Challenge book for its simple, yet highly effective test-driven approach to raytracing.
+- Our good friend Emad Hammoude, for his cool suggestions on the README file!
 
 --- 
 
