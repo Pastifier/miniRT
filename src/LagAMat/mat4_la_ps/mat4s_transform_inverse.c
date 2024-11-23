@@ -12,6 +12,8 @@
 
 #include "lag.h"
 
+/*Process documented in https://docs.google.com/document/d/1ok8dzMk7EZiZaVRB61zGDlxRSDoelX3z6ixaCRlg0yM/edit?usp=sharing*/
+
 /// @brief Calculates the inverse of a decomposed matrix
 /// (rotation, scale, translation)
 /// @param rot The rotational component of the matrix
