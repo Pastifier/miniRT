@@ -26,6 +26,15 @@ sp 0,0,0 1.0 255,0,0
 L 5,10,-5 1.0 255,255,255
 A 0 0,0,0
 ```
+
+---
+
+## ✅ Prerequisites:
+- Make
+- X11, OpenGL (Linux)
+- OpenGL, Appkit (MacOS)
+- WSL (To run on Windows as a Linux container. Linux prerequisites apply).
+
 ---
 
 ## 🚀 **Getting Started**
