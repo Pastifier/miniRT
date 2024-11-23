@@ -19,6 +19,7 @@
 /// @param t The translation component of the matrix
 /// @return The inverse of the decomposed matrix
 /// @warning The scale should NOT contain any zero components as that will
+/// cause divide-by-zero errors! (And it doesn't really make sense anyway)
 t_mat4s	lag_mat4s_get_transform_inverse(const t_mat4s rot, const __m128 s,
 			const __m128 t)
 {
