@@ -141,6 +141,7 @@ A 0 0,0,0
 ![h-sarhan's miniRT](https://github.com/h-sarhan/miniRT). Which was a huge inspiration, and showed us what this project is capable of!
 - The Ray Tracer Challenge book for its simple, yet highly effective test-driven approach to raytracing.
 - Our good friend Emad Aldeen Hammoude, for his cool suggestions on the README file!
+- ![Alex and Piolo](https://github.com/piolows/miniRT). We wanted to implement many cool features, but life was in the way... We're so happy we placed our hopes on YOU TWO. You made a wonderful thing <3 (we're still the OG's tho ;3)
 
 --- 
 
