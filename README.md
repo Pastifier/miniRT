@@ -1,5 +1,6 @@
 # 🌌 **miniRT** 🌌  
 _A stunning real-time raytracer built from scratch!_
+![Kickstart Guide](https://docs.google.com/document/d/1F6s5Y_kdMjW_h07TQk4texso4nSeylPC_2JYf7NJaeQ/edit?tab=t.0)
 
 ![miniRT Render](assets/banner.png)  
 <small>*Simple vaporwave scene rendered using miniRT*</small>
