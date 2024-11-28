@@ -2,7 +2,7 @@
 _A stunning real-time raytracer built from scratch!_
 
 
-![Kickstart Guide](https://docs.google.com/document/d/1F6s5Y_kdMjW_h07TQk4texso4nSeylPC_2JYf7NJaeQ/edit?tab=t.0)
+[Kickstart Guide](https://docs.google.com/document/d/1F6s5Y_kdMjW_h07TQk4texso4nSeylPC_2JYf7NJaeQ/edit?tab=t.0)
 
 ![miniRT Render](assets/banner.png)  
 <small>*Simple vaporwave scene rendered using miniRT*</small>
@@ -141,10 +141,10 @@ A 0 0,0,0
 ## 📜 **Acknowledgments**
 - This project is part of the **42 School** curriculum, using the homebrewed MiniLibX Graphics Library to blend mathematical elegance and computational performance to bring scenes to life.  
 - A huge thanks to our fellow 42-students for their support and encouragements, and especially
-![h-sarhan's miniRT](https://github.com/h-sarhan/miniRT). Which was a huge inspiration, and showed us what this project is capable of!
+[h-sarhan's miniRT](https://github.com/h-sarhan/miniRT). Which was a huge inspiration, and showed us what this project is capable of!
 - The Ray Tracer Challenge book for its simple, yet highly effective test-driven approach to raytracing.
 - Our good friend Emad Aldeen Hammoude, for his cool suggestions on the README file!
-- ![Alex and Piolo](https://github.com/piolows/miniRT). We wanted to implement many cool features, but life was in the way... We're so happy we placed our hopes on YOU TWO. You made a wonderful thing <3 (we're still the OG's tho ;3)
+- [Alex and Piolo](https://github.com/piolows/miniRT). We wanted to implement many cool features, but life was in the way... We're so happy we placed our hopes on YOU TWO. You made a wonderful thing <3 (we're still the OG's tho ;3)
 
 --- 
 
