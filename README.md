@@ -34,7 +34,7 @@ A 0 0,0,0
 
 ## ✅ Prerequisites:
 - A Processor that supports AVX/AVX2 (ARM chips not supported)
-- Make (to build your project)
+- Make (software to build your project)
 - X11, OpenGL (Linux)
 - OpenGL, Appkit (MacOS)
 - WSL (To run on Windows as a Linux container. Linux prerequisites apply)
