@@ -57,7 +57,7 @@ bool	parse_cube(t_program *context, const t_split *fields, int curr_line)
 		return (str_arr_destroy(fields->array), false);
 	material_init(&cu->material, fields, context, curr_line);
 	cu->scale = lag_vec4s_ret(1, 1, 1, 1);
-	cu->rot = rt_extract_rot_vertical(cu->orientation);
+	rt_extract_rot_vertical(cu->orientation, &cu->rot);
 	cu->inv_transform = lag_mat4s_get_transform_inverse(cu->rot,
 			cu->scale.simd, cu->trans.simd);
 	return (str_arr_destroy(fields->array), true);

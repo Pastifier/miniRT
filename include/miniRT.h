@@ -167,7 +167,7 @@ bool		parse_plane_checker(t_material *obj_mat, t_program *context,
 				char *is_checker);
 bool		parse_bump_xpm(t_material *obj_mat, t_program *context,
 				char *filename);
-t_mat4s		rt_extract_rot_vertical(const t_vec4s u);
+void		rt_extract_rot_vertical(const t_vec4s u, t_mat4s *out);
 t_mat4s		rt_get_cam_inverse(const t_mat4s *view);
 bool		check_object_validity_init(t_program *context, const char *info,
 				int curr_line, const t_split fields);

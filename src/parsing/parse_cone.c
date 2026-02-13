@@ -57,7 +57,7 @@ bool	get_cone_extras(t_obj *co, t_program *context,
 		return (str_arr_destroy(fields->array), false);
 	material_init(&co->material, fields, context, curr_line);
 	co->scale = lag_vec4s_ret(co->radius, height, co->radius, 1);
-	co->rot = rt_extract_rot_vertical(co->orientation);
+	rt_extract_rot_vertical(co->orientation, &co->rot);
 	co->inv_transform = lag_mat4s_get_transform_inverse(co->rot,
 			co->scale.simd, co->trans.simd);
 	return (true);

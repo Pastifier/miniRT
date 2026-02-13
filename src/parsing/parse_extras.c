@@ -55,7 +55,7 @@ static inline t_mat4s	mat4_from_quat(const t_vec4s q)
 
 /// @param u Normalized orientation vector.
 /// @warning At the risk of being repetitive, `u` must be a normalized vector!!
-t_mat4s	rt_extract_rot_vertical(const t_vec4s u)
+void	rt_extract_rot_vertical(const t_vec4s u, t_mat4s *out)
 {
 	t_vec4s	j_hat;
 	t_vec4s	rot_axis;
@@ -64,16 +64,16 @@ t_mat4s	rt_extract_rot_vertical(const t_vec4s u)
 
 	j_hat = lag_vec4sv_ret(0.f, 1.f, 0.f);
 	if (u.x == 0 && fabsf(u.y - 1) < EPSILON && u.z == 0)
-		return (lag_mat4s_identity());
+		*out = lag_mat4s_identity();
 	if (u.x == 0 && fabsf(u.y + 1) < EPSILON && u.z == 0)
-		return (lag_mat4s_rotation_x((float)-M_PI));
+		*out = lag_mat4s_rotation_x((float)-M_PI);
 	rot_axis = lag_vec4s_cross_ret(j_hat, u);
 	if (lag_vec4s_magnitude_ret(rot_axis) < EPSILON)
-		return (lag_mat4s_identity());
+		*out = lag_mat4s_identity();
 	rot_axis = lag_vec4s_normalize_highp(rot_axis);
 	theta = acosf(fmaxf(-1.0f, fminf(1.0f, lag_vec4s_dot_ret(&u, &j_hat))));
 	q = quat_from_axis_angle(rot_axis, theta);
-	return (mat4_from_quat(q));
+	*out = mat4_from_quat(q);
 }
 
 bool	is_normalised(t_vec4s *vec, int curr_line)

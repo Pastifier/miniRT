@@ -71,7 +71,7 @@ bool	parse_plane(t_program *context, const t_split *fields, int curr_line)
 		return (str_arr_destroy(fields->array), false);
 	material_init(&pl->material, fields, context, curr_line);
 	pl->scale = lag_vec4s_ret(1, 1, 1, 1);
-	pl->rot = rt_extract_rot_vertical(pl->orientation);
+	rt_extract_rot_vertical(pl->orientation, &pl->rot);
 	pl->inv_transform = lag_mat4s_get_transform_inverse(pl->rot,
 			pl->scale.simd, pl->trans.simd);
 	lag_mat4s_transpose(&pl->inv_transform, &pl->transposed_inverse);

@@ -56,7 +56,7 @@ bool	get_cylinder_extras(t_obj *cy, t_program *context,
 		return (str_arr_destroy(fields->array), false);
 	material_init(&cy->material, fields, context, curr_line);
 	cy->scale = lag_vec4s_ret(cy->radius, height / 2.f, cy->radius, 1);
-	cy->rot = rt_extract_rot_vertical(cy->orientation);
+	rt_extract_rot_vertical(cy->orientation, &cy->rot);
 	cy->inv_transform = lag_mat4s_get_transform_inverse(cy->rot,
 			cy->scale.simd, cy->trans.simd);
 	lag_mat4s_transpose(&cy->inv_transform, &cy->transposed_inverse);
