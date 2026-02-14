@@ -20,6 +20,9 @@
 # define _RT_MAX_LIGHTS_ 100
 # define _RT_MAX_SHAPES_ 100
 
+# define _RT_SCALE_FACTOR 2.f // for rendering at a lower resolution
+                               // then upscaling
+
 # define _RT_SKIP_STEP 3
 # define _RT_LERP_THRESH 20
 
@@ -31,7 +34,7 @@
 #  define SPOTLIGHT_FALLOFF 2.0f
 # endif // !SPOTLIGHT_FALLOFF
 
-# define _RT_NUM_THREADS 10
+# define _RT_NUM_THREADS 16
 
 # define _RT_MAX_ITX 200
 # define _RT_MIN_INTENSITY 0.05f
