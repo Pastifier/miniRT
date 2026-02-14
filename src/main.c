@@ -62,7 +62,7 @@ void	_rt_init_state(t_program *context)
 		WIN_HEIGHT, \
 		"miniRT" \
 	);
-	if (!create_canvas(context, WIN_WIDTH, WIN_HEIGHT))
+	if (!create_canvas(context, WIN_WIDTH / _RT_SCALE_FACTOR, WIN_HEIGHT / _RT_SCALE_FACTOR))
 	{
 		mlx_destroy_window(context->mlx, context->win);
 		free(context->mlx);

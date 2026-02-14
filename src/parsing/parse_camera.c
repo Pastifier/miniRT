@@ -70,8 +70,8 @@ void	get_camera_extras(t_camera *cam, int curr_line)
 	cam->is_set = true;
 	cam->line_set = curr_line;
 	cam->scale = lag_vec4sp_ret(1.f, 1.f, 1.f);
-	cam->hsize = WIN_WIDTH;
-	cam->vsize = WIN_HEIGHT;
+	cam->hsize = WIN_WIDTH / _RT_SCALE_FACTOR;
+	cam->vsize = WIN_HEIGHT/ _RT_SCALE_FACTOR;
 	cam->aspect_ratio = (float)cam->hsize / (float)cam->vsize;
 	cam->half_view = tanf((cam->fov / 2.f) * ((float)M_PI / 180.0f));
 	if (cam->aspect_ratio >= 1.0f)
