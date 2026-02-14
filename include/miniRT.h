@@ -56,6 +56,7 @@ typedef struct s_program
 	void		*win;
 	t_list		*textures;
 	t_canvas	canvas;
+	t_canvas	output;
 	t_world		world;
 	t_camera	cam;
 	t_thread	*pool;
@@ -180,7 +181,7 @@ void		parse_syn_err_msg(char *msg, int curr_line);
 
 t_color		rt_render_pixel(t_program *context, int x, int y);
 t_ray		ray_for_pixel(const t_camera *cam, int px, int py);
-bool		create_canvas(t_program *context, int width, int height);
+bool		create_canvas(t_program *context, t_canvas *canvas, int width, int height);
 void		put_pixel(t_canvas *canvas, int x, int y, const t_color *color);
 void		render_frame(t_program *current_context);
 t_color		color_at(t_world *w, t_ray *r, int depth);

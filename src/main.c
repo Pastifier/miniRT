@@ -62,10 +62,25 @@ void	_rt_init_state(t_program *context)
 		WIN_HEIGHT, \
 		"miniRT" \
 	);
-	if (!create_canvas(context, WIN_WIDTH / _RT_SCALE_FACTOR, WIN_HEIGHT / _RT_SCALE_FACTOR))
+	if (!create_canvas(context, &context->canvas, WIN_WIDTH / _RT_SCALE_FACTOR, WIN_HEIGHT / _RT_SCALE_FACTOR))
 	{
 		mlx_destroy_window(context->mlx, context->win);
+#ifdef __linux__
+		mlx_destroy_display(context->mlx);
+#else
 		free(context->mlx);
+#endif
+		exit(2);
+	}
+	if (!create_canvas(context, &context->output, WIN_WIDTH, WIN_HEIGHT))
+	{
+		mlx_destroy_image(context->mlx, context->canvas.ptr);
+		mlx_destroy_window(context->mlx, context->win);
+#ifdef __linux__
+		mlx_destroy_display(context->mlx);
+#else
+		free(context->mlx);
+#endif
 		exit(2);
 	}
 }

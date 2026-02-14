@@ -15,18 +15,18 @@
 #include "mlx.h"
 #include "macros.h"
 
-bool	create_canvas(t_program *context, int width, int height)
+bool	create_canvas(t_program *context, t_canvas *canvas, int width, int height)
 {
-	context->canvas.ptr = mlx_new_image(context->mlx, width, height);
-	if (!context->canvas.ptr)
+	canvas->ptr = mlx_new_image(context->mlx, width, height);
+	if (!canvas->ptr)
 		return (false);
-	context->canvas.addr = mlx_get_data_addr(\
-		context->canvas.ptr, \
-		&context->canvas.bpp, \
-		&context->canvas.line_length, \
-		&context->canvas.endian \
+	canvas->addr = mlx_get_data_addr(\
+		canvas->ptr, \
+		&canvas->bpp, \
+		&canvas->line_length, \
+		&canvas->endian \
 	);
-	context->canvas.bpp_8 = context->canvas.bpp / 8;
+	canvas->bpp_8 = canvas->bpp / 8;
 	return (true);
 }
 
