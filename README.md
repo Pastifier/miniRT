@@ -106,7 +106,6 @@ A 0 0,0,0
 - **Our Very Own SIMD Linear Algebra Library**:
    - Optimized 4x4 matrix operations for raytracing.
    - Features the `lag_mat4s_get_transform_inverse()` function for lightning-fast decomposed matrix inversions.
-   - _Innovative yet highly efficient mathematical design_.
 
 ### 🔍 **Benchmarks**
 - **Simple scenes**: ~(12-36)ms per frame (~25-83 Frames Per Second).
@@ -134,13 +133,12 @@ A 0 0,0,0
 ## 🎯 **What Makes our miniRT Unique?**
 - Advanced yet approachable real-time rendering capabilities.
 - A dedicated linear algebra library optimized for simplicity and performance.
-- Innovative, efficient mathematical solutions built exclusively for this project.
-- A perfect blend of creativity and technical rigor to make ray tracing interactive.
+- Efficient mathematical solutions built exclusively for this project.
 
 ---
 
 ## 📜 **Acknowledgments**
-- This project is part of the **42 School** curriculum, using the homebrewed MiniLibX Graphics Library to blend mathematical elegance and computational performance to bring scenes to life.  
+- This project is part of the **42 School** curriculum, using the homebrewed MiniLibX Graphics Library.
 - A huge thanks to our fellow 42-students for their support and encouragements, and especially
 [h-sarhan's miniRT](https://github.com/h-sarhan/miniRT). Which was a huge inspiration, and showed us what this project is capable of!
 - The Ray Tracer Challenge book for its simple, yet highly effective test-driven approach to raytracing.
@@ -150,11 +148,8 @@ A 0 0,0,0
 --- 
 
 ## 🛠️ **How to Contribute**
-1. Fork the repo.
-2. Create a feature branch: ```git checkout -b my-feature```.
-3. Commit your changes: ```git commit -m 'Add cool feature'```.
-4. Push to the branch: ```git push origin my-feature```.
-5. Open a Pull Request!
+1. Don't.
+2. No, seriously. Don't.
 
 --- 
 
