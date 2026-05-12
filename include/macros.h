@@ -20,8 +20,9 @@
 # define _RT_MAX_LIGHTS_ 100
 # define _RT_MAX_SHAPES_ 100
 
-# define _RT_SCALE_FACTOR 2.f // for rendering at a lower resolution
-                               // then upscaling
+# define _RT_SCALE_FACTOR 1.f // for rendering at a lower resolution
+                              // then upscaling.
+                              // (leaving it at 1 until I revisit the idea)
 
 # define _RT_SKIP_STEP 3
 # define _RT_LERP_THRESH 20
